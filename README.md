@@ -21,13 +21,13 @@ if HTML is what humans read best, agents should produce HTML.
 
 ## See it
 
-Live examples:
+Live examples (rendered via GitHub Pages):
 
-- [**Markdown**](https://clockless-org.github.io/html-anything/markdown/output.html) — long-form essay with search + dark mode + TL;DR
-- [**WhatsApp export**](https://clockless-org.github.io/html-anything/whatsapp/output.html) — `_chat.txt` parsed into a scrollable summary
-- [**CSV**](https://clockless-org.github.io/html-anything/csv/output.html) — sortable, searchable, sticky-header table
+- 📄 [**Markdown**](https://clockless-org.github.io/html-anything/examples/markdown/output.html) — long-form essay with search + dark mode + TL;DR
+- 💬 [**WhatsApp export**](https://clockless-org.github.io/html-anything/examples/whatsapp/output.html) — `_chat.txt` parsed into a scrollable summary
+- 📊 [**CSV**](https://clockless-org.github.io/html-anything/examples/csv/output.html) — sortable, searchable, sticky-header table
 
-(Or open the `examples/*/output.html` files locally — every output is a single self-contained file.)
+Or [browse all examples](https://clockless-org.github.io/html-anything/examples/) · or open the `examples/*/output.html` files locally — every output is a single self-contained file.
 
 ## Why
 
