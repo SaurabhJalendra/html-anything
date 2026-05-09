@@ -91,10 +91,18 @@ client-side rendering of the drill-down sections.
 | [`prompts/whatsapp.md`](./prompts/whatsapp.md) | WhatsApp `_chat.txt` export |
 | [`prompts/csv.md`](./prompts/csv.md) | CSV / TSV tabular data |
 | [`prompts/markdown.md`](./prompts/markdown.md) | Markdown documents |
+| [`prompts/pdf.md`](./prompts/pdf.md) | `.pdf` — long-form documents, reports, papers |
+| [`prompts/docx.md`](./prompts/docx.md) | `.docx` — Word memos, RFCs, briefs |
 | [`prompts/json.md`](./prompts/json.md) | JSON data files |
 | [`prompts/github-repo.md`](./prompts/github-repo.md) | github.com/owner/repo URLs |
 | [`prompts/url-article.md`](./prompts/url-article.md) | Blog posts, news articles, long-form web pages |
 | [`prompts/default.md`](./prompts/default.md) | Anything else |
+
+Long-document sources (`markdown`, `pdf`, `docx`) also load
+[`prompts/_document.md`](./prompts/_document.md) — shared
+insight-first guidance (TL;DR, claim cards, section nav, 5-min vs
+full reading mode). New long-document sources should follow the same
+pattern.
 
 **Adding a new source** = drop a new `<source>.md` in `prompts/`,
 following the same shape as existing ones. No code changes, no

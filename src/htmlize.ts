@@ -119,19 +119,39 @@ async function loadPromptFile(name: string): Promise<string> {
 }
 
 async function loadSourcePrompt(contentType: string): Promise<string> {
+  // Pick the most specific prompt available, then prepend any shared
+  // family prompt so multi-format families (markdown / pdf / docx) get
+  // identical insight-first guidance without duplicating it.
   const candidates = [
     `${contentType}.md`,                                              // exact
     `${contentType.replace(/-(chat|tabular|document|data)$/, "")}.md`, // strip suffix
     "default.md",
   ]
   const seen = new Set<string>()
+  let body = ""
   for (const name of candidates) {
     if (seen.has(name)) continue
     seen.add(name)
     const content = await loadPromptFile(name)
-    if (content) return content
+    if (content) { body = content; break }
   }
-  return ""
+  const familyPrompt = familyFor(contentType)
+  if (!familyPrompt) return body
+  const shared = await loadPromptFile(familyPrompt)
+  if (!shared) return body
+  return `${shared}\n\n---\n\n${body}`
+}
+
+function familyFor(contentType: string): string | null {
+  // Long-form documents share insight-first guidance.
+  if (
+    contentType === "markdown-document" ||
+    contentType === "pdf-document" ||
+    contentType === "docx-document"
+  ) {
+    return "_document.md"
+  }
+  return null
 }
 
 function injectData(html: string, data: unknown): string {

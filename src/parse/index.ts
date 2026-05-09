@@ -12,6 +12,8 @@ import { parser as whatsappParser } from "./whatsapp.js"
 import { parser as csvParser } from "./csv.js"
 import { parser as markdownParser } from "./markdown.js"
 import { parser as jsonParser } from "./json.js"
+import { parser as pdfParser } from "./pdf.js"
+import { parser as docxParser } from "./docx.js"
 import { parser as textParser } from "./text.js"
 
 export const parsers: Parser[] = [
@@ -19,6 +21,8 @@ export const parsers: Parser[] = [
   csvParser,        // .csv / .tsv
   markdownParser,   // .md / .markdown
   jsonParser,       // .json
+  pdfParser,        // .pdf
+  docxParser,       // .docx
   textParser,       // catch-all (plain text)
 ]
 
