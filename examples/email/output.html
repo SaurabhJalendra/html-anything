@@ -1,0 +1,1498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acme x Clockless — Mailbox Snapshot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #a03b00;
+  --primary-container: #c94c00;
+  --primary-fixed: #ffdbcd;
+  --primary-fixed-dim: #ffb597;
+  --on-primary: #ffffff;
+  --accent-glow: #E8400D;
+  --secondary: #d5baff;
+  --secondary-container: #7b40e0;
+  --tertiary: #4d44e3;
+  --accent-cyan: #00D4FF;
+  --bg: #fff8f6;
+  --surface: #fff8f6;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fbf2ef;
+  --surface-container: #f5ece9;
+  --surface-container-high: #efe6e3;
+  --fg-1: #1e1b19;
+  --fg-2: #594138;
+  --fg-muted: #8d7166;
+  --border: rgba(0,0,0,0.06);
+  --border-strong: rgba(0,0,0,0.12);
+  --outline-variant: #e1bfb2;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --font-headline: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', ui-monospace, monospace;
+  --space-xs: 4px; --space-sm: 8px; --space-md: 12px;
+  --space-lg: 16px; --space-xl: 20px; --space-2xl: 24px;
+  --space-3xl: 32px; --space-4xl: 48px; --space-5xl: 64px;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --radius-xl: 20px; --radius-2xl: 28px; --radius-pill: 9999px;
+  --shadow-sm: 0 1px 2px rgba(30,27,25,0.04);
+  --shadow-md: 0 4px 12px rgba(30,27,25,0.08);
+  --shadow-lg: 0 8px 24px rgba(30,27,25,0.12);
+  --shadow-accent: 0 8px 24px rgba(160,59,0,0.15);
+  --gradient-primary: linear-gradient(135deg, #a03b00 0%, #c94c00 100%);
+  --gradient-hero: linear-gradient(135deg, #a03b00 0%, #7b40e0 100%);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #060B18;
+    --surface: #0B1426;
+    --surface-container-lowest: #101D35;
+    --surface-container-low: #101D35;
+    --surface-container: #162544;
+    --surface-container-high: #1c2d52;
+    --fg-1: #F8FAFC;
+    --fg-2: #CBD5E1;
+    --fg-muted: #64748B;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --primary: #FF6B35;
+    --accent-glow: #00D4FF;
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+    --outline-variant: #2a3a5a;
+    --primary-fixed: rgba(255,107,53,0.12);
+    --primary-fixed-dim: rgba(255,107,53,0.2);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg-1);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.app {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .app {
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* ── Header ── */
+.header {
+  background: var(--surface-container-lowest);
+  border-bottom: 1px solid var(--border-strong);
+  padding: var(--space-lg) var(--space-2xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+  min-width: 200px;
+}
+
+.brand-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-accent);
+}
+
+.brand-dot svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.header-title {
+  font-family: var(--font-headline);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+  line-height: 1.2;
+}
+
+.header-sub {
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  margin-top: 1px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-md);
+  color: var(--fg-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  background: var(--surface-container);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg) var(--space-sm) 36px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--fg-1);
+  outline: none;
+  width: 220px;
+  transition: border-color 0.2s, box-shadow 0.2s, width 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-fixed);
+  width: 260px;
+}
+
+.search-input::placeholder { color: var(--fg-muted); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--fg-2);
+}
+
+.btn-outline:hover {
+  background: var(--surface-container);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-accent);
+}
+
+.btn-primary:hover { filter: brightness(1.1); }
+
+/* ── Sidebar ── */
+.sidebar {
+  background: var(--surface-container-lowest);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: var(--space-lg) 0 var(--space-4xl);
+}
+
+.sidebar-section {
+  padding: var(--space-xl) var(--space-lg) var(--space-md);
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-md);
+  padding: 0 var(--space-sm);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.stat-row:hover { background: var(--surface-container); }
+
+.stat-label { font-size: 13px; color: var(--fg-2); }
+
+.stat-val {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.thread-nav-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  margin: 0 var(--space-xs);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.thread-nav-item:hover {
+  background: var(--surface-container);
+}
+
+.thread-nav-item.active {
+  border-left-color: var(--primary);
+  background: var(--primary-fixed);
+}
+
+.thread-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: white;
+}
+
+.thread-nav-info { flex: 1; min-width: 0; }
+
+.thread-nav-subject {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.thread-nav-meta {
+  font-size: 11px;
+  color: var(--fg-muted);
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* sender bars */
+.sender-bar-wrap {
+  padding: 0 var(--space-lg) var(--space-xl);
+}
+
+.sender-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.sender-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.sender-info { flex: 1; min-width: 0; }
+
+.sender-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  height: 4px;
+  background: var(--surface-container-high);
+  border-radius: var(--radius-pill);
+  margin-top: 3px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.4s ease;
+}
+
+.sender-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+}
+
+/* ── Main content ── */
+.main {
+  overflow-y: auto;
+  padding: var(--space-2xl) var(--space-lg);
+  max-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .main { padding: var(--space-3xl) var(--space-3xl); }
+}
+
+/* ── Thread view ── */
+.thread-view { display: none; }
+.thread-view.active { display: block; }
+
+.thread-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.thread-subject {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg-1);
+  line-height: 1.25;
+  margin-bottom: var(--space-md);
+}
+
+.thread-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px var(--space-sm);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chip-surface {
+  background: var(--surface-container);
+  color: var(--fg-2);
+  border: 1px solid var(--border);
+}
+
+.chip-primary {
+  background: var(--primary-fixed);
+  color: var(--primary);
+  border: 1px solid var(--primary-fixed-dim);
+}
+
+/* ── Message card ── */
+.message-list { display: flex; flex-direction: column; gap: var(--space-lg); }
+
+.message-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.message-card:hover { box-shadow: var(--shadow-md); }
+
+.message-card.highlight-match {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-fixed);
+}
+
+.msg-header {
+  padding: var(--space-lg) var(--space-xl);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-container-low);
+}
+
+.msg-header:hover { background: var(--surface-container); }
+
+.msg-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.msg-header-info { flex: 1; min-width: 0; }
+
+.msg-from-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.msg-from-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fg-1);
+}
+
+.msg-from-email {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--fg-muted);
+}
+
+.msg-to-row {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.msg-date {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.msg-indicators {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.indicator-question { background: var(--yellow); }
+.indicator-attachment { background: var(--blue); }
+
+.msg-body {
+  padding: var(--space-xl);
+  display: none;
+}
+
+.msg-body.open { display: block; }
+
+.msg-body-text {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--fg-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+mark.search-hl {
+  background: var(--primary-fixed-dim);
+  color: var(--fg-1);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.msg-attachments {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-container);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  color: var(--fg-2);
+  font-weight: 500;
+}
+
+.attachment-chip svg { color: var(--primary); flex-shrink: 0; }
+
+.msg-footer {
+  padding: var(--space-sm) var(--space-xl);
+  display: none;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  border-top: 1px solid var(--border);
+  background: var(--surface-container-low);
+}
+
+.msg-footer.open { display: flex; }
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--font-body);
+  transition: all 0.15s;
+}
+
+.copy-btn:hover {
+  background: var(--surface-container);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.copy-btn.copied {
+  background: var(--primary-fixed);
+  color: var(--primary);
+  border-color: var(--primary-fixed-dim);
+}
+
+/* ── Divider between messages ── */
+.thread-connector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-xl);
+  color: var(--fg-muted);
+  font-size: 11px;
+}
+
+.connector-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── No results ── */
+.no-results {
+  text-align: center;
+  padding: var(--space-5xl) var(--space-2xl);
+  color: var(--fg-muted);
+}
+
+.no-results-icon { font-size: 48px; margin-bottom: var(--space-lg); }
+.no-results-title { font-family: var(--font-headline); font-size: 18px; color: var(--fg-2); margin-bottom: var(--space-sm); }
+
+/* ── All threads summary ── */
+.overview-view { display: none; }
+.overview-view.active { display: block; }
+
+.overview-hero {
+  background: var(--gradient-hero);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-3xl);
+  color: white;
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.overview-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+
+.overview-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: 40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: var(--space-md);
+}
+
+.hero-title {
+  font-family: var(--font-headline);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: var(--space-xl);
+}
+
+.hero-stats {
+  display: flex;
+  gap: var(--space-3xl);
+  flex-wrap: wrap;
+}
+
+.hero-stat-val {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+.threads-grid {
+  display: grid;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-3xl);
+}
+
+.thread-summary-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+
+.thread-summary-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-1px);
+}
+
+.tscard-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.tscard-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.tscard-title {
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.tscard-date {
+  font-size: 12px;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+}
+
+.tscard-stats {
+  display: flex;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.tscard-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tscard-stat-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.tscard-stat-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+
+.tscard-participants {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.participant-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--space-sm);
+  background: var(--surface-container);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  color: var(--fg-2);
+  font-weight: 500;
+}
+
+.participant-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tscard-preview {
+  margin-top: var(--space-md);
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tscard-open-btn {
+  margin-top: var(--space-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* ── Domain pills ── */
+.domain-distribution {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-lg);
+}
+
+.domain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1px solid var(--border-strong);
+}
+
+/* ── Mobile sidebar toggle ── */
+.mobile-thread-list {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sidebar { display: none; }
+  .sidebar.mobile-open { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; overflow-y: auto; }
+  .mobile-thread-list { display: flex; }
+  .main { max-height: none; }
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ── Transition helpers ── */
+.fade-in {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Expand toggle ── */
+.expand-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+  transition: all 0.15s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.expand-toggle:hover {
+  background: var(--surface-container);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.expand-toggle.open { color: var(--primary); border-color: var(--primary); }
+
+.expand-toggle svg {
+  transition: transform 0.2s;
+}
+
+.expand-toggle.open svg { transform: rotate(180deg); }
+
+/* ── Overlay ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+
+.overlay.active { display: block; }
+
+/* ── Collapsed message preview ── */
+.msg-collapsed-preview {
+  padding: var(--space-sm) var(--space-xl) var(--space-md);
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.msg-collapsed-preview:hover { color: var(--fg-2); }
+
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="app">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-dot">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="header-title">Acme × Clockless</div>
+        <div class="header-sub">Mailbox Snapshot · input.mbox · 13 messages</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-outline mobile-thread-list" onclick="openMobileSidebar()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        Threads
+      </button>
+      <div class="search-wrap">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search messages…" oninput="handleSearch(this.value)" autocomplete="off">
+      </div>
+      <button class="btn btn-outline" onclick="copyAllMarkdown()" id="copyAllBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy MD
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Overview</div>
+      <div class="stat-row" style="cursor:pointer" onclick="showOverview()">
+        <span class="stat-label">📊 All threads</span>
+        <span class="stat-val">↗</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Stats</div>
+      <div class="stat-row"><span class="stat-label">Messages</span><span class="stat-val" id="sb-msg-count">–</span></div>
+      <div class="stat-row"><span class="stat-label">Threads</span><span class="stat-val" id="sb-thread-count">–</span></div>
+      <div class="stat-row"><span class="stat-label">Senders</span><span class="stat-val" id="sb-sender-count">–</span></div>
+      <div class="stat-row"><span class="stat-label">Attachments</span><span class="stat-val" id="sb-attach-count">–</span></div>
+      <div class="stat-row"><span class="stat-label">Date range</span><span class="stat-val" id="sb-date-range" style="font-size:10px">–</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Threads</div>
+      <div id="thread-nav"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Top Senders</div>
+      <div class="sender-bar-wrap" id="sender-bars"></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main" id="main">
+    <!-- Overview -->
+    <div class="overview-view active fade-in" id="overview-view">
+      <div class="overview-hero">
+        <div class="hero-eyebrow">Email Archive · 2026</div>
+        <div class="hero-title">Acme × Clockless<br>Mailbox Snapshot</div>
+        <div class="hero-stats" id="hero-stats"></div>
+      </div>
+      <div class="threads-grid" id="threads-grid"></div>
+    </div>
+
+    <!-- Thread views (generated) -->
+    <div id="thread-views"></div>
+  </main>
+</div>
+
+<script>const DATA = {"messages":[{"id":"m_0001","ts":"2026-01-27 14:14:21","date":"2026-01-27","time":"14:14:21","tsEpoch":1769523261000,"messageId":"<ns-1701@northstack.dev>","inReplyTo":null,"references":[],"threadId":"t_0001","from":{"name":"Casey Liu","email":"casey@northstack.dev"},"to":[{"name":"Clockless Support","email":"support@clockless.ai"}],"cc":[],"subject":"Webhook signatures failing after rotation","subjectKey":"webhook signatures failing after rotation","body":"Hey team,\n\nSince we rotated our signing key on Sunday afternoon, every webhook\nfrom your ingest endpoint is coming back with a bad signature. We're\nseeing about 300 401s an hour against /api/v2/ingest.\n\nWe followed the rotation guide step by step (paste new key into the\nSettings → Keys panel, then revoke the old one). Anything we missed\nin the rollover? Happy to send sample failing payloads.\n\nCasey\nNorthstack Engineering","bodyPreview":"Hey team, Since we rotated our signing key on Sunday afternoon, every webhook from your ingest endpoint is coming back with a bad signature. We're seeing about 300 401s an hour against /api/v2/ingest. We followed the rotation guide step by ","attachments":[],"isReply":false,"isForward":false,"hasQuestion":true},{"id":"m_0002","ts":"2026-01-27 14:48:02","date":"2026-01-27","time":"14:48:02","tsEpoch":1769525282000,"messageId":"<cl-2201@clockless.ai>","inReplyTo":"<ns-1701@northstack.dev>","references":["<ns-1701@northstack.dev>"],"threadId":"t_0001","from":{"name":"Mira Park","email":"mira@clockless.ai"},"to":[{"name":"Casey Liu","email":"casey@northstack.dev"}],"cc":[{"name":"Clockless Support","email":"support@clockless.ai"}],"subject":"Re: Webhook signatures failing after rotation","subjectKey":"webhook signatures failing after rotation","body":"Hi Casey,\n\nSorry about the noise. Two things would help me narrow it down:\n\n1. Paste the X-Clockless-Signature header from one failing call.\n2. Confirm whether you also flipped the \"active key id\" radio on the\n   settings page after pasting the new key. There's a known foot-gun\n   where the panel saves the new secret but keeps the old key id as\n   active, so signatures keep getting computed against the previous\n   secret.\n\nIf (2) is the issue we can swap it for you in seconds.\n\nMira","bodyPreview":"Hi Casey, Sorry about the noise. Two things would help me narrow it down: 1. Paste the X-Clockless-Signature header from one failing call. 2. Confirm whether you also flipped the \"active key id\" radio on the settings page after pasting the ","attachments":[],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0003","ts":"2026-01-27 15:11:55","date":"2026-01-27","time":"15:11:55","tsEpoch":1769526715000,"messageId":"<ns-1702@northstack.dev>","inReplyTo":"<cl-2201@clockless.ai>","references":["<ns-1701@northstack.dev>","<cl-2201@clockless.ai>"],"threadId":"t_0001","from":{"name":"Casey Liu","email":"casey@northstack.dev"},"to":[{"name":"Mira Park","email":"mira@clockless.ai"}],"cc":[{"name":"Clockless Support","email":"support@clockless.ai"}],"subject":"Re: Webhook signatures failing after rotation","subjectKey":"webhook signatures failing after rotation","body":"You called it. The active key id radio was still pointing at\nkey_2024Q4_b. Just flipped to key_2026Q1_a and the signatures\nvalidate again — 401 rate dropped to zero.\n\nThank you for the fast turnaround. Two follow-up asks:\n\n  - Could you add an alert / inline warning when the active key id\n    differs from the most-recently-saved secret? This would have\n    saved us about three hours.\n  - Is there a programmatic key-rotation endpoint we could call from\n    our deploy pipeline so we never touch the UI for this?\n\nCasey","bodyPreview":"You called it. The active key id radio was still pointing at key_2024Q4_b. Just flipped to key_2026Q1_a and the signatures validate again — 401 rate dropped to zero. Thank you for the fast turnaround. Two follow-up asks: - Could you add an ","attachments":[],"isReply":true,"isForward":false,"hasQuestion":true},{"id":"m_0004","ts":"2026-01-27 16:02:31","date":"2026-01-27","time":"16:02:31","tsEpoch":1769529751000,"messageId":"<cl-2202@clockless.ai>","inReplyTo":"<ns-1702@northstack.dev>","references":["<ns-1701@northstack.dev>","<cl-2201@clockless.ai>","<ns-1702@northstack.dev>"],"threadId":"t_0001","from":{"name":"Mira Park","email":"mira@clockless.ai"},"to":[{"name":"Casey Liu","email":"casey@northstack.dev"}],"cc":[],"subject":"Re: Webhook signatures failing after rotation","subjectKey":"webhook signatures failing after rotation","body":"Glad it's fixed.\n\nOn your asks:\n\n1. Inline warning — filed as CL-4117. We agree this is the right fix\n   and it's on next sprint's plate. I'll post the PR link here when\n   it lands.\n2. Rotation endpoint — already exists, just under-documented. POST\n   /api/v2/keys/rotate with {\"label\": \"...\"} returns the new secret\n   and atomically flips the active key id. I'll add a section to the\n   webhooks docs by Friday.\n\nClosing the ticket — reopen anytime if anything else looks off.\n\nMira","bodyPreview":"Glad it's fixed. On your asks: 1. Inline warning — filed as CL-4117. We agree this is the right fix and it's on next sprint's plate. I'll post the PR link here when it lands. 2. Rotation endpoint — already exists, just under-documented. POS","attachments":[],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0005","ts":"2026-01-27 16:09:48","date":"2026-01-27","time":"16:09:48","tsEpoch":1769530188000,"messageId":"<ns-1703@northstack.dev>","inReplyTo":"<cl-2202@clockless.ai>","references":["<ns-1701@northstack.dev>","<cl-2201@clockless.ai>","<ns-1702@northstack.dev>","<cl-2202@clockless.ai>"],"threadId":"t_0001","from":{"name":"Casey Liu","email":"casey@northstack.dev"},"to":[{"name":"Mira Park","email":"mira@clockless.ai"}],"cc":[],"subject":"Re: Webhook signatures failing after rotation","subjectKey":"webhook signatures failing after rotation","body":"Perfect. Watching for the PR link.\n\nCasey","bodyPreview":"Perfect. Watching for the PR link. Casey","attachments":[],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0006","ts":"2026-01-28 19:45:00","date":"2026-01-28","time":"19:45:00","tsEpoch":1769629500000,"messageId":"<cl-2210@clockless.ai>","inReplyTo":null,"references":[],"threadId":"t_0002","from":{"name":"Mira Park","email":"mira@clockless.ai"},"to":[{"name":"Jordan Reyes","email":"jordan@clockless.ai"}],"cc":[],"subject":"Can we move standup to 10am?","subjectKey":"can we move standup to 10am?","body":"Hey Jordan — moving deploys to first thing in the morning is killing\nme on 9am standup. Could we slide it to 10am starting next week?\n\nMira","bodyPreview":"Hey Jordan — moving deploys to first thing in the morning is killing me on 9am standup. Could we slide it to 10am starting next week? Mira","attachments":[],"isReply":false,"isForward":false,"hasQuestion":true},{"id":"m_0007","ts":"2026-01-28 20:02:14","date":"2026-01-28","time":"20:02:14","tsEpoch":1769630534000,"messageId":"<cl-2211@clockless.ai>","inReplyTo":"<cl-2210@clockless.ai>","references":["<cl-2210@clockless.ai>"],"threadId":"t_0002","from":{"name":"Jordan Reyes","email":"jordan@clockless.ai"},"to":[{"name":"Mira Park","email":"mira@clockless.ai"}],"cc":[],"subject":"Re: Can we move standup to 10am?","subjectKey":"can we move standup to 10am?","body":"Works for me. I'll update the calendar invite this evening.\n\nJordan","bodyPreview":"Works for me. I'll update the calendar invite this evening. Jordan","attachments":[],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0008","ts":"2026-02-02 13:30:11","date":"2026-02-02","time":"13:30:11","tsEpoch":1770039011000,"messageId":"<cl-2301@clockless.ai>","inReplyTo":null,"references":[],"threadId":"t_0003","from":{"name":"Jordan Reyes","email":"jordan@clockless.ai"},"to":[{"name":"Alex Chen","email":"alex@acme.co"}],"cc":[{"name":"Sam Patel","email":"sam@acme.co"},{"name":"Mira Park","email":"mira@clockless.ai"}],"subject":"Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"Hi Alex, Sam,\n\nGreat call on Friday. Per our notes, here's the plan we landed on\nfor the 6-week pilot:\n\n  - Scope: ingest pipeline + dashboards for Acme's North-1 region.\n  - Pricing: flat /mo for the pilot, credited toward year 1 if\n    you sign by April 15.\n  - Success criteria: P95 ingest latency under 200ms, alerting\n    integrated with your PagerDuty service \"acme-platform\".\n  - Kickoff target: Wed Feb 11.\n\nCould you confirm the kickoff date works for both teams, and forward\nthe legal redlines you mentioned? Once those are in we'll\ncounter-sign and start provisioning the sandbox.\n\nJordan","bodyPreview":"Hi Alex, Sam, Great call on Friday. Per our notes, here's the plan we landed on for the 6-week pilot: - Scope: ingest pipeline + dashboards for Acme's North-1 region. - Pricing: flat /mo for the pilot, credited toward year 1 if you sign by ","attachments":[],"isReply":false,"isForward":false,"hasQuestion":true},{"id":"m_0009","ts":"2026-02-02 16:44:20","date":"2026-02-02","time":"16:44:20","tsEpoch":1770050660000,"messageId":"<ac-9001@acme.co>","inReplyTo":"<cl-2301@clockless.ai>","references":["<cl-2301@clockless.ai>"],"threadId":"t_0003","from":{"name":"Alex Chen","email":"alex@acme.co"},"to":[{"name":"Jordan Reyes","email":"jordan@clockless.ai"}],"cc":[{"name":"Sam Patel","email":"sam@acme.co"},{"name":"Mira Park","email":"mira@clockless.ai"}],"subject":"Re: Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"Jordan,\n\nFeb 11 works for us. Sam will run the technical kickoff; he's looped\nin on this thread.\n\nTwo redlines from our legal team (attached):\n\n  - Section 7.2 — they want the data-residency commitment to\n    explicitly call out us-east-2.\n  - Section 11 — 30-day termination notice instead of 60.\n\nOtherwise the redline copy is mostly OK. Could you confirm the\nus-east-2 commitment is fine on your side? That's the longer pole\nof the two.\n\nAlex","bodyPreview":"Jordan, Feb 11 works for us. Sam will run the technical kickoff; he's looped in on this thread. Two redlines from our legal team (attached): - Section 7.2 — they want the data-residency commitment to explicitly call out us-east-2. - Section","attachments":[{"filename":"acme-clockless-pilot-redline-v3.pdf","contentType":"application/pdf","sizeEstimate":171}],"isReply":true,"isForward":false,"hasQuestion":true},{"id":"m_0010","ts":"2026-02-02 21:18:55","date":"2026-02-02","time":"21:18:55","tsEpoch":1770067135000,"messageId":"<cl-2302@clockless.ai>","inReplyTo":"<ac-9001@acme.co>","references":["<cl-2301@clockless.ai>","<ac-9001@acme.co>"],"threadId":"t_0003","from":{"name":"Jordan Reyes","email":"jordan@clockless.ai"},"to":[{"name":"Alex Chen","email":"alex@acme.co"}],"cc":[{"name":"Sam Patel","email":"sam@acme.co"},{"name":"Mira Park","email":"mira@clockless.ai"}],"subject":"Re: Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"Alex,\n\nGot the redline — thanks. Spoke with our infra lead and us-east-2 is\nfine; we already have the residency posture in place there. I'll\nhave legal counter-sign tomorrow and send the executed copy back.\n\nMira will reach out this week with credentials for the sandbox so\nSam can start wiring up the ingest endpoint ahead of the Feb 11\nkickoff.\n\nJordan","bodyPreview":"Alex, Got the redline — thanks. Spoke with our infra lead and us-east-2 is fine; we already have the residency posture in place there. I'll have legal counter-sign tomorrow and send the executed copy back. Mira will reach out this week with","attachments":[],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0011","ts":"2026-02-03 14:50:00","date":"2026-02-03","time":"14:50:00","tsEpoch":1770130200000,"messageId":"<cl-2303@clockless.ai>","inReplyTo":"<cl-2302@clockless.ai>","references":["<cl-2301@clockless.ai>","<ac-9001@acme.co>","<cl-2302@clockless.ai>"],"threadId":"t_0003","from":{"name":"Mira Park","email":"mira@clockless.ai"},"to":[{"name":"Sam Patel","email":"sam@acme.co"}],"cc":[{"name":"Alex Chen","email":"alex@acme.co"},{"name":"Jordan Reyes","email":"jordan@clockless.ai"}],"subject":"Re: Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"Hi Sam,\n\nSandbox is provisioned. Credentials and the runbook are attached as\na single PDF — ingest endpoint, signing key, and the PagerDuty\nintegration walkthrough.\n\nTwo things to look out for:\n\n  - The sandbox region is us-east-2 (per Alex's redline).\n  - We provisioned a separate signing key for the pilot so you can\n    rotate independently of any production setup.\n\nPing me here once the first event lands and I'll verify on our side.\n\nMira","bodyPreview":"Hi Sam, Sandbox is provisioned. Credentials and the runbook are attached as a single PDF — ingest endpoint, signing key, and the PagerDuty integration walkthrough. Two things to look out for: - The sandbox region is us-east-2 (per Alex's re","attachments":[{"filename":"pilot-sandbox-runbook.pdf","contentType":"application/pdf","sizeEstimate":15}],"isReply":true,"isForward":false,"hasQuestion":false},{"id":"m_0012","ts":"2026-02-04 22:22:08","date":"2026-02-04","time":"22:22:08","tsEpoch":1770243728000,"messageId":"<ac-9010@acme.co>","inReplyTo":"<cl-2303@clockless.ai>","references":["<cl-2301@clockless.ai>","<ac-9001@acme.co>","<cl-2302@clockless.ai>","<cl-2303@clockless.ai>"],"threadId":"t_0003","from":{"name":"Sam Patel","email":"sam@acme.co"},"to":[{"name":"Mira Park","email":"mira@clockless.ai"}],"cc":[{"name":"Alex Chen","email":"alex@acme.co"},{"name":"Jordan Reyes","email":"jordan@clockless.ai"}],"subject":"Re: Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"First event landed at 17:18 ET — verified end-to-end on our side.\nRates and signature both look healthy.\n\nWe're going to load-test for an hour tomorrow morning around 9 ET,\nramping from 100 to 5000 events/sec. Anything we should warn your\nside about, or are we good to push ahead?\n\nSam","bodyPreview":"First event landed at 17:18 ET — verified end-to-end on our side. Rates and signature both look healthy. We're going to load-test for an hour tomorrow morning around 9 ET, ramping from 100 to 5000 events/sec. Anything we should warn your si","attachments":[],"isReply":true,"isForward":false,"hasQuestion":true},{"id":"m_0013","ts":"2026-02-06 13:15:42","date":"2026-02-06","time":"13:15:42","tsEpoch":1770383742000,"messageId":"<ac-9020@acme.co>","inReplyTo":"<ac-9010@acme.co>","references":["<cl-2301@clockless.ai>","<ac-9001@acme.co>","<cl-2302@clockless.ai>","<cl-2303@clockless.ai>","<ac-9010@acme.co>"],"threadId":"t_0003","from":{"name":"Alex Chen","email":"alex@acme.co"},"to":[{"name":"Jordan Reyes","email":"jordan@clockless.ai"}],"cc":[{"name":"Sam Patel","email":"sam@acme.co"},{"name":"Mira Park","email":"mira@clockless.ai"}],"subject":"Re: Pilot kickoff next steps","subjectKey":"pilot kickoff next steps","body":"Quick scheduling question on the kickoff itself — Sam's flight got\nmoved and he'd like to push the Feb 11 call by two hours, from 10am\nET to 12pm ET. Does that still work on your end?\n\nAlex","bodyPreview":"Quick scheduling question on the kickoff itself — Sam's flight got moved and he'd like to push the Feb 11 call by two hours, from 10am ET to 12pm ET. Does that still work on your end? Alex","attachments":[],"isReply":true,"isForward":false,"hasQuestion":true}],"threads":[{"id":"t_0003","subject":"Pilot kickoff next steps","participants":["Jordan Reyes <jordan@clockless.ai>","Alex Chen <alex@acme.co>","Sam Patel <sam@acme.co>","Mira Park <mira@clockless.ai>"],"messageIds":["m_0008","m_0009","m_0010","m_0011","m_0012","m_0013"],"firstTs":"2026-02-02 13:30:11","lastTs":"2026-02-06 13:15:42","messageCount":6,"lastSender":"Alex Chen <alex@acme.co>","lastEndsInQuestion":true},{"id":"t_0002","subject":"Can we move standup to 10am?","participants":["Mira Park <mira@clockless.ai>","Jordan Reyes <jordan@clockless.ai>"],"messageIds":["m_0006","m_0007"],"firstTs":"2026-01-28 19:45:00","lastTs":"2026-01-28 20:02:14","messageCount":2,"lastSender":"Jordan Reyes <jordan@clockless.ai>","lastEndsInQuestion":false},{"id":"t_0001","subject":"Webhook signatures failing after rotation","participants":["Casey Liu <casey@northstack.dev>","Clockless Support <support@clockless.ai>","Mira Park <mira@clockless.ai>"],"messageIds":["m_0001","m_0002","m_0003","m_0004","m_0005"],"firstTs":"2026-01-27 14:14:21","lastTs":"2026-01-27 16:09:48","messageCount":5,"lastSender":"Casey Liu <casey@northstack.dev>","lastEndsInQuestion":false}],"senders":[{"email":"mira@clockless.ai","name":"Mira Park","count":4,"domain":"clockless.ai"},{"email":"casey@northstack.dev","name":"Casey Liu","count":3,"domain":"northstack.dev"},{"email":"jordan@clockless.ai","name":"Jordan Reyes","count":3,"domain":"clockless.ai"},{"email":"alex@acme.co","name":"Alex Chen","count":2,"domain":"acme.co"},{"email":"sam@acme.co","name":"Sam Patel","count":1,"domain":"acme.co"}],"domains":[{"domain":"clockless.ai","count":7},{"domain":"northstack.dev","count":3},{"domain":"acme.co","count":3}],"attachments":[{"filename":"acme-clockless-pilot-redline-v3.pdf","contentType":"application/pdf","sizeEstimate":171,"threadId":"t_0003","ts":"2026-02-02 16:44:20","fromEmail":"alex@acme.co"},{"filename":"pilot-sandbox-runbook.pdf","contentType":"application/pdf","sizeEstimate":15,"threadId":"t_0003","ts":"2026-02-03 14:50:00","fromEmail":"mira@clockless.ai"}],"sourceFile":"input.mbox","sizeBytes":10528,"format":"mbox","messageCount":13,"threadCount":3,"senderCount":5,"domainCount":3,"attachmentCount":2,"dateRange":"2026-01-27 → 2026-02-06","topSenders":[{"email":"mira@clockless.ai","name":"Mira Park","count":4,"domain":"clockless.ai"},{"email":"casey@northstack.dev","name":"Casey Liu","count":3,"domain":"northstack.dev"},{"email":"jordan@clockless.ai","name":"Jordan Reyes","count":3,"domain":"clockless.ai"},{"email":"alex@acme.co","name":"Alex Chen","count":2,"domain":"acme.co"},{"email":"sam@acme.co","name":"Sam Patel","count":1,"domain":"acme.co"}],"topDomains":[{"domain":"clockless.ai","count":7},{"domain":"northstack.dev","count":3},{"domain":"acme.co","count":3}]};</script>
+<script>
+// ── Color palette for avatars / threads ──────────────────────────────────────
+const PALETTE = [
+  '#a03b00','#7b40e0','#4d44e3','#10b981','#3b82f6','#f59e0b','#e84393','#00b4a0'
+];
+
+const DOMAIN_COLORS = {
+  'clockless.ai': '#a03b00',
+  'northstack.dev': '#4d44e3',
+  'acme.co': '#10b981'
+};
+
+function getColor(key) {
+  let hash = 0;
+  for (let c of String(key)) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+  return PALETTE[Math.abs(hash) % PALETTE.length];
+}
+
+function initials(name) {
+  if (!name) return '?';
+  const parts = name.trim().split(/\s+/);
+  return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+}
+
+function formatDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts.replace(' ', 'T'));
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts.replace(' ', 'T'));
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+
+function formatDateTime(ts) {
+  return formatDate(ts) + ' · ' + formatTime(ts);
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Build full thread map from DATA ─────────────────────────────────────────
+let allMessages = [];
+let threadMap = {}; // threadId → { subject, messages[], ... }
+
+function buildData() {
+  // Collect messages: first, last, longestThread
+  const seen = new Set();
+
+  function addMsg(m) {
+    if (!m || seen.has(m.id)) return;
+    seen.add(m.id);
+    allMessages.push(m);
+  }
+
+  if (DATA.first) DATA.first.forEach(addMsg);
+  if (DATA.last) DATA.last.forEach(addMsg);
+  if (DATA.longestThread && DATA.longestThread.sample) DATA.longestThread.sample.forEach(addMsg);
+
+  // Sort by epoch
+  allMessages.sort((a, b) => (a.tsEpoch || 0) - (b.tsEpoch || 0));
+
+  // Group by thread
+  allMessages.forEach(m => {
+    if (!threadMap[m.threadId]) {
+      threadMap[m.threadId] = {
+        id: m.threadId,
+        subject: m.subject.replace(/^(Re:|Fwd:)\s*/i, ''),
+        messages: [],
+        firstTs: m.ts,
+        lastTs: m.ts
+      };
+    }
+    threadMap[m.threadId].messages.push(m);
+    if (m.ts > threadMap[m.threadId].lastTs) threadMap[m.threadId].lastTs = m.ts;
+  });
+
+  // Assign participant lists
+  Object.values(threadMap).forEach(t => {
+    const pMap = {};
+    t.messages.forEach(m => {
+      pMap[m.from.email] = m.from.name || m.from.email;
+      [...(m.to||[]), ...(m.cc||[])].forEach(r => {
+        if (r.email) pMap[r.email] = r.name || r.email;
+      });
+    });
+    t.participants = Object.entries(pMap).map(([email, name]) => ({ email, name }));
+    t.messageCount = t.messages.length;
+  });
+}
+
+// ── Sidebar ──────────────────────────────────────────────────────────────────
+function renderSidebar() {
+  // Stats
+  document.getElementById('sb-msg-count').textContent = DATA.messageCount || allMessages.length;
+  document.getElementById('sb-thread-count').textContent = DATA.threadCount || Object.keys(threadMap).length;
+  document.getElementById('sb-sender-count').textContent = DATA.senderCount || '–';
+  document.getElementById('sb-attach-count').textContent = DATA.attachmentCount || '–';
+  document.getElementById('sb-date-range').textContent = DATA.dateRange || '–';
+
+  // Thread nav
+  const nav = document.getElementById('thread-nav');
+  nav.innerHTML = '';
+  Object.values(threadMap).forEach((t, i) => {
+    const color = PALETTE[i % PALETTE.length];
+    const el = document.createElement('div');
+    el.className = 'thread-nav-item';
+    el.dataset.threadId = t.id;
+    el.onclick = () => { showThread(t.id); closeMobileSidebar(); };
+    el.innerHTML = `
+      <div class="thread-icon" style="background:${color}">${i+1}</div>
+      <div class="thread-nav-info">
+        <div class="thread-nav-subject">${escHtml(t.subject)}</div>
+        <div class="thread-nav-meta">${t.messageCount} msgs · ${formatDate(t.firstTs)}</div>
+      </div>
+      <span class="badge chip-surface" style="background:${color}22;color:${color};border:1px solid ${color}44">${t.messageCount}</span>
+    `;
+    nav.appendChild(el);
+  });
+
+  // Sender bars
+  const maxCount = DATA.topSenders ? Math.max(...DATA.topSenders.map(s => s.count)) : 1;
+  const barsEl = document.getElementById('sender-bars');
+  barsEl.innerHTML = '';
+  (DATA.topSenders || []).forEach((s, i) => {
+    const color = DOMAIN_COLORS[s.domain] || getColor(s.email);
+    const pct = Math.round((s.count / maxCount) * 100);
+    barsEl.innerHTML += `
+      <div class="sender-row">
+        <div class="sender-avatar" style="background:${color}">${initials(s.name)}</div>
+        <div class="sender-info">
+          <div class="sender-name">${escHtml(s.name)}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+        </div>
+        <span class="sender-count">${s.count}</span>
+      </div>
+    `;
+  });
+}
+
+// ── Overview ─────────────────────────────────────────────────────────────────
+function renderOverview() {
+  // Hero stats
+  const heroStats = document.getElementById('hero-stats');
+  const stats = [
+    { val: DATA.messageCount || allMessages.length, label: 'Messages' },
+    { val: DATA.threadCount || Object.keys(threadMap).length, label: 'Threads' },
+    { val: DATA.senderCount || '5', label: 'Senders' },
+    { val: DATA.attachmentCount || '0', label: 'Attachments' }
+  ];
+  heroStats.innerHTML = stats.map(s => `
+    <div>
+      <div class="hero-stat-val">${s.val}</div>
+      <div class="hero-stat-label">${s.label}</div>
+    </div>
+  `).join('');
+
+  // Thread cards
+  const grid = document.getElementById('threads-grid');
+  grid.innerHTML = '';
+  Object.values(threadMap).forEach((t, i) => {
+    const color = PALETTE[i % PALETTE.length];
+    const lastMsg = t.messages[t.messages.length - 1];
+    const preview = lastMsg ? lastMsg.bodyPreview || lastMsg.body?.substring(0, 120) : '';
+    const attachCount = t.messages.reduce((n,m) => n + (m.attachments?.length||0), 0);
+    const card = document.createElement('div');
+    card.className = 'thread-summary-card';
+    card.onclick = () => showThread(t.id);
+    card.innerHTML = `
+      <div class="tscard-head">
+        <div class="tscard-icon" style="background:${color}22;color:${color};border:1px solid ${color}33">${['📬','🔧','🚀'][i % 3]}</div>
+        <div style="flex:1;min-width:0">
+          <div class="tscard-title">${escHtml(t.subject)}</div>
+          <div class="tscard-date">${formatDate(t.firstTs)} → ${formatDate(t.lastTs)}</div>
+        </div>
+      </div>
+      <div class="tscard-stats">
+        <div class="tscard-stat"><div class="tscard-stat-val" style="color:${color}">${t.messageCount}</div><div class="tscard-stat-label">Messages</div></div>
+        <div class="tscard-stat"><div class="tscard-stat-val" style="color:${color}">${t.participants.length}</div><div class="tscard-stat-label">People</div></div>
+        ${attachCount ? `<div class="tscard-stat"><div class="tscard-stat-val" style="color:${color}">${attachCount}</div><div class="tscard-stat-label">Files</div></div>` : ''}
+      </div>
+      <div class="tscard-participants">${t.participants.map(p => {
+        const dc = DOMAIN_COLORS[p.email.split('@')[1]] || getColor(p.email);
+        return `<span class="participant-pill"><span class="participant-dot" style="background:${dc}"></span>${escHtml(p.name || p.email)}</span>`;
+      }).join('')}</div>
+      <div class="tscard-preview">${escHtml(preview)}</div>
+      <div class="tscard-open-btn">Open thread →</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ── Thread view ───────────────────────────────────────────────────────────────
+function renderThreadViews() {
+  const container = document.getElementById('thread-views');
+  container.innerHTML = '';
+
+  Object.values(threadMap).forEach((t, ti) => {
+    const color = PALETTE[ti % PALETTE.length];
+    const div = document.createElement('div');
+    div.className = 'thread-view';
+    div.id = `thread-${t.id}`;
+
+    // Collect all participants
+    const allParticipants = t.participants;
+    const attachCount = t.messages.reduce((n, m) => n + (m.attachments?.length || 0), 0);
+
+    let html = `
+      <div class="thread-header fade-in">
+        <div class="thread-subject">${escHtml(t.subject)}</div>
+        <div class="thread-chips">
+          <span class="chip chip-surface">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            ${t.messageCount} messages
+          </span>
+          <span class="chip chip-surface">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${formatDate(t.firstTs)} → ${formatDate(t.lastTs)}
+          </span>
+          ${attachCount ? `<span class="chip chip-primary"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> ${attachCount} attachment${attachCount>1?'s':''}</span>` : ''}
+        </div>
+      </div>
+      <div class="message-list" id="msglist-${t.id}">
+    `;
+
+    t.messages.forEach((m, mi) => {
+      const fromColor = DOMAIN_COLORS[m.from.email?.split('@')[1]] || getColor(m.from.email);
+      const toList = [...(m.to||[]), ...(m.cc||[])].map(r => r.name || r.email).join(', ');
+      html += `
+        <div class="message-card" id="msg-${m.id}" data-msgid="${m.id}">
+          <div class="msg-header" onclick="toggleMessage('${m.id}')">
+            <div class="msg-avatar" style="background:${fromColor}">${initials(m.from.name || m.from.email)}</div>
+            <div class="msg-header-info">
+              <div class="msg-from-row">
+                <span class="msg-from-name">${escHtml(m.from.name || m.from.email)}</span>
+                <span class="msg-from-email">&lt;${escHtml(m.from.email)}&gt;</span>
+              </div>
+              <div class="msg-to-row">To: ${escHtml(toList || '—')}</div>
+            </div>
+            <div class="msg-header-right">
+              <span class="msg-date">${formatDateTime(m.ts)}</span>
+              <div class="msg-indicators">
+                ${m.hasQuestion ? '<span class="indicator indicator-question" title="Contains question"></span>' : ''}
+                ${m.attachments?.length ? '<span class="indicator indicator-attachment" title="Has attachment"></span>' : ''}
+              </div>
+              <button class="expand-toggle" id="toggle-${m.id}" onclick="event.stopPropagation();toggleMessage('${m.id}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="msg-collapsed-preview" onclick="toggleMessage('${m.id}')">${escHtml((m.bodyPreview || m.body?.substring(0,120) || '').replace(/\n/g,' '))}</div>
+          <div class="msg-body" id="body-${m.id}">
+            <div class="msg-body-text" id="bodytext-${m.id}">${escHtml(m.body || '')}</div>
+            ${m.attachments?.length ? `
+              <div class="msg-attachments">
+                ${m.attachments.map(a => `
+                  <div class="attachment-chip">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                    ${escHtml(a.filename)}${a.sizeEstimate ? ` · ${a.sizeEstimate}KB` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+          <div class="msg-footer" id="footer-${m.id}">
+            <button class="copy-btn" onclick="copyMessage('${m.id}', this)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy message
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += '</div>';
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+let currentView = 'overview';
+
+function showOverview() {
+  currentView = 'overview';
+  document.getElementById('overview-view').classList.add('active');
+  document.querySelectorAll('.thread-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.thread-nav-item').forEach(n => n.classList.remove('active'));
+}
+
+function showThread(threadId) {
+  currentView = threadId;
+  document.getElementById('overview-view').classList.remove('active');
+  document.querySelectorAll('.thread-view').forEach(v => v.classList.remove('active'));
+  const tv = document.getElementById(`thread-${threadId}`);
+  if (tv) { tv.classList.add('active'); tv.classList.add('fade-in'); }
+  document.querySelectorAll('.thread-nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.threadId === threadId);
+  });
+  // Expand first message if none open
+  const thread = threadMap[threadId];
+  if (thread && thread.messages.length > 0) {
+    const firstId = thread.messages[0].id;
+    const bodyEl = document.getElementById(`body-${firstId}`);
+    if (bodyEl && !bodyEl.classList.contains('open')) {
+      toggleMessage(firstId);
+    }
+  }
+}
+
+function toggleMessage(msgId) {
+  const body = document.getElementById(`body-${msgId}`);
+  const footer = document.getElementById(`footer-${msgId}`);
+  const toggle = document.getElementById(`toggle-${msgId}`);
+  const preview = document.querySelector(`#msg-${msgId} .msg-collapsed-preview`);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  footer.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+  if (preview) preview.style.display = isOpen ? '' : 'none';
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+let searchQuery = '';
+
+function handleSearch(q) {
+  searchQuery = q.trim().toLowerCase();
+  if (!searchQuery) {
+    clearSearch();
+    return;
+  }
+  // Search across all threads
+  let found = false;
+  Object.values(threadMap).forEach(t => {
+    let threadHasMatch = false;
+    t.messages.forEach(m => {
+      const card = document.getElementById(`msg-${m.id}`);
+      if (!card) return;
+      const text = ((m.from.name || '') + ' ' + (m.from.email || '') + ' ' + (m.subject || '') + ' ' + (m.body || '')).toLowerCase();
+      const match = text.includes(searchQuery);
+      card.style.display = match ? '' : 'none';
+      if (match) {
+        threadHasMatch = true;
+        found = true;
+        card.classList.add('highlight-match');
+        // Highlight body text
+        const bodyEl = document.getElementById(`bodytext-${m.id}`);
+        if (bodyEl) {
+          const original = m.body || '';
+          bodyEl.innerHTML = highlightText(escHtml(original), searchQuery);
+        }
+        // Auto-open matched messages
+        const body = document.getElementById(`body-${m.id}`);
+        if (body && !body.classList.contains('open')) toggleMessage(m.id);
+      } else {
+        card.classList.remove('highlight-match');
+        restoreBody(m.id);
+      }
+    });
+    // Show thread if has match
+    if (threadHasMatch && !document.getElementById(`thread-${t.id}`).classList.contains('active')) {
+      // Don't auto-switch, just show in sidebar
+    }
+  });
+}
+
+function clearSearch() {
+  searchQuery = '';
+  document.querySelectorAll('.message-card').forEach(c => {
+    c.style.display = '';
+    c.classList.remove('highlight-match');
+  });
+  allMessages.forEach(m => restoreBody(m.id));
+}
+
+function restoreBody(msgId) {
+  const bodyEl = document.getElementById(`bodytext-${msgId}`);
+  const m = allMessages.find(x => x.id === msgId);
+  if (bodyEl && m) bodyEl.innerHTML = escHtml(m.body || '');
+}
+
+function highlightText(html, q) {
+  if (!q) return html;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return html.replace(new RegExp(`(${escaped})`, 'gi'), '<mark class="search-hl">$1</mark>');
+}
+
+// ── Copy helpers ──────────────────────────────────────────────────────────────
+function copyMessage(msgId, btn) {
+  const m = allMessages.find(x => x.id === msgId);
+  if (!m) return;
+  const md = `**From:** ${m.from.name} <${m.from.email}>\n**Date:** ${m.ts}\n**Subject:** ${m.subject}\n\n${m.body}`;
+  navigator.clipboard.writeText(md).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy message'; }, 2000);
+  });
+}
+
+function copyAllMarkdown() {
+  const btn = document.getElementById('copyAllBtn');
+  let md = `# Acme × Clockless — Mailbox Snapshot\n\n`;
+  md += `**Date range:** ${DATA.dateRange}\n**Messages:** ${DATA.messageCount}\n**Threads:** ${DATA.threadCount}\n\n---\n\n`;
+  Object.values(threadMap).forEach((t, i) => {
+    md += `## Thread ${i+1}: ${t.subject}\n\n`;
+    t.messages.forEach(m => {
+      md += `### ${m.from.name} — ${m.ts}\n`;
+      md += `**From:** ${m.from.email}  \n`;
+      md += `**To:** ${(m.to||[]).map(r=>r.email).join(', ')}  \n`;
+      if (m.cc?.length) md += `**CC:** ${m.cc.map(r=>r.email).join(', ')}  \n`;
+      md += `\n${m.body}\n\n`;
+      if (m.attachments?.length) md += `*Attachments: ${m.attachments.map(a=>a.filename).join(', ')}*\n\n`;
+      md += `---\n\n`;
+    });
+  });
+  navigator.clipboard.writeText(md).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy MD'; }, 2000);
+  });
+}
+
+// ── Mobile sidebar ────────────────────────────────────────────────────────────
+function openMobileSidebar() {
+  document.getElementById('sidebar').classList.add('mobile-open');
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closeMobileSidebar() {
+  document.getElementById
