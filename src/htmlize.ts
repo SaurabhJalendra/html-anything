@@ -124,7 +124,7 @@ async function loadSourcePrompt(contentType: string): Promise<string> {
   // identical insight-first guidance without duplicating it.
   const candidates = [
     `${contentType}.md`,                                                     // exact
-    `${contentType.replace(/-(chat|tabular|document|data|events|report)$/, "")}.md`, // strip suffix
+    `${contentType.replace(/-(chat|tabular|document|data|events|report|route)$/, "")}.md`, // strip suffix
     "default.md",
   ]
   const seen = new Set<string>()
