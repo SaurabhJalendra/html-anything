@@ -76,47 +76,73 @@ This split is the whole point:
   generated, and works on a 50-row CSV the same way it works on a
   500K-row CSV (the LLM only sees the sample either way).
 
-## Install
+## Two ways to use it
+
+### 1. As a Claude Code skill (recommended)
+
+`html-anything` is **shaped as a Claude Code skill**. You install it into your
+Claude Code or Codex setup, then just talk to it:
+
+> "Convert this WhatsApp export to HTML: ~/Downloads/_chat.txt"
+>
+> "Render https://github.com/clockless-org/html-anything as a one-page explainer"
+>
+> "Make a webpage out of this CSV: data.csv"
+
+Claude reads the file or URL, identifies the source type (file extension /
+URL pattern / content sniff), looks up `skill/prompts/<source>.md`, designs
+the HTML, inlines the data, and writes the output file.
+
+**Install** — clone the [`skill/`](./skill) folder into your skills dir:
 
 ```bash
-npm install -g html-anything
-# or
-npx html-anything <file>
+cp -r html-anything/skill ~/.claude/skills/html-anything
+# or wherever your Claude Code skills live
 ```
 
-Set one of:
+The skill is **extensible by dropping new prompts**. To support a new
+source type, add `skill/prompts/<source>.md` describing layout decisions
++ data shape for that source. No code, no registration. See the existing
+[`prompts/`](./skill/prompts) for examples.
+
+### 2. As a standalone CLI
+
+For non-Claude-Code workflows, an npm CLI does the same pipeline by
+calling the LLM directly:
+
 ```bash
+npm install -g html-anything    # (not yet on npm — clone for now)
 export ANTHROPIC_API_KEY=sk-ant-...
-# or
-export OPENAI_API_KEY=sk-...
-```
-
-## Usage
-
-```bash
-html-anything chat.zip                       # → chat.html
+html-anything chat.zip          # → chat.html
 html-anything paper.pdf --out paper.html
-html-anything data.csv --title "Q1 sales"
-html-anything story.md --model claude-opus-4-7
 ```
 
-The LLM call costs roughly $0.01–$0.05 per file with Claude Sonnet 4.6
-(default), depending on size of the sample. The **output** is reusable
-forever — no LLM calls happen when someone opens the HTML.
+Both modes share `skill/prompts/` as the single source of truth, so a
+new prompt added there immediately works in both.
 
-## Built-in parsers
+## Built-in source prompts
 
-| Parser | Extensions | What the LLM sees |
+The skill ships with prompts for these sources:
+
+| Prompt | Source | Where the design specializes |
 |---|---|---|
-| `markdown` | .md, .markdown | headings + opening 1500 chars + counts |
-| `whatsapp` | .txt (detected) | first 8 + last 4 messages + sender stats |
-| `csv` | .csv, .tsv | header + sample rows + column stats |
-| `json` | .json | shape description + first/last entries |
-| `text` | .txt, .log, others | opening + closing + line count |
+| [`whatsapp.md`](./skill/prompts/whatsapp.md) | `_chat.txt` exports | bubble timeline, sender filter, date jump |
+| [`csv.md`](./skill/prompts/csv.md) | CSV / TSV | sortable table, virtualization for big data, summary charts |
+| [`markdown.md`](./skill/prompts/markdown.md) | `.md` documents | reading view + TOC sized to the doc, tone-matched typography |
+| [`github-repo.md`](./skill/prompts/github-repo.md) | github.com/owner/repo URLs | repo explainer with file tree + README + key files |
+| [`url-article.md`](./skill/prompts/url-article.md) | blog posts, articles | stripped reading view, pulled quotes, reading time |
+| [`default.md`](./skill/prompts/default.md) | catch-all | content-shape-based fallback |
 
-More parsers coming. **Or write your own** —
-see [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md). The whole
-architecture is plugin-shaped.
+**To add a new source** = drop a new `<source>.md` in
+[`skill/prompts/`](./skill/prompts) following the same shape as existing
+ones. No code changes, no registration. The skill auto-finds it.
+
+## CLI mode also has parsers
+
+The CLI mode uses lightweight per-format parsers in [`src/parse/`](./src/parse) to
+extract a sample from the file before calling the LLM. The skill mode skips
+these — Claude Code does the file reading directly. Both modes use the
+**same `skill/prompts/`** as the single source of design guidance.
 
 ## Contributing
 

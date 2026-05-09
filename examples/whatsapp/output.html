@@ -5,68 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alex &amp; Mira</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
     --bg: #f0f2f5;
     --surface: #ffffff;
     --header-bg: #075e54;
     --header-text: #ffffff;
-    --bubble-alex: #ffffff;
-    --bubble-mira: #dcf8c6;
-    --bubble-alex-text: #111;
-    --bubble-mira-text: #111;
-    --time-color: #888;
-    --date-pill-bg: #e1e1e1;
-    --date-pill-text: #555;
-    --border: #e4e4e4;
-    --search-bg: #ffffff;
-    --search-border: #ccc;
-    --input-focus: #075e54;
-    --highlight: #ffe082;
-    --highlight-current: #ffb300;
-    --meta-bg: #e8f5e9;
-    --meta-text: #2e7d32;
+    --divider-bg: #e1e8ed;
+    --divider-text: #667781;
+    --msg-alex-bg: #ffffff;
+    --msg-alex-text: #111b21;
+    --msg-mira-bg: #d9fdd3;
+    --msg-mira-text: #111b21;
+    --time-color: #667781;
+    --sender-alex: #075e54;
+    --sender-mira: #128c7e;
+    --chip-active-alex: #075e54;
+    --chip-active-mira: #128c7e;
+    --chip-inactive: #e0e0e0;
+    --chip-inactive-text: #555;
+    --search-bg: #f0f2f5;
+    --search-border: #d0d7de;
+    --search-focus: #075e54;
+    --stats-bg: #f8faf8;
+    --stats-border: #d0e8d0;
     --shadow: 0 1px 2px rgba(0,0,0,0.12);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.10);
     --radius: 8px;
-    --font: 'Inter', system-ui, -apple-system, sans-serif;
-    --media-icon: #888;
+    --radius-msg: 12px;
+    --font: 'Inter', system-ui, sans-serif;
+    --media-bg: #c8e6c9;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #0b141a;
       --surface: #1f2c34;
       --header-bg: #1f2c34;
       --header-text: #e9edef;
-      --bubble-alex: #202c33;
-      --bubble-mira: #005c4b;
-      --bubble-alex-text: #e9edef;
-      --bubble-mira-text: #e9edef;
+      --divider-bg: #182229;
+      --divider-text: #8696a0;
+      --msg-alex-bg: #1f2c34;
+      --msg-alex-text: #e9edef;
+      --msg-mira-bg: #005c4b;
+      --msg-mira-text: #e9edef;
       --time-color: #8696a0;
-      --date-pill-bg: #182229;
-      --date-pill-text: #8696a0;
-      --border: #2a3942;
+      --sender-alex: #00a884;
+      --sender-mira: #00a884;
+      --chip-active-alex: #00a884;
+      --chip-active-mira: #00a884;
+      --chip-inactive: #2a3942;
+      --chip-inactive-text: #8696a0;
       --search-bg: #2a3942;
       --search-border: #3b4a54;
-      --input-focus: #00a884;
-      --highlight: #7b5c00;
-      --highlight-current: #e6a817;
-      --meta-bg: #0d2b22;
-      --meta-text: #4caf50;
+      --search-focus: #00a884;
+      --stats-bg: #182229;
+      --stats-border: #2a3942;
       --shadow: 0 1px 2px rgba(0,0,0,0.4);
-      --media-icon: #8696a0;
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.35);
+      --media-bg: #1a3a2a;
     }
   }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
     height: 100%;
     font-family: var(--font);
     background: var(--bg);
-    color: var(--bubble-alex-text);
+    color: var(--msg-alex-text);
     font-size: 15px;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
   .app {
@@ -83,46 +93,35 @@
   .header {
     background: var(--header-bg);
     color: var(--header-text);
-    padding: 10px 16px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-shrink: 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-
-  .avatar-pair {
-    display: flex;
+    box-shadow: var(--shadow-md);
     flex-shrink: 0;
   }
 
-  .avatar {
+  .header-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    background: rgba(255,255,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px;
     font-weight: 600;
-    font-size: 14px;
-    color: #fff;
-    border: 2px solid var(--header-bg);
     flex-shrink: 0;
   }
 
-  .avatar-alex { background: #128c7e; }
-  .avatar-mira { background: #25d366; margin-left: -10px; }
-
   .header-info { flex: 1; min-width: 0; }
-  .header-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header-title { font-weight: 600; font-size: 16px; }
   .header-sub { font-size: 12px; opacity: 0.75; margin-top: 1px; }
 
-  .header-actions { display: flex; gap: 8px; align-items: center; }
-
-  .btn-icon {
+  .header-btn {
     background: none;
     border: none;
     color: var(--header-text);
@@ -133,265 +132,345 @@
     align-items: center;
     justify-content: center;
     opacity: 0.85;
-    transition: background 0.15s, opacity 0.15s;
+    transition: opacity 0.15s, background 0.15s;
+    flex-shrink: 0;
   }
-  .btn-icon:hover { background: rgba(255,255,255,0.15); opacity: 1; }
-  .btn-icon svg { width: 20px; height: 20px; fill: currentColor; }
+  .header-btn:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+  .header-btn svg { width: 20px; height: 20px; }
 
   /* SEARCH BAR */
   .search-bar {
     background: var(--header-bg);
-    padding: 0 16px 10px;
+    padding: 0 12px 10px;
     display: none;
     flex-shrink: 0;
   }
-  .search-bar.visible { display: block; }
+  .search-bar.open { display: block; }
 
   .search-inner {
     display: flex;
     align-items: center;
     background: var(--search-bg);
-    border-radius: 20px;
-    padding: 6px 12px;
-    gap: 8px;
     border: 1px solid var(--search-border);
+    border-radius: 24px;
+    padding: 6px 14px;
+    gap: 8px;
   }
 
-  .search-inner svg { width: 16px; height: 16px; fill: var(--time-color); flex-shrink: 0; }
-
-  #searchInput {
+  .search-inner input {
     flex: 1;
     border: none;
     background: transparent;
     outline: none;
-    font-size: 14px;
-    color: var(--bubble-alex-text);
     font-family: var(--font);
+    font-size: 14px;
+    color: var(--msg-alex-text);
   }
-  #searchInput::placeholder { color: var(--time-color); }
+  .search-inner input::placeholder { color: var(--time-color); }
 
-  .search-nav {
+  .search-count {
+    font-size: 12px;
+    color: var(--time-color);
+    white-space: nowrap;
+  }
+
+  .search-clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--time-color);
+    padding: 0;
     display: flex;
     align-items: center;
-    gap: 4px;
+  }
+
+  /* FILTER CHIPS */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider-bg);
     flex-shrink: 0;
-  }
-  .search-count { font-size: 12px; color: var(--time-color); white-space: nowrap; }
-  .btn-nav {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 4px;
-    color: var(--time-color);
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-    transition: background 0.15s;
-  }
-  .btn-nav:hover { background: var(--border); }
-  .btn-nav:disabled { opacity: 0.3; cursor: default; }
-  .btn-nav svg { width: 16px; height: 16px; fill: currentColor; }
-
-  .btn-clear {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--time-color);
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    border-radius: 50%;
-    transition: background 0.15s;
-  }
-  .btn-clear:hover { background: var(--border); }
-  .btn-clear svg { width: 14px; height: 14px; fill: currentColor; }
-
-  /* STATS BAR */
-  .stats-bar {
-    background: var(--meta-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 8px 16px;
-    display: none;
-    gap: 16px;
     flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     flex-shrink: 0;
   }
-  .stats-bar.visible { display: flex; }
-  .stat-item { display: flex; flex-direction: column; align-items: center; }
-  .stat-num { font-size: 15px; font-weight: 600; color: var(--meta-text); }
-  .stat-label { font-size: 11px; color: var(--time-color); margin-top: 1px; }
+
+  .chip.active-alex {
+    background: var(--chip-active-alex);
+    color: #fff;
+  }
+  .chip.active-mira {
+    background: var(--chip-active-mira);
+    color: #fff;
+  }
+  .chip.inactive {
+    background: var(--chip-inactive);
+    color: var(--chip-inactive-text);
+  }
+
+  .chip-spacer { flex: 1; }
+
+  .stats-toggle {
+    font-size: 12px;
+    color: var(--time-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .stats-toggle:hover { background: var(--divider-bg); }
+
+  /* STATS PANEL */
+  .stats-panel {
+    background: var(--stats-bg);
+    border-bottom: 1px solid var(--stats-border);
+    padding: 14px 16px;
+    display: none;
+    flex-shrink: 0;
+  }
+  .stats-panel.open { display: block; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--time-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--msg-alex-text);
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--time-color);
+    margin-top: 2px;
+  }
+
+  .stats-sender-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .stats-sender-name { font-weight: 500; min-width: 90px; }
+  .stats-bar-wrap { flex: 1; background: var(--divider-bg); border-radius: 4px; height: 8px; overflow: hidden; }
+  .stats-bar { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .stats-bar-alex { background: var(--chip-active-alex); }
+  .stats-bar-mira { background: var(--chip-active-mira); }
+  .stats-count { font-size: 12px; color: var(--time-color); min-width: 30px; text-align: right; }
 
   /* MESSAGES AREA */
-  .messages {
+  .messages-area {
     flex: 1;
     overflow-y: auto;
-    padding: 12px 8px 16px;
+    padding: 8px 8px 16px;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
   }
-
-  .messages::-webkit-scrollbar { width: 4px; }
-  .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   /* DATE DIVIDER */
   .date-divider {
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin: 16px 0 8px;
-  }
-  .date-pill {
-    background: var(--date-pill-bg);
-    color: var(--date-pill-text);
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    padding: 10px 0 6px;
   }
 
-  /* BUBBLE ROWS */
+  .date-divider-label {
+    background: rgba(225,232,237,0.9);
+    color: var(--divider-text);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .date-divider-label {
+      background: rgba(40,55,65,0.9);
+    }
+  }
+
+  /* MESSAGE ROW */
   .msg-row {
     display: flex;
-    margin: 2px 0;
-    padding: 0 4px;
+    margin-bottom: 2px;
+    padding: 1px 4px;
   }
+
   .msg-row.alex { justify-content: flex-start; }
   .msg-row.mira { justify-content: flex-end; }
 
-  .msg-row.first-in-group { margin-top: 6px; }
+  .msg-row.msg-hidden { display: none; }
 
-  .bubble {
-    max-width: min(75%, 480px);
-    padding: 6px 10px 4px 10px;
-    border-radius: 8px;
+  .msg-bubble-wrap {
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    box-shadow: var(--shadow);
-    word-break: break-word;
-    white-space: pre-wrap;
   }
 
-  .msg-row.alex .bubble {
-    background: var(--bubble-alex);
-    color: var(--bubble-alex-text);
+  @media (max-width: 480px) {
+    .msg-bubble-wrap { max-width: 88%; }
+  }
+
+  .msg-bubble {
+    padding: 7px 10px 6px;
+    border-radius: var(--radius-msg);
+    box-shadow: var(--shadow);
+    position: relative;
+    word-break: break-word;
+    transition: background 0.2s;
+  }
+
+  .msg-row.alex .msg-bubble {
+    background: var(--msg-alex-bg);
+    color: var(--msg-alex-text);
     border-top-left-radius: 2px;
   }
-  .msg-row.mira .bubble {
-    background: var(--bubble-mira);
-    color: var(--bubble-mira-text);
+
+  .msg-row.mira .msg-bubble {
+    background: var(--msg-mira-bg);
+    color: var(--msg-mira-text);
     border-top-right-radius: 2px;
   }
 
-  /* Tail */
-  .msg-row.first-in-group.alex .bubble::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -7px;
-    border-width: 0 0 8px 8px;
-    border-style: solid;
-    border-color: transparent transparent transparent var(--bubble-alex);
-    filter: drop-shadow(-1px 1px 1px rgba(0,0,0,0.08));
-  }
-  .msg-row.first-in-group.mira .bubble::before {
-    content: '';
-    position: absolute;
-    top: 0; right: -7px;
-    border-width: 0 8px 8px 0;
-    border-style: solid;
-    border-color: transparent var(--bubble-mira) transparent transparent;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+  .msg-bubble.highlighted {
+    outline: 2px solid #f59e0b;
+    outline-offset: 1px;
   }
 
-  .bubble-text {
+  .msg-text {
     font-size: 14.5px;
-    line-height: 1.45;
+    line-height: 1.55;
+    white-space: pre-wrap;
   }
 
-  .bubble-meta {
+  .msg-text mark {
+    background: #fde68a;
+    color: #7c2d12;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .msg-text mark {
+      background: #78350f;
+      color: #fde68a;
+    }
+  }
+
+  .msg-meta {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
     margin-top: 2px;
   }
 
-  .bubble-time {
+  .msg-time {
     font-size: 11px;
     color: var(--time-color);
     white-space: nowrap;
-    user-select: none;
   }
 
-  .sender-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: #128c7e;
-    margin-bottom: 2px;
-    display: none;
-  }
-
-  .media-placeholder {
+  .msg-media {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--media-icon);
+    background: var(--media-bg);
+    border-radius: 8px;
+    padding: 8px 10px;
     font-size: 13px;
-    font-style: italic;
-    padding: 4px 0;
-  }
-  .media-placeholder svg { width: 20px; height: 20px; fill: var(--media-icon); flex-shrink: 0; }
-
-  /* Highlight */
-  mark {
-    background: var(--highlight);
-    color: inherit;
-    border-radius: 2px;
-    padding: 0 1px;
-  }
-  mark.current {
-    background: var(--highlight-current);
-  }
-
-  /* COPY button on hover */
-  .bubble-wrap {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-  .msg-row.alex .bubble-wrap { align-items: flex-start; }
-  .msg-row.mira .bubble-wrap { align-items: flex-end; }
-
-  .copy-btn {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 3px 8px;
-    font-size: 11px;
-    font-family: var(--font);
-    cursor: pointer;
     color: var(--time-color);
-    margin-top: 2px;
-    transition: background 0.1s;
+    font-style: italic;
+  }
+
+  /* COPY BUTTON (appears on hover) */
+  .copy-btn {
+    position: absolute;
+    top: 4px;
+    opacity: 0;
+    background: var(--surface);
+    border: 1px solid var(--divider-bg);
+    border-radius: 6px;
+    padding: 3px 6px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--time-color);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: opacity 0.15s, background 0.15s;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: var(--shadow);
     white-space: nowrap;
   }
-  .copy-btn:hover { background: var(--border); }
-  .bubble:hover + .copy-btn,
-  .copy-btn:focus,
-  .copy-btn:active { display: block; }
 
-  @media (hover: hover) {
-    .msg-row:hover .copy-btn { display: block; }
+  .msg-row.alex .copy-btn { right: -6px; transform: translateX(100%); }
+  .msg-row.mira .copy-btn { left: -6px; transform: translateX(-100%); }
+
+  .msg-bubble-wrap:hover .copy-btn {
+    opacity: 1;
+    pointer-events: all;
   }
 
-  /* EMPTY SEARCH */
-  .no-results {
-    text-align: center;
-    padding: 32px 16px;
-    color: var(--time-color);
-    font-size: 14px;
-    display: none;
+  .copy-btn:hover { background: var(--divider-bg); }
+  .copy-btn.copied { color: #22c55e; }
+
+  /* CONSECUTIVE MESSAGES */
+  .msg-row.consecutive .msg-bubble {
+    margin-top: 1px;
   }
+  .msg-row.consecutive.alex .msg-bubble { border-top-left-radius: var(--radius-msg); }
+  .msg-row.consecutive.mira .msg-bubble { border-top-right-radius: var(--radius-msg); }
 
   /* SCROLL TO BOTTOM */
   .scroll-btn {
@@ -400,441 +479,482 @@
     right: 16px;
     width: 40px;
     height: 40px;
-    background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    background: var(--surface);
+    border: 1px solid var(--divider-bg);
+    box-shadow: var(--shadow-md);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--time-color);
+    z-index: 50;
     transition: opacity 0.2s;
     opacity: 0;
     pointer-events: none;
-    z-index: 50;
   }
-  .scroll-btn.visible { opacity: 1; pointer-events: all; }
-  .scroll-btn svg { width: 18px; height: 18px; fill: currentColor; }
+  .scroll-btn.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
 
-  @media (min-width: 600px) {
-    .messages { padding: 16px 24px 20px; }
-    .bubble { max-width: 65%; }
-    .header { padding: 12px 20px; }
-    .search-bar { padding: 0 20px 12px; }
+  /* EMPTY STATE */
+  .no-results {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--time-color);
+    font-size: 14px;
+    display: none;
   }
+  .no-results.visible { display: block; }
+  .no-results-icon { font-size: 40px; margin-bottom: 10px; }
+
+  /* SCROLLBAR */
+  .messages-area::-webkit-scrollbar { width: 4px; }
+  .messages-area::-webkit-scrollbar-track { background: transparent; }
+  .messages-area::-webkit-scrollbar-thumb { background: var(--divider-bg); border-radius: 4px; }
 </style>
 </head>
 <body>
 <script>const DATA = {"messages":[{"ts":"2026-01-04 09:12:07","date":"2026-01-04","time":"09:12:07","sender":"Alex Chen","text":"hey are we still on for sat","isMedia":false},{"ts":"2026-01-04 09:14:22","date":"2026-01-04","time":"09:14:22","sender":"Mira Park","text":"yes! 11ish at the usual?","isMedia":false},{"ts":"2026-01-04 09:14:51","date":"2026-01-04","time":"09:14:51","sender":"Alex Chen","text":"perfect","isMedia":false},{"ts":"2026-01-04 09:15:04","date":"2026-01-04","time":"09:15:04","sender":"Alex Chen","text":"bringing the books from last time","isMedia":false},{"ts":"2026-01-04 09:15:38","date":"2026-01-04","time":"09:15:38","sender":"Mira Park","text":"omg yes please","isMedia":false},{"ts":"2026-01-04 09:16:02","date":"2026-01-04","time":"09:16:02","sender":"Mira Park","text":"did you finish the murakami","isMedia":false},{"ts":"2026-01-04 09:18:11","date":"2026-01-04","time":"09:18:11","sender":"Alex Chen","text":"half. it's good but it's slow","isMedia":false},{"ts":"2026-01-04 09:18:34","date":"2026-01-04","time":"09:18:34","sender":"Alex Chen","text":"like, intentionally slow","isMedia":false},{"ts":"2026-01-04 09:19:00","date":"2026-01-04","time":"09:19:00","sender":"Mira Park","text":"thats the point i think","isMedia":false},{"ts":"2026-01-04 09:19:42","date":"2026-01-04","time":"09:19:42","sender":"Mira Park","text":"let me know when you finish, want to talk about it","isMedia":false},{"ts":"2026-01-06 14:22:18","date":"2026-01-06","time":"14:22:18","sender":"Alex Chen","text":"random q — do you know any good ramen places near pioneer square","isMedia":false},{"ts":"2026-01-06 14:25:03","date":"2026-01-06","time":"14:25:03","sender":"Mira Park","text":"kizuki on 1st? open late too","isMedia":false},{"ts":"2026-01-06 14:25:30","date":"2026-01-06","time":"14:25:30","sender":"Alex Chen","text":"oh nice. how busy is it usually","isMedia":false},{"ts":"2026-01-06 14:26:11","date":"2026-01-06","time":"14:26:11","sender":"Mira Park","text":"7pm = full. 9pm = walk in","isMedia":false},{"ts":"2026-01-06 14:26:33","date":"2026-01-06","time":"14:26:33","sender":"Alex Chen","text":"noted, thx","isMedia":false},{"ts":"2026-01-08 19:44:52","date":"2026-01-08","time":"19:44:52","sender":"Mira Park","text":"ok finished murakami","isMedia":false},{"ts":"2026-01-08 19:45:09","date":"2026-01-08","time":"19:45:09","sender":"Mira Park","text":"need to debrief","isMedia":false},{"ts":"2026-01-08 19:46:21","date":"2026-01-08","time":"19:46:21","sender":"Alex Chen","text":"hahah ok","isMedia":false},{"ts":"2026-01-08 19:46:48","date":"2026-01-08","time":"19:46:48","sender":"Alex Chen","text":"i'm at the part where the cat shows up","isMedia":false},{"ts":"2026-01-08 19:47:12","date":"2026-01-08","time":"19:47:12","sender":"Mira Park","text":"oh you're early then","isMedia":false},{"ts":"2026-01-08 19:47:28","date":"2026-01-08","time":"19:47:28","sender":"Mira Park","text":"just keep going. trust the cat.","isMedia":false},{"ts":"2026-01-09 10:01:33","date":"2026-01-09","time":"10:01:33","sender":"Alex Chen","text":"lunch wed?","isMedia":false},{"ts":"2026-01-09 10:03:04","date":"2026-01-09","time":"10:03:04","sender":"Mira Park","text":"can't wed, dentist","isMedia":false},{"ts":"2026-01-09 10:03:21","date":"2026-01-09","time":"10:03:21","sender":"Mira Park","text":"thursday tho","isMedia":false},{"ts":"2026-01-09 10:03:55","date":"2026-01-09","time":"10:03:55","sender":"Alex Chen","text":"thursday works. that new place on cherry?","isMedia":false},{"ts":"2026-01-09 10:04:18","date":"2026-01-09","time":"10:04:18","sender":"Mira Park","text":"yes please","isMedia":false},{"ts":"2026-01-09 10:04:41","date":"2026-01-09","time":"10:04:41","sender":"Alex Chen","text":"12:30","isMedia":false},{"ts":"2026-01-09 10:04:55","date":"2026-01-09","time":"10:04:55","sender":"Mira Park","text":"👍","isMedia":false},{"ts":"2026-01-12 12:35:18","date":"2026-01-12","time":"12:35:18","sender":"Mira Park","text":"i'm here","isMedia":false},{"ts":"2026-01-12 12:35:42","date":"2026-01-12","time":"12:35:42","sender":"Mira Park","text":"outside, the patio looks open","isMedia":false},{"ts":"2026-01-12 12:36:08","date":"2026-01-12","time":"12:36:08","sender":"Alex Chen","text":"5 min!","isMedia":false},{"ts":"2026-01-12 12:42:11","date":"2026-01-12","time":"12:42:11","sender":"Alex Chen","text":"walking up","isMedia":false},{"ts":"2026-01-13 08:14:02","date":"2026-01-13","time":"08:14:02","sender":"Alex Chen","text":"that lunch was excellent","isMedia":false},{"ts":"2026-01-13 08:14:33","date":"2026-01-13","time":"08:14:33","sender":"Mira Park","text":"agreed. the squash thing???","isMedia":false},{"ts":"2026-01-13 08:14:51","date":"2026-01-13","time":"08:14:51","sender":"Alex Chen","text":"i'm thinking about it still","isMedia":false},{"ts":"2026-01-15 21:03:44","date":"2026-01-15","time":"21:03:44","sender":"Mira Park","text":"ok finished the rewrite of the proposal","isMedia":false},{"ts":"2026-01-15 21:04:18","date":"2026-01-15","time":"21:04:18","sender":"Mira Park","text":"would you read it before i send tomorrow","isMedia":false},{"ts":"2026-01-15 21:04:42","date":"2026-01-15","time":"21:04:42","sender":"Alex Chen","text":"yes! send it","isMedia":false},{"ts":"2026-01-15 21:05:55","date":"2026-01-15","time":"21:05:55","sender":"Mira Park","text":"<Media omitted>","isMedia":true},{"ts":"2026-01-15 21:06:32","date":"2026-01-15","time":"21:06:32","sender":"Alex Chen","text":"opening","isMedia":false},{"ts":"2026-01-15 21:18:11","date":"2026-01-15","time":"21:18:11","sender":"Alex Chen","text":"ok read it. one structural thing — section 3 should come before section 2. otherwise great.","isMedia":false},{"ts":"2026-01-15 21:19:04","date":"2026-01-15","time":"21:19:04","sender":"Mira Park","text":"hmm i can see that","isMedia":false},{"ts":"2026-01-15 21:19:32","date":"2026-01-15","time":"21:19:32","sender":"Mira Park","text":"also the pricing table is too long","isMedia":false},{"ts":"2026-01-15 21:20:00","date":"2026-01-15","time":"21:20:00","sender":"Alex Chen","text":"yeah cut to 3 tiers","isMedia":false},{"ts":"2026-01-15 21:20:18","date":"2026-01-15","time":"21:20:18","sender":"Mira Park","text":"ok","isMedia":false},{"ts":"2026-01-15 21:20:41","date":"2026-01-15","time":"21:20:41","sender":"Mira Park","text":"thank you, will fix and send tomorrow","isMedia":false},{"ts":"2026-01-18 11:22:08","date":"2026-01-18","time":"11:22:08","sender":"Alex Chen","text":"brunch saturday?","isMedia":false},{"ts":"2026-01-18 11:24:33","date":"2026-01-18","time":"11:24:33","sender":"Mira Park","text":"with the group?","isMedia":false},{"ts":"2026-01-18 11:24:51","date":"2026-01-18","time":"11:24:51","sender":"Alex Chen","text":"yeah. j and r are in town","isMedia":false},{"ts":"2026-01-18 11:25:14","date":"2026-01-18","time":"11:25:14","sender":"Mira Park","text":"oh nice. yes — where","isMedia":false},{"ts":"2026-01-18 11:25:42","date":"2026-01-18","time":"11:25:42","sender":"Alex Chen","text":"thinking the place by greenlake","isMedia":false},{"ts":"2026-01-18 11:26:11","date":"2026-01-18","time":"11:26:11","sender":"Mira Park","text":"that's perfect, walkable for me","isMedia":false},{"ts":"2026-01-18 11:26:38","date":"2026-01-18","time":"11:26:38","sender":"Alex Chen","text":"10:30 reservation","isMedia":false},{"ts":"2026-01-18 11:26:55","date":"2026-01-18","time":"11:26:55","sender":"Mira Park","text":"👍👍👍","isMedia":false},{"ts":"2026-01-23 09:48:21","date":"2026-01-23","time":"09:48:21","sender":"Mira Park","text":"brunch was so good","isMedia":false},{"ts":"2026-01-23 09:48:42","date":"2026-01-23","time":"09:48:42","sender":"Mira Park","text":"the eggs at that place","isMedia":false},{"ts":"2026-01-23 09:49:11","date":"2026-01-23","time":"09:49:11","sender":"Alex Chen","text":"i KNOW","isMedia":false},{"ts":"2026-01-23 09:49:38","date":"2026-01-23","time":"09:49:38","sender":"Alex Chen","text":"also j said hi to you twice","isMedia":false},{"ts":"2026-01-23 09:50:02","date":"2026-01-23","time":"09:50:02","sender":"Mira Park","text":"he's such a sweetheart","isMedia":false},{"ts":"2026-01-25 18:31:04","date":"2026-01-25","time":"18:31:04","sender":"Mira Park","text":"would you watch a movie with me thursday","isMedia":false},{"ts":"2026-01-25 18:31:27","date":"2026-01-25","time":"18:31:27","sender":"Mira Park","text":"at home, not theater","isMedia":false},{"ts":"2026-01-25 18:32:00","date":"2026-01-25","time":"18:32:00","sender":"Alex Chen","text":"yes. what","isMedia":false},{"ts":"2026-01-25 18:32:23","date":"2026-01-25","time":"18:32:23","sender":"Mira Park","text":"drive my car","isMedia":false},{"ts":"2026-01-25 18:32:48","date":"2026-01-25","time":"18:32:48","sender":"Alex Chen","text":"i've never seen it actually","isMedia":false},{"ts":"2026-01-25 18:33:11","date":"2026-01-25","time":"18:33:11","sender":"Mira Park","text":"WHAT","isMedia":false},{"ts":"2026-01-25 18:33:31","date":"2026-01-25","time":"18:33:31","sender":"Mira Park","text":"how","isMedia":false},{"ts":"2026-01-25 18:33:49","date":"2026-01-25","time":"18:33:49","sender":"Alex Chen","text":"just never got around to it","isMedia":false},{"ts":"2026-01-25 18:34:08","date":"2026-01-25","time":"18:34:08","sender":"Mira Park","text":"ok thursday. 7. i'm bringing snacks.","isMedia":false},{"ts":"2026-01-25 18:34:30","date":"2026-01-25","time":"18:34:30","sender":"Alex Chen","text":"deal","isMedia":false},{"ts":"2026-01-29 07:11:18","date":"2026-01-29","time":"07:11:18","sender":"Alex Chen","text":"the rest of that book btw — i finished it","isMedia":false},{"ts":"2026-01-29 07:11:42","date":"2026-01-29","time":"07:11:42","sender":"Alex Chen","text":"i don't know how to feel","isMedia":false},{"ts":"2026-01-29 07:12:08","date":"2026-01-29","time":"07:12:08","sender":"Mira Park","text":"😄","isMedia":false},{"ts":"2026-01-29 07:12:33","date":"2026-01-29","time":"07:12:33","sender":"Mira Park","text":"thats the right reaction","isMedia":false},{"ts":"2026-01-29 07:13:01","date":"2026-01-29","time":"07:13:01","sender":"Mira Park","text":"meet for coffee soon and we'll talk about it","isMedia":false},{"ts":"2026-01-29 07:13:24","date":"2026-01-29","time":"07:13:24","sender":"Alex Chen","text":"yes. monday?","isMedia":false},{"ts":"2026-01-29 07:13:48","date":"2026-01-29","time":"07:13:48","sender":"Mira Park","text":"monday works. early — 8?","isMedia":false},{"ts":"2026-01-29 07:14:09","date":"2026-01-29","time":"07:14:09","sender":"Alex Chen","text":"8 it is","isMedia":false},{"ts":"2026-02-02 08:02:11","date":"2026-02-02","time":"08:02:11","sender":"Mira Park","text":"where are u","isMedia":false},{"ts":"2026-02-02 08:02:38","date":"2026-02-02","time":"08:02:38","sender":"Alex Chen","text":"walking up, sorry","isMedia":false},{"ts":"2026-02-02 08:03:00","date":"2026-02-02","time":"08:03:00","sender":"Alex Chen","text":"traffic was nuts","isMedia":false},{"ts":"2026-02-02 08:03:21","date":"2026-02-02","time":"08:03:21","sender":"Mira Park","text":"ok sat at the back","isMedia":false},{"ts":"2026-02-02 08:03:42","date":"2026-02-02","time":"08:03:42","sender":"Mira Park","text":"ordered for u","isMedia":false},{"ts":"2026-02-02 08:04:08","date":"2026-02-02","time":"08:04:08","sender":"Alex Chen","text":"🙏\n","isMedia":false}],"sourceFile":"input.txt","sizeBytes":4711,"messageCount":83,"senderCount":2,"senders":["Alex Chen","Mira Park"],"messagesPerSender":{"Alex Chen":38,"Mira Park":45},"dateRange":"2026-01-04 → 2026-02-02","mediaCount":1};</script>
-<div class="app">
-  <header class="header">
-    <div class="avatar-pair">
-      <div class="avatar avatar-alex">A</div>
-      <div class="avatar avatar-mira">M</div>
-    </div>
+<div class="app" id="app">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-avatar">💬</div>
     <div class="header-info">
-      <div class="header-title">Alex &amp; Mira</div>
-      <div class="header-sub" id="headerSub">loading…</div>
+      <div class="header-title" id="header-title">Alex &amp; Mira</div>
+      <div class="header-sub" id="header-sub">Loading…</div>
     </div>
-    <div class="header-actions">
-      <button class="btn-icon" id="statsToggle" title="Stats" aria-label="Toggle stats">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      </button>
-      <button class="btn-icon" id="searchToggle" title="Search" aria-label="Toggle search">
-        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      </button>
-    </div>
-  </header>
+    <button class="header-btn" id="search-toggle-btn" title="Search (Ctrl+F)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+  </div>
 
-  <div class="search-bar" id="searchBar">
+  <!-- SEARCH BAR -->
+  <div class="search-bar" id="search-bar">
     <div class="search-inner">
-      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
-      <input type="search" id="searchInput" placeholder="Search messages…" autocomplete="off" autocorrect="off" spellcheck="false">
-      <div class="search-nav">
-        <span class="search-count" id="searchCount"></span>
-        <button class="btn-nav" id="prevMatch" title="Previous" disabled>
-          <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-        </button>
-        <button class="btn-nav" id="nextMatch" title="Next" disabled>
-          <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-        </button>
-      </div>
-      <button class="btn-clear" id="clearSearch" title="Clear">
-        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:0.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search messages…" autocomplete="off" spellcheck="false">
+      <span class="search-count" id="search-count"></span>
+      <button class="search-clear" id="search-clear" title="Clear">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
     </div>
   </div>
 
-  <div class="stats-bar" id="statsBar">
-    <div class="stat-item">
-      <span class="stat-num" id="statTotal">—</span>
-      <span class="stat-label">messages</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" id="statAlex">—</span>
-      <span class="stat-label">Alex Chen</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" id="statMira">—</span>
-      <span class="stat-label">Mira Park</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" id="statDays">—</span>
-      <span class="stat-label">days active</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" id="statMedia">—</span>
-      <span class="stat-label">media</span>
+  <!-- FILTER ROW -->
+  <div class="filter-row" id="filter-row">
+    <!-- chips injected by JS -->
+    <span class="chip-spacer"></span>
+    <button class="stats-toggle" id="stats-toggle">📊 Stats</button>
+  </div>
+
+  <!-- STATS PANEL -->
+  <div class="stats-panel" id="stats-panel">
+    <div class="stats-grid" id="stats-grid"></div>
+    <div id="stats-senders"></div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="messages-area" id="messages-area">
+    <div class="no-results" id="no-results">
+      <div class="no-results-icon">🔍</div>
+      No messages match your search.
     </div>
   </div>
 
-  <div class="messages" id="messages">
-    <div class="no-results" id="noResults">No messages found</div>
-  </div>
-
-  <button class="scroll-btn" id="scrollBtn" title="Scroll to bottom" aria-label="Scroll to bottom">
-    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+  <!-- SCROLL TO BOTTOM -->
+  <button class="scroll-btn" id="scroll-btn" title="Scroll to bottom">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
   </button>
 </div>
 
 <script>
 (function() {
-  const messages = DATA.messages || [];
-  const senders = DATA.senders || [];
-  const stats = {
-    total: DATA.messageCount || 0,
-    perSender: DATA.messagesPerSender || {},
-    dateRange: DATA.dateRange || '',
-    media: DATA.mediaCount || 0
-  };
-
-  const SENDER_A = senders[0] || 'Alex Chen';
-  const SENDER_B = senders[1] || 'Mira Park';
-
-  // ── Populate stats bar ──────────────────────────────────────────
-  document.getElementById('statTotal').textContent = stats.total;
-  document.getElementById('statAlex').textContent = stats.perSender[SENDER_A] || 0;
-  document.getElementById('statMira').textContent = stats.perSender[SENDER_B] || 0;
-  document.getElementById('statMedia').textContent = stats.media;
-
-  // Count unique days
-  const uniqueDays = new Set(messages.map(m => m.date));
-  document.getElementById('statDays').textContent = uniqueDays.size;
-
-  // Header sub
-  if (stats.dateRange) {
-    document.getElementById('headerSub').textContent = stats.dateRange;
-  } else if (messages.length) {
-    const first = messages[0].date;
-    const last = messages[messages.length - 1].date;
-    document.getElementById('headerSub').textContent = first === last ? first : first + ' → ' + last;
+  // ── helpers ───────────────────────────────────────────────────
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
   }
 
-  // ── Format date for divider ────────────────────────────────────
   function formatDate(dateStr) {
-    if (!dateStr) return '';
     try {
       const d = new Date(dateStr + 'T00:00:00');
-      const today = new Date();
-      const yesterday = new Date(today);
-      yesterday.setDate(today.getDate() - 1);
-      const normalize = x => x.toISOString().slice(0,10);
-      if (normalize(d) === normalize(today)) return 'Today';
-      if (normalize(d) === normalize(yesterday)) return 'Yesterday';
-      return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: d.getFullYear() !== today.getFullYear() ? 'numeric' : undefined });
+      return d.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
     } catch(e) { return dateStr; }
   }
 
   function formatTime(timeStr) {
-    if (!timeStr) return '';
     try {
-      const parts = timeStr.split(':');
-      let h = parseInt(parts[0]), m = parts[1];
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      h = h % 12 || 12;
-      return h + ':' + m + ' ' + ampm;
+      const [h, m] = timeStr.split(':');
+      const hour = parseInt(h, 10);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const h12 = hour % 12 || 12;
+      return `${h12}:${m} ${ampm}`;
     } catch(e) { return timeStr; }
   }
 
-  // ── Build DOM ───────────────────────────────────────────────────
-  const container = document.getElementById('messages');
-  const noResults = document.getElementById('noResults');
-  const fragment = document.createDocumentFragment();
+  function friendlyDate(dateStr) {
+    try {
+      const d = new Date(dateStr + 'T00:00:00');
+      const today = new Date(); today.setHours(0,0,0,0);
+      const diff = (today - d) / 86400000;
+      if (diff < 1) return 'Today';
+      if (diff < 2) return 'Yesterday';
+      return d.toLocaleDateString(undefined, { month:'short', day:'numeric', year: d.getFullYear() !== today.getFullYear() ? 'numeric' : undefined });
+    } catch(e) { return dateStr; }
+  }
 
-  let lastDate = null;
-  let lastSender = null;
+  // ── init ──────────────────────────────────────────────────────
+  const messages = DATA.messages || [];
+  const senders = DATA.senders || [];
+  const messagesPerSender = DATA.messagesPerSender || {};
+  const totalMessages = DATA.messageCount || messages.length;
+  const dateRange = DATA.dateRange || '';
 
-  const bubbleEls = []; // { el: bubbleEl, textNode: span, originalText, sender, date }
+  // Assign roles
+  const SENDER_A = senders[0] || '';
+  const SENDER_B = senders[1] || '';
 
-  messages.forEach((msg, i) => {
-    const isAlex = msg.sender === SENDER_A;
-    const senderClass = isAlex ? 'alex' : 'mira';
-    const isNewDate = msg.date !== lastDate;
-    const isFirstInGroup = msg.sender !== lastSender || isNewDate;
+  function senderClass(s) { return s === SENDER_A ? 'alex' : 'mira'; }
+  function senderInitial(s) { return s ? s.charAt(0).toUpperCase() : '?'; }
 
-    if (isNewDate) {
-      const divider = document.createElement('div');
-      divider.className = 'date-divider';
-      divider.innerHTML = '<span class="date-pill">' + escapeHtml(formatDate(msg.date)) + '</span>';
-      fragment.appendChild(divider);
-      lastDate = msg.date;
+  // State
+  let activeFilters = new Set(senders);
+  let searchQuery = '';
+  let searchResults = []; // indices into messages
+  let searchIdx = 0;
+
+  // ── header ───────────────────────────────────────────────────
+  document.getElementById('header-title').textContent = `${SENDER_A} & ${SENDER_B}`;
+  document.getElementById('header-sub').textContent = `${totalMessages} messages · ${dateRange}`;
+
+  // ── stats panel ───────────────────────────────────────────────
+  function buildStats() {
+    const grid = document.getElementById('stats-grid');
+    const maxCount = Math.max(...Object.values(messagesPerSender));
+    const totalCount = Object.values(messagesPerSender).reduce((a,b)=>a+b,0);
+
+    // compute busiest day
+    const dayCount = {};
+    messages.forEach(m => { dayCount[m.date] = (dayCount[m.date]||0)+1; });
+    let busiestDay = '', busiestCount = 0;
+    for (const [d,c] of Object.entries(dayCount)) {
+      if (c > busiestCount) { busiestCount = c; busiestDay = d; }
     }
 
-    const row = document.createElement('div');
-    row.className = 'msg-row ' + senderClass + (isFirstInGroup ? ' first-in-group' : '');
-    row.dataset.index = i;
-
-    const wrap = document.createElement('div');
-    wrap.className = 'bubble-wrap';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-
-    if (msg.isMedia) {
-      const mp = document.createElement('div');
-      mp.className = 'media-placeholder';
-      mp.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-1 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg><span>📎 Media</span>';
-      bubble.appendChild(mp);
-    } else {
-      const textSpan = document.createElement('span');
-      textSpan.className = 'bubble-text';
-      textSpan.textContent = msg.text || '';
-      bubble.appendChild(textSpan);
-
-      bubbleEls.push({
-        el: bubble,
-        textSpan: textSpan,
-        row: row,
-        originalText: msg.text || '',
-        sender: msg.sender,
-        date: msg.date,
-        time: msg.time,
-        index: i
-      });
-    }
-
-    const meta = document.createElement('div');
-    meta.className = 'bubble-meta';
-    const timeEl = document.createElement('span');
-    timeEl.className = 'bubble-time';
-    timeEl.textContent = formatTime(msg.time);
-    meta.appendChild(timeEl);
-    bubble.appendChild(meta);
-
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.textContent = 'Copy';
-    copyBtn.addEventListener('click', () => {
-      const textToCopy = msg.text || '';
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          copyBtn.textContent = 'Copied!';
-          setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
-        });
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = textToCopy;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
-      }
+    // compute top emojis
+    const emojiRx = /\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu;
+    const emojiCount = {};
+    messages.forEach(m => {
+      const found = (m.text||'').match(emojiRx) || [];
+      found.forEach(e => { emojiCount[e] = (emojiCount[e]||0)+1; });
     });
+    const topEmojis = Object.entries(emojiCount).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([e])=>e).join(' ');
 
-    wrap.appendChild(bubble);
-    if (!msg.isMedia) wrap.appendChild(copyBtn);
-    row.appendChild(wrap);
-    fragment.appendChild(row);
+    grid.innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Total Messages</div>
+        <div class="stat-value">${totalCount}</div>
+        <div class="stat-sub">${dateRange}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Busiest Day</div>
+        <div class="stat-value">${friendlyDate(busiestDay)}</div>
+        <div class="stat-sub">${busiestCount} messages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Media Shared</div>
+        <div class="stat-value">${DATA.mediaCount || 0}</div>
+        <div class="stat-sub">files & images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Top Emojis</div>
+        <div class="stat-value" style="font-size:20px">${topEmojis || '—'}</div>
+      </div>
+    `;
 
-    lastSender = msg.sender;
+    const sendersEl = document.getElementById('stats-senders');
+    let senderHtml = '';
+    senders.forEach((s, i) => {
+      const cnt = messagesPerSender[s] || 0;
+      const pct = totalCount > 0 ? (cnt / totalCount * 100).toFixed(0) : 0;
+      const cls = i === 0 ? 'stats-bar-alex' : 'stats-bar-mira';
+      senderHtml += `
+        <div class="stats-sender-row">
+          <span class="stats-sender-name">${escHtml(s)}</span>
+          <div class="stats-bar-wrap">
+            <div class="stats-bar ${cls}" style="width:${pct}%"></div>
+          </div>
+          <span class="stats-count">${cnt}</span>
+        </div>`;
+    });
+    sendersEl.innerHTML = senderHtml;
+  }
+
+  document.getElementById('stats-toggle').addEventListener('click', function() {
+    const panel = document.getElementById('stats-panel');
+    panel.classList.toggle('open');
+    this.textContent = panel.classList.contains('open') ? '📊 Hide Stats' : '📊 Stats';
   });
 
-  container.insertBefore(fragment, noResults);
+  // ── filter chips ──────────────────────────────────────────────
+  function buildChips() {
+    const row = document.getElementById('filter-row');
+    // remove existing chips
+    row.querySelectorAll('.chip').forEach(c => c.remove());
 
-  // ── Search ──────────────────────────────────────────────────────
-  let matchIndices = []; // indices into bubbleEls
-  let currentMatch = -1;
-
-  const searchInput = document.getElementById('searchInput');
-  const searchCount = document.getElementById('searchCount');
-  const prevBtn = document.getElementById('prevMatch');
-  const nextBtn = document.getElementById('nextMatch');
-  const clearBtn = document.getElementById('clearSearch');
-
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const spacer = row.querySelector('.chip-spacer');
+    senders.forEach((s, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.dataset.sender = s;
+      const dotColor = i === 0 ? 'var(--chip-active-alex)' : 'var(--chip-active-mira)';
+      btn.innerHTML = `<span class="chip-dot" style="background:${dotColor}"></span>${escHtml(s)}`;
+      updateChipState(btn, s);
+      btn.addEventListener('click', () => {
+        if (activeFilters.has(s)) {
+          if (activeFilters.size > 1) activeFilters.delete(s);
+        } else {
+          activeFilters.add(s);
+        }
+        updateChipState(btn, s);
+        applyFilters();
+      });
+      row.insertBefore(btn, spacer);
+    });
   }
 
-  function escapeRegex(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  function clearHighlights() {
-    bubbleEls.forEach(b => {
-      b.textSpan.innerHTML = '';
-      b.textSpan.textContent = b.originalText;
-    });
-    matchIndices = [];
-    currentMatch = -1;
-    searchCount.textContent = '';
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-    noResults.style.display = 'none';
-  }
-
-  function doSearch(query) {
-    clearHighlights();
-    if (!query.trim()) return;
-
-    const regex = new RegExp('(' + escapeRegex(query.trim()) + ')', 'gi');
-    let count = 0;
-
-    bubbleEls.forEach((b, i) => {
-      const text = b.originalText;
-      if (regex.test(text)) {
-        matchIndices.push(i);
-        regex.lastIndex = 0;
-      }
-      // Highlight
-      const highlighted = text.replace(regex, '<mark>$1</mark>');
-      if (highlighted !== escapeHtml(text)) {
-        b.textSpan.innerHTML = highlighted;
-        count++;
-      } else if (highlighted !== text) {
-        b.textSpan.innerHTML = highlighted;
-      }
-      regex.lastIndex = 0;
-    });
-
-    // Rebuild matchIndices properly
-    matchIndices = [];
-    bubbleEls.forEach((b, i) => {
-      if (b.textSpan.querySelector('mark')) {
-        matchIndices.push(i);
-      }
-    });
-
-    if (matchIndices.length === 0) {
-      noResults.style.display = 'block';
-      searchCount.textContent = '0 results';
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
+  function updateChipState(btn, s) {
+    const i = senders.indexOf(s);
+    if (activeFilters.has(s)) {
+      btn.className = 'chip ' + (i === 0 ? 'active-alex' : 'active-mira');
     } else {
-      noResults.style.display = 'none';
-      prevBtn.disabled = false;
-      nextBtn.disabled = false;
-      currentMatch = 0;
-      highlightCurrent();
+      btn.className = 'chip inactive';
     }
   }
 
-  function highlightCurrent() {
-    // Remove all current marks
-    document.querySelectorAll('mark.current').forEach(m => m.classList.remove('current'));
+  // ── render messages ───────────────────────────────────────────
+  function buildMessages() {
+    const area = document.getElementById('messages-area');
+    // keep the no-results div
+    const noResults = document.getElementById('no-results');
+    area.innerHTML = '';
+    area.appendChild(noResults);
 
-    if (matchIndices.length === 0) return;
+    let lastDate = null;
+    let lastSender = null;
 
-    const bIdx = matchIndices[currentMatch];
-    const b = bubbleEls[bIdx];
-    const marks = b.textSpan.querySelectorAll('mark');
-    if (marks.length > 0) {
-      marks[0].classList.add('current');
-      b.el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    }
-    searchCount.textContent = (currentMatch + 1) + ' / ' + matchIndices.length;
+    messages.forEach((msg, idx) => {
+      // date divider
+      if (msg.date !== lastDate) {
+        const div = document.createElement('div');
+        div.className = 'date-divider';
+        div.dataset.date = msg.date;
+        div.innerHTML = `<span class="date-divider-label">${friendlyDate(msg.date)}</span>`;
+        area.appendChild(div);
+        lastDate = msg.date;
+        lastSender = null;
+      }
+
+      const isAlex = msg.sender === SENDER_A;
+      const cls = senderClass(msg.sender);
+      const consecutive = msg.sender === lastSender;
+
+      const row = document.createElement('div');
+      row.className = `msg-row ${cls}${consecutive ? ' consecutive' : ''}`;
+      row.dataset.idx = idx;
+      row.dataset.sender = msg.sender;
+
+      let contentHtml;
+      if (msg.isMedia) {
+        contentHtml = `<div class="msg-media">📎 <span>Media / attachment</span></div>`;
+      } else {
+        contentHtml = `<div class="msg-text">${escHtml(msg.text || '')}</div>`;
+      }
+
+      const mdText = `**${msg.sender}** (${msg.time}): ${msg.text || '[media]'}`;
+
+      row.innerHTML = `
+        <div class="msg-bubble-wrap">
+          <div class="msg-bubble" data-idx="${idx}">
+            ${contentHtml}
+            <div class="msg-meta">
+              <span class="msg-time">${formatTime(msg.time)}</span>
+            </div>
+          </div>
+          <button class="copy-btn" data-md="${escHtml(mdText)}" title="Copy as Markdown">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+            Copy
+          </button>
+        </div>`;
+
+      area.appendChild(row);
+      lastSender = msg.sender;
+    });
+
+    // copy buttons
+    area.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.md;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.classList.add('copied');
+          btn.textContent = '✓ Copied';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy`;
+          }, 1500);
+        });
+      });
+    });
   }
+
+  // ── filter & search ───────────────────────────────────────────
+  function applyFilters() {
+    const area = document.getElementById('messages-area');
+    const q = searchQuery.trim().toLowerCase();
+    const rows = area.querySelectorAll('.msg-row');
+    const dateDividers = area.querySelectorAll('.date-divider');
+
+    searchResults = [];
+    let visiblePerDate = {};
+
+    rows.forEach(row => {
+      const idx = parseInt(row.dataset.idx, 10);
+      const msg = messages[idx];
+      const senderVisible = activeFilters.has(msg.sender);
+      const textMatch = !q || (msg.text||'').toLowerCase().includes(q) || msg.sender.toLowerCase().includes(q);
+      const visible = senderVisible && textMatch;
+
+      row.classList.toggle('msg-hidden', !visible);
+
+      // rebuild text highlighting
+      const textEl = row.querySelector('.msg-text');
+      if (textEl) {
+        if (q && visible && (msg.text||'').toLowerCase().includes(q)) {
+          textEl.innerHTML = highlightText(msg.text || '', q);
+          const bubble = row.querySelector('.msg-bubble');
+          if (bubble) bubble.classList.add('highlighted');
+          searchResults.push(idx);
+        } else {
+          textEl.innerHTML = escHtml(msg.text || '');
+          const bubble = row.querySelector('.msg-bubble');
+          if (bubble) bubble.classList.remove('highlighted');
+        }
+      }
+
+      if (visible) {
+        visiblePerDate[msg.date] = (visiblePerDate[msg.date] || 0) + 1;
+      }
+    });
+
+    // show/hide date dividers based on whether they have visible messages
+    dateDividers.forEach(div => {
+      const date = div.dataset.date;
+      div.style.display = visiblePerDate[date] ? '' : 'none';
+    });
+
+    // update search count
+    const countEl = document.getElementById('search-count');
+    if (q) {
+      countEl.textContent = searchResults.length > 0 ? `${searchResults.length} result${searchResults.length>1?'s':''}` : 'No results';
+    } else {
+      countEl.textContent = '';
+    }
+
+    // no-results
+    const noResults = document.getElementById('no-results');
+    const anyVisible = Object.keys(visiblePerDate).length > 0;
+    noResults.classList.toggle('visible', !anyVisible);
+  }
+
+  function highlightText(text, q) {
+    const escaped = escHtml(text);
+    const ql = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp(ql.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi'), m => `<mark>${m}</mark>`);
+  }
+
+  // ── search UI ─────────────────────────────────────────────────
+  const searchToggle = document.getElementById('search-toggle-btn');
+  const searchBar = document.getElementById('search-bar');
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
+
+  searchToggle.addEventListener('click', () => {
+    searchBar.classList.toggle('open');
+    if (searchBar.classList.contains('open')) {
+      searchInput.focus();
+    } else {
+      clearSearch();
+    }
+  });
 
   searchInput.addEventListener('input', () => {
-    doSearch(searchInput.value);
+    searchQuery = searchInput.value;
+    applyFilters();
   });
 
-  nextBtn.addEventListener('click', () => {
-    if (matchIndices.length === 0) return;
-    currentMatch = (currentMatch + 1) % matchIndices.length;
-    highlightCurrent();
+  searchClear.addEventListener('click', () => {
+    clearSearch();
+    searchInput.focus();
   });
 
-  prevBtn.addEventListener('click', () => {
-    if (matchIndices.length === 0) return;
-    currentMatch = (currentMatch - 1 + matchIndices.length) % matchIndices.length;
-    highlightCurrent();
-  });
-
-  clearBtn.addEventListener('click', () => {
+  function clearSearch() {
+    searchQuery = '';
     searchInput.value = '';
-    clearHighlights();
-  });
+    applyFilters();
+  }
 
-  // Keyboard shortcuts
+  // Keyboard shortcut
   document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
       e.preventDefault();
-      openSearch();
+      searchBar.classList.add('open');
+      searchInput.focus();
+      searchInput.select();
     }
     if (e.key === 'Escape') {
-      if (document.getElementById('searchBar').classList.contains('visible')) {
-        closeSearch();
-      }
-    }
-    if (e.key === 'Enter' && document.activeElement === searchInput) {
-      e.preventDefault();
-      if (e.shiftKey) {
-        prevBtn.click();
-      } else {
-        nextBtn.click();
-      }
+      searchBar.classList.remove('open');
+      clearSearch();
     }
   });
 
-  function openSearch() {
-    document.getElementById('searchBar').classList.add('visible');
-    searchInput.focus();
-    searchInput.select();
-  }
+  // ── scroll to bottom button ───────────────────────────────────
+  const messagesArea = document.getElementById('messages-area');
+  const scrollBtn = document.getElementById('scroll-btn');
 
-  function closeSearch() {
-    document.getElementById('searchBar').classList.remove('visible');
-    searchInput.value = '';
-    clearHighlights();
-  }
-
-  document.getElementById('searchToggle').addEventListener('click', () => {
-    const bar = document.getElementById('searchBar');
-    if (bar.classList.contains('visible')) {
-      closeSearch();
-    } else {
-      openSearch();
-    }
-  });
-
-  // Stats toggle
-  document.getElementById('statsToggle').addEventListener('click', () => {
-    document.getElementById('statsBar').classList.toggle('visible');
-  });
-
-  // Scroll to bottom button
-  const messagesEl = document.getElementById('messages');
-  const scrollBtn = document.getElementById('scrollBtn');
-
-  messagesEl.addEventListener('scroll', () => {
-    const atBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight < 80;
+  messagesArea.addEventListener('scroll', () => {
+    const atBottom = messagesArea.scrollHeight - messagesArea.scrollTop - messagesArea.clientHeight < 80;
     scrollBtn.classList.toggle('visible', !atBottom);
   });
 
   scrollBtn.addEventListener('click', () => {
-    messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+    messagesArea.scrollTo({ top: messagesArea.scrollHeight, behavior: 'smooth' });
   });
 
-  // Scroll to bottom on load
-  requestAnimationFrame(() => {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  });
+  // ── init ──────────────────────────────────────────────────────
+  buildStats();
+  buildChips();
+  buildMessages();
+  applyFilters();
 
+  // scroll to bottom on load
+  setTimeout(() => {
+    messagesArea.scrollTop = messagesArea.scrollHeight;
+  }, 50);
 })();
 </script>
 </body>

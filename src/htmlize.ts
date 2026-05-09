@@ -14,41 +14,49 @@
  *  - LLM designs *the experience* (what UI, what filters, what shape)
  *  - Code injects *the data* (whole file, no truncation)
  */
+import * as fs from "node:fs/promises"
+import * as path from "node:path"
+import { fileURLToPath } from "node:url"
 import type { ConverterOptions, LlmHelper, ParsedFile } from "./types.js"
 
-const SYSTEM_PROMPT = `You are designing a single self-contained HTML page that is the **best possible reading and interaction experience** for a specific file's content.
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const SKILL_PROMPTS_DIR = path.resolve(__dirname, "..", "skill", "prompts")
+
+const BASE_PROMPT = `You are designing a single self-contained HTML page that is the **best possible reading and interaction experience** for the specific content in front of you.
 
 You are not converting the file — you are designing the right reading UX *for this content*. Same content type means different layouts depending on shape:
-- A 2-person friend chat → bubble timeline grouped by day, simple search
+- A 2-person friend chat → bubble timeline grouped by day
 - A 200-person Slack channel → folded by sender, top-contributors view
 - A 50-row sales CSV → sortable table
-- A 50,000-row CSV → paginated/virtualized + summary charts
-- A 5-page recipe PDF → recipe card UI; a 500-page report → TOC + reading view
+- A 50,000-row CSV → summary charts + virtualized rows
 
 Produce a complete \`<!doctype html>\` document with these properties:
 1. **Single file.** Inline ALL CSS in <style>, ALL JS in <script>. No external resources except a Google Font import if useful (pick one). No CDNs for libraries.
 2. **Mobile-first responsive.** Looks right on phone, scales up.
-3. **Light + dark mode** via prefers-color-scheme. Tasteful, modern type. System fonts as fallback.
+3. **Light + dark mode** via prefers-color-scheme. Tasteful, modern type.
 4. **Search and copy by default.** Cmd-F-style search box that filters or highlights. Copy buttons where they help.
-5. **Interactive only when it helps.** Sort columns, filter senders, toggle views, jump to date — yes. Animations for animations' sake — no.
-6. **Self-contained.** Must work offline by double-clicking the file. No network calls at runtime.
+5. **Self-contained.** Must work offline by double-clicking the file.
 
-The full data is given to you as a JSON object, but **embed it via the literal placeholder \`__DATA__\`** inside a <script> tag like:
+The full data is given to you as a JSON object, but **embed it via the literal placeholder \`__DATA__\`** inside a <script> tag:
 \`\`\`
 <script>const DATA = __DATA__;</script>
 \`\`\`
-The host program will substitute \`__DATA__\` with the full data after you respond. You only see a sample, but write the JS to handle the *full* shape (use the schema described in the user message).
+The host program will substitute \`__DATA__\` with the full data after you respond. You only see a sample, but write JS that handles the *full* shape using the schema in the user message.
 
-Return ONLY the HTML, starting with \`<!doctype html>\`. No markdown fences. No commentary. No leading "Here is the HTML:" — just the document.`
+Return ONLY the HTML, starting with \`<!doctype html>\`. No markdown fences, no commentary.`
 
 export async function htmlize(
   parsed: ParsedFile,
   llm: LlmHelper,
   options: ConverterOptions = {},
 ): Promise<string> {
-  const userPrompt = buildUserPrompt(parsed, options)
+  // Load source-specific guidance from skill/prompts/<contentType>.md so the
+  // skill (Claude Code mode) and the CLI share the same source-of-truth.
+  // Falls back to default.md if no specific prompt exists for this type.
+  const sourcePrompt = await loadSourcePrompt(parsed.contentType)
+  const userPrompt = buildUserPrompt(parsed, options, sourcePrompt)
 
-  const raw = await llm.ask(`${SYSTEM_PROMPT}\n\n---\n\n${userPrompt}`, {
+  const raw = await llm.ask(`${BASE_PROMPT}\n\n---\n\n${userPrompt}`, {
     model: options.model || "claude-sonnet-4-6",
     maxTokens: options.maxTokens ?? 16384,
   })
@@ -63,25 +71,48 @@ export async function htmlize(
   return injectData(html, parsed.data)
 }
 
-function buildUserPrompt(parsed: ParsedFile, options: ConverterOptions): string {
+function buildUserPrompt(parsed: ParsedFile, options: ConverterOptions, sourcePrompt: string): string {
   const title = options.title || parsed.meta.sourceFile.replace(/\.[^.]+$/, "")
   return [
     `Content type: ${parsed.contentType}`,
     `Summary: ${parsed.summary}`,
     `Document title: ${title}`,
     "",
-    "Schema and stats (use these to design the layout — they describe the FULL data, not just the sample below):",
+    "## Source-specific guidance",
+    sourcePrompt,
+    "",
+    "## Schema + stats",
+    "(Describes the FULL data, not just the sample below.)",
     "```json",
     JSON.stringify(parsed.meta, null, 2),
     "```",
     "",
-    "Representative sample (the FULL data has the same shape; design for the full data):",
+    "## Representative sample",
+    "(The FULL data has the same shape; design for the full data.)",
     "```json",
     JSON.stringify(parsed.sample, null, 2).slice(0, 16000),
     "```",
     "",
     "Now produce the HTML.",
   ].join("\n")
+}
+
+async function loadSourcePrompt(contentType: string): Promise<string> {
+  const candidates = [
+    `${contentType}.md`,                                         // exact
+    `${contentType.replace(/-(chat|tabular|document|data)$/, "")}.md`, // strip suffix
+    "default.md",
+  ]
+  const seen = new Set<string>()
+  for (const name of candidates) {
+    if (seen.has(name)) continue
+    seen.add(name)
+    const filepath = path.join(SKILL_PROMPTS_DIR, name)
+    try {
+      return await fs.readFile(filepath, "utf8")
+    } catch { /* try next candidate */ }
+  }
+  return ""
 }
 
 function injectData(html: string, data: unknown): string {
