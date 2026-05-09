@@ -19,20 +19,37 @@ export function makeLlm(): LlmHelper | null {
 }
 
 function makeClaude(apiKey: string): LlmHelper {
+  // Two credential shapes are accepted:
+  //   - sk-ant-api…   regular API key  → sent as `x-api-key`
+  //   - sk-ant-oat…   OAuth access token (Claude Code / desktop) →
+  //                   sent as `Authorization: Bearer …` with the
+  //                   `oauth-2025-04-20` beta header. Lets developers
+  //                   reuse the credentials they already have without
+  //                   provisioning a separate API key.
+  const isOAuth = apiKey.startsWith("sk-ant-oat")
   return {
     async ask(prompt, opts = {}) {
+      const headers: Record<string, string> = {
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      }
+      if (isOAuth) {
+        headers.authorization = `Bearer ${apiKey}`
+        headers["anthropic-beta"] = "oauth-2025-04-20"
+      } else {
+        headers["x-api-key"] = apiKey
+      }
+      const body: Record<string, unknown> = {
+        model: opts.model || "claude-sonnet-4-6",
+        max_tokens: opts.maxTokens ?? 16384,
+        messages: [{ role: "user", content: prompt }],
+      }
+      // OAuth tokens scoped to Claude Code require this system identifier.
+      if (isOAuth) body.system = "You are Claude Code, Anthropic's official CLI for Claude."
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: {
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          model: opts.model || "claude-sonnet-4-6",
-          max_tokens: opts.maxTokens ?? 16384,
-          messages: [{ role: "user", content: prompt }],
-        }),
+        headers,
+        body: JSON.stringify(body),
       })
       if (!res.ok) throw new Error(`anthropic ${res.status}: ${(await res.text()).slice(0, 200)}`)
       const json = await res.json() as { content?: Array<{ type: string; text?: string }> }
