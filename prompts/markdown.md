@@ -1,40 +1,47 @@
 # markdown — long-form text
 
-A markdown document. Parser extracted headings, word count, and the opening.
+Long-form documents (essays, articles, reports, guides). Don't just
+render the markdown — extract what the user wants to take away.
 
-## Layout decisions by shape
+## Headline (top of the page)
 
-Look at `meta.wordCount`, `meta.headingCount`, and the headings list:
+- **3-bullet TL;DR** — three concise observations the LLM extracts
+  from the opening + headings + sample. Each one sentence. Concrete,
+  not vague (no "this article discusses…").
+- **Pulled quotes** — 2–4 sentences from the body that the LLM thinks
+  are the strongest lines, set as styled callouts in serif italics.
+- **Reading time + word count** — small meta line in the header.
 
-- **< 500 words, no headings** → single hero card. No TOC.
-- **500–3000 words, ≤ 5 headings** → centered single column, max-width
-  ~720px. Headings get anchored, no separate TOC.
-- **> 3000 words OR > 8 headings** → 2-column layout on desktop:
-  sticky TOC on the left, content in the middle. Mobile: TOC collapses
-  into a "On this page" dropdown at the top.
-- **Code-heavy** (> 5 fenced code blocks) → add inline syntax highlighting
-  via a tiny highlighter (no external CDN — write a 50-line tokenizer
-  for the most common languages, or just monospace with a subtle
-  background and copy button).
+## Section navigation (left rail on desktop)
 
-## Tone choices
+If `meta.headingCount > 5`, render a left-rail TOC with one-line
+summaries the LLM writes for each major section. Mobile: collapses to
+a "Jump to" dropdown at the top.
 
-The opening tells you what tone to use. Match it:
+For shorter documents (≤ 5 headings), skip the TOC. Anchored
+headings only.
 
-- **Personal essay / blog post** → serif body (Iowan Old Style,
-  Garamond fallback), generous leading, warm dark-mode colors.
-- **Technical doc / spec** → sans-serif system font, tight leading,
-  monospace inline code with subtle background.
-- **README / project doc** → sans body, more visible structure (boxed
-  code blocks, accent color for callouts).
+## The full body (drill-down)
+
+The full markdown rendered as a clean reading view in the main column.
+Use `var(--font-body)` for body, `var(--font-headline)` for headings.
+Max width ~720px. Generous line-height (1.6).
+
+Inline syntax highlighting for code blocks (~50-line tokenizer for
+common languages: js/ts/py/sh/json/markdown). No external highlighter.
 
 ## Always include
 
-- Heading anchors with `#` link on hover.
-- Reading-time estimate ("4 min read") in the header.
-- Top search box that filters paragraphs/sections in real time.
-- Cmd-F-style scroll-to-match.
-- "Copy as Markdown" button (the data already has the source markdown).
+- Cmd-F-style search that highlights matches in the body.
+- "Copy as Markdown" of the full document (`DATA.markdown` is the source).
+- Print-friendly stylesheet.
+
+## Tone
+
+Match the document. A personal essay → serif body, generous leading,
+warm dark mode. A technical spec → tighter sans, clear headings, mono
+inline code with subtle background. Use the same Clockless tokens
+either way; only the typographic register shifts.
 
 ## Data shape
 
@@ -49,7 +56,7 @@ DATA = {
 }
 ```
 
-The `markdown` field is the source you should render. Pick a small
-client-side renderer (write inline ~50 lines that handles headings,
-paragraphs, lists, blockquotes, code fences, inline code, bold, italic,
-links). Don't pull a CDN library.
+The `markdown` field is the source — render it client-side with a tiny
+inline parser (~80 lines covers headings, paragraphs, lists, blockquotes,
+code fences, inline code, bold, italic, links). Don't pull a CDN
+library.

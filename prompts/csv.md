@@ -1,31 +1,41 @@
 # csv — tabular data
 
-CSV / TSV. Parser detected the separator and identified numeric columns.
+Don't render the table as the headline. **Analyze first, table second.**
 
-## Layout decisions by shape
+## Headline (top of the page)
 
-Look at `meta.rowCount`, `meta.columnCount`, `meta.numericColumns`:
+Look at the schema, the numeric columns list, and the sample rows.
+Infer the story:
 
-- **< 200 rows** → full table on the page. Sortable headers. Sticky
-  header on scroll. Numeric columns right-aligned.
-- **200 – 5,000 rows** → full table with virtualized scroll OR
-  client-side pagination (50 rows per page). Filter input per column.
-- **> 5,000 rows** → summary panel at top (totals, averages, top values
-  per column for top numeric column), then a virtualized scroll table.
-  Search filters across all columns.
-- **Lots of numeric columns (> 3)** → add a small chart at the top
-  (bar/line) showing the dominant numeric column over time/category if
-  there's a date or category column. Use Canvas, not SVG, for > 1000
-  rows of data points.
+- **Summary card** — total rows, column count, the dominant numeric
+  column's total / mean / range, the most common categorical value.
+  Format like "$215,820 across 46 orders · West region leads with 38%
+  · top product: Espresso Machine".
+- **Outlier callouts** — pick 1–3 rows that stand out (highest revenue,
+  unusual region, off-trend date). One sentence each, anchored to the
+  cell content.
 
-## Always include
+## Visualizations (3–5, picked from the data shape)
 
-- Sticky header. Click any column to sort asc/desc. Numeric columns
-  use numeric compare; others alphabetical.
-- Top search box that filters rows by any cell content.
-- Row count + active filter status above the table.
-- Numeric columns right-aligned with `font-variant-numeric: tabular-nums`.
-- Truncate long cells with ellipsis; show full content on hover or click.
+- **Category bar chart** — the dominant categorical column × the
+  dominant numeric column (e.g. revenue per region). Sort descending.
+- **Time series** — if there's a date column, line / area chart of the
+  numeric column over time. Highlight peaks.
+- **Donut / stacked bar** — proportion of one categorical column,
+  capped at top 6 + "other".
+- **Distribution histogram** — for a numeric column with reasonable spread.
+- **Top N ranked list** — top 5 or 10 rows by the dominant numeric
+  column, as a small ranked list (not a full table).
+
+Render charts as inline SVG (no Chart.js, no CDNs). Use Clockless
+brand palette per `_design.md`. Up to 6 colors per chart.
+
+## The full table (drill-down)
+
+Below the analysis, a collapsible section labeled "Browse all N rows"
+with the full sortable + searchable table. Numeric columns
+right-aligned, tabular-nums. For files > 5,000 rows, virtualize the
+rows (render only what's visible). DATA is already inlined.
 
 ## Data shape
 
@@ -46,5 +56,6 @@ DATA = {
 
 ## Tone
 
-Data-dense, tight. System-mono for numerics. Clean utilitarian look —
-no unnecessary chrome.
+Analytical first, dry second. Headline copy is **observational
+sentences**, not column labels. Use mono for IDs and numerics. The
+table is the drill-down, not the show.

@@ -44,26 +44,33 @@ client-side rendering of the drill-down sections.
    - URL: match against patterns (github.com/owner/repo, medium.com/*,
      substack.com/*, etc.) (`WebFetch` the URL).
 
-2. **Look up the matching prompt** in `prompts/<source-type>.md`. The
-   prompt contains source-specific guidance for design decisions and the
-   data shape you'll work with. If no specific prompt fits, use
-   `prompts/default.md`.
+2. **Read [`prompts/_design.md`](./prompts/_design.md) first.** It has
+   the Clockless design tokens (colors, fonts, spacing, radius, shadow
+   scales, the Google Fonts import line) every output must use. Apply
+   these regardless of source type. They are non-negotiable so all
+   html-anything outputs feel like one product line.
 
-3. **Read a sample, not the whole thing.** ~5–15 KB is plenty.
+3. **Look up the matching source prompt** in `prompts/<source-type>.md`.
+   The source prompt covers what's specific to this content type
+   (analytical structure, data shape, choice of visualizations).
+   If no specific prompt fits, use `prompts/default.md`.
+
+4. **Read a sample, not the whole thing.** ~5–15 KB is plenty.
    - Tabular data: header + first 5 rows + last 2 rows + column stats.
    - Chat: first 8 + last 4 messages + sender list.
    - Long text: first 1500 chars + headings + word count.
    - URL article: first 2-3K chars of the rendered text + meta.
    - Repo: README + tree + 3 key files.
 
-4. **Design the page**, following the source-specific prompt's guidance.
-   Include:
-   - Light + dark mode (via `prefers-color-scheme`).
+5. **Design the page**, applying the design tokens from `_design.md`
+   plus the source-specific guidance. Universal requirements:
+   - Light + dark mode via `prefers-color-scheme` (tokens cover both).
    - Mobile-first responsive layout.
-   - Search box that filters or highlights matching content.
+   - Search where the content has searchable items.
    - "Copy as Markdown" button where it makes sense.
-   - Single self-contained HTML — inline CSS, inline JS, no external
-     dependencies except a Google Font import if useful.
+   - Single self-contained HTML — inline CSS, inline JS. The only
+     external resource allowed is the Google Fonts import in
+     `_design.md` (Space Grotesk + Plus Jakarta Sans).
 
 5. **Inline the full data.** Embed it as a JSON literal:
    ```html

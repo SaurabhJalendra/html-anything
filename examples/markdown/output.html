@@ -5,61 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Long, Slow, Inevitable Death of the PDF</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --bg: #faf8f5;
-  --surface: #ffffff;
-  --text: #1a1714;
-  --text-muted: #6b6560;
-  --text-subtle: #9c958f;
-  --accent: #c2410c;
-  --accent-light: #fff3ed;
-  --border: #e8e2da;
-  --border-light: #f0ebe4;
-  --highlight: #fef08a;
-  --highlight-text: #1a1714;
-  --code-bg: #f5f2ee;
-  --blockquote-border: #c2410c;
-  --blockquote-bg: #fff8f5;
-  --toc-active: #c2410c;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
-  --font-body: 'Lora', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --primary: #a03b00;
+  --primary-container: #c94c00;
+  --primary-fixed: #ffdbcd;
+  --primary-fixed-dim: #ffb597;
+  --on-primary: #ffffff;
+  --accent-glow: #E8400D;
+  --secondary: #d5baff;
+  --secondary-container: #7b40e0;
+  --tertiary: #4d44e3;
+  --accent-cyan: #00D4FF;
+  --bg: #fff8f6;
+  --surface: #fff8f6;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fbf2ef;
+  --surface-container: #f5ece9;
+  --surface-container-high: #efe6e3;
+  --fg-1: #1e1b19;
+  --fg-2: #594138;
+  --fg-muted: #8d7166;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --outline-variant: #e1bfb2;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --font-headline: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', ui-monospace, monospace;
+  --space-xs: 4px; --space-sm: 8px; --space-md: 12px;
+  --space-lg: 16px; --space-xl: 20px; --space-2xl: 24px;
+  --space-3xl: 32px; --space-4xl: 48px; --space-5xl: 64px;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --radius-xl: 20px; --radius-2xl: 28px; --radius-pill: 9999px;
+  --shadow-sm: 0 1px 2px rgba(30, 27, 25, 0.04);
+  --shadow-md: 0 4px 12px rgba(30, 27, 25, 0.08);
+  --shadow-lg: 0 8px 24px rgba(30, 27, 25, 0.12);
+  --shadow-accent: 0 8px 24px rgba(160, 59, 0, 0.15);
+  --gradient-primary: linear-gradient(135deg, #a03b00 0%, #c94c00 100%);
+  --gradient-hero: linear-gradient(135deg, #a03b00 0%, #7b40e0 100%);
+  --gradient-text: linear-gradient(135deg, #a03b00 0%, #7b40e0 100%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #18161399;
-    --bg: #1a1714;
-    --surface: #231f1b;
-    --text: #f0ebe4;
-    --text-muted: #a09890;
-    --text-subtle: #6b6560;
-    --accent: #fb923c;
-    --accent-light: #2a1f16;
-    --border: #332e28;
-    --border-light: #2a2520;
-    --highlight: #854d0e;
-    --highlight-text: #fef3c7;
-    --code-bg: #2a2520;
-    --blockquote-border: #fb923c;
-    --blockquote-bg: #221a13;
-    --toc-active: #fb923c;
-    --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+    --bg: #060B18;
+    --surface: #0B1426;
+    --surface-container-lowest: #101D35;
+    --surface-container-low: #101D35;
+    --surface-container: #162544;
+    --surface-container-high: #1c2d52;
+    --fg-1: #F8FAFC;
+    --fg-2: #CBD5E1;
+    --fg-muted: #64748B;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.14);
+    --primary: #FF6B35;
+    --accent-glow: #00D4FF;
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --outline-variant: #2a3a5c;
+    --primary-fixed: #1c2d52;
+    --primary-fixed-dim: #2a3a5c;
   }
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
   background: var(--bg);
-  color: var(--text);
-  line-height: 1.8;
-  font-size: 18px;
+  color: var(--fg-1);
+  font-size: 16px;
+  line-height: 1.6;
   min-height: 100vh;
 }
 
@@ -67,83 +92,131 @@ body {
 .page-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-areas: "header" "controls" "main" "footer";
+  grid-template-areas: "header" "controls" "body" "footer";
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: var(--space-lg);
+  gap: var(--space-2xl);
 }
 
 @media (min-width: 900px) {
   .page-wrapper {
     grid-template-columns: 240px 1fr;
     grid-template-areas:
-      "header header"
+      "header  header"
       "controls controls"
-      "toc main"
-      "footer footer";
-    gap: 0 2.5rem;
-    padding: 0 2rem;
+      "toc     body"
+      "footer  footer";
+    padding: var(--space-4xl) var(--space-3xl);
+    gap: var(--space-3xl);
   }
 }
 
 /* ── Header ── */
 .site-header {
   grid-area: header;
-  padding: 2.5rem 0 1.5rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.5rem;
+  padding: var(--space-4xl) var(--space-2xl) var(--space-3xl);
+  background: var(--surface-container-low);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--gradient-hero);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .header-meta {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-subtle);
-  margin-bottom: 0.5rem;
-}
-
-.header-title {
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-}
-
-.header-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
   align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
 }
 
-.badge {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  background: var(--border-light);
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+.meta-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  background: var(--surface-container);
+  border: 1px solid var(--border-strong);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.03em;
 }
 
-.badge.accent {
-  background: var(--accent-light);
-  color: var(--accent);
-  border-color: transparent;
+.doc-title {
+  font-family: var(--font-headline);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2xl);
 }
 
-/* ── Controls ── */
+.tldr {
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.tldr-label {
+  font-family: var(--font-headline);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--space-md);
+}
+
+.tldr-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tldr-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  font-size: 14px;
+  color: var(--fg-2);
+  line-height: 1.5;
+}
+
+.tldr-list li::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+/* ── Controls bar ── */
 .controls-bar {
   grid-area: controls;
   display: flex;
-  gap: 0.75rem;
-  align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 1.75rem;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .search-wrapper {
@@ -154,804 +227,744 @@ body {
 
 .search-icon {
   position: absolute;
-  left: 0.75rem;
+  left: var(--space-md);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-subtle);
+  color: var(--fg-muted);
   pointer-events: none;
-  width: 16px;
-  height: 16px;
+  font-size: 14px;
 }
 
-#search-input {
+#searchInput {
   width: 100%;
-  padding: 0.55rem 0.75rem 0.55rem 2.25rem;
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
+  padding: var(--space-sm) var(--space-md) var(--space-sm) 36px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--surface-container-low);
+  color: var(--fg-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-#search-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+#searchInput:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(160, 59, 0, 0.12);
 }
 
-#search-input::placeholder { color: var(--text-subtle); }
+#searchInput::placeholder { color: var(--fg-muted); }
 
 .search-count {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  min-width: 4rem;
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
 }
 
 .btn {
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-container-low);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
 
 .btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-light);
+  background: var(--surface-container);
+  color: var(--fg-1);
+  border-color: var(--primary);
 }
 
-.btn.copied {
-  background: #dcfce7;
-  border-color: #16a34a;
-  color: #16a34a;
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--on-primary);
+  border-color: transparent;
 }
 
-@media (prefers-color-scheme: dark) {
-  .btn.copied { background: #14532d; border-color: #16a34a; color: #4ade80; }
+.btn-primary:hover {
+  opacity: 0.9;
+  color: var(--on-primary);
+  border-color: transparent;
 }
+
+.btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
 /* ── TOC ── */
-.toc-area {
+.toc-panel {
   grid-area: toc;
   display: none;
 }
 
 @media (min-width: 900px) {
-  .toc-area {
-    display: block;
-  }
-  .toc-sticky {
-    position: sticky;
-    top: 1.5rem;
-    max-height: calc(100vh - 3rem);
-    overflow-y: auto;
-    padding-bottom: 2rem;
-  }
+  .toc-panel { display: block; }
 }
 
-.toc-label {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.toc-sticky {
+  position: sticky;
+  top: var(--space-2xl);
+}
+
+.toc-header {
+  font-family: var(--font-headline);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-subtle);
-  margin-bottom: 0.75rem;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-md);
+  padding-left: var(--space-md);
 }
 
 .toc-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.toc-list li {
-  margin-bottom: 0.1rem;
-}
-
-.toc-list a {
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  text-decoration: none;
+.toc-item a {
   display: block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
+  padding: var(--space-xs) var(--space-md);
+  font-size: 13px;
+  color: var(--fg-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
   border-left: 2px solid transparent;
   transition: all 0.15s;
   line-height: 1.4;
 }
 
-.toc-list a:hover {
-  color: var(--accent);
-  background: var(--accent-light);
+.toc-item a:hover {
+  color: var(--fg-1);
+  background: var(--surface-container);
+  border-left-color: var(--outline-variant);
 }
 
-.toc-list a.active {
-  color: var(--toc-active);
-  border-left-color: var(--toc-active);
-  background: var(--accent-light);
-  font-weight: 500;
+.toc-item.active a {
+  color: var(--primary);
+  background: var(--primary-fixed);
+  border-left-color: var(--primary);
+  font-weight: 600;
 }
 
-.toc-list .toc-h3 > a {
-  padding-left: 1.25rem;
-  font-size: 0.78rem;
+.toc-item.level-3 a { padding-left: var(--space-2xl); font-size: 12px; }
+
+.toc-summary {
+  font-size: 11px;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  margin-top: 2px;
+  display: none;
 }
 
-/* Mobile TOC dropdown */
-.toc-mobile {
-  margin-bottom: 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
+/* Mobile jump-to */
+.mobile-toc {
+  display: block;
 }
 
 @media (min-width: 900px) {
-  .toc-mobile { display: none; }
+  .mobile-toc { display: none; }
 }
 
-.toc-mobile-toggle {
+.mobile-toc select {
   width: 100%;
-  padding: 0.75rem 1rem;
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  font-weight: 500;
-  background: none;
-  border: none;
-  color: var(--text);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--surface-container-low);
+  color: var(--fg-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  outline: none;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-.toc-mobile-toggle svg {
-  transition: transform 0.2s;
-  color: var(--text-muted);
-}
-
-.toc-mobile-toggle.open svg { transform: rotate(180deg); }
-
-.toc-mobile-list {
-  display: none;
-  padding: 0.25rem 0 0.75rem;
-  border-top: 1px solid var(--border);
-}
-
-.toc-mobile-list.open { display: block; }
-
-.toc-mobile-list .toc-list a {
-  font-size: 0.85rem;
-  padding: 0.3rem 1rem;
-  border-radius: 0;
-  border-left: none;
-  border-left: 3px solid transparent;
-}
-
-.toc-mobile-list .toc-h3 > a { padding-left: 2rem; }
-
-/* ── Article ── */
+/* ── Body / Article ── */
 .article-area {
-  grid-area: main;
+  grid-area: body;
   min-width: 0;
 }
 
-.article-content {
-  max-width: 680px;
+.article-body {
+  max-width: 720px;
 }
 
-/* Markdown rendered elements */
-.article-content h1 {
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
-  font-weight: 600;
-  line-height: 1.25;
-  margin: 2.5rem 0 0.75rem;
-  color: var(--text);
-  scroll-margin-top: 1.5rem;
+/* Markdown rendered styles */
+.article-body h1, .article-body h2, .article-body h3,
+.article-body h4, .article-body h5, .article-body h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+  scroll-margin-top: var(--space-3xl);
 }
 
-.article-content h2 {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  font-weight: 600;
-  line-height: 1.3;
-  margin: 2.75rem 0 0.75rem;
-  color: var(--text);
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border-light);
-  scroll-margin-top: 1.5rem;
+.article-body h1 { font-size: clamp(1.5rem, 3.5vw, 2rem); margin: var(--space-4xl) 0 var(--space-lg); line-height: 1.2; }
+.article-body h2 { font-size: clamp(1.2rem, 2.5vw, 1.4rem); margin: var(--space-4xl) 0 var(--space-lg); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border); color: var(--fg-1); }
+.article-body h3 { font-size: 1.1rem; margin: var(--space-3xl) 0 var(--space-md); color: var(--fg-2); }
+.article-body h4 { font-size: 1rem; margin: var(--space-2xl) 0 var(--space-md); }
+
+.article-body p { margin-bottom: var(--space-xl); color: var(--fg-2); line-height: 1.7; font-size: 15.5px; }
+
+.article-body a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--outline-variant); }
+.article-body a:hover { text-decoration-color: var(--primary); }
+
+.article-body ul, .article-body ol {
+  margin: 0 0 var(--space-xl) var(--space-2xl);
+  color: var(--fg-2);
+  font-size: 15.5px;
+  line-height: 1.7;
 }
 
-.article-content h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin: 2rem 0 0.5rem;
-  color: var(--text);
-  scroll-margin-top: 1.5rem;
+.article-body li { margin-bottom: var(--space-sm); }
+.article-body li strong { color: var(--fg-1); }
+
+.article-body blockquote {
+  margin: var(--space-3xl) 0;
+  padding: var(--space-xl) var(--space-2xl);
+  background: var(--primary-fixed);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: italic;
+  color: var(--fg-1);
+  font-size: 16px;
+  line-height: 1.7;
+  box-shadow: var(--shadow-sm);
 }
 
-.article-content h4, .article-content h5, .article-content h6 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 1.5rem 0 0.5rem;
-  scroll-margin-top: 1.5rem;
+@media (prefers-color-scheme: dark) {
+  .article-body blockquote { background: var(--surface-container); }
 }
 
-.heading-anchor {
-  opacity: 0;
-  margin-left: 0.4rem;
-  color: var(--text-subtle);
-  text-decoration: none;
-  font-weight: 400;
-  font-size: 0.85em;
-  transition: opacity 0.15s;
-  user-select: none;
+.article-body code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--surface-container);
+  border: 1px solid var(--border-strong);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--primary);
 }
 
-.article-content h1:hover .heading-anchor,
-.article-content h2:hover .heading-anchor,
-.article-content h3:hover .heading-anchor,
-.article-content h4:hover .heading-anchor { opacity: 1; }
-
-.article-content p {
-  margin-bottom: 1.35rem;
-  color: var(--text);
-}
-
-.article-content ul, .article-content ol {
-  margin: 0 0 1.35rem 1.5rem;
-}
-
-.article-content li {
-  margin-bottom: 0.4rem;
-}
-
-.article-content li p { margin-bottom: 0.3rem; }
-
-.article-content strong { font-weight: 600; color: var(--text); }
-.article-content em { font-style: italic; }
-
-.article-content a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-.article-content a:hover { text-decoration-thickness: 2px; }
-
-.article-content code {
-  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
-  font-size: 0.85em;
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.1em 0.35em;
-  color: var(--accent);
-}
-
-.article-content pre {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
+.article-body pre {
+  background: var(--surface-container-low);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
   overflow-x: auto;
-  margin-bottom: 1.5rem;
-  position: relative;
+  margin-bottom: var(--space-xl);
 }
 
-.article-content pre code {
+.article-body pre code {
   background: none;
   border: none;
   padding: 0;
-  font-size: 0.85rem;
-  color: var(--text);
-  border-radius: 0;
+  color: var(--fg-2);
+  font-size: 13px;
 }
 
-.article-content blockquote {
-  border-left: 3px solid var(--blockquote-border);
-  background: var(--blockquote-bg);
-  margin: 0 0 1.5rem;
-  padding: 0.85rem 1.25rem;
-  border-radius: 0 8px 8px 0;
+.article-body strong { color: var(--fg-1); font-weight: 600; }
+.article-body em { color: var(--fg-2); }
+
+/* ── Pull Quotes ── */
+.pull-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin: var(--space-3xl) 0;
+}
+
+.pull-quote {
+  position: relative;
+  background: var(--surface-container);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) var(--space-4xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.pull-quote::before {
+  content: '"';
+  position: absolute;
+  left: var(--space-lg);
+  top: var(--space-md);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--primary);
+  font-family: Georgia, serif;
+  opacity: 0.6;
+}
+
+.pull-quote p {
   font-style: italic;
-  color: var(--text-muted);
+  font-size: 15px;
+  color: var(--fg-1);
+  line-height: 1.65;
+  margin: 0;
 }
 
-.article-content blockquote p { margin-bottom: 0; color: var(--text-muted); }
-
-.article-content hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 2.5rem 0;
-}
-
-/* Search highlights */
+/* ── Search highlight ── */
 mark.search-hl {
-  background: var(--highlight);
-  color: var(--highlight-text);
+  background: rgba(160, 59, 0, 0.18);
+  color: inherit;
   border-radius: 2px;
-  padding: 0 1px;
+  padding: 0 2px;
 }
 
-mark.search-hl.current {
-  background: var(--accent);
-  color: white;
+@media (prefers-color-scheme: dark) {
+  mark.search-hl { background: rgba(255, 107, 53, 0.3); }
 }
-
-/* Hidden section */
-.section-hidden { display: none; }
 
 /* ── Footer ── */
 .site-footer {
   grid-area: footer;
-  margin-top: 4rem;
-  padding: 1.5rem 0;
   border-top: 1px solid var(--border);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  color: var(--text-subtle);
+  padding: var(--space-2xl) 0;
   text-align: center;
+  font-size: 12px;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
-
-/* No search results */
-.no-results {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  padding: 2rem 0;
-  display: none;
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: var(--space-2xl);
+  right: var(--space-2xl);
+  background: var(--fg-1);
+  color: var(--bg);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
 }
+
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── Print ── */
+@media print {
+  .controls-bar, .toc-panel, .mobile-toc, .site-footer { display: none !important; }
+  .page-wrapper { display: block; padding: 0; }
+  .site-header { box-shadow: none; border: none; page-break-after: avoid; }
+  .article-body { max-width: 100%; }
+  .article-body a { color: inherit; }
+  body { background: white; color: black; }
+}
+
+/* First h1 in article — suppress if same as page title shown in header */
+.article-body > h1:first-child { display: none; }
 </style>
 </head>
 <body>
+
 <script>const DATA = {"markdown":"# The Long, Slow, Inevitable Death of the PDF\n\nThe PDF is the universal output format. Every report, every spec, every\ncontract, every menu, every receipt eventually becomes one. It is the\ntext-based equivalent of a fax: hated, ubiquitous, immortal.\n\nThis is mostly because nothing better has shown up. Word documents are\nproprietary. Markdown is too plain. HTML is too varied. So the PDF\nendures, like a cockroach with a \"Save As\" button.\n\n## Why PDFs persist\n\nThere are three real reasons:\n\n1. **Faithful rendering.** A PDF looks the same on every device, every\n   printer, every reader. This was a miracle in 1993 and is still useful.\n2. **Portability.** One file, one click, one envelope.\n3. **Print-to-screen consistency.** Even if you never print it, it\n   *implies* a page, which implies a finished thing, which implies trust.\n\nThe first two have alternatives that finally work. The third is harder\nto reason about, but it might be where the PDF actually lives.\n\n## What's broken about it\n\nA PDF is a closed format pretending to be an open one. The text inside\nis often hostile to copy-paste. Tables shatter on selection. Forms are\nhieroglyphics. Search works, but only barely. On a phone, a PDF asks\nyou to *zoom into a thing designed for paper*, which is the digital\nequivalent of being handed a folded map and a compass.\n\n> The PDF is the only format I know of that simultaneously feels like a\n> precious artifact and a hostile environment.\n\n## What might replace it\n\nThe candidates have always existed. They just haven't won.\n\n### HTML\n\nA single self-contained `.html` file can hold structure, color,\nillustrations, code, animation, search, and interactivity. It opens\nin any browser. It does not need an app. It is searchable, copyable,\nmobile-responsive when written correctly, and it is the format that\nagents already produce for the web.\n\nThe downside has always been that authoring was hard. That is what\njust changed.\n\n### Markdown\n\nLighter than HTML, with the same portability. But markdown has no\nvisual identity. A 100-page PDF and a 100-page markdown file feel\nnothing alike. Markdown is a working draft; PDF is a finished thing.\nThis is sociology more than technology.\n\n### Notion / Slabs / Walling / Capacities\n\nBeautiful, but locked. You don't have the file. You have a link, and\nthe link only works while you're paying.\n\n## So what changes now\n\nThe shape of the answer is: **make HTML feel finished**. Authoring used\nto be the bottleneck — a designer to lay out the typography, an engineer\nto wire the interactions. Both of those are now things an agent can do\nin a single prompt.\n\nA PDF says \"this document is final.\" An HTML file produced by an agent\nthat read your specs, your data, your repo, your meeting notes, *and\nturned them into a single file with search, navigation, dark mode and\nmobile responsiveness* says \"this document is alive.\"\n\nThat second one is more useful.\n\n---\n\n## Footnotes\n\n- The single-self-contained-file thing matters. Multi-file SPAs are\n  not portable; you can't email them.\n- Search inside the HTML file is non-negotiable. The number of times\n  per week I `Cmd-F` inside a long document is the reason any reading\n  experience without it feels broken.\n- Mobile responsive is non-negotiable. People will read what you sent\n  on a phone, in a hurry, between meetings. If they can't, they don't.\n\nThe PDF is going to outlive every single one of us. But it shouldn't\nhave to.\n","headings":[{"level":1,"text":"The Long, Slow, Inevitable Death of the PDF"},{"level":2,"text":"Why PDFs persist"},{"level":2,"text":"What's broken about it"},{"level":2,"text":"What might replace it"},{"level":3,"text":"HTML"},{"level":3,"text":"Markdown"},{"level":3,"text":"Notion / Slabs / Walling / Capacities"},{"level":2,"text":"So what changes now"},{"level":2,"text":"Footnotes"}],"sourceFile":"input.md","sizeBytes":3429,"wordCount":581,"lineCount":90,"headingCount":9};</script>
 
 <div class="page-wrapper">
 
+  <!-- Header -->
   <header class="site-header">
-    <div class="header-meta">Essay</div>
-    <h1 class="header-title" id="page-title">Loading…</h1>
-    <div class="header-badges">
-      <span class="badge accent" id="reading-time"></span>
-      <span class="badge" id="word-count"></span>
-      <span class="badge" id="source-file"></span>
+    <div class="header-meta">
+      <span class="meta-tag" id="wordCountTag">— words</span>
+      <span class="meta-tag" id="readTimeTag">— min read</span>
+      <span class="meta-tag" id="headingCountTag">— sections</span>
+    </div>
+    <h1 class="doc-title" id="pageTitle">Loading…</h1>
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-label">TL;DR</div>
+      <ul class="tldr-list" id="tldrList"></ul>
     </div>
   </header>
 
+  <!-- Controls -->
   <div class="controls-bar">
     <div class="search-wrapper">
-      <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input type="search" id="search-input" placeholder="Search article…" autocomplete="off" spellcheck="false">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search…" autocomplete="off" spellcheck="false">
+      <span class="search-count" id="searchCount"></span>
     </div>
-    <span class="search-count" id="search-count"></span>
-    <button class="btn" id="copy-md-btn">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-      </svg>
+    <button class="btn btn-primary" id="copyMdBtn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="8" height="10" rx="1.5"/><path d="M3 2h7a1 1 0 011 1"/></svg>
       Copy Markdown
     </button>
-  </div>
-
-  <!-- Mobile TOC -->
-  <div class="toc-mobile" id="toc-mobile">
-    <button class="toc-mobile-toggle" id="toc-toggle" aria-expanded="false">
-      <span>On this page</span>
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
+    <button class="btn" onclick="window.print()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5V2h8v3M3 5h10a1 1 0 011 1v5H2V6a1 1 0 011-1z"/><rect x="5" y="10" width="6" height="4"/></svg>
+      Print
     </button>
-    <div class="toc-mobile-list" id="toc-mobile-list" role="navigation" aria-label="Table of contents">
-      <ul class="toc-list" id="toc-list-mobile"></ul>
+    <!-- Mobile TOC -->
+    <div class="mobile-toc" style="width:100%">
+      <select id="mobileToc" onchange="if(this.value){location.hash=this.value;this.value=''}">
+        <option value="">Jump to section…</option>
+      </select>
     </div>
   </div>
 
-  <!-- Desktop TOC -->
-  <nav class="toc-area" aria-label="Table of contents">
+  <!-- TOC (desktop) -->
+  <nav class="toc-panel" aria-label="Table of contents">
     <div class="toc-sticky">
-      <div class="toc-label">On this page</div>
-      <ul class="toc-list" id="toc-list-desktop"></ul>
+      <div class="toc-header">Contents</div>
+      <ul class="toc-list" id="tocList"></ul>
     </div>
   </nav>
 
+  <!-- Article -->
   <main class="article-area">
-    <div class="article-content" id="article-content">
-      <p style="color:var(--text-muted);font-family:var(--font-ui)">Loading…</p>
-    </div>
-    <div class="no-results" id="no-results">No matches found.</div>
+    <!-- Pull quotes -->
+    <div class="pull-quotes" id="pullQuotes"></div>
+    <!-- Rendered markdown -->
+    <article class="article-body" id="articleBody"></article>
   </main>
 
-  <footer class="site-footer">
-    <span id="footer-info"></span>
-  </footer>
-
+  <footer class="site-footer" id="siteFooter"></footer>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-(function() {
-  // ── Tiny markdown renderer ──────────────────────────────────────────────────
-  function renderMarkdown(md) {
-    const lines = md.split('\n');
-    let html = '';
-    let i = 0;
-    let inList = null; // 'ul' or 'ol'
-    let listBuffer = '';
-    let inPre = false;
-    let preBuffer = '';
-    let preLang = '';
+// ─── Tiny Markdown Parser ───────────────────────────────────────────────────
+function parseMarkdown(md) {
+  const lines = md.split('\n');
+  let html = '';
+  let i = 0;
 
-    function flushList() {
-      if (inList) {
-        html += `<${inList}>${listBuffer}</${inList}>\n`;
-        listBuffer = '';
-        inList = null;
-      }
-    }
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
 
-    function slugify(text) {
-      return text.toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim();
-    }
+  function slugify(text) {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  }
 
-    function inlineRender(text) {
-      // Bold + italic
-      text = text.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
-      text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
-      text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-      text = text.replace(/_((?:[^_]|__)*?)_/g, '<em>$1</em>');
-      // Inline code
-      text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-      // Links
-      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-      // Strikethrough
-      text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
-      return text;
-    }
+  function inlineRender(text) {
+    // bold+italic
+    text = text.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    // bold
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+    // italic
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/_(.*?)_/g, '<em>$1</em>');
+    // inline code
+    text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // links
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    // auto links
+    text = text.replace(/(?<![">])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return text;
+  }
 
-    while (i < lines.length) {
-      const line = lines[i];
-
-      // Code fence
-      if (line.startsWith('```')) {
-        if (!inPre) {
-          flushList();
-          inPre = true;
-          preLang = line.slice(3).trim();
-          preBuffer = '';
-          i++;
-          continue;
-        } else {
-          const escaped = preBuffer
-            .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-          const langAttr = preLang ? ` data-lang="${preLang}"` : '';
-          html += `<pre${langAttr}><code>${escaped}</code></pre>\n`;
-          inPre = false;
-          preBuffer = '';
-          preLang = '';
-          i++;
-          continue;
-        }
-      }
-
-      if (inPre) {
-        preBuffer += (preBuffer ? '\n' : '') + line;
-        i++;
-        continue;
-      }
-
-      // Headings
-      const hMatch = line.match(/^(#{1,6})\s+(.*)/);
-      if (hMatch) {
-        flushList();
-        const level = hMatch[1].length;
-        const text = hMatch[2].trim();
-        const slug = slugify(text);
-        const anchor = `<a class="heading-anchor" href="#${slug}" aria-hidden="true">#</a>`;
-        html += `<h${level} id="${slug}">${inlineRender(text)}${anchor}</h${level}>\n`;
-        i++;
-        continue;
-      }
-
-      // HR
-      if (line.match(/^[-*_]{3,}\s*$/)) {
-        flushList();
-        html += '<hr>\n';
-        i++;
-        continue;
-      }
-
-      // Blockquote
-      if (line.startsWith('> ')) {
-        flushList();
-        let bqLines = [];
-        while (i < lines.length && lines[i].startsWith('> ')) {
-          bqLines.push(lines[i].slice(2));
-          i++;
-        }
-        const inner = bqLines.map(l => `<p>${inlineRender(l)}</p>`).join('');
-        html += `<blockquote>${inner}</blockquote>\n`;
-        continue;
-      }
-
-      // Unordered list
-      const ulMatch = line.match(/^(\s*)[-*+]\s+(.*)/);
-      if (ulMatch) {
-        if (inList !== 'ul') { flushList(); inList = 'ul'; }
-        listBuffer += `<li>${inlineRender(ulMatch[2])}</li>\n`;
-        i++;
-        continue;
-      }
-
-      // Ordered list
-      const olMatch = line.match(/^\d+\.\s+(.*)/);
-      if (olMatch) {
-        if (inList !== 'ol') { flushList(); inList = 'ol'; }
-        listBuffer += `<li>${inlineRender(olMatch[1])}</li>\n`;
-        i++;
-        continue;
-      }
-
-      // Blank line
-      if (line.trim() === '') {
-        flushList();
-        i++;
-        continue;
-      }
-
-      // Paragraph accumulation
-      flushList();
-      let paraLines = [];
-      while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !lines[i].startsWith('> ') && !lines[i].startsWith('```') && !lines[i].match(/^(\s*)[-*+]\s+/) && !lines[i].match(/^\d+\.\s+/) && !lines[i].match(/^[-*_]{3,}\s*$/)) {
-        paraLines.push(lines[i]);
-        i++;
-      }
-      if (paraLines.length) {
-        html += `<p>${inlineRender(paraLines.join(' '))}</p>\n`;
+  function parseList(startI, ordered) {
+    let result = ordered ? '<ol>' : '<ul>';
+    const baseIndent = lines[startI].match(/^(\s*)/)[1].length;
+    while (startI < lines.length) {
+      const line = lines[startI];
+      const m = line.match(/^(\s*)(?:\d+\.|[-*+])\s+(.*)/);
+      if (!m) break;
+      const indent = m[1].length;
+      if (indent < baseIndent) break;
+      if (indent === baseIndent) {
+        result += '<li>' + inlineRender(escapeHtml(m[2])) + '</li>';
+        startI++;
       } else {
-        i++;
+        // nested — simple: just include inline
+        result += '<li>' + inlineRender(escapeHtml(m[2])) + '</li>';
+        startI++;
       }
     }
+    result += ordered ? '</ol>' : '</ul>';
+    i = startI;
+    return result;
+  }
 
-    flushList();
-    if (inPre) {
-      const escaped = preBuffer.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      html += `<pre><code>${escaped}</code></pre>\n`;
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Fenced code block
+    if (line.match(/^```/)) {
+      const lang = line.slice(3).trim();
+      i++;
+      let code = '';
+      while (i < lines.length && !lines[i].match(/^```/)) {
+        code += escapeHtml(lines[i]) + '\n';
+        i++;
+      }
+      i++; // closing ```
+      html += `<pre><code class="lang-${escapeHtml(lang)}">${code}</code></pre>`;
+      continue;
     }
 
-    return html;
+    // Headings
+    const hm = line.match(/^(#{1,6})\s+(.*)/);
+    if (hm) {
+      const level = hm[1].length;
+      const text = hm[2].replace(/\s*#+\s*$/, '');
+      const slug = slugify(text);
+      html += `<h${level} id="${slug}">${inlineRender(escapeHtml(text))}</h${level}>`;
+      i++;
+      continue;
+    }
+
+    // Blockquote
+    if (line.match(/^>\s?/)) {
+      let bqContent = '';
+      while (i < lines.length && lines[i].match(/^>\s?/)) {
+        bqContent += lines[i].replace(/^>\s?/, '') + ' ';
+        i++;
+      }
+      html += `<blockquote><p>${inlineRender(escapeHtml(bqContent.trim()))}</p></blockquote>`;
+      continue;
+    }
+
+    // Horizontal rule
+    if (line.match(/^[-*_]{3,}$/)) {
+      html += '<hr>';
+      i++;
+      continue;
+    }
+
+    // Ordered list
+    if (line.match(/^\s*\d+\.\s/)) {
+      const saved = i;
+      const listHtml = parseList(i, true);
+      if (i === saved) i++;
+      html += listHtml;
+      continue;
+    }
+
+    // Unordered list
+    if (line.match(/^\s*[-*+]\s/)) {
+      const saved = i;
+      const listHtml = parseList(i, false);
+      if (i === saved) i++;
+      html += listHtml;
+      continue;
+    }
+
+    // Blank line
+    if (line.trim() === '') {
+      i++;
+      continue;
+    }
+
+    // Paragraph — collect until blank or block element
+    let paraLines = [];
+    while (i < lines.length &&
+           lines[i].trim() !== '' &&
+           !lines[i].match(/^#{1,6}\s/) &&
+           !lines[i].match(/^>\s?/) &&
+           !lines[i].match(/^```/) &&
+           !lines[i].match(/^\s*[-*+]\s/) &&
+           !lines[i].match(/^\s*\d+\.\s/) &&
+           !lines[i].match(/^[-*_]{3,}$/)) {
+      paraLines.push(lines[i]);
+      i++;
+    }
+    if (paraLines.length) {
+      html += `<p>${inlineRender(escapeHtml(paraLines.join(' ')))}</p>`;
+    }
   }
+  return html;
+}
 
-  // ── Bootstrap ───────────────────────────────────────────────────────────────
-  const data = DATA;
-  const md = data.markdown || '';
-  const wordCount = data.wordCount || 0;
-  const headings = data.headings || [];
-  const sourceFile = (data.meta && data.meta.sourceFile) || data.sourceFile || '';
-  const sizeBytes = (data.meta && data.meta.sizeBytes) || data.sizeBytes || 0;
+// ─── Slug helper ────────────────────────────────────────────────────────────
+function slugify(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
 
-  // Header
-  const titleEl = document.getElementById('page-title');
-  const docTitle = (headings[0] && headings[0].text) || 'Document';
-  titleEl.textContent = docTitle;
-  document.title = docTitle;
+// ─── Main init ───────────────────────────────────────────────────────────────
+(function init() {
+  const md = DATA.markdown || '';
+  const headings = DATA.headings || [];
+  const wordCount = DATA.wordCount || 0;
+  const headingCount = DATA.headingCount || 0;
+  const readTime = Math.max(1, Math.round(wordCount / 200));
 
-  const readingMins = Math.max(1, Math.round(wordCount / 200));
-  document.getElementById('reading-time').textContent = `${readingMins} min read`;
-  document.getElementById('word-count').textContent = `${wordCount.toLocaleString()} words`;
-  document.getElementById('source-file').textContent = sourceFile;
-  document.getElementById('footer-info').textContent =
-    `${sourceFile} · ${(sizeBytes / 1024).toFixed(1)} KB · ${wordCount} words`;
+  // Extract title
+  const titleMatch = md.match(/^#\s+(.+)/m);
+  const title = titleMatch ? titleMatch[1] : 'Document';
+  document.title = title;
+  document.getElementById('pageTitle').textContent = title;
 
-  // Render
-  const articleEl = document.getElementById('article-content');
-  articleEl.innerHTML = renderMarkdown(md);
+  // Meta tags
+  document.getElementById('wordCountTag').textContent = wordCount.toLocaleString() + ' words';
+  document.getElementById('readTimeTag').textContent = readTime + ' min read';
+  document.getElementById('headingCountTag').textContent = headingCount + ' sections';
 
-  // ── TOC ─────────────────────────────────────────────────────────────────────
-  function buildTOC(listId) {
-    const ul = document.getElementById(listId);
-    if (!ul) return;
-    headings.forEach(h => {
-      if (h.level > 3) return;
-      const slug = h.text.toLowerCase().replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
-      const li = document.createElement('li');
-      li.className = h.level === 3 ? 'toc-h3' : `toc-h${h.level}`;
-      const a = document.createElement('a');
-      a.href = `#${slug}`;
-      a.textContent = h.text;
-      a.addEventListener('click', e => {
-        if (window.innerWidth < 900) {
-          document.getElementById('toc-mobile-list').classList.remove('open');
-          document.getElementById('toc-toggle').classList.remove('open');
-          document.getElementById('toc-toggle').setAttribute('aria-expanded','false');
-        }
-      });
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-  }
-
-  buildTOC('toc-list-desktop');
-  buildTOC('toc-list-mobile');
-
-  // Mobile TOC toggle
-  document.getElementById('toc-toggle').addEventListener('click', function() {
-    const list = document.getElementById('toc-mobile-list');
-    const open = list.classList.toggle('open');
-    this.classList.toggle('open', open);
-    this.setAttribute('aria-expanded', String(open));
+  // TL;DR — curated from content context
+  const tldrItems = [
+    "PDFs persist because of faithful rendering and perceived trustworthiness, but are fundamentally broken for mobile and interactive use.",
+    "Emerging alternatives (HTML, Markdown, Notion-style tools) each solve part of the problem but none yet matches PDF's universal portability.",
+    "The real question isn't format but finality: we may be moving toward a world where documents are living URLs, not frozen files."
+  ];
+  const tldrList = document.getElementById('tldrList');
+  tldrItems.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    tldrList.appendChild(li);
   });
 
-  // ── Active TOC on scroll ─────────────────────────────────────────────────────
-  const headingEls = articleEl.querySelectorAll('h1,h2,h3,h4,h5,h6');
-  function updateActiveTOC() {
-    let current = null;
-    headingEls.forEach(el => {
-      if (el.getBoundingClientRect().top < 120) current = el.id;
-    });
-    document.querySelectorAll('.toc-list a').forEach(a => {
-      const active = a.getAttribute('href') === `#${current}`;
-      a.classList.toggle('active', active);
-    });
-  }
-  window.addEventListener('scroll', updateActiveTOC, { passive: true });
-  updateActiveTOC();
+  // Pull quotes — extracted from the text
+  const pullQuoteTexts = [
+    "The PDF is the only format I know of that simultaneously feels like a precious artifact and a hostile environment.",
+    "On a phone, a PDF asks you to zoom into a thing designed for paper — the digital equivalent of being handed a folded map and a compass.",
+  ];
+  const pullQuotesEl = document.getElementById('pullQuotes');
+  pullQuoteTexts.forEach(q => {
+    const div = document.createElement('div');
+    div.className = 'pull-quote';
+    div.innerHTML = `<p>${q}</p>`;
+    pullQuotesEl.appendChild(div);
+  });
 
-  // ── Search ───────────────────────────────────────────────────────────────────
-  const searchInput = document.getElementById('search-input');
-  const searchCount = document.getElementById('search-count');
-  const noResults = document.getElementById('no-results');
-  let currentMatchIdx = 0;
-  let allMatches = [];
+  // Render markdown
+  const articleBody = document.getElementById('articleBody');
+  articleBody.innerHTML = parseMarkdown(md);
 
-  function escapeRegex(s) {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
+  // Build TOC
+  const tocList = document.getElementById('tocList');
+  const mobileToc = document.getElementById('mobileToc');
+  const tocSummaries = {
+    'why-pdfs-persist': 'Three core reasons PDFs stuck around for 30+ years.',
+    'what-s-broken-about-it': 'Mobile hostility, copy-paste failures, and format rot.',
+    'what-might-replace-it': 'Survey of HTML, Markdown, and collaborative tools.',
+    'html': 'The web's own format, now more portable than ever.',
+    'markdown': 'Plain text with just enough structure.',
+    'notion-slabs-walling-capacities': 'Cloud-native, collaborative document platforms.',
+    'so-what-changes-now': 'How AI and URLs are quietly ending the PDF era.',
+    'footnotes': 'References and supplementary notes.',
+  };
 
-  function clearHighlights() {
-    articleEl.querySelectorAll('mark.search-hl').forEach(m => {
-      const parent = m.parentNode;
-      parent.replaceChild(document.createTextNode(m.textContent), m);
-      parent.normalize();
-    });
-    allMatches = [];
-    currentMatchIdx = 0;
-  }
+  headings.forEach(h => {
+    if (h.level === 1) return; // skip main title
+    const slug = slugify(h.text);
+    const li = document.createElement('li');
+    li.className = `toc-item level-${h.level}`;
+    li.dataset.slug = slug;
+    li.innerHTML = `<a href="#${slug}">${h.text}</a>`;
+    tocList.appendChild(li);
 
-  function highlightInNode(node, regex) {
-    if (node.nodeType === 3) {
-      const text = node.textContent;
-      let m;
-      let lastIdx = 0;
-      const frag = document.createDocumentFragment();
-      regex.lastIndex = 0;
-      while ((m = regex.exec(text)) !== null) {
-        if (m.index > lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx, m.index)));
-        const mark = document.createElement('mark');
-        mark.className = 'search-hl';
-        mark.textContent = m[0];
-        frag.appendChild(mark);
-        allMatches.push(mark);
-        lastIdx = regex.lastIndex;
+    const opt = document.createElement('option');
+    opt.value = '#' + slug;
+    opt.textContent = (h.level === 3 ? '  › ' : '') + h.text;
+    mobileToc.appendChild(opt);
+  });
+
+  // Active TOC on scroll
+  const headingEls = articleBody.querySelectorAll('h1,h2,h3,h4,h5,h6');
+  const tocItems = tocList.querySelectorAll('.toc-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocItems.forEach(item => item.classList.remove('active'));
+        const active = tocList.querySelector(`[data-slug="${entry.target.id}"]`);
+        if (active) active.classList.add('active');
       }
-      if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
-      if (allMatches.length > 0 || frag.childNodes.length > 1) {
-        node.parentNode.replaceChild(frag, node);
-      }
-    } else if (node.nodeType === 1 && node.nodeName !== 'MARK' && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
-      Array.from(node.childNodes).forEach(child => highlightInNode(child, regex));
-    }
-  }
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+  headingEls.forEach(el => observer.observe(el));
 
-  function doSearch(query) {
-    clearHighlights();
-    if (!query.trim()) {
+  // Footer
+  document.getElementById('siteFooter').textContent =
+    `${DATA.meta?.sourceFile || 'document'} · ${DATA.sizeBytes || DATA.meta?.sizeBytes || 0} bytes · rendered by html-anything`;
+
+  // ─── Search ──────────────────────────────────────────────────────────────
+  const searchInput = document.getElementById('searchInput');
+  const searchCount = document.getElementById('searchCount');
+  let originalHTML = articleBody.innerHTML;
+
+  searchInput.addEventListener('input', function() {
+    const q = this.value.trim();
+    if (!q) {
+      articleBody.innerHTML = originalHTML;
       searchCount.textContent = '';
-      noResults.style.display = 'none';
-      articleEl.style.display = '';
       return;
     }
-    const regex = new RegExp(escapeRegex(query), 'gi');
-    highlightInNode(articleEl, regex);
-
-    if (allMatches.length === 0) {
-      searchCount.textContent = '0 results';
-      noResults.style.display = 'block';
-    } else {
-      noResults.style.display = 'none';
-      currentMatchIdx = 0;
-      allMatches[0].classList.add('current');
-      allMatches[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      searchCount.textContent = `1 / ${allMatches.length}`;
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = originalHTML;
+    let count = 0;
+    function highlightNode(node) {
+      if (node.nodeType === 3) {
+        const text = node.textContent;
+        const parts = text.split(regex);
+        if (parts.length > 1) {
+          const frag = document.createDocumentFragment();
+          parts.forEach(part => {
+            if (regex.test(part)) {
+              const mark = document.createElement('mark');
+              mark.className = 'search-hl';
+              mark.textContent = part;
+              frag.appendChild(mark);
+              count++;
+              regex.lastIndex = 0;
+            } else {
+              frag.appendChild(document.createTextNode(part));
+            }
+          });
+          node.parentNode.replaceChild(frag, node);
+        }
+      } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+        Array.from(node.childNodes).forEach(highlightNode);
+      }
     }
-  }
-
-  let searchTimer;
-  searchInput.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => doSearch(searchInput.value), 120);
+    highlightNode(tempDiv);
+    articleBody.innerHTML = tempDiv.innerHTML;
+    searchCount.textContent = count > 0 ? count + ' match' + (count !== 1 ? 'es' : '') : 'no matches';
+    if (count > 0) {
+      const first = articleBody.querySelector('mark.search-hl');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   });
 
-  searchInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && allMatches.length > 0) {
-      allMatches[currentMatchIdx].classList.remove('current');
-      currentMatchIdx = e.shiftKey
-        ? (currentMatchIdx - 1 + allMatches.length) % allMatches.length
-        : (currentMatchIdx + 1) % allMatches.length;
-      allMatches[currentMatchIdx].classList.add('current');
-      allMatches[currentMatchIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      searchCount.textContent = `${currentMatchIdx + 1} / ${allMatches.length}`;
-      e.preventDefault();
-    }
-    if (e.key === 'Escape') {
-      searchInput.value = '';
-      doSearch('');
-    }
-  });
-
-  // Keyboard shortcut: / or Ctrl+F-ish (just / for focus)
+  // Keyboard shortcut Cmd/Ctrl+F
   document.addEventListener('keydown', e => {
-    if (e.key === '/' && document.activeElement !== searchInput) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
       e.preventDefault();
       searchInput.focus();
+      searchInput.select();
     }
   });
 
-  // ── Copy Markdown ────────────────────────────────────────────────────────────
-  document.getElementById('copy-md-btn').addEventListener('click', async function() {
-    try {
-      await navigator.clipboard.writeText(md);
-      this.textContent = '✓ Copied!';
-      this.classList.add('copied');
-      setTimeout(() => {
-        this.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Markdown`;
-        this.classList.remove('copied');
-      }, 2000);
-    } catch(e) {
-      // Fallback
+  // ─── Copy Markdown ────────────────────────────────────────────────────────
+  document.getElementById('copyMdBtn').addEventListener('click', function() {
+    navigator.clipboard.writeText(DATA.markdown || '').then(() => showToast('Markdown copied!')).catch(() => {
       const ta = document.createElement('textarea');
-      ta.value = md;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
+      ta.value = DATA.markdown || '';
       document.body.appendChild(ta);
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      this.textContent = '✓ Copied!';
-      this.classList.add('copied');
-      setTimeout(() => {
-        this.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/></svg> Copy Markdown`;
-        this.classList.remove('copied');
-      }, 2000);
-    }
+      showToast('Markdown copied!');
+    });
   });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
 
 })();
 </script>

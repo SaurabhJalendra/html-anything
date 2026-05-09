@@ -50,11 +50,16 @@ export async function htmlize(
   llm: LlmHelper,
   options: ConverterOptions = {},
 ): Promise<string> {
-  // Load source-specific guidance from skill/prompts/<contentType>.md so the
-  // skill (Claude Code mode) and the CLI share the same source-of-truth.
-  // Falls back to default.md if no specific prompt exists for this type.
+  // Two prompts get loaded for every conversion:
+  //   1. _design.md — Clockless design tokens (colors, fonts, spacing).
+  //      Non-negotiable; applied to every output for brand consistency.
+  //   2. <contentType>.md — source-specific guidance (what to analyze,
+  //      what to visualize, data shape). Falls back to default.md.
+  // The skill (Claude Code mode) reads the same two files, so both
+  // modes converge on identical output styling.
+  const designPrompt = await loadPromptFile("_design.md")
   const sourcePrompt = await loadSourcePrompt(parsed.contentType)
-  const userPrompt = buildUserPrompt(parsed, options, sourcePrompt)
+  const userPrompt = buildUserPrompt(parsed, options, designPrompt, sourcePrompt)
 
   const raw = await llm.ask(`${BASE_PROMPT}\n\n---\n\n${userPrompt}`, {
     model: options.model || "claude-sonnet-4-6",
@@ -71,12 +76,20 @@ export async function htmlize(
   return injectData(html, parsed.data)
 }
 
-function buildUserPrompt(parsed: ParsedFile, options: ConverterOptions, sourcePrompt: string): string {
+function buildUserPrompt(
+  parsed: ParsedFile,
+  options: ConverterOptions,
+  designPrompt: string,
+  sourcePrompt: string,
+): string {
   const title = options.title || parsed.meta.sourceFile.replace(/\.[^.]+$/, "")
   return [
     `Content type: ${parsed.contentType}`,
     `Summary: ${parsed.summary}`,
     `Document title: ${title}`,
+    "",
+    "## Design system (apply to every output, regardless of source)",
+    designPrompt,
     "",
     "## Source-specific guidance",
     sourcePrompt,
@@ -97,9 +110,17 @@ function buildUserPrompt(parsed: ParsedFile, options: ConverterOptions, sourcePr
   ].join("\n")
 }
 
+async function loadPromptFile(name: string): Promise<string> {
+  try {
+    return await fs.readFile(path.join(PROMPTS_DIR, name), "utf8")
+  } catch {
+    return ""
+  }
+}
+
 async function loadSourcePrompt(contentType: string): Promise<string> {
   const candidates = [
-    `${contentType}.md`,                                         // exact
+    `${contentType}.md`,                                              // exact
     `${contentType.replace(/-(chat|tabular|document|data)$/, "")}.md`, // strip suffix
     "default.md",
   ]
@@ -107,10 +128,8 @@ async function loadSourcePrompt(contentType: string): Promise<string> {
   for (const name of candidates) {
     if (seen.has(name)) continue
     seen.add(name)
-    const filepath = path.join(PROMPTS_DIR, name)
-    try {
-      return await fs.readFile(filepath, "utf8")
-    } catch { /* try next candidate */ }
+    const content = await loadPromptFile(name)
+    if (content) return content
   }
   return ""
 }
