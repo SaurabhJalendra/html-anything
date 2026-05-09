@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>html-anything — examples</title>
+<title>html-anything — preview</title>
 <style>
 :root {
   --bg: #faf8f5;
@@ -119,14 +119,14 @@ h2 {
 <body>
 <div class="wrap">
   <h1>html-<span>anything</span></h1>
-  <p class="tagline">Turn any file into the best HTML reading experience for that specific content — designed by an LLM.</p>
+  <p class="tagline">Turn files, folders, and URLs into self-contained interactive HTML pages — designed by an LLM for each source.</p>
 
   <div class="lede">
-    <p>Not a format converter. The same content type deserves different presentations depending on shape — a 2-person friend chat shouldn't render the same as a 200-person Slack channel. The LLM looks at a sample of the file, designs the right UI <em>for this content</em>, and writes the HTML+CSS+JS. The full data is inlined. Output is one self-contained <code>.html</code> file.</p>
+    <p>Not a format converter. The skill samples the source, finds the useful structure, designs the right UI <em>for this content</em>, then inlines the full data. Output is one self-contained <code>.html</code> file that works offline.</p>
   </div>
 
-  <pre class="cmd">$ npx html-anything chat.zip
-→ chat.html  (1 file, opens in any browser)</pre>
+  <pre class="cmd">Use html-anything on ~/Downloads/_chat.txt
+→ _chat.html  (1 file, opens in any browser)</pre>
 
   <h2>Personal / experiential exports</h2>
 
