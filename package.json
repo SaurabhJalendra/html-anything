@@ -1,0 +1,39 @@
+{
+  "name": "html-anything",
+  "version": "0.0.1",
+  "description": "Turn any file into a beautiful, interactive, shareable HTML.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "html-anything": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "test": "node --test"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "html",
+    "converter",
+    "markdown",
+    "whatsapp",
+    "pdf",
+    "csv",
+    "agent",
+    "ai",
+    "llm"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.6.0"
+  }
+}
