@@ -70,6 +70,11 @@ client-side rendering of the drill-down sections.
      (in / out / net or invoiced / paid / outstanding) + category or
      account breakdown + recurring vendors + flag cards (duplicate /
      outlier / first-time / overdue) + first 8 + last 3 rows.
+   - Geo / route (GPX / KML / itinerary / location-history): pre-
+     projected SVG polyline + bbox + km splits + elevation profile
+     + pace profile + pauses (routes); day buckets + cities + types
+     + conflict callouts (itineraries); top dwell clusters + hour-
+     of-day counts + per-day density (location history).
    - URL article: first 2-3K chars of the rendered text + meta.
    - Repo: README + tree + 3 key files.
 
@@ -127,6 +132,10 @@ client-side rendering of the drill-down sections.
 | [`prompts/obsidian-vault.md`](./prompts/obsidian-vault.md) | Directory of `.md` files cross-linked with `[[wikilinks]]` (Obsidian vaults, wiki-style notes) — concept map / backlink graph, theme clusters, hub leaderboard, TODO + stale + orphan callouts, searchable knowledge atlas |
 | [`prompts/notion-export.md`](./prompts/notion-export.md) | Notion "Markdown & CSV" workspace export — page tree mirroring Notion hierarchy, top-level page index, cross-page link counts, TODO + stale + orphan callouts, searchable atlas |
 | [`prompts/markdown-folder.md`](./prompts/markdown-folder.md) | Generic directory of `.md` files (Hugo / Jekyll content, dumped Bear exports, "Notes" folders, MkDocs `docs/`) — folder breakdown, publication timeline, longest-notes leaderboard, TODO + stale + orphan callouts, searchable atlas |
+| [`prompts/gpx.md`](./prompts/gpx.md) | `.gpx` GPX routes & workouts (Strava, Garmin, Komoot, Apple Health) — inline-SVG polyline (no map tiles), km splits, elevation profile, pace profile, pauses |
+| [`prompts/kml.md`](./prompts/kml.md) | `.kml` KML coordinates (Google Earth, Google My Maps) — inline-SVG paths + place dots, placemark list |
+| [`prompts/travel-itinerary.md`](./prompts/travel-itinerary.md) | multi-day itinerary CSVs (Date + Location + Type/Title/Time/Notes/Cost columns) — day-by-day timeline, anchor-city strip, conflict callouts, city / country / type breakdowns |
+| [`prompts/location-history.md`](./prompts/location-history.md) | Google-Takeout-style location-history JSON / flat lat-lon CSV — inline-SVG dwell map (no map tiles), top places leaderboard, hour-of-day rhythm, per-day density |
 | [`prompts/github-repo.md`](./prompts/github-repo.md) | github.com/owner/repo URLs |
 | [`prompts/url-article.md`](./prompts/url-article.md) | Blog posts, news articles, long-form web pages |
 | [`prompts/default.md`](./prompts/default.md) | Anything else |
@@ -189,6 +198,18 @@ a directory as input (`html-anything ~/Vault`) and walks it
 recursively; in skill mode, point Claude Code at the folder and it
 reads the markdown files via the standard file tools.
 
+Geo / travel sources (`gpx-route`, `kml-route`, `travel-itinerary`,
+`location-history`) also load
+[`prompts/_geo.md`](./prompts/_geo.md) — the shared contract for
+the geo pack: stats card, inline-SVG route or footprint trace,
+splits / timeline / day-by-day, waypoints / places list, and a
+searchable item drill-down. **Hard rule**: outputs are **offline-
+only** — never embed Leaflet, Mapbox, Google Maps, OpenStreetMap
+tiles, or any other tile provider. Render geometry as inline SVG
+using a cosine-corrected equirectangular projection over a faint
+graticule; the parser already pre-projects polylines into a 1000-
+wide viewBox.
+
 **Adding a new source** = drop a new `<source>.md` in `prompts/`,
 following the same shape as existing ones. No code changes, no
 registration step. The skill auto-finds it.
@@ -204,3 +225,9 @@ registration step. The skill auto-finds it.
 - **Don't write a generic template.** Read the sample. Look at the
   shape. Pick the layout that fits *this* content. A different sample of
   the same source should produce a different design.
+- **Geo outputs are tile-free.** GPX / KML / itinerary / location-
+  history pages render geometry as **inline SVG** only. Do not embed
+  Leaflet, Mapbox, Google Maps, OpenStreetMap tiles, or any other
+  basemap provider. The parser pre-projects coordinates into a
+  cosine-corrected viewBox so polylines + place dots line up; add a
+  faint graticule rather than a tile background.

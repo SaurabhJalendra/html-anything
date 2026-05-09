@@ -367,3 +367,114 @@ test("knowledge-base family prompts are present on disk", async () => {
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
 })
+
+test("geo parser ingests a synthetic GPX run with stats + splits + elevation profile", async () => {
+  const fp = path.join(REPO, "examples/run-route/input.gpx")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "geo")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "gpx-route")
+  assert.equal(out.meta.format, "gpx")
+  assert.ok(out.meta.pointCount >= 100, `expected >= 100 trkpts, got ${out.meta.pointCount}`)
+  assert.ok(out.meta.distanceKm >= 5, `expected >= 5 km, got ${out.meta.distanceKm}`)
+  assert.equal(out.data.kind, "route")
+  // Single track with computed stats.
+  assert.equal(out.data.tracks.length, 1)
+  const track = out.data.tracks[0]
+  assert.ok(track.stats.distanceKm > 0)
+  assert.ok(track.stats.movingSec > 0, "expected movingSec from timestamps")
+  assert.ok(track.stats.movingPaceSecPerKm > 0)
+  assert.ok(track.stats.elevationGainM > 0, "expected non-trivial elevation gain")
+  // Splits per km.
+  assert.ok(track.splits.length >= 5, `expected >= 5 km splits, got ${track.splits.length}`)
+  for (const s of track.splits) {
+    assert.ok(s.km >= 1)
+    assert.ok(s.paceSecPerKm > 0)
+  }
+  // Elevation + pace profile.
+  assert.ok(track.elevationProfile.length > 0, "expected elevation profile")
+  assert.ok(track.paceProfile && track.paceProfile.length > 0, "expected pace profile")
+  // Polyline is an SVG-ready string with viewBox + points.
+  assert.ok(track.polyline.includes("viewBox="), "polyline missing viewBox")
+  assert.ok(track.polyline.includes("points="), "polyline missing points")
+  // The synthetic generator inserts a 38s pause near km 4.2.
+  assert.ok(track.pauses && track.pauses.length >= 1, "expected at least one pause")
+  // Waypoints survived from the <wpt> tags.
+  assert.ok(out.data.waypoints.length >= 5, `expected >= 5 waypoints, got ${out.data.waypoints.length}`)
+})
+
+test("geo parser ingests a multi-day itinerary CSV with day buckets + conflict detection", async () => {
+  const fp = path.join(REPO, "examples/itinerary-trip/input.csv")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "geo")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "travel-itinerary")
+  assert.equal(out.meta.format, "itinerary-csv")
+  assert.ok(out.meta.itemCount >= 25, `expected >= 25 items, got ${out.meta.itemCount}`)
+  assert.equal(out.data.kind, "itinerary")
+  // Day buckets cover the full trip span.
+  assert.ok(out.data.days.length >= 7, `expected >= 7 days, got ${out.data.days.length}`)
+  // Cities + countries surfaced.
+  assert.ok(out.data.cities.length >= 4, `expected >= 4 cities, got ${out.data.cities.length}`)
+  assert.ok(out.data.countries.length >= 2, `expected USA + Japan, got ${out.data.countries.length}`)
+  // The 18:30 onsen / 19:00 dinner conflict on Day 4 must be flagged.
+  assert.ok(out.data.conflicts.length >= 1, "expected at least one same-day conflict")
+  const onsenConflict = out.data.conflicts.find(c => c.items.some(it => /onsen/i.test(it.title || "")))
+  assert.ok(onsenConflict, "expected the Tofuku-ji onsen / Pontocho dinner conflict to surface")
+  // Type breakdown picks up flights / hotels / restaurants / activities.
+  const typeNames = out.data.types.map(t => t.name)
+  for (const expected of ["flight", "hotel", "restaurant", "activity", "transport"]) {
+    assert.ok(typeNames.includes(expected), `missing type bucket: ${expected} (got ${typeNames.join(", ")})`)
+  }
+  // Cost rollup populated.
+  assert.ok(typeof out.data.totals.totalCost === "number" && out.data.totals.totalCost > 1000)
+})
+
+test("geo parser detects KML + GPX by extension+content", async () => {
+  const { parser } = await import("../../dist/parse/geo.js")
+  const fs = await import("node:fs/promises")
+  const tmpDir = path.join(REPO, "src/parse")
+  // Cheapest possible KML + GPX heads.
+  const kmlPath = path.join(tmpDir, "_test_kml.kml")
+  const gpxPath = path.join(tmpDir, "_test_gpx.gpx")
+  await fs.writeFile(kmlPath, '<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>x</name></Document></kml>\n')
+  await fs.writeFile(gpxPath, '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1"><metadata><name>x</name></metadata></gpx>\n')
+  try {
+    assert.equal(await parser.detect(kmlPath), true)
+    assert.equal(await parser.detect(gpxPath), true)
+  } finally {
+    await fs.unlink(kmlPath)
+    await fs.unlink(gpxPath)
+  }
+})
+
+test("geo parser refuses generic data CSVs (no date+location signal)", async () => {
+  const { parser } = await import("../../dist/parse/geo.js")
+  const fp = path.join(REPO, "examples/csv/input.csv")
+  // The generic sales CSV has no location / city / destination column.
+  const ok = await parser.detect(fp)
+  assert.equal(ok, false, "geo parser should not claim a generic sales CSV")
+})
+
+test("registry exposes geo parser before planning + finance + csv", async () => {
+  const { parsers } = await import("../../dist/parse/index.js")
+  const names = parsers.map(p => p.name)
+  const geoIdx = names.indexOf("geo")
+  const planningIdx = names.indexOf("planning")
+  const financeIdx = names.indexOf("finance")
+  const csvIdx = names.indexOf("csv")
+  assert.ok(geoIdx >= 0, `parsers missing 'geo' — got ${names.join(", ")}`)
+  assert.ok(geoIdx < planningIdx, "geo must come before planning")
+  assert.ok(geoIdx < financeIdx, "geo must come before finance")
+  assert.ok(geoIdx < csvIdx, "geo must come before csv")
+})
+
+test("geo family prompts are present on disk", async () => {
+  const fs = await import("node:fs/promises")
+  const expectedPrompts = ["_geo.md", "gpx.md", "kml.md", "travel-itinerary.md", "location-history.md"]
+  for (const name of expectedPrompts) {
+    const p = path.join(REPO, "prompts", name)
+    const stat = await fs.stat(p)
+    assert.ok(stat.isFile(), `missing prompt file: ${name}`)
+  }
+})

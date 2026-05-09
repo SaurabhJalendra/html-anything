@@ -218,6 +218,33 @@ function familyFor(contentType: string): string | null {
   ) {
     return "_knowledge_base.md"
   }
+  // Research / reading-list sources (browser bookmarks HTML exports,
+  // BibTeX / RIS bibliographies, plain URL lists, Pocket / Instapaper /
+  // Raindrop reading-list exports) share the topic-clusters /
+  // domain-leaderboard / duplicate-and-stale-callouts / reading-queue /
+  // searchable-cards contract — and the hard rule that outputs are
+  // offline-only (no URL fetching at render time).
+  if (
+    contentType === "bookmarks-html" ||
+    contentType === "bibliography" ||
+    contentType === "url-list" ||
+    contentType === "reading-list"
+  ) {
+    return "_research.md"
+  }
+  // Geo / travel sources (GPX routes & workouts, KML coordinates,
+  // multi-day travel itineraries, Google-Takeout-style location
+  // history) share the route-or-place visualization / stats / timeline
+  // / searchable-waypoints contract — and the hard rule that outputs
+  // are offline-only (no map tiles).
+  if (
+    contentType === "gpx-route" ||
+    contentType === "kml-route" ||
+    contentType === "travel-itinerary" ||
+    contentType === "location-history"
+  ) {
+    return "_geo.md"
+  }
   return null
 }
 

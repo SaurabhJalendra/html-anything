@@ -25,6 +25,7 @@ import { parser as developerArtifactParser } from "./developer-artifact.js"
 import { parser as logParser } from "./log.js"
 import { parser as planningParser } from "./planning.js"
 import { parser as financeParser } from "./finance.js"
+import { parser as geoParser } from "./geo.js"
 import { parser as textParser } from "./text.js"
 
 export const parsers: Parser[] = [
@@ -35,6 +36,7 @@ export const parsers: Parser[] = [
   discordParser,            // .json / .csv — DiscordChatExporter
   telegramParser,           // .json — Telegram Desktop result.json
   imessageParser,           // .csv — iMessage-style / generic multi-sender chat
+  geoParser,                // .gpx / .kml — routes; .csv (travel itinerary) / .json (location history)
   planningParser,           // .ics / .json (Trello) / .csv (Linear/Jira/GitHub issue trackers)
   financeParser,            // .csv / .tsv — bank txns, invoices, QuickBooks/Xero GL & P&L
   jsonlParser,              // .jsonl / .ndjson; also detects line-delimited JSON in .json/.log/.txt
