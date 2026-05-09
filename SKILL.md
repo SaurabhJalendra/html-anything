@@ -71,6 +71,7 @@ Then **inline the full data into the HTML**.
 | [`prompts/whatsapp.md`](./prompts/whatsapp.md) | WhatsApp `_chat.txt` export |
 | [`prompts/csv.md`](./prompts/csv.md) | CSV / TSV tabular data |
 | [`prompts/markdown.md`](./prompts/markdown.md) | Markdown documents |
+| [`prompts/json.md`](./prompts/json.md) | JSON data files |
 | [`prompts/github-repo.md`](./prompts/github-repo.md) | github.com/owner/repo URLs |
 | [`prompts/url-article.md`](./prompts/url-article.md) | Blog posts, news articles, long-form web pages |
 | [`prompts/default.md`](./prompts/default.md) | Anything else |

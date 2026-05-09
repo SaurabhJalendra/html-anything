@@ -20,7 +20,7 @@ import { fileURLToPath } from "node:url"
 import type { ConverterOptions, LlmHelper, ParsedFile } from "./types.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const SKILL_PROMPTS_DIR = path.resolve(__dirname, "..", "skill", "prompts")
+const PROMPTS_DIR = path.resolve(__dirname, "..", "prompts")
 
 const BASE_PROMPT = `You are designing a single self-contained HTML page that is the **best possible reading and interaction experience** for the specific content in front of you.
 
@@ -107,7 +107,7 @@ async function loadSourcePrompt(contentType: string): Promise<string> {
   for (const name of candidates) {
     if (seen.has(name)) continue
     seen.add(name)
-    const filepath = path.join(SKILL_PROMPTS_DIR, name)
+    const filepath = path.join(PROMPTS_DIR, name)
     try {
       return await fs.readFile(filepath, "utf8")
     } catch { /* try next candidate */ }
