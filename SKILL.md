@@ -1,6 +1,7 @@
 ---
 name: html-anything
-description: Turn any file or URL into a single self-contained HTML page that is the best reading and interaction experience for THAT specific content. Trigger on "convert to HTML", "render as HTML", "make a webpage from", or when the user provides a file/URL alongside a request to view/share it nicely.
+description: Turn any file or URL into a single self-contained interactive HTML page designed for THIS specific content (not a generic format conversion).
+when_to_use: User says "convert to HTML", "render as HTML", "make a webpage from", asks for an "interactive" or "browsable" version of a file, or pastes a file path / URL with a request to view, share, or read it nicely.
 ---
 
 # html-anything

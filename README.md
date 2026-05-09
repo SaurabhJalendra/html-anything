@@ -1,5 +1,7 @@
 # html-anything
 
+[![skills.sh](https://skills.sh/b/clockless-org/html-anything)](https://skills.sh/clockless-org/html-anything)
+
 > Turn any file or URL into a single self-contained HTML page that's the
 > **best reading experience for that specific content** — designed by an
 > LLM, written as one self-contained `.html` you can email, share, or host.
@@ -24,13 +26,22 @@ agents**: if HTML is what humans read best, agents should produce HTML —
 [thariq]: https://x.com/trq212
 [cli-anything]: https://github.com/HKUDS/CLI-Anything
 
-## Install (one line)
+## Install
+
+Pick whichever:
+
+```bash
+npx skills add clockless-org/html-anything                # via the open-skills CLI
+```
 
 ```bash
 git clone --depth 1 https://github.com/clockless-org/html-anything ~/.claude/skills/html-anything
 ```
 
-That's it. Claude Code picks up [`SKILL.md`](./SKILL.md) automatically.
+Either works. Claude Code picks up [`SKILL.md`](./SKILL.md) automatically.
+Other agents (Codex, Cursor, Cline, …) that follow the
+[Agent Skills](https://agentskills.io) standard work the same way.
+
 Then in any session:
 
 > Convert this WhatsApp export to HTML: ~/Downloads/_chat.txt
@@ -38,9 +49,6 @@ Then in any session:
 > Render https://github.com/clockless-org/html-anything as a one-page explainer
 
 > Make a webpage out of this CSV: data.csv
-
-Other agents (Codex, Cursor, Cline, …) that read markdown skill specs:
-drop the same folder wherever your agent picks up skills.
 
 ## See it
 
