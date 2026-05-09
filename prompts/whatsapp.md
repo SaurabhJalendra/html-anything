@@ -4,6 +4,28 @@ A WhatsApp export. The output is **not a chat viewer** — it's an
 infographic that shows the user *what their relationship with this
 person/group looks like*, with the messages themselves as a drill-down.
 
+## Export instructions (surface to the user before converting)
+
+If the user said "convert my WhatsApp chat" without giving you a file:
+
+**On iPhone**:
+1. Open WhatsApp → tap the chat name at the top → scroll down → **Export Chat**.
+2. Choose **Without Media** unless they specifically want photos / voice
+   inlined (it makes the file 100× larger and most renderings don't use
+   them).
+3. Save to Files / share to themselves via Mail or AirDrop. They'll get
+   a `.zip` containing `_chat.txt`. Unzip it.
+4. Drop the `_chat.txt` path into Claude Code: "convert this".
+
+**On Android**:
+1. Open WhatsApp → open the chat → ⋮ menu → **More** → **Export chat**.
+2. Choose Without Media.
+3. Save to phone storage or share to themselves. Same `.zip` shape.
+
+For a **group chat**, the same flow works — `senderCount` will be > 2
+and the prompt will pivot to the group-shape visualizations
+automatically.
+
 ## What to surface (the headline of the page)
 
 Look at the sample (first 8 + last 4 messages, sender stats,

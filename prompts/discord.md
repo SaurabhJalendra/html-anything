@@ -4,6 +4,31 @@ The shared multi-chat contract above (heatmap, leaderboard, decisions,
 topics, drill-down) applies fully. This file adds Discord-specific
 notes.
 
+## Export instructions (surface to the user before converting)
+
+If the user said "convert my Discord channel" without giving you a file:
+
+Discord doesn't have a built-in channel exporter, but
+[**DiscordChatExporter**](https://github.com/Tyrrrz/DiscordChatExporter)
+is the standard community tool. Two ways to run it:
+
+**GUI (easiest)**:
+1. Download DiscordChatExporter from the GitHub releases page.
+2. Get a Discord user token (the GUI walks them through it — DevTools →
+   Network tab → look for the `authorization` header on any request).
+3. Pick the channel, choose **Format: JSON**, click Export.
+
+**CLI**:
+```bash
+DiscordChatExporter.Cli export -t <user-token> -c <channel-id> -f Json
+```
+
+The output JSON is what this prompt's data-shape section expects.
+Heads-up to remind the user: exporting a server they don't own is
+allowed for personal use under Discord's TOS but distributing the
+export isn't. The HTML output is single-file local — fine to keep,
+but think before sharing.
+
 ## What's distinctive about Discord data
 
 - **Many casual senders, long tail.** Community servers often have 20+

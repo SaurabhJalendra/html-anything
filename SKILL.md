@@ -117,6 +117,10 @@ client-side rendering of the drill-down sections.
 
 | Prompt file | When |
 |---|---|
+| [`prompts/google-maps-stars.md`](./prompts/google-maps-stars.md) | Google Maps stars / saved places (via Google Takeout) — interactive personal world atlas |
+| [`prompts/spotify-history.md`](./prompts/spotify-history.md) | Spotify Privacy export (Account Data or Extended Streaming History) — year-by-year scroll experience |
+| [`prompts/twitch-history.md`](./prompts/twitch-history.md) | Twitch data request export (viewing history + chat) — top streamers wall, chat heatmap |
+| [`prompts/iphone-health.md`](./prompts/iphone-health.md) | Apple Health `export.zip` (export.xml + workout-routes/) — personal health story with rings + sleep + routes |
 | [`prompts/whatsapp.md`](./prompts/whatsapp.md) | WhatsApp `_chat.txt` export — 1:1 / small-group relationship framing |
 | [`prompts/slack.md`](./prompts/slack.md) | Slack channel JSON export — multi-sender pack: heatmap, leaderboard, threaded drill-down |
 | [`prompts/discord.md`](./prompts/discord.md) | DiscordChatExporter JSON / CSV — community-server pack: leaderboard with long-tail, reply chains, emoji signature |

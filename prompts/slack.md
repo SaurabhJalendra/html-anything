@@ -3,6 +3,29 @@
 The shared multi-chat contract above (heatmap, leaderboard, decisions,
 topics, drill-down) applies fully. This file adds Slack-specific notes.
 
+## Export instructions (surface to the user before converting)
+
+If the user said "convert my Slack channel" without giving you a file:
+
+**Workspace owner / admin** (full export):
+1. Go to `<workspace>.slack.com/services/export` (or
+   Workspace Settings → Import / Export Data → Export tab).
+2. Pick a date range and click **Start Export**. Slack emails a `.zip`
+   when ready (a few minutes for small workspaces, longer for big ones).
+3. Unzip — each public channel becomes a folder of `YYYY-MM-DD.json`
+   files. Concatenate one channel's daily files into a single array, or
+   point the converter at one daily file to start.
+
+**Non-admin** (single channel, smaller scope): use a tool like
+[slackdump](https://github.com/rusq/slackdump) or
+[slack-export-viewer](https://github.com/hfaran/slack-export-viewer) to
+export a channel they have access to. The output JSON shape is
+compatible.
+
+For DMs and private channels, only the user themselves (or a
+workspace owner with the right legal hold scope) can export. Be
+explicit if they're trying to export someone else's content.
+
 ## What's distinctive about Slack data
 
 - **Threads are the unit of work.** A busy product channel is mostly

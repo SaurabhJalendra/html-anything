@@ -4,6 +4,25 @@ The shared multi-chat contract above (heatmap, leaderboard, decisions,
 topics, drill-down) applies fully. This file adds Telegram-specific
 notes.
 
+## Export instructions (surface to the user before converting)
+
+If the user said "convert my Telegram chat" without giving you a file:
+
+Use **Telegram Desktop** (the official app on macOS / Windows / Linux —
+mobile clients can't export):
+
+1. Open Telegram Desktop → click on the chat.
+2. Click the ⋮ menu (top right of the chat) → **Export chat history**.
+3. Uncheck media unless they want it (photos / videos / voice notes can
+   make the export huge). Keep **Format: JSON**.
+4. Pick a date range, choose where to save, click **Export**.
+5. Wait — Telegram throttles big exports (it pauses with a 24-hour
+   delay if you export too much at once; they'll see a countdown).
+6. The output is `result.json`. Drop the path into Claude Code.
+
+For groups and channels, the same flow works — `senderCount` will be
+larger and the prompt pivots to the group / channel visualizations.
+
 ## What's distinctive about Telegram data
 
 - **Personal chats, groups, and channels are different surfaces.** The

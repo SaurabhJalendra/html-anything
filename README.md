@@ -2,23 +2,31 @@
 
 [![skills.sh](https://skills.sh/b/clockless-org/html-anything)](https://skills.sh/clockless-org/html-anything)
 
-> An agent skill that turns any file or URL into an **interactive HTML
-> infographic** — the AI analyzes the content, finds the patterns, and
-> designs a single self-contained page that shows you *what's actually
-> there*. Not a format converter.
+> An [Agent Skill](https://agentskills.io) that turns **anything** —
+> any file, any URL, any export from any service — into a single
+> self-contained interactive HTML page. The AI walks you through
+> exporting the data, then designs a page where you can *re-experience
+> it*: scrollable maps, scrubbable timelines, year-in-review replays,
+> infographics. Not a format converter.
 
 ```
-WhatsApp export    → relationship timeline + topic clusters + reply-time graph + emoji map
-CSV (50K rows)     → summary charts + sortable table + outlier callouts
-Long PDF           → key claims extracted + section nav + a 5-min summary view
-DOCX memo          → decisions, action items, and open questions surfaced first
-Meeting transcript → talk-time bars + decisions + action items + jumpable cues
-GitHub repo        → architecture diagram + file tree + the 3 files that explain it
+your WhatsApp chat       → relationship timeline + reply-time + emoji map
+your Google Maps stars   → personal world atlas, clickable, hover-to-explore
+your Spotify history     → year-by-year scroll of the music in your life
+your Twitch viewing      → top streamers wall + chat heatmap + watch timeline
+your Apple Health export → activity rings + sleep arc + workout routes
+a 50K-row CSV            → summary charts + outlier callouts + sortable table
+a long PDF / DOCX        → key claims, decisions & action items surfaced first
+a meeting transcript     → talk-time bars + decisions + jumpable cues
+a GitHub repo            → architecture sketch + file tree + key files
 ```
 
-Drop in a file, get back a `.html` you can open, email, share, or host.
+The skill **teaches you how to export the data first** (most services
+hide this) — then converts. Drop in a file or paste a URL, get back a
+`.html` you can open, email, share, or host.
 
 [See live examples →](https://clockless-org.github.io/html-anything/examples/) ·
+[Supported sources ↓](#supported-sources) ·
 [How it works ↓](#how-it-works) ·
 [Add a source ↓](#contributing)
 
@@ -102,11 +110,26 @@ share a single source of truth.
 
 ## Supported sources
 
-Each source has a dedicated prompt in
-[`prompts/`](./prompts) describing layout decisions and the
-data shape Claude should design for.
+Each source has a dedicated prompt in [`prompts/`](./prompts) — most
+also include `## Export instructions` describing how the user gets the
+data out of the source app or service in the first place. The skill
+walks you through it.
 
-| Prompt | Triggered by | Example output |
+**Personal / experiential sources** — turn your data exports into
+something you'd actually want to revisit:
+
+| Prompt | Source | The output |
+|---|---|---|
+| [`google-maps-stars.md`](./prompts/google-maps-stars.md) | Google Maps stars (Takeout) | personal world atlas — clickable map, city breakdowns, "places I want to know" |
+| [`spotify-history.md`](./prompts/spotify-history.md) | Spotify Privacy export | year-by-year scroll, top artists per year, lifetime heatmap, discoveries timeline |
+| [`twitch-history.md`](./prompts/twitch-history.md) | Twitch viewing & chat export | top streamers wall, watch timeline, chat heatmap, emote signature |
+| [`iphone-health.md`](./prompts/iphone-health.md) | Apple Health `export.zip` | activity rings, sleep arc, workout calendar + routes, personal records |
+| [`gpx.md`](./prompts/gpx.md) | `.gpx` workouts (Strava / Garmin / Komoot / Apple) | route trace + km splits + elevation + pause callouts |
+| [`travel-itinerary.md`](./prompts/travel-itinerary.md) | trip CSVs (TripIt-style, Wanderlog, Notion) | day-by-day timeline + city / type breakdowns + conflict callouts |
+
+**Conversations & messaging** — most need a 2–4 step export the skill teaches:
+
+| Prompt | Source | The output |
 |---|---|---|
 | [`whatsapp.md`](./prompts/whatsapp.md) | `_chat.txt` exports (detected by content) | bubble timeline, sender filter, date jump |
 | [`slack.md`](./prompts/slack.md) | Slack channel JSON export (top-level array of `{ ts, user, text }` messages, or workspace-zip `messages.json`) | activity heatmap, contributor leaderboard, threaded drill-down, decisions / action items, broadcast (`@here`/`@channel`) callouts |

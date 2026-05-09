@@ -24,6 +24,7 @@ import { parser as docxParser } from "./docx.js"
 import { parser as developerArtifactParser } from "./developer-artifact.js"
 import { parser as logParser } from "./log.js"
 import { parser as planningParser } from "./planning.js"
+import { parser as sensitiveParser } from "./sensitive.js"
 import { parser as financeParser } from "./finance.js"
 import { parser as researchParser } from "./research.js"
 import { parser as geoParser } from "./geo.js"
@@ -39,6 +40,7 @@ export const parsers: Parser[] = [
   imessageParser,           // .csv — iMessage-style / generic multi-sender chat
   geoParser,                // .gpx / .kml — routes; .csv (travel itinerary) / .json (location history)
   planningParser,           // .ics / .json (Trello) / .csv (Linear/Jira/GitHub issue trackers)
+  sensitiveParser,          // .csv (lab-results), .md/.markdown (medical-visit, legal-chronology) — must run before finance & markdown
   financeParser,            // .csv / .tsv — bank txns, invoices, QuickBooks/Xero GL & P&L
   researchParser,           // .html (bookmarks) / .bib / .ris / .txt (URL lists) / .csv|.json (reading lists)
   jsonlParser,              // .jsonl / .ndjson; also detects line-delimited JSON in .json/.log/.txt
