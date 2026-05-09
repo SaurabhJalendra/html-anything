@@ -39,10 +39,15 @@ client-side rendering of the drill-down sections.
 
 ## Behavior
 
-1. **Identify the source.**
-   - File: use extension + content sniff (`Read` the file).
-   - URL: match against patterns (github.com/owner/repo, medium.com/*,
-     substack.com/*, etc.) (`WebFetch` the URL).
+1. **Identify the source the user wants converted.**
+   - If they pasted a path or URL → confirm it (file exists, URL fetches).
+   - If they named a *kind* of data ("my WhatsApp chat", "my Spotify
+     history", "my Google Maps stars", "my Twitch viewing history"):
+     **don't ask for the file yet.** First read the matching source
+     prompt's `## Export instructions` section and walk them through
+     getting the data. Most data sources need a 2–4 step export from the
+     source app or service before there's a file to convert. The skill
+     does this onboarding *first*; the conversion is the second half.
 
 2. **Read [`prompts/_design.md`](./prompts/_design.md) first.** It has
    the Clockless design tokens (colors, fonts, spacing, radius, shadow
@@ -52,8 +57,9 @@ client-side rendering of the drill-down sections.
 
 3. **Look up the matching source prompt** in `prompts/<source-type>.md`.
    The source prompt covers what's specific to this content type
-   (analytical structure, data shape, choice of visualizations).
-   If no specific prompt fits, use `prompts/default.md`.
+   (analytical structure, data shape, choice of visualizations, and
+   often `## Export instructions` for how the user gets the data in the
+   first place). If no specific prompt fits, use `prompts/default.md`.
 
 4. **Read a sample, not the whole thing.** ~5–15 KB is plenty.
    - Tabular data: header + first 5 rows + last 2 rows + column stats.
@@ -79,7 +85,14 @@ client-side rendering of the drill-down sections.
    - Repo: README + tree + 3 key files.
 
 5. **Design the page**, applying the design tokens from `_design.md`
-   plus the source-specific guidance. Universal requirements:
+   plus the source-specific guidance. Aim for a page that lets the
+   user **re-experience** their data — not just read it. An infographic
+   is the floor, not the ceiling: where the content supports it, push
+   into interactive maps, scrubbable timelines, "year in review" style
+   replays, hover-to-reveal storytelling, animated reveals on scroll.
+   The user should leave saying *"I lived through this again"*, not
+   *"I saw a chart"*.
+   Universal requirements:
    - Light + dark mode via `prefers-color-scheme` (tokens cover both).
    - Mobile-first responsive layout.
    - Search where the content has searchable items.
@@ -136,6 +149,10 @@ client-side rendering of the drill-down sections.
 | [`prompts/kml.md`](./prompts/kml.md) | `.kml` KML coordinates (Google Earth, Google My Maps) — inline-SVG paths + place dots, placemark list |
 | [`prompts/travel-itinerary.md`](./prompts/travel-itinerary.md) | multi-day itinerary CSVs (Date + Location + Type/Title/Time/Notes/Cost columns) — day-by-day timeline, anchor-city strip, conflict callouts, city / country / type breakdowns |
 | [`prompts/location-history.md`](./prompts/location-history.md) | Google-Takeout-style location-history JSON / flat lat-lon CSV — inline-SVG dwell map (no map tiles), top places leaderboard, hour-of-day rhythm, per-day density |
+| [`prompts/bookmarks.md`](./prompts/bookmarks.md) | Netscape-format bookmarks HTML exports (Chrome / Firefox / Safari / Edge / Pinboard / Raindrop) — research audit: topic clusters, top-domain leaderboard, folder breakdown, saving-rhythm sparkline, duplicate / stale / dead-link callouts, searchable card drill-down |
+| [`prompts/bibliography.md`](./prompts/bibliography.md) | BibTeX (`.bib`) and RIS (`.ris`) bibliographies (Zotero, Mendeley, EndNote, Google Scholar, JabRef) — literature-review audit: year-coverage histogram, venue + author leaderboards, reference-type breakdown, abstract drill-down with DOI |
+| [`prompts/url-list.md`](./prompts/url-list.md) | Plain `.txt` or markdown with one URL per line ("tab dump"), optionally with section headings or trailing notes — research audit: keyword-driven topic clusters, top domains, section breakdown, duplicate / dead callouts, searchable cards |
+| [`prompts/reading-list.md`](./prompts/reading-list.md) | Pocket / Instapaper / Raindrop / Matter / Readwise Reader / Omnivore CSV / JSON exports — reading-queue audit: saving-rhythm timeline, top domains, status / collection breakdown, stale-inbox callouts, searchable cards |
 | [`prompts/github-repo.md`](./prompts/github-repo.md) | github.com/owner/repo URLs |
 | [`prompts/url-article.md`](./prompts/url-article.md) | Blog posts, news articles, long-form web pages |
 | [`prompts/default.md`](./prompts/default.md) | Anything else |
@@ -210,6 +227,20 @@ using a cosine-corrected equirectangular projection over a faint
 graticule; the parser already pre-projects polylines into a 1000-
 wide viewBox.
 
+Research / reading-list sources (`bookmarks-html`, `bibliography`,
+`url-list`, `reading-list`) also load
+[`prompts/_research.md`](./prompts/_research.md) — the shared
+contract for the research pack: topic clusters, domain (or venue +
+author) leaderboard, duplicate / stale / dead-link callouts,
+reading-queue prioritization (or year histogram for bibliographies),
+and a searchable card drill-down. **Hard rule**: outputs are
+**offline-only** — the page never fetches any of the saved URLs at
+render or click time (no favicon services, no link previews, no
+OpenGraph unfurls, no dead-link verification calls). Open-original
+links are plain `<a href target="_blank" rel="noopener noreferrer">`.
+Duplicate, stale, and dead-link flags are heuristic-only hypotheses,
+not verdicts.
+
 **Adding a new source** = drop a new `<source>.md` in `prompts/`,
 following the same shape as existing ones. No code changes, no
 registration step. The skill auto-finds it.
@@ -231,3 +262,11 @@ registration step. The skill auto-finds it.
   basemap provider. The parser pre-projects coordinates into a
   cosine-corrected viewBox so polylines + place dots line up; add a
   faint graticule rather than a tile background.
+- **Research outputs are fetch-free.** Bookmarks / bibliography /
+  URL-list / reading-list pages render entirely from the file's
+  metadata. Never fetch the saved URLs at render or click time — no
+  favicon services, no OpenGraph unfurls, no link previews, no
+  dead-link verification calls. Open-original links are plain
+  `<a href target="_blank" rel="noopener noreferrer">`. Duplicate,
+  stale, and dead-link flags are heuristic-only hypotheses, not
+  verdicts.
