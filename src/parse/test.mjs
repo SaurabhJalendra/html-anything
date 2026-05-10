@@ -1320,6 +1320,128 @@ test("vcard parser handles folded continuation lines + repeated typed fields", a
   }
 })
 
+test("linkedin-connections detection routes Connections.csv through experiential", async () => {
+  const fp = path.join(REPO, "examples/linkedin-connections/input.csv")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "experiential", "expected experiential parser to claim Connections.csv")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "linkedin-connections")
+  assert.equal(out.data.format, "linkedin-connections")
+  assert.ok(out.data.rows.length >= 40,
+    `expected >= 40 connections per AC, got ${out.data.rows.length}`)
+  // Required pre-aggregations per prompts/linkedin-connections.md.
+  for (const k of ["rows", "monthlyGrowth", "yearlyGrowth", "spikes",
+                   "companyLeaderboard", "positionKeywords", "emailDomains",
+                   "industries", "reconnectQueue", "audit", "summary"]) {
+    assert.ok(out.data[k] !== undefined, `missing required field: ${k}`)
+  }
+  // Aggregations populated.
+  assert.ok(out.data.companyLeaderboard.length >= 5)
+  assert.ok(out.data.industries.length >= 3)
+  assert.ok(out.data.yearlyGrowth.length >= 5, "fixture should span multiple years")
+  // Spike detection — fixture seeds an Oct 2024 conference cluster.
+  assert.ok(out.data.spikes.length >= 1, "expected at least one growth spike")
+  assert.ok(out.data.spikes.some(s => s.month && s.month.startsWith("2024-10")),
+    `expected an Oct 2024 spike in fixture, got ${out.data.spikes.map(s => s.month).join(", ")}`)
+  // Audit shape.
+  const a = out.data.audit
+  for (const k of ["missingEmail", "missingCompany", "missingPosition",
+                   "staleOld", "veryRecent", "duplicateNameClusters",
+                   "duplicateUrlClusters"]) {
+    assert.ok(a[k] !== undefined, `audit missing key: ${k}`)
+  }
+  assert.ok(a.missingEmail.count > 0, "fixture seeds connections without email")
+  assert.ok(a.missingCompany.count > 0, "fixture seeds connections without company")
+  assert.ok(a.staleOld.count > 0, "fixture spans 5+ years")
+  assert.ok(a.veryRecent.count >= 1, "fixture seeds at least one very-recent connection")
+  assert.ok(a.duplicateNameClusters.length >= 1, "fixture seeds a duplicate-name cluster")
+  assert.ok(a.duplicateUrlClusters.length >= 1, "fixture seeds a duplicate-URL cluster")
+  // Reconnect queue + summary.
+  assert.ok(out.data.reconnectQueue.length >= 1, "expected at least one reconnect candidate")
+  const s = out.data.summary
+  assert.ok(s.contactCount >= 40)
+  assert.ok(s.distinctCompanies >= 5)
+  assert.ok(s.distinctIndustries >= 3)
+  assert.ok(s.period && s.period.includes("→"))
+  assert.ok(s.yearWindow && s.yearWindow.includes("→"))
+  // Email masking — every row with an email exposes a masked variant
+  // distinct from the raw value.
+  let emailsChecked = 0
+  for (const r of out.data.rows) {
+    if (r.email) {
+      emailsChecked++
+      assert.ok(r.emailMasked && r.emailMasked !== r.email,
+        `email ${r.email} not masked: ${r.emailMasked}`)
+    }
+  }
+  assert.ok(emailsChecked > 0)
+  // Synthetic-data invariants — every email lives on a reserved
+  // example.* domain (we permit `<slug>.example.com` and friends).
+  for (const r of out.data.rows) {
+    if (!r.email) continue
+    const at = r.email.lastIndexOf("@")
+    if (at < 0) continue
+    const domain = r.email.slice(at + 1).toLowerCase()
+    assert.ok(/(^|\.)example\.(com|org|net)$|(^|\.)invalid\.test$/.test(domain),
+      `non-reserved email domain leaked: ${r.email}`)
+  }
+})
+
+test("linkedin-connections detection ignores generic CSVs without LinkedIn headers", async () => {
+  // Generic CSV without `Connected On` should fall through to the
+  // generic csv parser, not get claimed by experiential.
+  const tmp = path.join(REPO, "examples/linkedin-connections/__not_linkedin_test.csv")
+  const sample = "name,email,age\nAlice,a@example.com,30\nBob,b@example.com,40\n"
+  await (await import("node:fs/promises")).writeFile(tmp, sample, "utf8")
+  try {
+    const parser = await pickParser(tmp)
+    assert.notEqual(parser?.name, "experiential",
+      "experiential parser must not claim a generic CSV")
+  } finally {
+    await (await import("node:fs/promises")).unlink(tmp).catch(() => {})
+  }
+})
+
+test("linkedin-connections prompt is present on disk", async () => {
+  const fs = await import("node:fs/promises")
+  const p = path.join(REPO, "prompts", "linkedin-connections.md")
+  const stat = await fs.stat(p)
+  assert.ok(stat.isFile(), "missing prompt file: linkedin-connections.md")
+})
+
+test("linkedin-connections output.html renders the required sections + offline rules", async () => {
+  const fs = await import("node:fs/promises")
+  const html = await fs.readFile(path.join(REPO, "examples/linkedin-connections/output.html"), "utf8")
+  for (const needle of [
+    "LINKEDIN CONNECTIONS",
+    "Network growth",
+    "Network atlas",
+    "Top companies",
+    "Role keyword clusters",
+    "Industries",
+    "Email domains",
+    "Reconnect queue",
+    "Network audit",
+    "Browse all connections",
+    "Generated locally",
+    "Heuristic",
+  ]) {
+    assert.ok(html.includes(needle), `examples/linkedin-connections/output.html missing: ${needle}`)
+  }
+  // Hard offline rules: no link tags, no iframes, no external imgs,
+  // no clickable anchors to linkedin.com.
+  assert.ok(!/<link\s+[^>]*\bhref=/i.test(html), "linkedin output must not include any <link> tags")
+  assert.ok(!/<iframe\b/i.test(html), "linkedin output must not embed iframes")
+  assert.ok(!/<img\s+[^>]*\bsrc=/i.test(html), "linkedin output must not include any <img src> tags")
+  assert.ok(!/fonts\.googleapis\.com|fonts\.gstatic\.com/.test(html),
+    "linkedin output must not link to Google Fonts")
+  assert.ok(!/href="https?:\/\/(?:www\.)?linkedin\.com/i.test(html),
+    "linkedin output must not include clickable links to linkedin.com")
+  // Privacy line + mask toggle text present.
+  assert.ok(/never left your machine/i.test(html), "expected privacy-line text in footer")
+  assert.ok(/masked by default/i.test(html), "expected masking-line text in footer")
+})
+
 test("vcard-contacts output.html renders the required family sections + offline rules", async () => {
   const fs = await import("node:fs/promises")
   const html = await fs.readFile(path.join(REPO, "examples/vcard-contacts/output.html"), "utf8")

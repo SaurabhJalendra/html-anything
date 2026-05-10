@@ -185,6 +185,12 @@ h2 .emoji { margin-right: 8px; letter-spacing: 0; }
     <p>The skill walked the user through the Google Takeout flow, then designed a photo-memory page entirely from sidecar JSON — never opening the actual photos or videos. Hero strip with media / album / geotag / device counts, monthly bars stacked by photo+video, year × month heatmap, day-of-week × hour heatmap, inline-SVG places scatter (no map tiles, no geocoding), album cards with hashed-from-filename mosaic and overlap signals, device leaderboard with monthly sparklines, plus an audit row for burst clusters, edited / original pairs, possible duplicates, and missing metadata. Searchable drill-down with raw sidecar expand. No real photos, no Google Photos CDN, no Maps tiles — fully offline.</p>
   </a>
 
+  <a class="demo" href="linkedin-connections/output.html">
+    <h3><span class="emoji">🤝</span>LinkedIn — professional network atlas <span class="arrow">→</span></h3>
+    <p class="meta">Connections.csv (114 connections across 12 years, 14 companies, 12 industries, synthetic) → professional network atlas</p>
+    <p>The skill walked the user through requesting their LinkedIn data, then designed an observational network atlas: hero coverage strip (with-company / with-role / with-email), yearly growth bars + cumulative line with an October 2024 conference-week spike callout, top-companies + role-keyword + industry + email-domain panels, a heuristic <strong>reconnect queue</strong> ranked by staleness × missing-current-company × has-email × just-connected (read-only — no auto-drafted outreach), and an audit row for missing-company / missing-email / stale 5y+ / very-recent / duplicate-name / duplicate-URL clusters. Searchable contact grid with email <strong>masked by default</strong> (per-card reveal + page-wide toggle) and LinkedIn URLs shown but never clickable. Fully offline — no LinkedIn calls, no avatars, no analytics.</p>
+  </a>
+
   <a class="demo" href="vcard-contacts/output.html">
     <h3><span class="emoji">👥</span>Contacts — address book audit <span class="arrow">→</span></h3>
     <p class="meta">Contacts.vcf (34 contacts, vCard 3.0 + 4.0 mix, synthetic) → address book audit + relationship atlas</p>

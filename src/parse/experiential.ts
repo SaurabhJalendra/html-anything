@@ -30,6 +30,11 @@
  *                          `subtitles[0].name`, `time`, `products`. The
  *                          parser also accepts the rare empty-subtitles
  *                          shape (removed / private videos).
+ *   - linkedin-connections — LinkedIn "Download your data" Connections.csv.
+ *                          Header row contains `First Name,Last Name,URL,
+ *                          Email Address,Company,Position,Connected On`
+ *                          (with optional 2-3 line "Notes:" preamble that
+ *                          the parser strips). One row per connection.
  */
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
@@ -44,7 +49,7 @@ export const parser: Parser = {
     try {
       const head = await readHead(filepath, 8192)
       if (ext === ".json") return looksLikeYoutube(head, base) || looksLikeSpotify(head, base)
-      if (ext === ".csv") return looksLikeAmazon(head, base) || looksLikeTwitch(head, base) || looksLikeStars(head, base)
+      if (ext === ".csv") return looksLikeLinkedIn(head, base) || looksLikeAmazon(head, base) || looksLikeTwitch(head, base) || looksLikeStars(head, base)
       if (ext === ".xml") return looksLikeAppleHealth(head)
     } catch { /* fall through */ }
     return false
@@ -62,6 +67,8 @@ export const parser: Parser = {
       return parseSpotify(raw, meta)
     }
     if (ext === ".csv") {
+      const head = raw.slice(0, 8192)
+      if (looksLikeLinkedIn(head, base)) return parseLinkedIn(raw, meta)
       const firstLine = (raw.split(/\r?\n/, 1)[0] || "").toLowerCase()
       if (looksLikeAmazon(firstLine, base)) return parseAmazon(raw, meta)
       if (looksLikeTwitch(firstLine, base)) return parseTwitch(raw, meta)
@@ -116,6 +123,24 @@ function looksLikeStars(head: string, base: string): boolean {
 
 function looksLikeAppleHealth(head: string): boolean {
   return /<HealthData[\s>]/i.test(head) || /<!DOCTYPE\s+HealthData/i.test(head)
+}
+
+function looksLikeLinkedIn(head: string, base: string): boolean {
+  if (/^connections\.csv$/i.test(base)) return true
+  // LinkedIn export sometimes carries a 2-3 line "Notes:" preamble
+  // before the real header. Scan the first ~8 KB for the canonical
+  // header line.
+  const lines = head.split(/\r?\n/, 30)
+  for (const ln of lines) {
+    const lower = ln.toLowerCase().replace(/^[﻿]/, "")
+    const hasFirstName = /\bfirst\s*name\b/.test(lower)
+    const hasLastName = /\blast\s*name\b/.test(lower)
+    const hasConnectedOn = /\bconnected\s*on\b/.test(lower)
+    const hasCompany = /\bcompany\b/.test(lower)
+    const hasPosition = /\bposition\b/.test(lower)
+    if (hasFirstName && hasLastName && hasConnectedOn && (hasCompany || hasPosition)) return true
+  }
+  return false
 }
 
 function looksLikeAmazon(head: string, base: string): boolean {
@@ -1298,6 +1323,489 @@ function cadenceTag(first: string, last: string, count: number, avgPrice: number
   if (count >= 5 && avg < 60 && avgPrice < 60) return "subscribe"
   if (avg < 90) return "habit"
   return "splurge-rebuy"
+}
+
+// ----------------------------------- linkedin-connections
+
+interface LinkedInRow {
+  id: string
+  firstName: string
+  lastName: string
+  fullName: string
+  url: string | null
+  email: string | null
+  emailMasked: string | null
+  emailDomain: string | null
+  emailDomainKind: "work" | "personal" | null
+  company: string | null
+  companyKey: string | null   // normalized for grouping
+  position: string | null
+  positionKeyword: string | null
+  industry: string
+  connectedOn: string         // ISO YYYY-MM-DD or ""
+  connectedYear: number | null
+  connectedMonth: string | null   // YYYY-MM
+  yearsAgo: number | null
+  reconnectScore: number      // 0..1
+  flags: string[]             // e.g. "missing-email","missing-company","stale-old","very-recent","duplicate-name"
+}
+
+const LINKEDIN_PERSONAL_DOMAINS = new Set([
+  "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com",
+  "icloud.com", "me.com", "mac.com", "yahoo.com", "aol.com", "proton.me",
+  "protonmail.com", "pm.me", "fastmail.com", "msn.com", "ymail.com",
+  "rocketmail.com", "comcast.net", "verizon.net", "att.net",
+])
+
+const LINKEDIN_INDUSTRY_KEYWORDS: Array<[RegExp, string]> = [
+  [/\b(software|engineer|engineering|developer|dev\b|sde\b|sdet\b|backend|frontend|full[-\s]?stack|devops|sre|reliability|platform|architect|programmer|data\s*scien|ml\s*engineer|machine\s*learning|ai\s*engineer|research\s*scien)/i, "Engineering & Data"],
+  [/\b(product\s*manager|pm\b|product\s*lead|product\s*owner|head\s*of\s*product|chief\s*product|product\s*marketing)/i, "Product"],
+  [/\b(design|designer|ux|ui\b|user\s*experience|product\s*design|brand\s*design|graphic|creative\s*director|illustrator)/i, "Design"],
+  [/\b(marketing|growth|seo\b|brand\b|content\s*strategist|social\s*media|comms?\b|public\s*relations|pr\s*manager|copywriter)/i, "Marketing & Growth"],
+  [/\b(sales|account\s*executive|ae\b|sdr\b|bdr\b|business\s*development|partnerships?)/i, "Sales & BD"],
+  [/\b(founder|co[-\s]?founder|ceo\b|chief\s*executive|cto\b|chief\s*technolog|coo\b|cfo\b|chief\s*of\s*staff|managing\s*director|owner|entrepreneur)/i, "Founder & Exec"],
+  [/\b(investor|venture|partner\b|principal\b|associate\s*partner|vc\b|angel|portfolio|investment\s*banker|hedge|private\s*equity|wealth\s*manag)/i, "Investing & Finance"],
+  [/\b(recruiter|talent|people\s*ops|hr\b|human\s*resources|coach\b|career\s*coach|culture\s*lead)/i, "People & Talent"],
+  [/\b(operations|ops\b|program\s*manager|project\s*manager|chief\s*operating)/i, "Operations"],
+  [/\b(consultant|consulting|advisor|strateg|mckinsey|bain|bcg)/i, "Consulting & Strategy"],
+  [/\b(legal|attorney|lawyer|paralegal|counsel\b|compliance)/i, "Legal & Compliance"],
+  [/\b(professor|lecturer|teacher|phd\s*candidate|researcher|postdoc|graduate\s*student|academic)/i, "Academia"],
+  [/\b(journalist|reporter|editor|writer|author|columnist|podcast)/i, "Media & Writing"],
+  [/\b(doctor\b|physician|surgeon|nurse|nurse\s*practitioner|md\b|healthcare|clinical|pharmacist|therapist)/i, "Healthcare"],
+  [/\b(student|undergrad|intern|fellow)/i, "Student & Early Career"],
+]
+
+function parseLinkedIn(raw: string, meta: ParsedFile["meta"]): ParsedFile {
+  const allRows = parseCsv(stripLinkedInPreamble(raw))
+  if (allRows.length === 0) throw new Error("linkedin-connections: empty CSV")
+  const headers = allRows[0].map(h => (h || "").trim())
+  const headerLower = headers.map(h => h.toLowerCase())
+  const idx = (label: RegExp) => headerLower.findIndex(h => label.test(h))
+  const cols = {
+    firstName: idx(/^first\s*name$/),
+    lastName: idx(/^last\s*name$/),
+    url: idx(/^url$/),
+    email: idx(/^email\s*address$/),
+    company: idx(/^company$/),
+    position: idx(/^position$/),
+    connectedOn: idx(/^connected\s*on$/),
+  }
+
+  const rows: LinkedInRow[] = []
+  const dupNames: Record<string, string[]> = {}
+  const dupUrls: Record<string, string[]> = {}
+
+  for (let i = 1; i < allRows.length; i++) {
+    const r = allRows[i]
+    if (!r || r.every(c => !c || !c.trim())) continue
+    const id = `ln_${i.toString().padStart(6, "0")}`
+    const firstName = field(r, cols.firstName)
+    const lastName = field(r, cols.lastName)
+    const fullName = `${firstName} ${lastName}`.trim()
+    const url = field(r, cols.url) || null
+    const emailRaw = field(r, cols.email)
+    const email = emailRaw.includes("@") ? emailRaw.toLowerCase() : (emailRaw || null)
+    const company = field(r, cols.company) || null
+    const position = field(r, cols.position) || null
+    const connectedOn = parseLinkedInDate(field(r, cols.connectedOn))
+    const connectedYear = connectedOn ? Number(connectedOn.slice(0, 4)) : null
+    const connectedMonth = connectedOn ? connectedOn.slice(0, 7) : null
+    const emailDomain = email && email.includes("@") ? email.split("@")[1] || null : null
+    const emailDomainKind: LinkedInRow["emailDomainKind"] = emailDomain
+      ? (LINKEDIN_PERSONAL_DOMAINS.has(emailDomain) ? "personal" : "work")
+      : null
+    const flags: string[] = []
+    if (!email) flags.push("missing-email")
+    if (!company) flags.push("missing-company")
+    if (!position) flags.push("missing-position")
+    rows.push({
+      id, firstName, lastName, fullName,
+      url: url ? sanitizeLinkedInUrl(url) : null,
+      email: email || null,
+      emailMasked: email ? maskEmail(email) : null,
+      emailDomain,
+      emailDomainKind,
+      company,
+      companyKey: company ? company.toLowerCase().replace(/\s+/g, " ").trim() : null,
+      position,
+      positionKeyword: position ? topPositionKeyword(position) : null,
+      industry: inferLinkedInIndustry(position, company),
+      connectedOn,
+      connectedYear,
+      connectedMonth,
+      yearsAgo: null,             // filled in once we know latest date
+      reconnectScore: 0,          // filled in below
+      flags,
+    })
+    if (fullName) {
+      const k = fullName.toLowerCase()
+      ;(dupNames[k] = dupNames[k] || []).push(id)
+    }
+    if (url) {
+      const k = sanitizeLinkedInUrl(url).toLowerCase()
+      ;(dupUrls[k] = dupUrls[k] || []).push(id)
+    }
+  }
+
+  rows.sort((a, b) => (a.connectedOn || "").localeCompare(b.connectedOn || ""))
+
+  // Cross-link duplicate flags
+  for (const [name, ids] of Object.entries(dupNames)) {
+    if (ids.length < 2) continue
+    for (const id of ids) {
+      const r = rows.find(rr => rr.id === id)
+      if (r && !r.flags.includes("duplicate-name")) r.flags.push("duplicate-name")
+    }
+    void name
+  }
+  for (const [url, ids] of Object.entries(dupUrls)) {
+    if (ids.length < 2) continue
+    for (const id of ids) {
+      const r = rows.find(rr => rr.id === id)
+      if (r && !r.flags.includes("duplicate-url")) r.flags.push("duplicate-url")
+    }
+    void url
+  }
+
+  // Year-of-connection helpers using the latest date in the file as
+  // "now" so the example output stays stable across years.
+  const datesPresent = rows.map(r => r.connectedOn).filter(Boolean) as string[]
+  const latestDate = datesPresent.length ? datesPresent[datesPresent.length - 1] : ""
+  const earliestDate = datesPresent.length ? datesPresent[0] : ""
+  const nowMs = latestDate ? Date.parse(latestDate + "T00:00:00Z") : Date.now()
+
+  for (const r of rows) {
+    if (r.connectedOn) {
+      const ms = Date.parse(r.connectedOn + "T00:00:00Z")
+      r.yearsAgo = Math.round(((nowMs - ms) / (365.25 * 86400000)) * 10) / 10
+      if (r.yearsAgo >= 5) r.flags.push("stale-old")
+      if (r.yearsAgo <= 0.25) r.flags.push("very-recent")
+    }
+  }
+
+  // Reconnect heuristic: weighted score combining staleness, missing
+  // company, presence of email (so the user can actually reach out),
+  // and very recent additions (gentle "say hi" prompts).
+  for (const r of rows) {
+    let s = 0
+    if (r.yearsAgo != null) s += Math.min(0.5, r.yearsAgo / 10)
+    if (r.flags.includes("missing-company")) s += 0.15
+    if (r.flags.includes("missing-position")) s += 0.05
+    if (r.email) s += 0.1
+    if (r.flags.includes("very-recent")) s += 0.2
+    r.reconnectScore = Math.round(s * 100) / 100
+  }
+
+  // Aggregations -----------------------------------------------------
+  const monthGrowthMap: Record<string, number> = {}
+  const yearGrowthMap: Record<string, number> = {}
+  const companyMap: Record<string, { name: string; count: number; sampleIds: string[] }> = {}
+  const positionMap: Record<string, { keyword: string; count: number; sampleIds: string[] }> = {}
+  const domainMap: Record<string, { domain: string; count: number; kind: "work" | "personal"; sampleIds: string[] }> = {}
+  const industryMap: Record<string, { industry: string; count: number; sampleIds: string[] }> = {}
+
+  for (const r of rows) {
+    if (r.connectedMonth) monthGrowthMap[r.connectedMonth] = (monthGrowthMap[r.connectedMonth] || 0) + 1
+    if (r.connectedYear) yearGrowthMap[String(r.connectedYear)] = (yearGrowthMap[String(r.connectedYear)] || 0) + 1
+    if (r.companyKey && r.company) {
+      const e = companyMap[r.companyKey] = companyMap[r.companyKey] || { name: r.company, count: 0, sampleIds: [] }
+      e.count += 1
+      if (e.sampleIds.length < 12) e.sampleIds.push(r.id)
+    }
+    if (r.positionKeyword) {
+      const e = positionMap[r.positionKeyword] = positionMap[r.positionKeyword] || { keyword: r.positionKeyword, count: 0, sampleIds: [] }
+      e.count += 1
+      if (e.sampleIds.length < 12) e.sampleIds.push(r.id)
+    }
+    if (r.emailDomain && r.emailDomainKind) {
+      const e = domainMap[r.emailDomain] = domainMap[r.emailDomain] || { domain: r.emailDomain, count: 0, kind: r.emailDomainKind, sampleIds: [] }
+      e.count += 1
+      if (e.sampleIds.length < 12) e.sampleIds.push(r.id)
+    }
+    {
+      const e = industryMap[r.industry] = industryMap[r.industry] || { industry: r.industry, count: 0, sampleIds: [] }
+      e.count += 1
+      if (e.sampleIds.length < 12) e.sampleIds.push(r.id)
+    }
+  }
+
+  const monthlyGrowth = Object.keys(monthGrowthMap).sort().map(m => ({ month: m, count: monthGrowthMap[m] }))
+  const yearlyGrowthRaw = Object.keys(yearGrowthMap).sort()
+  let cumulative = 0
+  const yearlyGrowth = yearlyGrowthRaw.map(y => {
+    cumulative += yearGrowthMap[y]
+    return { year: Number(y), count: yearGrowthMap[y], cumulative }
+  })
+  const meanMonthly = monthlyGrowth.length
+    ? monthlyGrowth.reduce((s, m) => s + m.count, 0) / monthlyGrowth.length
+    : 0
+  const spikes = monthlyGrowth
+    .filter(m => meanMonthly > 0 && m.count >= meanMonthly * 2.5 && m.count >= 4)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 4)
+    .map(m => ({ month: m.month, count: m.count, label: linkedInSpikeLabel(m.month, m.count) }))
+
+  const companyLeaderboard = Object.values(companyMap)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12)
+  const positionKeywords = Object.values(positionMap)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12)
+  const emailDomains = Object.values(domainMap)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12)
+  const industries = Object.values(industryMap)
+    .sort((a, b) => b.count - a.count)
+
+  // Audit + reconnect queue -----------------------------------------
+  const missingEmail = rows.filter(r => r.flags.includes("missing-email"))
+  const missingCompany = rows.filter(r => r.flags.includes("missing-company"))
+  const missingPosition = rows.filter(r => r.flags.includes("missing-position"))
+  const veryRecent = rows.filter(r => r.flags.includes("very-recent")).slice(-12).reverse()
+  const staleOld = rows.filter(r => r.flags.includes("stale-old"))
+  const duplicateNameClusters = Object.entries(dupNames)
+    .filter(([, ids]) => ids.length >= 2)
+    .map(([name, ids]) => ({ name, ids }))
+    .slice(0, 8)
+  const duplicateUrlClusters = Object.entries(dupUrls)
+    .filter(([, ids]) => ids.length >= 2)
+    .map(([url, ids]) => ({ url, ids }))
+    .slice(0, 8)
+
+  const reconnectQueue = rows
+    .filter(r => r.reconnectScore > 0)
+    .sort((a, b) => b.reconnectScore - a.reconnectScore)
+    .slice(0, 24)
+    .map(r => ({
+      id: r.id,
+      score: r.reconnectScore,
+      reasons: reconnectReasons(r),
+    }))
+
+  const summary = {
+    contactCount: rows.length,
+    period: latestDate && earliestDate ? `${earliestDate} → ${latestDate}` : "(empty)",
+    durationLabel: durationLabel(earliestDate, latestDate),
+    yearWindow: latestDate && earliestDate
+      ? `${earliestDate.slice(0, 4)} → ${latestDate.slice(0, 4)}`
+      : "",
+    withEmail: rows.filter(r => r.email).length,
+    withCompany: rows.filter(r => r.company).length,
+    withPosition: rows.filter(r => r.position).length,
+    withUrl: rows.filter(r => r.url).length,
+    distinctCompanies: Object.keys(companyMap).length,
+    distinctPositions: Object.keys(positionMap).length,
+    distinctEmailDomains: Object.keys(domainMap).length,
+    distinctIndustries: Object.keys(industryMap).length,
+    topCompany: companyLeaderboard[0]?.name || null,
+    topCompanyCount: companyLeaderboard[0]?.count || 0,
+    topIndustry: industries[0]?.industry || null,
+    topPositionKeyword: positionKeywords[0]?.keyword || null,
+    topDomain: emailDomains[0]?.domain || null,
+    workEmailShare: rows.length > 0
+      ? Math.round((rows.filter(r => r.emailDomainKind === "work").length / rows.length) * 100) / 100
+      : 0,
+    referenceDate: latestDate || null,
+  }
+
+  const audit = {
+    missingEmail: { count: missingEmail.length, sampleIds: missingEmail.slice(0, 12).map(r => r.id) },
+    missingCompany: { count: missingCompany.length, sampleIds: missingCompany.slice(0, 12).map(r => r.id) },
+    missingPosition: { count: missingPosition.length, sampleIds: missingPosition.slice(0, 12).map(r => r.id) },
+    staleOld: { count: staleOld.length, sampleIds: staleOld.slice(0, 12).map(r => r.id) },
+    veryRecent: { count: veryRecent.length, sampleIds: veryRecent.slice(0, 12).map(r => r.id) },
+    duplicateNameClusters,
+    duplicateUrlClusters,
+  }
+
+  const data = {
+    format: "linkedin-connections",
+    rows,
+    monthlyGrowth,
+    yearlyGrowth,
+    spikes,
+    companyLeaderboard,
+    positionKeywords,
+    emailDomains,
+    industries,
+    reconnectQueue,
+    audit,
+    summary,
+    meta: {
+      ...meta,
+      headers,
+      detectedColumns: Object.fromEntries(
+        Object.entries(cols).filter(([_, v]) => v >= 0).map(([k, v]) => [k, headers[v as number]])
+      ),
+    },
+  }
+
+  const sample = {
+    summary,
+    yearlyGrowth,
+    spikes,
+    companyLeaderboardTop: companyLeaderboard.slice(0, 6),
+    industriesTop: industries.slice(0, 6),
+    emailDomainsTop: emailDomains.slice(0, 6),
+    positionKeywordsTop: positionKeywords.slice(0, 6),
+    auditCounts: {
+      missingEmail: missingEmail.length,
+      missingCompany: missingCompany.length,
+      missingPosition: missingPosition.length,
+      staleOld: staleOld.length,
+      veryRecent: veryRecent.length,
+      duplicateNames: duplicateNameClusters.length,
+      duplicateUrls: duplicateUrlClusters.length,
+    },
+    firstRows: rows.slice(0, 4).map(stripLinkedInRow),
+    lastRows: rows.slice(-4).map(stripLinkedInRow),
+    headers,
+  }
+
+  const summaryLine = `LinkedIn connections — ${rows.length} contacts spanning ${summary.period} across ${Object.keys(companyMap).length} companies and ${Object.keys(industryMap).length} industries.`
+
+  return {
+    contentType: "linkedin-connections",
+    summary: summaryLine,
+    sample,
+    data,
+    meta: {
+      ...meta,
+      shape: "linkedin-connections",
+      contactCount: rows.length,
+      period: summary.period,
+      distinctCompanies: summary.distinctCompanies,
+    },
+  }
+}
+
+function field(r: string[], i: number): string {
+  if (i < 0 || i >= r.length) return ""
+  return (r[i] || "").trim()
+}
+
+function stripLinkedInPreamble(raw: string): string {
+  // LinkedIn often prefixes the file with a 1-3 line "Notes:" block
+  // that explains the export. Find the first line that looks like the
+  // canonical header and drop everything before it. If we can't find
+  // one, return the original — the caller will fail loudly.
+  const lines = raw.split(/\r?\n/)
+  for (let i = 0; i < Math.min(lines.length, 12); i++) {
+    const lower = lines[i].toLowerCase().replace(/^[﻿]/, "")
+    if (/\bfirst\s*name\b/.test(lower) && /\blast\s*name\b/.test(lower) && /\bconnected\s*on\b/.test(lower)) {
+      return lines.slice(i).join("\n")
+    }
+  }
+  return raw
+}
+
+function maskEmail(email: string): string {
+  const at = email.indexOf("@")
+  if (at <= 0) return email
+  const local = email.slice(0, at)
+  const domain = email.slice(at + 1)
+  if (local.length <= 2) return `${local[0] || "•"}•@${domain}`
+  return `${local[0]}${"•".repeat(Math.min(4, local.length - 2))}${local[local.length - 1]}@${domain}`
+}
+
+function sanitizeLinkedInUrl(url: string): string {
+  // The export sometimes includes tracking params; strip query/hash so
+  // we can detect duplicates. Don't follow the URL.
+  return url.split(/[?#]/)[0].replace(/\/+$/, "")
+}
+
+function topPositionKeyword(title: string): string | null {
+  // Quick keyword extraction: prefer first noun chunk from a known
+  // ladder, else the first non-trivial word. Returned values group
+  // titles like "Senior Software Engineer at Acme" → "Software Engineer".
+  const t = title.replace(/\s+at\s+.*$/i, "").trim()
+  const ladders: RegExp[] = [
+    /(software|product|data|design|hardware|mechanical|electrical|machine\s*learning|ml|ai|research|qa|devops|sre|platform|security|growth|customer|sales|marketing|brand|content|operations|chief\s*of\s*staff|account|partnerships?|recruit|talent|people|finance|investment|portfolio)\s+(engineer|manager|lead|designer|scientist|director|partner|associate|analyst|architect|writer|recruiter|coach|specialist|consultant|developer|owner|advisor|coordinator|executive)\b/i,
+    /\b(ceo|cto|coo|cfo|cmo|founder|co[-\s]?founder|chief\s*of\s*staff)\b/i,
+    /\b(engineer|designer|manager|director|founder|partner|recruiter|analyst|consultant|coach|developer|scientist|writer|professor|lecturer|nurse|doctor|attorney|lawyer|paralegal|architect|owner|investor|associate|advisor|editor|journalist|student|intern|fellow|pm)\b/i,
+  ]
+  for (const re of ladders) {
+    const m = re.exec(t)
+    if (m) {
+      const k = (m[1] && m[2] ? `${m[1]} ${m[2]}` : m[0]).toLowerCase().replace(/\s+/g, " ")
+      return k.replace(/\b\w/g, c => c.toUpperCase())
+    }
+  }
+  return null
+}
+
+function inferLinkedInIndustry(position: string | null, company: string | null): string {
+  const haystack = `${position || ""} ${company || ""}`.trim()
+  if (!haystack) return "Other"
+  for (const [re, label] of LINKEDIN_INDUSTRY_KEYWORDS) {
+    if (re.test(haystack)) return label
+  }
+  return "Other"
+}
+
+function reconnectReasons(r: LinkedInRow): string[] {
+  const out: string[] = []
+  if (r.yearsAgo != null && r.yearsAgo >= 5) out.push("connected " + Math.round(r.yearsAgo) + "y ago")
+  if (r.flags.includes("missing-company")) out.push("missing current company")
+  if (r.flags.includes("very-recent")) out.push("just connected")
+  if (r.email) out.push("has email")
+  return out
+}
+
+function linkedInSpikeLabel(month: string, count: number): string {
+  const d = new Date(month + "-01T00:00:00Z")
+  const monthName = d.toLocaleString("en-US", { month: "long", timeZone: "UTC" })
+  return `${monthName} ${month.slice(0, 4)}: ${count} new connections`
+}
+
+function parseLinkedInDate(s: string): string {
+  if (!s) return ""
+  const t = s.trim()
+  // "12 May 2024"
+  const dmy = /^(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})$/.exec(t)
+  if (dmy) {
+    const m = monthIndex(dmy[2])
+    if (m > 0) return `${dmy[3]}-${m.toString().padStart(2, "0")}-${dmy[1].padStart(2, "0")}`
+  }
+  // "May 12, 2024" / "May 12 2024"
+  const mdy = /^([A-Za-z]{3,9})\s+(\d{1,2}),?\s+(\d{4})$/.exec(t)
+  if (mdy) {
+    const m = monthIndex(mdy[1])
+    if (m > 0) return `${mdy[3]}-${m.toString().padStart(2, "0")}-${mdy[2].padStart(2, "0")}`
+  }
+  // ISO 8601
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(t)
+  if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`
+  // M/D/YYYY
+  const us = /^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/.exec(t)
+  if (us) {
+    const yyyy = us[3].length === 2 ? "20" + us[3] : us[3]
+    return `${yyyy}-${us[1].padStart(2, "0")}-${us[2].padStart(2, "0")}`
+  }
+  return ""
+}
+
+function monthIndex(name: string): number {
+  const map: Record<string, number> = {
+    jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
+    jul: 7, aug: 8, sep: 9, sept: 9, oct: 10, nov: 11, dec: 12,
+    january: 1, february: 2, march: 3, april: 4, june: 6, july: 7,
+    august: 8, september: 9, october: 10, november: 11, december: 12,
+  }
+  return map[name.toLowerCase()] || 0
+}
+
+function stripLinkedInRow(r: LinkedInRow): Pick<LinkedInRow, "id" | "fullName" | "company" | "position" | "connectedOn" | "industry" | "emailMasked" | "emailDomainKind"> {
+  return {
+    id: r.id,
+    fullName: r.fullName,
+    company: r.company,
+    position: r.position,
+    connectedOn: r.connectedOn,
+    industry: r.industry,
+    emailMasked: r.emailMasked,
+    emailDomainKind: r.emailDomainKind,
+  }
 }
 
 // ----------------------------------- iphone-health
