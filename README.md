@@ -186,26 +186,29 @@ if you need everything in one HTML file.
 
 You do not need to choose a style. The default is `auto`.
 
-The skill picks the page shape from the content:
+Styles are underlying page systems, not CSS skins. The skill picks the
+system from the content, then builds the page inside that system:
 
-| Content | Typical style |
+| Content | Typical style system |
 |---|---|
-| Unknown or mixed inputs | Default |
-| Tutorials, lessons, explainers, "teach me" prompts | Teaching |
-| Objects, scientific topics, product specs, system explainers | Interactive studio |
-| Chats and relationship exports | Relationship report |
-| Orders, finance, spreadsheets, operational data | Dashboard / personal atlas |
-| Essays, reading lists, bookmarks, personal history | Editorial atlas |
-| Logs, diffs, stack traces, CI failures | Developer report |
-| Medical, legal, papers, long documents | Paper / review mode |
+| Unknown or mixed inputs | Insight Brief |
+| Tutorials, lessons, explainers, "teach me" prompts | Lesson Lab |
+| Objects, scientific topics, product specs, system explainers | Object Studio |
+| Chats and relationship exports | Rhythm Report |
+| Orders, finance, spreadsheets, operational data | Ops Console / Memory Atlas |
+| Essays, reading lists, bookmarks, personal history | Editorial Desk / Memory Atlas |
+| Logs, diffs, stack traces, CI failures | Evidence Workbench |
+| Medical, legal, papers, long documents | Review Dossier |
 
 You can still steer it naturally: "make it more tutorial-like", "more
 app-like", "less academic", "more dashboard-like", "more editorial", or
 "more playful".
 
 Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
-There is a fallback `default` style plus eight auto-selected specialized
-styles: `teaching`, `interactive-studio`, `relationship`, `dashboard`,
+The shared structural contract is
+[`prompts/styles/_system.md`](./prompts/styles/_system.md). There is a
+fallback `default` style plus eight auto-selected specialized styles:
+`teaching`, `interactive-studio`, `relationship`, `dashboard`,
 `personal-atlas`, `editorial`, `developer`, and `paper`.
 
 ## Source Examples

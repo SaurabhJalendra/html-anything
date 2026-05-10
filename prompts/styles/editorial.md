@@ -3,6 +3,38 @@
 Use this style for essays, articles, reading lists, bookmarks, research
 collections, and content that benefits from narrative structure.
 
+## Underlying System: Editorial Desk
+
+This is a reading and argument system. It should feel edited, sequenced, and
+typographically intentional.
+
+Base scaffold:
+
+1. **Masthead / thesis deck** — title, deck, source context, and the sharpest
+   thesis or reading path.
+2. **Reader rail** — section nav, reading modes, topic filters, or source
+   collection tabs.
+3. **Argument body** — sections with clear claims, pull quotes/evidence, and
+   short contextual notes.
+4. **Topic / source spread** — clusters, related links, domain/author/year
+   breakdowns, or bibliography cards.
+5. **Evidence browser** — excerpts, links, annotations, and search after the
+   narrative spine.
+
+Component vocabulary:
+
+- `.editorial-shell`, `.masthead`, `.deck`, `.reader-rail`,
+  `.argument-section`, `.pull-quote`, `.claim-card`, `.source-spread`,
+  `.evidence-browser`.
+- Use typography, rules, columns, and quote treatment more than KPI cards.
+
+Interaction model:
+
+- Reading modes should change density or section visibility.
+- Topic/source filters support exploration but do not replace the narrative
+  sequence.
+- Search highlights evidence and headings.
+
 ## Page Shape
 
 - Lead with the sharpest thesis, summary, or reading path.

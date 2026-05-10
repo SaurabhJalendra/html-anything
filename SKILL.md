@@ -80,17 +80,22 @@ Final response:
 Pick a style automatically from the user's intent and source. Treat styles
 as behavior and page shape, not a superficial CSS skin.
 
+Styles are **underlying systems**. Choose the system first, then design the
+page inside it. Do not create a generic report and recolor it. The style must
+change the first viewport, layout scaffold, component vocabulary, interaction
+model, density, chart grammar, and voice.
+
 | Auto style | Use for | Page shape |
 |---|---|---|
-| `default` | Unknown, mixed, or weakly classified briefs/sources | Clean live page with strong summary, useful sections, and practical drill-down |
-| `teaching` | Tutorials, lessons, educational briefs, "teach me", interactive explainers, course-like pages | Guided lesson: visual stage, step rail, annotations, try-it control, check-yourself moment, recap |
-| `interactive-studio` | Scientific topics, product/spec objects, anatomy, architecture, "explain this system" briefs, object labs | App-like object lab: interactive stage, selector, inspector, comparison, generated or procedural visuals |
-| `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | Aggregate-first rhythm report, heatmaps, language fingerprints, evidence snippets, no raw appendix by default |
-| `dashboard` | CSVs, finance/admin data, logs, operational data, issue trackers | Dense but readable KPIs, charts, filters, tables, anomaly/flag cards |
-| `personal-atlas` | Personal exports like Amazon, Spotify, YouTube, Maps, Photos, Health, Kindle, contacts | Memory-oriented atlas with timelines, category clusters, highlights, searchable drill-down |
-| `editorial` | Essays, articles, reading lists, bookmarks, research collections | Magazine-like reading experience, sections, pull quotes, claims, topic cards |
-| `developer` | Diffs, PR patches, CI logs, stack traces, repos | Evidence-based technical report with risks, hotspots, collapsible raw evidence |
-| `paper` | PDFs, DOCX, legal/medical/lab/academic records | Structured review mode with caveats, cited evidence, conservative wording |
+| `default` | Unknown, mixed, or weakly classified briefs/sources | **Insight Brief**: answer header, primary insight panel, evidence stack, local drill-down |
+| `teaching` | Tutorials, lessons, educational briefs, "teach me", interactive explainers, course-like pages | **Lesson Lab**: visual stage, step rail, annotations, try-it control, check-yourself moment, recap |
+| `interactive-studio` | Scientific topics, product/spec objects, anatomy, architecture, "explain this system" briefs, object labs | **Object Studio**: interactive stage, selector, inspector, comparison, generated or procedural visuals |
+| `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | **Rhythm Report**: aggregate-first pulse calendar, comparison lanes, evidence snippets, no raw appendix by default |
+| `dashboard` | CSVs, finance/admin data, logs, operational data, issue trackers | **Ops Console**: command bar, KPI rail, work surface, flag queue, searchable data grid |
+| `personal-atlas` | Personal exports like Amazon, Spotify, YouTube, Maps, Photos, Health, Kindle, contacts | **Memory Atlas**: memory cover, timeline spine, clusters, rediscovery cards, private browser |
+| `editorial` | Essays, articles, reading lists, bookmarks, research collections | **Editorial Desk**: masthead, reader rail, argument body, pull quotes, source/evidence spread |
+| `developer` | Diffs, PR patches, CI logs, stack traces, repos | **Evidence Workbench**: finding bar, hotspots, risk checklist, raw artifact navigator, copyable handoff |
+| `paper` | PDFs, DOCX, legal/medical/lab/academic records | **Review Dossier**: dossier cover, review tabs, document sheet, evidence margin, question panel |
 
 Honor explicit style direction in natural language:
 

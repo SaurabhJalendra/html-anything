@@ -3,6 +3,36 @@
 Use this style for PDFs, DOCX, academic documents, legal/medical/lab records,
 policy documents, and other long or high-stakes documents.
 
+## Underlying System: Review Dossier
+
+This is a conservative document-review system. It should feel like a structured
+dossier with evidence, caveats, and traceability.
+
+Base scaffold:
+
+1. **Dossier cover** — document title, scope, source type, caveat, and neutral
+   executive summary.
+2. **Review tabs / reading modes** — quick summary, outline, evidence, dates /
+   entities / definitions depending on source.
+3. **Document sheet** — extracted sections or claims arranged like a review
+   memo, not like a marketing page.
+4. **Evidence margin** — short quoted snippets, page/section labels, ranges,
+   dates, parties, or row references.
+5. **Question / checklist panel** — what to ask a clinician/attorney/accountant
+   or what needs human review.
+
+Component vocabulary:
+
+- `.dossier-shell`, `.dossier-cover`, `.review-tabs`, `.document-sheet`,
+  `.evidence-margin`, `.fact-table`, `.caveat-box`, `.question-panel`.
+- Use tables, definition lists, page references, and muted semantic color.
+
+Interaction model:
+
+- Tabs/filters move between summary, outline, evidence, and source text.
+- Claims link to evidence snippets.
+- Do not gamify or overdramatize sensitive documents.
+
 ## Page Shape
 
 - Conservative, structured, evidence-first.

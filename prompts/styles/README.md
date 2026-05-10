@@ -1,8 +1,12 @@
 # Style Catalog
 
-These style prompts define the reusable page shapes for html-anything. Source
-prompts answer "what is in this input?" Style prompts answer "what kind of
-HTML experience should this become?"
+These style prompts define the reusable **underlying page systems** for
+html-anything. Source prompts answer "what is in this input?" Style prompts
+answer "what system should shape the HTML experience?"
+
+Styles are not skins. A style must change the page shell, first viewport,
+component vocabulary, interaction model, density, chart grammar, and voice.
+The shared contract is [`_system.md`](./_system.md).
 
 The default is `auto`: the agent picks a style from the request and source.
 
@@ -19,6 +23,20 @@ The default is `auto`: the agent picks a style from the request and source.
 | `editorial` | Essays, articles, reading lists, research collections | Magazine-like story, section rhythm, pull quotes, claims, topic cards |
 | `developer` | Repos, diffs, PRs, CI logs, traces | Evidence-based technical report with risks, hotspots, raw evidence |
 | `paper` | Long documents, PDFs, DOCX, legal/medical/lab records | Conservative structured review with caveats, evidence, definitions |
+
+## System Names
+
+| Style | Underlying system |
+|---|---|
+| `default` | Insight Brief |
+| `teaching` | Lesson Lab |
+| `interactive-studio` | Object Studio |
+| `relationship` | Rhythm Report |
+| `dashboard` | Ops Console |
+| `personal-atlas` | Memory Atlas |
+| `editorial` | Editorial Desk |
+| `developer` | Evidence Workbench |
+| `paper` | Review Dossier |
 
 ## Notes From DESIGN.md Libraries
 

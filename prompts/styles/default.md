@@ -4,6 +4,33 @@ Use this style when the request or source does not clearly demand a specialized
 shape. The default should still feel designed and intentional, not like a plain
 document dump.
 
+## Underlying System: Insight Brief
+
+This is a compact brief system for ambiguous inputs. It is not a dashboard or
+article by default.
+
+Base scaffold:
+
+1. **Answer header** — a short direct title, one useful sentence, and 2-4
+   "what matters" chips.
+2. **Primary insight panel** — the single most useful chart, comparison,
+   timeline, or summary surface.
+3. **Evidence stack** — 3-5 sections ordered by usefulness, each with a clear
+   claim and supporting rows/snippets.
+4. **Local drill-down** — search/filter/browse only after the interpretation.
+
+Component vocabulary:
+
+- `.brief-header`, `.answer-strip`, `.primary-insight`, `.evidence-stack`,
+  `.source-browser`, `.useful-chip`.
+- Use cards sparingly; prefer one strong panel plus grouped evidence rows.
+
+Interaction model:
+
+- Search, copy, and filter only where they help.
+- If the source is small, avoid heavy controls and make it read like a concise
+  analyst note.
+
 ## Page Shape
 
 - Start with a concise answer to "what is this?" and "why should I care?"

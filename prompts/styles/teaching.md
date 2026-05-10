@@ -8,6 +8,37 @@ The page should feel like a guided learning artifact, not a paper, blog post,
 or dashboard. The user should be able to learn by looking, changing something,
 checking themselves, and moving to the next idea.
 
+## Underlying System: Lesson Lab
+
+This is a classroom-lab system. The first screen is the lesson apparatus, not
+a hero page.
+
+Base scaffold:
+
+1. **Lesson workbench** — main visual stage on the left/center, lesson rail
+   close by, current explanation attached to the stage.
+2. **Step rail** — 4-7 steps that mutate the stage, highlighted object, or
+   example state.
+3. **Try-it controls** — sliders, toggles, selectors, or prediction buttons
+   placed next to the visual they change.
+4. **Concept drawer** — compact cards for vocabulary, misconception, and
+   "why this matters".
+5. **Check panel** — one immediate-feedback quiz/prediction/reflection.
+
+Component vocabulary:
+
+- `.lesson-shell`, `.lesson-stage`, `.step-rail`, `.try-control`,
+  `.annotation-layer`, `.concept-drawer`, `.check-yourself`, `.recap-strip`.
+- Use arrows, labels, callouts, progress, and stateful controls more than
+  generic cards.
+
+Interaction model:
+
+- Every step changes visible state.
+- Controls should teach causality: reveal, compare, scrub, orbit, layer,
+  simulate, or test a prediction.
+- Keep explanatory text attached to the thing being explained.
+
 ## Page Shape
 
 - Open with the actual lesson surface: a visual stage, simulator, annotated

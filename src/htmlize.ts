@@ -129,9 +129,11 @@ async function loadPromptFile(name: string): Promise<string> {
 }
 
 async function loadStylePrompt(style: HtmlAnythingStyle): Promise<string> {
+  const system = await loadPromptFile(path.join("styles", "_system.md"))
   const body = await loadPromptFile(path.join("styles", `${style}.md`))
-  if (body) return body
-  return await loadPromptFile(path.join("styles", "default.md"))
+  if (body) return `${system}\n\n---\n\n${body}`
+  const fallback = await loadPromptFile(path.join("styles", "default.md"))
+  return `${system}\n\n---\n\n${fallback}`
 }
 
 export function selectStyleForContent(contentType: string, options: ConverterOptions = {}): HtmlAnythingStyle {

@@ -4,6 +4,35 @@ Use this style for objects, systems, products, scientific topics, architecture,
 anatomy, specs, and "explain this system" briefs where the user should explore
 an object rather than read a report.
 
+## Underlying System: Object Studio
+
+This is an app-like exploration system. The object/system is the interface.
+
+Base scaffold:
+
+1. **Full object stage** — large visual canvas/SVG/3D/generated bitmap model
+   in the first viewport.
+2. **Entity selector** — object/layer/state chips or rail that changes the
+   selected thing.
+3. **Live inspector** — a persistent panel whose facts, metrics, and callouts
+   update with selection.
+4. **Mode controls** — scale, compare, layer, timeline, orbit, focus, or
+   exploded-view controls.
+5. **Comparison bench** — side-by-side metrics, proportional bars, or layered
+   outlines.
+
+Component vocabulary:
+
+- `.studio-shell`, `.object-stage`, `.entity-rail`, `.live-inspector`,
+  `.mode-strip`, `.comparison-bench`, `.layer-toggle`, `.spec-row`.
+- Prefer spatial labels and direct manipulation over scrolling prose.
+
+Interaction model:
+
+- Click/select changes the stage and inspector together.
+- Controls should preserve layout stability.
+- The page should feel usable before scrolling.
+
 ## Page Shape
 
 - Open with the object or system itself: canvas, SVG, generated image, 3D scene,
