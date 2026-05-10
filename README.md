@@ -2,18 +2,109 @@
 
 [![skills.sh](https://skills.sh/b/clockless-org/html-anything)](https://skills.sh/clockless-org/html-anything)
 
-Turn files, folders, and URLs into one self-contained interactive HTML report.
+Turn an idea, file, folder, or URL into a polished live HTML page.
 
-It is not a format converter. The agent samples the source, finds the interesting structure, designs the right charts and views, then inlines the full data into a single live `.html` file you can open, email, or host as static HTML.
+`html-anything` is a Codex / Claude Code skill. Give it a prompt like
+"create an interactive teaching site about the solar system", or give it
+an export like Amazon orders, WhatsApp chat, a CSV, a transcript, a repo,
+or a folder of notes. The skill figures out the source, chooses the page
+style automatically, builds the HTML, checks it in a browser, and gives
+you something you can open, share, or publish.
 
 ## Preview
 
 - [Open all live examples](https://clockless-org.github.io/html-anything/examples/)
-- [Highlighted example: realistic couple chat report](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
+- [Teaching style: solar system lesson](https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html)
+- [Relationship report: realistic couple chat](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
+
+[![Solar system teaching style screenshot](./docs/solar-system-studio-preview.png)](https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html)
 
 [![Realistic couple chat report screenshot](./docs/relationship-preview.png)](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
 
-The highlighted example uses a synthetic WeChat-style couple chat: 52K messages over two years, with quiet days, work delays, short replies, small arguments, repairs, images, voice notes, transfers, and anonymized evidence snippets.
+## Auto Style Gallery
+
+Each source is routed by `auto` to the page shape that fits it best. These thumbnails are screenshots of the committed live HTML examples.
+
+<table>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html"><img src="./docs/example-previews/solar-system-studio.jpg" alt="Solar system lesson" width="320"></a><br><strong>Solar system lesson</strong><br><code>teaching</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html"><img src="./docs/example-previews/wechat-couple.jpg" alt="Couple chat report" width="320"></a><br><strong>Couple chat report</strong><br><code>relationship</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/whatsapp/output.html"><img src="./docs/example-previews/whatsapp.jpg" alt="WhatsApp relationship" width="320"></a><br><strong>WhatsApp relationship</strong><br><code>relationship</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html"><img src="./docs/example-previews/amazon-orders.jpg" alt="Amazon order history" width="320"></a><br><strong>Amazon order history</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/google-photos-takeout/output.html"><img src="./docs/example-previews/google-photos-takeout.jpg" alt="Google Photos atlas" width="320"></a><br><strong>Google Photos atlas</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/google-maps-stars/output.html"><img src="./docs/example-previews/google-maps-stars.jpg" alt="Saved places atlas" width="320"></a><br><strong>Saved places atlas</strong><br><code>personal-atlas</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/rideshare-history/output.html"><img src="./docs/example-previews/rideshare-history.jpg" alt="Rideshare history" width="320"></a><br><strong>Rideshare history</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/spotify-history/output.html"><img src="./docs/example-previews/spotify-history.jpg" alt="Spotify history" width="320"></a><br><strong>Spotify history</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/youtube-watch-history/output.html"><img src="./docs/example-previews/youtube-watch-history.jpg" alt="YouTube watch history" width="320"></a><br><strong>YouTube watch history</strong><br><code>personal-atlas</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/iphone-health/output.html"><img src="./docs/example-previews/iphone-health.jpg" alt="Apple Health story" width="320"></a><br><strong>Apple Health story</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html"><img src="./docs/example-previews/kindle-highlights.jpg" alt="Kindle highlights" width="320"></a><br><strong>Kindle highlights</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/twitch-history/output.html"><img src="./docs/example-previews/twitch-history.jpg" alt="Twitch viewing" width="320"></a><br><strong>Twitch viewing</strong><br><code>personal-atlas</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/venmo-paypal-payments/output.html"><img src="./docs/example-previews/venmo-paypal-payments.jpg" alt="Venmo / PayPal payments" width="320"></a><br><strong>Venmo / PayPal payments</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/vcard-contacts/output.html"><img src="./docs/example-previews/vcard-contacts.jpg" alt="Address book audit" width="320"></a><br><strong>Address book audit</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html"><img src="./docs/example-previews/linkedin-connections.jpg" alt="LinkedIn network" width="320"></a><br><strong>LinkedIn network</strong><br><code>personal-atlas</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/chatgpt-export/output.html"><img src="./docs/example-previews/chatgpt-export.jpg" alt="ChatGPT export" width="320"></a><br><strong>ChatGPT export</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/ai-chat-log/output.html"><img src="./docs/example-previews/ai-chat-log.jpg" alt="AI chat log" width="320"></a><br><strong>AI chat log</strong><br><code>personal-atlas</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/csv/output.html"><img src="./docs/example-previews/csv.jpg" alt="CSV sales dashboard" width="320"></a><br><strong>CSV sales dashboard</strong><br><code>dashboard</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/jsonl/output.html"><img src="./docs/example-previews/jsonl.jpg" alt="JSONL event stream" width="320"></a><br><strong>JSONL event stream</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/log-access/output.html"><img src="./docs/example-previews/log-access.jpg" alt="Access log" width="320"></a><br><strong>Access log</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/log-error/output.html"><img src="./docs/example-previews/log-error.jpg" alt="Error log" width="320"></a><br><strong>Error log</strong><br><code>dashboard</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/slack/output.html"><img src="./docs/example-previews/slack.jpg" alt="Slack channel" width="320"></a><br><strong>Slack channel</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/discord/output.html"><img src="./docs/example-previews/discord.jpg" alt="Discord community" width="320"></a><br><strong>Discord community</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/telegram/output.html"><img src="./docs/example-previews/telegram.jpg" alt="Telegram export" width="320"></a><br><strong>Telegram export</strong><br><code>dashboard</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/email/output.html"><img src="./docs/example-previews/email.jpg" alt="Email archive" width="320"></a><br><strong>Email archive</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/transcript-sales-call/output.html"><img src="./docs/example-previews/transcript-sales-call.jpg" alt="Sales-call transcript" width="320"></a><br><strong>Sales-call transcript</strong><br><code>dashboard</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/transcript-product-meeting/output.html"><img src="./docs/example-previews/transcript-product-meeting.jpg" alt="Product-meeting transcript" width="320"></a><br><strong>Product-meeting transcript</strong><br><code>dashboard</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/markdown/output.html"><img src="./docs/example-previews/markdown.jpg" alt="Markdown essay" width="320"></a><br><strong>Markdown essay</strong><br><code>editorial</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/bookmarks-market-research/output.html"><img src="./docs/example-previews/bookmarks-market-research.jpg" alt="Market bookmarks" width="320"></a><br><strong>Market bookmarks</strong><br><code>editorial</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/reading-list-academic/output.html"><img src="./docs/example-previews/reading-list-academic.jpg" alt="Academic reading list" width="320"></a><br><strong>Academic reading list</strong><br><code>editorial</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/pdf/output.html"><img src="./docs/example-previews/pdf.jpg" alt="PDF report" width="320"></a><br><strong>PDF report</strong><br><code>paper</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/docx/output.html"><img src="./docs/example-previews/docx.jpg" alt="DOCX decision memo" width="320"></a><br><strong>DOCX decision memo</strong><br><code>paper</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/medical-visit/output.html"><img src="./docs/example-previews/medical-visit.jpg" alt="Medical visit note" width="320"></a><br><strong>Medical visit note</strong><br><code>paper</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/lab-results/output.html"><img src="./docs/example-previews/lab-results.jpg" alt="Lab results" width="320"></a><br><strong>Lab results</strong><br><code>paper</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/legal-chronology/output.html"><img src="./docs/example-previews/legal-chronology.jpg" alt="Legal chronology" width="320"></a><br><strong>Legal chronology</strong><br><code>paper</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/git-diff/output.html"><img src="./docs/example-previews/git-diff.jpg" alt="Git diff review" width="320"></a><br><strong>Git diff review</strong><br><code>developer</code></td>
+</tr>
+<tr>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/pr-review/output.html"><img src="./docs/example-previews/pr-review.jpg" alt="PR patch review" width="320"></a><br><strong>PR patch review</strong><br><code>developer</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/ci-log/output.html"><img src="./docs/example-previews/ci-log.jpg" alt="CI failure log" width="320"></a><br><strong>CI failure log</strong><br><code>developer</code></td>
+<td width="33%"><a href="https://clockless-org.github.io/html-anything/examples/stack-trace/output.html"><img src="./docs/example-previews/stack-trace.jpg" alt="Stack trace" width="320"></a><br><strong>Stack trace</strong><br><code>developer</code></td>
+</tr>
+</table>
+
+Additional source fixtures that map cleanly to auto styles but do not yet have committed `output.html` previews:
+
+| Source fixture | Auto style |
+|---|---|
+| Product backlog (backlog-product) | `dashboard` |
+| Bank transactions (bank-transactions) | `dashboard` |
+| Founder calendar (calendar-founder) | `dashboard` |
+| Invoices (invoices) | `dashboard` |
+| QuickBooks ledger (quickbooks) | `dashboard` |
+| Travel itinerary (itinerary-trip) | `personal-atlas` |
+| GPX run route (run-route) | `personal-atlas` |
+| Markdown notes vault (notes-vault) | `personal-atlas` |
 
 ## Install
 
@@ -49,78 +140,105 @@ git -C "${CODEX_HOME:-$HOME/.codex}/skills/html-anything" pull
 
 ## Use
 
-Ask your agent in plain language:
+Ask in plain language:
 
 ```text
-Use html-anything to convert ~/Downloads/_chat.txt into an interactive HTML page.
+Use html-anything to create an interactive teaching site about the solar system.
 ```
 
 ```text
-Use html-anything on my Spotify history. Walk me through the export first.
+Use html-anything on my Amazon order history. Walk me through the export first.
 ```
 
 ```text
-Make a one-page HTML dashboard from ./data/customers.csv.
+Use html-anything to turn ~/Downloads/_chat.txt into a relationship report.
 ```
 
-If you name a source but do not have the file yet, the skill starts with export instructions first. For example: "my WeChat chat", "my WhatsApp chat", "my Spotify history", "my Google Maps stars", or "my Apple Health export".
+```text
+Use html-anything to make this CSV into a shareable dashboard.
+```
 
-The result is a live `.html` file, not markdown: inline CSS, inline JS, inline data, works offline by double-clicking.
+```text
+Use html-anything on this GitHub repo URL.
+```
 
-## Supported Sources
+If you already have the file, folder, or URL, give it to the agent. If
+you only know the source type, such as "Amazon orders", "Spotify history",
+"WhatsApp chat", or "Google Photos Takeout", the skill first explains how
+to export the data, then converts it after you provide the export.
 
-| | Source | Inputs | Live HTML example |
-|---|---|---|---|
-| 💬 | WeChat / 微信 relationship chat | WeChatMsg / 留痕 exports: `.html`, `.csv`, `.txt`, `.json`, `.docx` | [Couple chat report](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html) |
-| 💬 | WhatsApp relationship chat | `_chat.txt` export | [WhatsApp report](https://clockless-org.github.io/html-anything/examples/whatsapp/output.html) |
-| 💬 | Slack | Channel JSON export, workspace zip `messages.json` | [Slack report](https://clockless-org.github.io/html-anything/examples/slack/output.html) |
-| 💬 | Discord | DiscordChatExporter `.json` or `.csv` | [Discord report](https://clockless-org.github.io/html-anything/examples/discord/output.html) |
-| 💬 | Telegram | Telegram Desktop `result.json` | [Telegram report](https://clockless-org.github.io/html-anything/examples/telegram/output.html) |
-| 💬 | iMessage-style / generic chat | CSV with date, sender/from/isFromMe, message/body/text columns | Live HTML generated from your export |
-| 📊 | CSV / TSV tables | `.csv`, `.tsv` | [CSV dashboard](https://clockless-org.github.io/html-anything/examples/csv/output.html) |
-| 📊 | JSON | `.json` | Live HTML generated from your file |
-| 📊 | JSONL / NDJSON events | `.jsonl`, `.ndjson`, line-delimited JSON in `.json`, `.log`, `.txt` | [Event stream report](https://clockless-org.github.io/html-anything/examples/jsonl/output.html) |
-| 📟 | Logs | `.log`, `.txt`; access logs, syslog, app logs, error logs | [Access log](https://clockless-org.github.io/html-anything/examples/log-access/output.html), [error log](https://clockless-org.github.io/html-anything/examples/log-error/output.html) |
-| 📄 | Markdown | `.md`, `.markdown`, `.mdown`, `.mkd` | [Reading view](https://clockless-org.github.io/html-anything/examples/markdown/output.html) |
-| 📄 | PDF | `.pdf` | [PDF report](https://clockless-org.github.io/html-anything/examples/pdf/output.html) |
-| 📄 | Word document | `.docx` | [DOCX report](https://clockless-org.github.io/html-anything/examples/docx/output.html) |
-| 📬 | Email archive | `.eml`, `.mbox`, Gmail Takeout mbox | [Mailbox report](https://clockless-org.github.io/html-anything/examples/email/output.html) |
-| 🎙️ | Meeting transcript | `.vtt`, `.srt`, timecoded Zoom / Teams / Meet `.txt` | [Sales call](https://clockless-org.github.io/html-anything/examples/transcript-sales-call/output.html), [product review](https://clockless-org.github.io/html-anything/examples/transcript-product-meeting/output.html) |
-| 🧑‍💻 | Git diff | `.diff`, raw `git diff` output | [Diff review](https://clockless-org.github.io/html-anything/examples/git-diff/output.html) |
-| 🧑‍💻 | PR patch | `.patch`, `git format-patch`, GitHub PR patch | [PR review](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) |
-| 🧑‍💻 | CI / build / test log | GitHub Actions, GitLab CI, CircleCI, Buildkite, Jenkins, `npm test`, `pytest`, `go test` | [CI failure report](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) |
-| 🧑‍💻 | Stack trace | Python, Node / JS, Java, Go, Ruby, Rust, .NET | [Stack trace report](https://clockless-org.github.io/html-anything/examples/stack-trace/output.html) |
-| 💵 | Bank transactions | Bank or credit-card CSV exports | Live HTML generated from your statement |
-| 💵 | Invoices / receipts | CSV with invoice number, customer, amount, status, due dates | Live HTML generated from your invoice export |
-| 💵 | Accounting export | QuickBooks, Xero, Wave general-ledger or P&L exports | Live HTML generated from your export |
-| 🤝 | Venmo / PayPal social payments | Venmo statement CSV, PayPal Activity CSV — counterparty leaderboard, story clusters, reimbursement loops | [Venmo activity](https://clockless-org.github.io/html-anything/examples/venmo-paypal-payments/output.html) |
-| 🚗 | Uber / Lyft ride history | Uber DSAR `trips_data.csv` / Lyft `rides.csv` (or JSON) — mobility + spending atlas (commute loops, airport runs, late-night clusters, surge outliers, money split, offline SVG places scatter) | [Uber ride history](https://clockless-org.github.io/html-anything/examples/rideshare-history/output.html) |
-| 📅 | Calendar | `.ics`, `.ical`; Google Calendar, Outlook, Apple Calendar, Fastmail | Live HTML generated from your calendar |
-| ✅ | Issue tracker / Trello | Linear, Jira, GitHub Issues, Asana, ClickUp, Trello JSON | Live HTML generated from your board |
-| 🧠 | Obsidian / Notion / Markdown folder | Directories of markdown, Notion "Markdown & CSV" export | Live HTML generated from your workspace |
-| 🗺️ | GPX / KML routes | `.gpx`, `.kml` | Live HTML generated from your route |
-| 🗺️ | Travel itinerary / location history | Itinerary CSV, Google Takeout-style location JSON/CSV | Live HTML generated from your trip |
-| 🔖 | Bookmarks / URL list / reading list | Bookmarks HTML, URL text files, Pocket / Instapaper / Raindrop / Matter / Omnivore exports | [Market research bookmarks](https://clockless-org.github.io/html-anything/examples/bookmarks-market-research/output.html) |
-| 📚 | Bibliography | BibTeX `.bib`, RIS `.ris` | [Academic reading list](https://clockless-org.github.io/html-anything/examples/reading-list-academic/output.html) |
-| 🌍 | Google Maps saved places | Google Takeout saved places / starred places export | [Saved places atlas](https://clockless-org.github.io/html-anything/examples/google-maps-stars/output.html) |
-| 🎧 | Spotify history | Spotify Privacy export or Extended Streaming History | [Spotify history](https://clockless-org.github.io/html-anything/examples/spotify-history/output.html) |
-| 🟣 | Twitch history | Twitch data request export, viewing history, chat history | [Twitch history](https://clockless-org.github.io/html-anything/examples/twitch-history/output.html) |
-| ❤️ | Apple Health | Apple Health `export.zip`, `export.xml`, workout routes | [Health story](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) |
-| 📦 | Amazon order history | Amazon "Request Your Information" / legacy Order Reports CSV (`Retail.OrderHistory.*.csv`, `Items.csv`) | [Amazon orders](https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html) |
-| ▶️ | YouTube watch history | Google Takeout `Takeout/YouTube and YouTube Music/history/watch-history.json` | [YouTube watch history](https://clockless-org.github.io/html-anything/examples/youtube-watch-history/output.html) |
-| 📖 | Kindle highlights | `My Clippings.txt` from a Kindle device, plus per-book Kindle Notebook HTML emails | [Kindle highlights](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) |
-| 📷 | Google Photos library (Takeout) | Google Takeout `Takeout/Google Photos/` folder of `*.jpg.json` / `*.heic.json` / `*.mp4.json` sidecars + per-album `metadata.json` | [Google Photos library](https://clockless-org.github.io/html-anything/examples/google-photos-takeout/output.html) |
-| 👥 | Contacts (vCard) | Apple Contacts / Google Contacts / iCloud / Android / Outlook `.vcf` exports (vCard 3.0 + 4.0, multi-card) | [Address book audit](https://clockless-org.github.io/html-anything/examples/vcard-contacts/output.html) |
-| 🤝 | LinkedIn connections | LinkedIn "Download your data" `Connections.csv` (with optional `Notes:` preamble) | [Professional network atlas](https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html) |
-| 🌐 | GitHub repo URL | `github.com/owner/repo` URLs, best in skill mode | Live HTML generated from the repo |
-| 🌐 | Article URL | Blog posts, news pages, long-form webpages, best in skill mode | Live HTML generated from the page |
-| 🩺 | Sensitive records | Medical visit notes, lab-results CSVs, legal chronologies | [Medical visit](https://clockless-org.github.io/html-anything/examples/medical-visit/output.html), [lab results](https://clockless-org.github.io/html-anything/examples/lab-results/output.html), [legal chronology](https://clockless-org.github.io/html-anything/examples/legal-chronology/output.html) |
-| 🤖 | AI chat exports | ChatGPT `conversations.json`, Claude chat export, generic `{conversations: [...]}` JSON, plain markdown `User:` / `Assistant:` logs | [ChatGPT export](https://clockless-org.github.io/html-anything/examples/chatgpt-export/output.html), [saved AI chat log](https://clockless-org.github.io/html-anything/examples/ai-chat-log/output.html) — heuristic, offline-only, no calls back to OpenAI / Anthropic |
-| ✨ | Anything else | Plain text or unknown file shape | Live HTML generated from the source |
+## Input And Output
 
-## Standalone CLI
+| Input | What you give | What you get |
+|---|---|---|
+| Idea | A short brief, e.g. "make a solar system teaching site" | A generated educational / interactive HTML page |
+| File | CSV, JSON, Markdown, PDF, DOCX, chat export, log, transcript, statement | A live page designed for that file |
+| Folder | Notes vault, Google Photos Takeout, Notion export, repo, exported archive | A browsable atlas / dashboard / audit page |
+| URL | Article, GitHub repo, public webpage | A shareable HTML reading or exploration page |
+| Export request | "My Amazon orders", "my Spotify history", "my WhatsApp chat" | Export instructions first, then a live HTML page |
 
-The CLI uses the same source pack as the skill. It accepts local files and directories; URL handling is better in skill mode because the agent can fetch and inspect the page first.
+The output is a browser page, not markdown. Most outputs are a single
+`output.html`. When the page needs generated images or other local
+assets, the skill returns `output.html + assets/`. Ask for "single-file"
+if you need everything in one HTML file.
+
+## Automatic Styles
+
+You do not need to choose a style. The default is `auto`.
+
+The skill picks the page shape from the content:
+
+| Content | Typical style |
+|---|---|
+| Unknown or mixed inputs | Default |
+| Tutorials, lessons, explainers, "teach me" prompts | Teaching |
+| Objects, scientific topics, product specs, system explainers | Interactive studio |
+| Chats and relationship exports | Relationship report |
+| Orders, finance, spreadsheets, operational data | Dashboard / personal atlas |
+| Essays, reading lists, bookmarks, personal history | Editorial atlas |
+| Logs, diffs, stack traces, CI failures | Developer report |
+| Medical, legal, papers, long documents | Paper / review mode |
+
+You can still steer it naturally: "make it more tutorial-like", "more
+app-like", "less academic", "more dashboard-like", "more editorial", or
+"more playful".
+
+Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
+There is a fallback `default` style plus eight auto-selected specialized
+styles: `teaching`, `interactive-studio`, `relationship`, `dashboard`,
+`personal-atlas`, `editorial`, `developer`, and `paper`.
+
+## Source Examples
+
+|  | Source family | Examples |
+|---|---|---|
+| 💾 | Personal exports | Amazon orders, rideshare history, YouTube watch history, Spotify history, Google Maps saved places, Apple Health, Twitch, Kindle highlights |
+| 🖼️ | Photos and contacts | Google Photos Takeout metadata, vCard contacts, LinkedIn connections |
+| 💬 | Chats and communities | WeChat, WhatsApp, Slack, Discord, Telegram, iMessage-style CSV |
+| 📊 | Data and operations | CSV / TSV, JSON, JSONL, logs, bank transactions, invoices, QuickBooks, Venmo / PayPal, calendar, issue trackers |
+| 📚 | Documents and research | Markdown, PDF, DOCX, email archives, bookmarks, URL lists, bibliographies, reading lists, Notion / Obsidian / markdown folders |
+| 🛠️ | Developer artifacts | Git diff, PR patch, CI log, stack trace, GitHub repo URL |
+| 🗺️ | Geo and travel | GPX, KML, itinerary CSV, location history |
+| 🔒 | Sensitive records | Medical visit notes, lab results, legal chronologies |
+| 🤖 | AI chat exports | ChatGPT, Claude, generic AI chat logs |
+| ✨ | Anything else | Plain text, unknown file shapes, or a natural-language idea |
+
+The detailed source-specific instructions live in [`prompts/`](./prompts/).
+
+## Defaults
+
+- The skill chooses the style automatically.
+- The skill samples large sources, but renders the full data where practical.
+- The skill checks the page in a browser before handing it back.
+- Generated pages are local-first and static. They can be opened directly or hosted anywhere static HTML works.
+- Generated HTML can embed private source data client-side. Treat the output as sensitive as the original export.
+- Sensitive-record outputs are for organization and review only, not medical, legal, tax, accounting, immigration, insurance, or investment advice.
+
+## Developer Note
+
+This repo also contains a standalone parser / CLI framework used by some
+examples, but the primary product surface is the agent skill. Users should
+not need to understand the internal implementation to use html-anything.
 
 ```bash
 git clone https://github.com/clockless-org/html-anything
@@ -129,14 +247,6 @@ npm install
 export ANTHROPIC_API_KEY=sk-ant-...   # or OPENAI_API_KEY=sk-...
 npx tsx src/cli.ts examples/csv/input.csv --out /tmp/customers.html
 ```
-
-## Defaults
-
-- Outputs are single-file live HTML. No server required.
-- Outputs work offline. Geo pages do not use map tiles.
-- The generated HTML embeds source data client-side. Treat it as sensitive as the original export.
-- Sensitive-record sources are for organization and review only, not medical, legal, tax, accounting, immigration, or insurance advice.
-- The agent sees a representative sample; the full source data is injected afterward and rendered client-side.
 
 ## License
 
