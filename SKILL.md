@@ -214,7 +214,9 @@ content-specific analysis guidance. Use the closest one:
 
 - Personal exports: `amazon-orders`, `youtube-watch-history`,
   `spotify-history`, `google-maps-stars`, `google-photos-takeout`,
-  `iphone-health`, `kindle-highlights`, `twitch-history`.
+  `iphone-health`, `kindle-highlights`, `twitch-history`,
+  `rideshare-history` (Uber + Lyft trip exports — mobility + spending
+  atlas with offline SVG places scatter, no map tiles, no geocoding).
 - Chats: `wechat`, `whatsapp`, `slack`, `discord`, `telegram`,
   `imessage`, `multi-sender-chat`.
 - Data/admin: `csv`, `json`, `jsonl`, `log`, `bank-transactions`,

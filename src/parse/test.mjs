@@ -1471,3 +1471,174 @@ test("vcard-contacts output.html renders the required family sections + offline 
   assert.ok(/never left your machine/i.test(html), "expected privacy-line text in footer")
   assert.ok(/masked by default/i.test(html), "expected masking-line text in footer")
 })
+
+test("rideshare-history parser routes the synthetic Uber CSV", async () => {
+  const fp = path.join(REPO, "examples/rideshare-history/input.csv")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "rideshare-history")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "rideshare-history")
+  assert.equal(out.data.format, "rideshare-history")
+  assert.equal(out.data.source, "uber")
+  assert.ok(out.data.rows.length >= 200, `expected >= 200 rides, got ${out.data.rows.length}`)
+  // Required pre-aggregations per prompts/rideshare-history.md.
+  for (const k of ["rows", "summary", "monthly", "yearly", "heatmap",
+                   "cities", "pickupPlaces", "dropoffPlaces",
+                   "productTypes", "distanceBuckets", "money",
+                   "flags", "geo"]) {
+    assert.ok(out.data[k] !== undefined, `missing required field: ${k}`)
+  }
+  // Histograms shaped right.
+  assert.equal(out.data.heatmap.length, 7 * 24)
+  assert.ok(out.data.monthly.length >= 12)
+  assert.ok(out.data.cities.length >= 1)
+  assert.ok(out.data.productTypes.length >= 2)
+  // Summary integrity.
+  const s = out.data.summary
+  assert.equal(s.source, "uber")
+  assert.ok(s.rideCount > 0)
+  assert.ok(s.cancelledCount > 0, "fixture seeds cancellations")
+  assert.ok(s.refundCount > 0, "fixture seeds refunds")
+  assert.ok(s.totalSpend > 1000)
+  assert.ok(s.totalMiles > 100)
+  assert.ok(s.totalHours > 10)
+  assert.ok(s.lateNightShare > 0, "fixture seeds late-night Fri/Sat rides")
+  assert.ok(s.airportShare > 0, "fixture seeds airport runs")
+  assert.equal(s.currencyCode, "USD")
+  assert.equal(s.currencySymbol, "$")
+  // Required flag kinds the synthetic fixture is designed to exercise.
+  const flagKinds = new Set(out.data.flags.map(f => f.kind))
+  for (const k of ["cancelled", "refund", "airport-run", "commute-loop",
+                   "late-night-cluster", "expensive-outlier"]) {
+    assert.ok(flagKinds.has(k), `expected '${k}' flag kind, got ${[...flagKinds].join(",")}`)
+  }
+  // Geo: coordinates pre-projected, no NaN.
+  assert.equal(out.data.geo.hasCoordinates, true)
+  assert.ok(out.data.geo.points.length >= 1)
+  for (const p of out.data.geo.points) {
+    assert.ok(Number.isFinite(p.x) && Number.isFinite(p.y), `geo point has NaN: ${JSON.stringify(p)}`)
+    assert.ok(p.kind === "pickup" || p.kind === "dropoff")
+  }
+  // Synthetic-data invariant — every trip ID prefix-stamped.
+  for (const r of out.data.rows.slice(0, 100)) {
+    assert.ok(r.raw["Trip ID"]?.startsWith("SYN-UBR-"), `non-synthetic trip ID leaked: ${r.raw["Trip ID"]}`)
+    assert.ok(/synthetic/i.test(r.pickupLabel) || r.pickupLabel === null, `non-synthetic pickup label leaked: ${r.pickupLabel}`)
+  }
+  // Coordinates rounded to 0.01° (synthetic / coarse).
+  for (const r of out.data.rows.slice(0, 50)) {
+    if (r.pickupLat != null) {
+      const rounded = Math.round(r.pickupLat * 100) / 100
+      assert.equal(r.pickupLat, rounded, `pickupLat must be coarse (0.01°): ${r.pickupLat}`)
+    }
+  }
+})
+
+test("rideshare-history parser routes a synthetic Lyft CSV", async () => {
+  // Inline synthetic Lyft CSV — the example fixture is Uber-shaped, but
+  // detection must work for Lyft too.
+  const dir = await fs.mkdtemp(path.join(__dirname, "..", "..", ".tmp-lyft-test-"))
+  try {
+    const fp = path.join(dir, "rides.csv")
+    const csv = [
+      "Ride ID,Requested at,Pickup Address,Pickup Lat,Pickup Lng,Drop-off Address,Dropoff Lat,Dropoff Lng,Distance (miles),Duration,Cost,Tip,Total,Currency,Ride Type,Status,City",
+      "SYN-LYF-001,2025-01-04 09:12:00,Home (synthetic),37.76,-122.42,Office (synthetic),37.78,-122.40,2.4,15:30,9.50,2.00,12.50,USD,Lyft,completed,San Francisco",
+      "SYN-LYF-002,2025-01-12 22:30:00,Home (synthetic),37.76,-122.42,Bar (synthetic),37.76,-122.41,1.1,8:00,7.80,1.00,9.80,USD,Lyft,completed,San Francisco",
+      "SYN-LYF-003,2025-01-13 02:15:00,Bar (synthetic),37.76,-122.41,Home (synthetic),37.76,-122.42,1.1,9:00,12.40,2.00,15.40,USD,Lyft Lux,completed,San Francisco",
+      "SYN-LYF-004,2025-01-20 06:00:00,Home (synthetic),37.76,-122.42,SFO Terminal 2 (synthetic),37.62,-122.38,12.5,28:00,42.00,5.00,52.30,USD,Lyft XL,completed,San Francisco",
+      "SYN-LYF-005,2025-01-22 08:00:00,Home (synthetic),37.76,-122.42,Office (synthetic),37.78,-122.40,0,0,5.00,0,5.00,USD,Lyft,cancelled,San Francisco",
+      "",
+    ].join("\n")
+    await fs.writeFile(fp, csv, "utf8")
+    const parser = await pickParser(fp)
+    assert.equal(parser?.name, "rideshare-history")
+    const out = await parser.parse(fp)
+    assert.equal(out.contentType, "rideshare-history")
+    assert.equal(out.data.source, "lyft")
+    assert.equal(out.data.summary.source, "lyft")
+    assert.equal(out.data.rows.length, 5)
+    assert.equal(out.data.summary.cancelledCount, 1)
+    // Lyft product types stay verbatim.
+    const products = new Set(out.data.productTypes.map(p => p.product))
+    assert.ok(products.has("Lyft"))
+    assert.ok(products.has("Lyft Lux"))
+    assert.ok(products.has("Lyft XL"))
+    // Airport detection works on label keywords (SFO).
+    assert.ok(out.data.flags.some(f => f.kind === "airport-run"), "expected airport-run flag from SFO label")
+    // Late-night detection works.
+    const lateNight = out.data.rows.filter(r => r.flags.includes("late-night"))
+    assert.ok(lateNight.length >= 2, "expected at least 2 late-night rides (22:30 + 02:15)")
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true })
+  }
+})
+
+test("rideshare-history parser refuses non-rideshare CSVs (bank, plain tabular)", async () => {
+  // Bank statement — should route to finance, not rideshare.
+  const bank = path.join(REPO, "examples/bank-transactions/input.csv")
+  const bankParser = await pickParser(bank)
+  assert.notEqual(bankParser?.name, "rideshare-history")
+  // Plain CSV — should route to csv.
+  const plain = path.join(REPO, "examples/csv/input.csv")
+  const plainParser = await pickParser(plain)
+  assert.notEqual(plainParser?.name, "rideshare-history")
+})
+
+test("registry exposes rideshare-history parser before finance + csv", async () => {
+  const { parsers } = await import("../../dist/parse/index.js")
+  const names = parsers.map(p => p.name)
+  const ride = names.indexOf("rideshare-history")
+  const fin = names.indexOf("finance")
+  const csv = names.indexOf("csv")
+  assert.ok(ride >= 0, "rideshare-history parser missing from registry")
+  assert.ok(ride < fin, "rideshare-history must run before finance")
+  assert.ok(ride < csv, "rideshare-history must run before generic csv")
+})
+
+test("rideshare-history prompt is present on disk", async () => {
+  const fs = await import("node:fs/promises")
+  const p = path.join(REPO, "prompts", "rideshare-history.md")
+  const stat = await fs.stat(p)
+  assert.ok(stat.isFile(), "missing prompt file: rideshare-history.md")
+  const body = await fs.readFile(p, "utf8")
+  for (const needle of ["Export instructions", "Uber", "Lyft",
+                        "Spend timeline", "When you ride", "Top places",
+                        "Trip lengths", "Money", "Flags",
+                        "Browse all", "Privacy", "no map tiles", "no geocoding"]) {
+    assert.ok(body.includes(needle), `prompts/rideshare-history.md missing: ${needle}`)
+  }
+})
+
+test("rideshare-history output.html renders the required sections + offline rules", async () => {
+  const fs = await import("node:fs/promises")
+  const html = await fs.readFile(path.join(REPO, "examples/rideshare-history/output.html"), "utf8")
+  for (const needle of [
+    "Spend timeline",
+    "When you ride",
+    "Top places",
+    "Cities",
+    "Trip lengths",
+    "Places",
+    "Money",
+    "Flags",
+    "Browse all",
+    "Heuristic",
+    "Generated locally",
+    "rideshare-history",
+    "UBER",
+    "not tax, accounting, or insurance advice",
+    "no map tiles",
+    "no geocoding",
+    "masked by default",
+  ]) {
+    assert.ok(html.includes(needle), `examples/rideshare-history/output.html missing: ${needle}`)
+  }
+  // Hard offline rules: no map providers, no geocoders, no embedded images,
+  // no iframes; only the shared Google Fonts link is allowed.
+  assert.ok(!/<iframe\b/i.test(html), "rideshare-history output must not embed iframes")
+  assert.ok(!/<img\s+[^>]*\bsrc=/i.test(html), "rideshare-history output must not include any <img src> tags")
+  for (const forbidden of ["mapbox", "leaflet", "tile.openstreetmap", "google.com/maps",
+                           "nominatim.openstreetmap", "geocod.io"]) {
+    assert.ok(!html.toLowerCase().includes(forbidden),
+      `rideshare-history output must not reference ${forbidden}`)
+  }
+})
