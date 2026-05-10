@@ -17,7 +17,7 @@
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
 import { fileURLToPath } from "node:url"
-import type { ConverterOptions, LlmHelper, ParsedFile } from "./types.js"
+import type { ConverterOptions, HtmlAnythingStyle, LlmHelper, ParsedFile } from "./types.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PROMPTS_DIR = path.resolve(__dirname, "..", "prompts")
@@ -50,16 +50,20 @@ export async function htmlize(
   llm: LlmHelper,
   options: ConverterOptions = {},
 ): Promise<string> {
-  // Two prompts get loaded for every conversion:
+  // Three prompts get loaded for every conversion:
   //   1. _design.md — Clockless design tokens (colors, fonts, spacing).
   //      Non-negotiable; applied to every output for brand consistency.
   //   2. <contentType>.md — source-specific guidance (what to analyze,
   //      what to visualize, data shape). Falls back to default.md.
-  // The skill (Claude Code mode) reads the same two files, so both
+  //   3. styles/<style>.md — the page-shape contract. Defaults to auto
+  //      selection from the parsed source, but can be overridden.
+  // The skill (Claude Code mode) reads the same three files, so both
   // modes converge on identical output styling.
   const designPrompt = await loadPromptFile("_design.md")
   const sourcePrompt = await loadSourcePrompt(parsed.contentType)
-  const userPrompt = buildUserPrompt(parsed, options, designPrompt, sourcePrompt)
+  const selectedStyle = selectStyleForContent(parsed.contentType, options)
+  const stylePrompt = await loadStylePrompt(selectedStyle)
+  const userPrompt = buildUserPrompt(parsed, options, designPrompt, sourcePrompt, selectedStyle, stylePrompt)
 
   const raw = await llm.ask(`${BASE_PROMPT}\n\n---\n\n${userPrompt}`, {
     model: options.model || "claude-sonnet-4-6",
@@ -81,15 +85,21 @@ function buildUserPrompt(
   options: ConverterOptions,
   designPrompt: string,
   sourcePrompt: string,
+  selectedStyle: HtmlAnythingStyle,
+  stylePrompt: string,
 ): string {
   const title = options.title || parsed.meta.sourceFile.replace(/\.[^.]+$/, "")
   return [
     `Content type: ${parsed.contentType}`,
     `Summary: ${parsed.summary}`,
     `Document title: ${title}`,
+    `Selected style: ${selectedStyle}`,
     "",
     "## Design system (apply to every output, regardless of source)",
     designPrompt,
+    "",
+    "## Style-specific guidance",
+    stylePrompt,
     "",
     "## Source-specific guidance",
     sourcePrompt,
@@ -116,6 +126,103 @@ async function loadPromptFile(name: string): Promise<string> {
   } catch {
     return ""
   }
+}
+
+async function loadStylePrompt(style: HtmlAnythingStyle): Promise<string> {
+  const body = await loadPromptFile(path.join("styles", `${style}.md`))
+  if (body) return body
+  return await loadPromptFile(path.join("styles", "default.md"))
+}
+
+export function selectStyleForContent(contentType: string, options: ConverterOptions = {}): HtmlAnythingStyle {
+  if (options.style && options.style !== "auto") return options.style
+
+  if (
+    contentType === "wechat-chat" ||
+    contentType === "whatsapp-chat"
+  ) {
+    return "relationship"
+  }
+
+  if (
+    contentType === "git-diff" ||
+    contentType === "pr-review" ||
+    contentType === "ci-log" ||
+    contentType === "stack-trace"
+  ) {
+    return "developer"
+  }
+
+  if (
+    contentType === "pdf-document" ||
+    contentType === "docx-document" ||
+    contentType === "medical-visit" ||
+    contentType === "lab-results" ||
+    contentType === "legal-chronology"
+  ) {
+    return "paper"
+  }
+
+  if (
+    contentType === "csv-tabular" ||
+    contentType === "json-data" ||
+    contentType === "jsonl-events" ||
+    contentType === "log-events" ||
+    contentType === "email-archive" ||
+    contentType === "transcript" ||
+    contentType === "bank-transactions" ||
+    contentType === "invoices" ||
+    contentType === "quickbooks-report" ||
+    contentType === "venmo-paypal-payments" ||
+    contentType === "ics-calendar" ||
+    contentType === "issue-tracker" ||
+    contentType === "trello-board" ||
+    contentType === "slack-chat" ||
+    contentType === "discord-chat" ||
+    contentType === "telegram-chat" ||
+    contentType === "imessage-chat" ||
+    contentType === "multi-sender-chat"
+  ) {
+    return "dashboard"
+  }
+
+  if (
+    contentType === "markdown-document" ||
+    contentType === "bookmarks-html" ||
+    contentType === "bibliography" ||
+    contentType === "url-list" ||
+    contentType === "reading-list"
+  ) {
+    return "editorial"
+  }
+
+  if (
+    contentType === "spotify-history" ||
+    contentType === "youtube-watch-history" ||
+    contentType === "twitch-history" ||
+    contentType === "google-maps-stars" ||
+    contentType === "google-photos-takeout" ||
+    contentType === "amazon-orders" ||
+    contentType === "linkedin-connections" ||
+    contentType === "iphone-health" ||
+    contentType === "kindle-highlights" ||
+    contentType === "vcard-contacts" ||
+    contentType === "rideshare-history" ||
+    contentType === "chatgpt-export" ||
+    contentType === "claude-chat-export" ||
+    contentType === "ai-chat-export" ||
+    contentType === "gpx-route" ||
+    contentType === "kml-route" ||
+    contentType === "travel-itinerary" ||
+    contentType === "location-history" ||
+    contentType === "notion-export" ||
+    contentType === "obsidian-vault" ||
+    contentType === "markdown-folder"
+  ) {
+    return "personal-atlas"
+  }
+
+  return "default"
 }
 
 async function loadSourcePrompt(contentType: string): Promise<string> {

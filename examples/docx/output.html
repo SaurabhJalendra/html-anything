@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-ha-style="paper">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -954,6 +954,278 @@ tbody td {
   body { background: white; color: black; }
 }
 </style>
+<!-- html-anything example style skin:start -->
+
+<style id="html-anything-example-style-skin">
+html[data-ha-style] {
+  --ha-style-accent: var(--primary, #a03b00);
+  --ha-style-accent-2: var(--secondary-container, #7b40e0);
+  --ha-style-badge-bg: rgba(255,255,255,.78);
+  --ha-style-badge-fg: var(--fg-1, #1e1b19);
+}
+html[data-ha-style] body {
+  position: relative;
+  background-attachment: fixed;
+}
+html[data-ha-style] body::before {
+  position: fixed;
+  z-index: 9999;
+  top: 12px;
+  right: 12px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--ha-style-accent) 26%, transparent);
+  border-radius: 999px;
+  background: var(--ha-style-badge-bg);
+  color: var(--ha-style-badge-fg);
+  box-shadow: 0 6px 24px rgba(0,0,0,.10);
+  font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(16px);
+}
+html[data-ha-style] .hero,
+html[data-ha-style] header.hero,
+html[data-ha-style] .top,
+html[data-ha-style] .header {
+  position: relative;
+}
+html[data-ha-style] .hero::before,
+html[data-ha-style] header.hero::before {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 6px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--ha-style-accent);
+}
+
+html[data-ha-style="teaching"] {
+  --ha-style-accent: #0f766e;
+  --ha-style-accent-2: #f59e0b;
+  --primary: #0f766e;
+  --primary-container: #115e59;
+  --primary-fixed: #ccfbf1;
+  --secondary-container: #f59e0b;
+  --bg: #f6fbfb;
+  --surface: #f6fbfb;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #edf7f5;
+  --surface-container: #e5f1ee;
+  --surface-container-high: #d8e8e4;
+  --fg-1: #10201f;
+  --fg-2: #304c49;
+  --fg-muted: #647b78;
+  --border: rgba(15,118,110,.14);
+  --gradient-hero: linear-gradient(135deg, #0f766e 0%, #f59e0b 100%);
+  --gradient-text: linear-gradient(135deg, #0f766e 0%, #f59e0b 100%);
+}
+html[data-ha-style="teaching"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(rgba(15,118,110,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,118,110,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+html[data-ha-style="teaching"] body::before { content: "teaching"; }
+
+html[data-ha-style="relationship"] {
+  --ha-style-accent: #be3455;
+  --ha-style-accent-2: #317b93;
+  --primary: #be3455;
+  --primary-container: #a52d4b;
+  --primary-fixed: #ffe1e8;
+  --secondary-container: #317b93;
+  --bg: #fff7f8;
+  --surface: #fff7f8;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fff0f3;
+  --surface-container: #f8e7eb;
+  --surface-container-high: #efdde3;
+  --fg-1: #28181c;
+  --fg-2: #5f3e48;
+  --fg-muted: #8d6b75;
+  --border: rgba(190,52,85,.14);
+  --rose: #e25b74;
+  --blue: #4f95a8;
+  --gradient-hero: linear-gradient(135deg, #be3455 0%, #317b93 100%);
+  --gradient-text: linear-gradient(135deg, #be3455 0%, #317b93 100%);
+}
+html[data-ha-style="relationship"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(120deg, rgba(190,52,85,.08), transparent 36%),
+    linear-gradient(300deg, rgba(49,123,147,.08), transparent 40%);
+}
+html[data-ha-style="relationship"] body::before { content: "relationship"; }
+
+html[data-ha-style="personal-atlas"] {
+  --ha-style-accent: #3f7f6a;
+  --ha-style-accent-2: #c15a2b;
+  --primary: #3f7f6a;
+  --primary-container: #2f6b58;
+  --primary-fixed: #dff4ea;
+  --secondary-container: #c15a2b;
+  --bg: #f7faf4;
+  --surface: #f7faf4;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #eef5ea;
+  --surface-container: #e6eee0;
+  --surface-container-high: #dbe7d5;
+  --fg-1: #17211b;
+  --fg-2: #405345;
+  --fg-muted: #718172;
+  --border: rgba(63,127,106,.15);
+  --gradient-hero: linear-gradient(135deg, #3f7f6a 0%, #c15a2b 100%);
+  --gradient-text: linear-gradient(135deg, #3f7f6a 0%, #c15a2b 100%);
+}
+html[data-ha-style="personal-atlas"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(63,127,106,.11) 0 2px, transparent 2px),
+    radial-gradient(circle at 70% 40%, rgba(193,90,43,.10) 0 1.5px, transparent 1.5px);
+  background-size: 54px 54px, 38px 38px;
+}
+html[data-ha-style="personal-atlas"] body::before { content: "personal atlas"; }
+
+html[data-ha-style="dashboard"] {
+  --ha-style-accent: #0f5f6f;
+  --ha-style-accent-2: #8a5a16;
+  --primary: #0f5f6f;
+  --primary-container: #0b4c59;
+  --primary-fixed: #d8f2f5;
+  --secondary-container: #8a5a16;
+  --bg: #f5f7f9;
+  --surface: #f5f7f9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #eef2f5;
+  --surface-container: #e7edf1;
+  --surface-container-high: #dce5ea;
+  --fg-1: #111827;
+  --fg-2: #374151;
+  --fg-muted: #6b7280;
+  --border: rgba(15,95,111,.16);
+  --gradient-hero: linear-gradient(135deg, #0f5f6f 0%, #083344 100%);
+  --gradient-text: linear-gradient(135deg, #0f5f6f 0%, #083344 100%);
+}
+html[data-ha-style="dashboard"] body {
+  background-color: var(--bg) !important;
+  background-image: linear-gradient(90deg, rgba(15,95,111,.08) 0 1px, transparent 1px);
+  background-size: 18px 100%;
+}
+html[data-ha-style="dashboard"] body::before { content: "dashboard"; }
+html[data-ha-style="dashboard"] .hero::before,
+html[data-ha-style="dashboard"] header.hero::before {
+  width: 100%;
+  height: 3px;
+  margin-bottom: 14px;
+}
+
+html[data-ha-style="editorial"] {
+  --ha-style-accent: #8b3f1f;
+  --ha-style-accent-2: #2f6f73;
+  --primary: #8b3f1f;
+  --primary-container: #703319;
+  --primary-fixed: #ffe4d5;
+  --secondary-container: #2f6f73;
+  --bg: #fbfaf7;
+  --surface: #fbfaf7;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f2efe8;
+  --surface-container: #e9e4da;
+  --surface-container-high: #ded7c9;
+  --fg-1: #211d18;
+  --fg-2: #554d44;
+  --fg-muted: #82786c;
+  --border: rgba(139,63,31,.16);
+  --font-headline: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --gradient-hero: linear-gradient(135deg, #8b3f1f 0%, #2f6f73 100%);
+  --gradient-text: linear-gradient(135deg, #8b3f1f 0%, #2f6f73 100%);
+}
+html[data-ha-style="editorial"] body {
+  background-color: var(--bg) !important;
+  background-image: linear-gradient(90deg, rgba(139,63,31,.18) 0 4px, transparent 4px);
+  background-size: 100% 100%;
+}
+html[data-ha-style="editorial"] body::before { content: "editorial"; }
+html[data-ha-style="editorial"] .hero::before,
+html[data-ha-style="editorial"] header.hero::before {
+  width: 42px;
+  height: 42px;
+  border-radius: 0;
+  background: transparent;
+  border-top: 4px solid var(--ha-style-accent);
+  border-left: 4px solid var(--ha-style-accent);
+}
+
+html[data-ha-style="paper"] {
+  --ha-style-accent: #53606a;
+  --ha-style-accent-2: #8c6f4a;
+  --primary: #53606a;
+  --primary-container: #3e4850;
+  --primary-fixed: #eef1f3;
+  --secondary-container: #8c6f4a;
+  --bg: #f9faf9;
+  --surface: #f9faf9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f1f2f1;
+  --surface-container: #e8eae8;
+  --surface-container-high: #dedfdd;
+  --fg-1: #171717;
+  --fg-2: #4b5563;
+  --fg-muted: #737373;
+  --border: rgba(83,96,106,.18);
+  --font-headline: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --gradient-hero: linear-gradient(135deg, #53606a 0%, #8c6f4a 100%);
+  --gradient-text: linear-gradient(135deg, #53606a 0%, #8c6f4a 100%);
+}
+html[data-ha-style="paper"] body {
+  background-color: var(--bg) !important;
+  background-image: repeating-linear-gradient(0deg, transparent 0 31px, rgba(83,96,106,.08) 31px 32px);
+}
+html[data-ha-style="paper"] body::before { content: "paper"; }
+
+html[data-ha-style="developer"] {
+  color-scheme: dark;
+  --ha-style-accent: #38bdf8;
+  --ha-style-accent-2: #f97316;
+  --ha-style-badge-bg: rgba(8,16,31,.82);
+  --ha-style-badge-fg: #dbeafe;
+  --primary: #38bdf8;
+  --primary-container: #0e7490;
+  --primary-fixed: #0f2942;
+  --secondary-container: #f97316;
+  --bg: #07111f;
+  --surface: #07111f;
+  --surface-container-lowest: #0b1426;
+  --surface-container-low: #0f1b31;
+  --surface-container: #13233d;
+  --surface-container-high: #1b2f50;
+  --fg-1: #f8fafc;
+  --fg-2: #cbd5e1;
+  --fg-muted: #94a3b8;
+  --border: rgba(148,163,184,.18);
+  --green: #34d399;
+  --red: #fb7185;
+  --yellow: #fbbf24;
+  --gradient-hero: linear-gradient(135deg, #0f172a 0%, #0e7490 100%);
+  --gradient-text: linear-gradient(135deg, #38bdf8 0%, #f97316 100%);
+}
+html[data-ha-style="developer"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(rgba(56,189,248,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+html[data-ha-style="developer"] body::before { content: "developer"; }
+html[data-ha-style="developer"] pre,
+html[data-ha-style="developer"] code,
+html[data-ha-style="developer"] .mono {
+  color: inherit;
+}
+</style>
+<!-- html-anything example style skin:end -->
 </head>
 <body>
 <script>const DATA = {"markdown":"RFC\\-014: Pricing Page V2 — Decision Memo\n\n*Synthetic fixture for html\\-anything\\. All names, numbers, customer quotes, deal sizes, and internal projects in this memo are invented\\.*\n\n__Author__\n\nRiley Chen \\(synthetic, Product\\)\n\n__Reviewers__\n\nAsha Vora \\(Eng\\), Marcus Liang \\(GTM\\), Devon Park \\(Finance\\)\n\n__Status__\n\nDecided — implementation kickoff Q2 2026\n\n__Decision date__\n\n2026\\-04\\-12\n\n__Last updated__\n\n2026\\-04\\-22\n\n__Related__\n\nRFC\\-009 \\(free\\-tier kill\\), PROD\\-882 \\(pricing page redesign\\)\n\n# TL;DR\n\nWe are replacing the current 4\\-tier pricing page with a 2\\-tier model \\(Starter, Team\\) plus a contact\\-sales Enterprise track\\. The change is driven by three findings: \\(1\\) the Pro tier captured only 7% of new signups in Q1 but consumed 31% of pricing\\-page time\\-on\\-page, \\(2\\) support tickets tagged 'pricing confusion' rose 2\\.4x year\\-over\\-year, and \\(3\\) every winning competitor in our segment has consolidated to ≤ 3 published tiers\\. Expected impact: \\+18% activation rate on the pricing page, neutral net revenue in 2 quarters, \\+6% by Q4 2026\\.\n\n# 1\\. Context\n\nThe current pricing page \\(v1, shipped 2024\\) presents Free, Starter, Pro, and Team tiers\\. Free was killed in RFC\\-009 but the Pro tier remains — it was originally pitched as the 'power individual' segment between Starter and Team\\.\n\nThree things changed since 2024 that invalidate the original pitch:\n\nFirst, the prosumer segment we expected to fill Pro never showed up\\. Q1 2026 signups split 71% Starter, 7% Pro, 22% Team\\. Pro is a quiet middle that almost no one chooses on first contact\\.\n\nSecond, the support cost of the four\\-tier table is real\\. We logged 412 'pricing confusion' tickets in Q1 2026 versus 173 in Q1 2025\\. The most common confusion: customers picked Pro thinking it included multi\\-seat features \\(it does not\\) and downgraded within 30 days\\.\n\nThird, every competitor with positive growth in our segment ships ≤ 3 published tiers\\. The two that grew fastest \\(Linear, Vercel\\) ship 2 \\+ 'enterprise'\\. The cognitive load argument is now backed by a market signal\\.\n\n*“I picked Pro because it sounded important\\. Then I realised it gave me nothing my coworkers could actually use, and I downgraded the next day\\.” — synthetic customer interview, March 2026*\n\n# 2\\. Proposal\n\nReplace the four\\-tier table with two published tiers plus a contact\\-sales Enterprise option:\n\n## 2\\.1 Tiers\n\nStarter — single user, $19/mo\\. Existing Starter customers grandfathered\\.\n\nTeam — up to 25 seats, $39/seat/mo\\. Existing Team customers see no price change\\.\n\nEnterprise — contact sales\\. SSO, audit log, custom DPA, named support\\.\n\n## 2\\.2 What happens to Pro customers\n\nThere are 1,184 active Pro customers\\. They will be migrated as follows: solo Pro accounts → grandfathered Starter at current Pro price for 12 months, then offered Starter or Team upgrade with a 20% loyalty discount\\. Multi\\-seat Pro accounts \\(these exist accidentally; the tier was never supposed to allow more than one seat\\) → free upgrade to Team at Pro pricing for 6 months\\.\n\n## 2\\.3 Page design changes\n\nThree\\-column layout with the Team column visually emphasised \\(brand orange border, ‘Most popular’ tag\\)\\. Feature comparison table simplified from 47 rows to 19\\. FAQ section reduced from 23 questions to 8, with the four highest\\-traffic ones promoted above the fold\\.\n\n# 3\\. Alternatives Considered\n\n<b>3\\.1 Keep four tiers but rename Pro\\.</b> Cheaper to ship, but leaves the cognitive\\-load problem unresolved and the migration risk in place\\. Rejected because the data shows the problem is structural, not naming\\.\n\n<b>3\\.2 Single tier \\+ usage\\-based\\.</b> Considered seriously\\. Strong long\\-term direction; wrong short\\-term move because our billing infrastructure does not yet support metered components and we are not staffed to build it before Q4\\. Revisit in 2027\\.\n\n<b>3\\.3 Three published tiers \\(Starter, Team, Business\\)\\.</b> Closest to v1 minus Pro\\. Rejected because adding a Business tier reintroduces the 'middle confusion' pattern we are trying to remove\\. Two\\-plus\\-Enterprise is structurally cleaner\\.\n\n# 4\\. Risks & Mitigations\n\n<b>4\\.1 Pro customer churn\\.</b> The migration plan extends current pricing for 6–12 months, which we project converts 78% to Starter or Team and 22% to churn\\. Worst\\-case \\(50% churn\\) loses ~$680K ARR\\. Mitigation: dedicated CSM outreach to the top 100 Pro accounts\\.\n\n<b>4\\.2 Sales pipeline impact\\.</b> Removing the published Pro tier may reduce inbound qualification accuracy\\. Mitigation: run a qualification quiz on the pricing page \\(already prototyped in PROD\\-851\\) and route Pro\\-shaped leads directly to AEs\\.\n\n<b>4\\.3 Reputational risk\\.</b> Pricing changes draw attention\\. Mitigation: ship a public\\-blog post explaining the change before the page goes live, with a dedicated migration FAQ\\.\n\n# 5\\. Decisions\n\n__D\\-1__\n\nAdopt 2\\-tier\\-plus\\-Enterprise model\\. Approved 2026\\-04\\-12\\.\n\n__D\\-2__\n\nPro tier sunset in waves: solo accounts first, multi\\-seat second\\.\n\n__D\\-3__\n\nMigration window: 12 months for solo, 6 months for multi\\-seat\\.\n\n__D\\-4__\n\nLoyalty discount: 20% off list for migrating Pro customers, 12 months\\.\n\n__D\\-5__\n\nQ1 2027 review for usage\\-based tier feasibility \\(links to RFC\\-014A\\)\\.\n\n# 6\\. Action Items\n\n__Action__\n\n__Owner__\n\n__Due__\n\n__Status__\n\nUpdate pricing page comp table to 19 rows\n\nRiley Chen\n\n2026\\-05\\-15\n\nIn progress\n\nMigration email sequence \\+ drip\n\nMarcus Liang\n\n2026\\-05\\-22\n\nDrafted\n\nCSM outreach plan for top 100 Pro accounts\n\nDevon Park\n\n2026\\-05\\-08\n\nDone\n\nPricing\\-page qualification quiz wiring\n\nAsha Vora\n\n2026\\-06\\-02\n\nNot started\n\nPublic blog post \\+ migration FAQ\n\nRiley Chen\n\nPre\\-launch \\-7d\n\nOutline\n\nBilling infra spike for usage\\-based \\(RFC\\-014A\\)\n\nAsha Vora\n\n2026\\-09\\-30\n\nScoped\n\n# 7\\. Open Questions\n\nQ1\\. Should the loyalty discount apply for 12 or 18 months? Current proposal is 12; Marcus argues 18 to soften the change\\.\n\nQ2\\. Do we publish per\\-seat Team pricing or 'starting at $39/seat'? Finance prefers the latter; design prefers the former\\.\n\nQ3\\. Enterprise floor — is $24K/year the right minimum? Current AE feedback is the floor is too low and is attracting Team\\-shaped accounts that should self\\-serve\\.\n\nQ4\\. Migration FAQ tone — should the post acknowledge that the Pro tier was a strategic miss, or frame the change as a forward\\-looking simplification?\n\n# Appendix A — Data references\n\n*All numbers in this synthetic memo are invented and intended to mimic the shape of real internal pricing analyses, not the substance\\.*\n\nA\\.1 Q1 2026 signup mix: 71% Starter / 7% Pro / 22% Team \\(n = 14,732 signups, synthetic\\)\n\nA\\.2 Pricing\\-confusion ticket volume: 412 \\(Q1 2026\\) vs 173 \\(Q1 2025\\), \\+138% YoY\n\nA\\.3 Pro tier active customers: 1,184 — of which 1,061 solo, 123 multi\\-seat \\(synthetic\\)\n\nA\\.4 Projected ARR impact: \\-$210K \\(months 1–6\\), neutral by month 9, \\+6% baseline by Q4 2026\n\nA\\.5 Competitor pricing\\-tier counts \\(synthetic survey\\): Linear 2, Vercel 2\\+E, Notion 3, Asana 4, Monday 5\n\n","plainText":"RFC\\-014: Pricing Page V2 — Decision Memo Synthetic fixture for html\\-anything\\. All names, numbers, customer quotes, deal sizes, and internal projects in this memo are invented\\. Author Riley Chen \\(synthetic, Product\\) Reviewers Asha Vora \\(Eng\\), Marcus Liang \\(GTM\\), Devon Park \\(Finance\\) Status Decided — implementation kickoff Q2 2026 Decision date 2026\\-04\\-12 Last updated 2026\\-04\\-22 Related RFC\\-009 \\(free\\-tier kill\\), PROD\\-882 \\(pricing page redesign\\) TL;DR We are replacing the current 4\\-tier pricing page with a 2\\-tier model \\(Starter, Team\\) plus a contact\\-sales Enterprise track\\. The change is driven by three findings: \\(1\\) the Pro tier captured only 7% of new signups in Q1 but consumed 31% of pricing\\-page time\\-on\\-page, \\(2\\) support tickets tagged 'pricing confusion' rose 2\\.4x year\\-over\\-year, and \\(3\\) every winning competitor in our segment has consolidated to ≤ 3 published tiers\\. Expected impact: \\+18% activation rate on the pricing page, neutral net revenue in 2 quarters, \\+6% by Q4 2026\\. 1\\. Context The current pricing page \\(v1, shipped 2024\\) presents Free, Starter, Pro, and Team tiers\\. Free was killed in RFC\\-009 but the Pro tier remains — it was originally pitched as the 'power individual' segment between Starter and Team\\. Three things changed since 2024 that invalidate the original pitch: First, the prosumer segment we expected to fill Pro never showed up\\. Q1 2026 signups split 71% Starter, 7% Pro, 22% Team\\. Pro is a quiet middle that almost no one chooses on first contact\\. Second, the support cost of the four\\-tier table is real\\. We logged 412 'pricing confusion' tickets in Q1 2026 versus 173 in Q1 2025\\. The most common confusion: customers picked Pro thinking it included multi\\-seat features \\(it does not\\) and downgraded within 30 days\\. Third, every competitor with positive growth in our segment ships ≤ 3 published tiers\\. The two that grew fastest \\(Linear, Vercel\\) ship 2 \\+ 'enterprise'\\. The cognitive load argument is now backed by a market signal\\. “I picked Pro because it sounded important\\. Then I realised it gave me nothing my coworkers could actually use, and I downgraded the next day\\.” — synthetic customer interview, March 2026 2\\. Proposal Replace the four\\-tier table with two published tiers plus a contact\\-sales Enterprise option: 2\\.1 Tiers Starter — single user, $19/mo\\. Existing Starter customers grandfathered\\. Team — up to 25 seats, $39/seat/mo\\. Existing Team customers see no price change\\. Enterprise — contact sales\\. SSO, audit log, custom DPA, named support\\. 2\\.2 What happens to Pro customers There are 1,184 active Pro customers\\. They will be migrated as follows: solo Pro accounts → grandfathered Starter at current Pro price for 12 months, then offered Starter or Team upgrade with a 20% loyalty discount\\. Multi\\-seat Pro accounts \\(these exist accidentally; the tier was never supposed to allow more than one seat\\) → free upgrade to Team at Pro pricing for 6 months\\. 2\\.3 Page design changes Three\\-column layout with the Team column visually emphasised \\(brand orange border, ‘Most popular’ tag\\)\\. Feature comparison table simplified from 47 rows to 19\\. FAQ section reduced from 23 questions to 8, with the four highest\\-traffic ones promoted above the fold\\. 3\\. Alternatives Considered <b>3\\.1 Keep four tiers but rename Pro\\.</b> Cheaper to ship, but leaves the cognitive\\-load problem unresolved and the migration risk in place\\. Rejected because the data shows the problem is structural, not naming\\. <b>3\\.2 Single tier \\+ usage\\-based\\.</b> Considered seriously\\. Strong long\\-term direction; wrong short\\-term move because our billing infrastructure does not yet support metered components and we are not staffed to build it before Q4\\. Revisit in 2027\\. <b>3\\.3 Three published tiers \\(Starter, Team, Business\\)\\.</b> Closest to v1 minus Pro\\. Rejected because adding a Business tier reintroduces the 'middle confusion' pattern we are trying to remove\\. Two\\-plus\\-Enterprise is structurally cleaner\\. 4\\. Risks & Mitigations <b>4\\.1 Pro customer churn\\.</b> The migration plan extends current pricing for 6–12 months, which we project converts 78% to Starter or Team and 22% to churn\\. Worst\\-case \\(50% churn\\) loses $680K ARR\\. Mitigation: dedicated CSM outreach to the top 100 Pro accounts\\. <b>4\\.2 Sales pipeline impact\\.</b> Removing the published Pro tier may reduce inbound qualification accuracy\\. Mitigation: run a qualification quiz on the pricing page \\(already prototyped in PROD\\-851\\) and route Pro\\-shaped leads directly to AEs\\. <b>4\\.3 Reputational risk\\.</b> Pricing changes draw attention\\. Mitigation: ship a public\\-blog post explaining the change before the page goes live, with a dedicated migration FAQ\\. 5\\. Decisions D\\-1 Adopt 2\\-tier\\-plus\\-Enterprise model\\. Approved 2026\\-04\\-12\\. D\\-2 Pro tier sunset in waves: solo accounts first, multi\\-seat second\\. D\\-3 Migration window: 12 months for solo, 6 months for multi\\-seat\\. D\\-4 Loyalty discount: 20% off list for migrating Pro customers, 12 months\\. D\\-5 Q1 2027 review for usage\\-based tier feasibility \\(links to RFC\\-014A\\)\\. 6\\. Action Items Action Owner Due Status Update pricing page comp table to 19 rows Riley Chen 2026\\-05\\-15 In progress Migration email sequence \\+ drip Marcus Liang 2026\\-05\\-22 Drafted CSM outreach plan for top 100 Pro accounts Devon Park 2026\\-05\\-08 Done Pricing\\-page qualification quiz wiring Asha Vora 2026\\-06\\-02 Not started Public blog post \\+ migration FAQ Riley Chen Pre\\-launch \\-7d Outline Billing infra spike for usage\\-based \\(RFC\\-014A\\) Asha Vora 2026\\-09\\-30 Scoped 7\\. Open Questions Q1\\. Should the loyalty discount apply for 12 or 18 months? Current proposal is 12; Marcus argues 18 to soften the change\\. Q2\\. Do we publish per\\-seat Team pricing or 'starting at $39/seat'? Finance prefers the latter; design prefers the former\\. Q3\\. Enterprise floor — is $24K/year the right minimum? Current AE feedback is the floor is too low and is attracting Team\\-shaped accounts that should self\\-serve\\. Q4\\. Migration FAQ tone — should the post acknowledge that the Pro tier was a strategic miss, or frame the change as a forward\\-looking simplification? Appendix A — Data references All numbers in this synthetic memo are invented and intended to mimic the shape of real internal pricing analyses, not the substance\\. A\\.1 Q1 2026 signup mix: 71% Starter / 7% Pro / 22% Team \\(n = 14,732 signups, synthetic\\) A\\.2 Pricing\\-confusion ticket volume: 412 \\(Q1 2026\\) vs 173 \\(Q1 2025\\), \\+138% YoY A\\.3 Pro tier active customers: 1,184 — of which 1,061 solo, 123 multi\\-seat \\(synthetic\\) A\\.4 Projected ARR impact: \\-$210K \\(months 1–6\\), neutral by month 9, \\+6% baseline by Q4 2026 A\\.5 Competitor pricing\\-tier counts \\(synthetic survey\\): Linear 2, Vercel 2\\+E, Notion 3, Asana 4, Monday 5","headings":[{"level":1,"text":"TL;DR"},{"level":1,"text":"1. Context"},{"level":1,"text":"2. Proposal"},{"level":2,"text":"2.1 Tiers"},{"level":2,"text":"2.2 What happens to Pro customers"},{"level":2,"text":"2.3 Page design changes"},{"level":1,"text":"3. Alternatives Considered"},{"level":1,"text":"4. Risks & Mitigations"},{"level":1,"text":"5. Decisions"},{"level":1,"text":"6. Action Items"},{"level":1,"text":"7. Open Questions"},{"level":1,"text":"Appendix A — Data references"}],"sourceFile":"input.docx","sizeBytes":40519,"wordCount":1043,"lineCount":187,"headingCount":12,"readingMinutes":5};</script>

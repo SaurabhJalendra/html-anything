@@ -49,11 +49,24 @@ export interface ParsedFile {
 export interface ConverterOptions {
   /** Override the document title. Defaults to filename or LLM-derived. */
   title?: string
+  /** Page style prompt to use. Defaults to auto-selection from the content type. */
+  style?: HtmlAnythingStyle | "auto"
   /** Model to use. Default: claude-sonnet-4-6 (page generation needs frontier-class). */
   model?: string
   /** Max output tokens for the LLM. Default 16384. */
   maxTokens?: number
 }
+
+export type HtmlAnythingStyle =
+  | "default"
+  | "teaching"
+  | "interactive-studio"
+  | "relationship"
+  | "dashboard"
+  | "personal-atlas"
+  | "editorial"
+  | "developer"
+  | "paper"
 
 export interface LlmHelper {
   /** One-shot prompt → text. Used by htmlize to design the page. */

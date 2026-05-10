@@ -16,7 +16,7 @@ import { parser as knowledgeBaseParser } from "./parse/knowledge-base.js"
 import { parser as photosTakeoutParser } from "./parse/photos-takeout.js"
 import { htmlize } from "./htmlize.js"
 import { makeLlm } from "./llm.js"
-import type { ConverterOptions, Parser } from "./types.js"
+import type { ConverterOptions, HtmlAnythingStyle, Parser } from "./types.js"
 
 interface ParsedArgs {
   input: string
@@ -32,6 +32,7 @@ function parseArgs(argv: string[]): ParsedArgs {
   let input = ""
   let out: string | undefined
   let title: string | undefined
+  let style: ConverterOptions["style"] | undefined
   let model: string | undefined
   let maxTokens: number | undefined
   let help = false
@@ -43,6 +44,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     else if (a === "-V" || a === "--version") version = true
     else if (a === "--out" || a === "-o") out = argv[++i]
     else if (a === "--title") title = argv[++i]
+    else if (a === "--style") style = parseStyle(argv[++i])
     else if (a === "--model") model = argv[++i]
     else if (a === "--max-tokens") maxTokens = parseInt(argv[++i] || "", 10)
     else if (a.startsWith("-")) throw new Error(`unknown flag: ${a}`)
@@ -50,7 +52,28 @@ function parseArgs(argv: string[]): ParsedArgs {
     else throw new Error(`unexpected positional argument: ${a}`)
   }
 
-  return { input, out, options: { title, model, maxTokens }, help, version }
+  return { input, out, options: { title, style, model, maxTokens }, help, version }
+}
+
+const STYLES = new Set<HtmlAnythingStyle | "auto">([
+  "auto",
+  "default",
+  "teaching",
+  "interactive-studio",
+  "relationship",
+  "dashboard",
+  "personal-atlas",
+  "editorial",
+  "developer",
+  "paper",
+])
+
+function parseStyle(value: string | undefined): ConverterOptions["style"] {
+  if (!value) throw new Error("--style requires a value")
+  if (!STYLES.has(value as HtmlAnythingStyle | "auto")) {
+    throw new Error(`unknown style: ${value} (expected ${[...STYLES].join(", ")})`)
+  }
+  return value as ConverterOptions["style"]
 }
 
 const HELP = `\
@@ -60,6 +83,7 @@ Usage:
   html-anything <input>                     write <input-stem>.html alongside
   html-anything <input> --out OUT           write to OUT
   html-anything <input> --title "Title"     override the document title
+  html-anything <input> --style STYLE       auto, teaching, dashboard, ...
   html-anything <input> --model MODEL       LLM model (default: claude-sonnet-4-6)
   html-anything <input> --max-tokens N      LLM output budget (default: 16384)
 
@@ -69,6 +93,10 @@ The LLM designs the reading experience for *this specific content* — the same
 input type renders differently depending on shape (2-person chat → bubble
 timeline; 200-person channel → folded by sender). The full data is inlined
 into the output; the LLM only ever sees a representative sample.
+
+Default style is auto. Auto injects one of the built-in style prompts
+(teaching, interactive-studio, relationship, dashboard, personal-atlas,
+editorial, developer, paper, or default) based on the parsed content type.
 `
 
 async function main() {

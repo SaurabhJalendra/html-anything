@@ -77,6 +77,41 @@ test("htmlize fallback: source-prompt resolution covers pdf-document + docx-docu
   assert.ok(names.includes("docx"))
 })
 
+test("htmlize auto style selector routes major source families", async () => {
+  const { selectStyleForContent } = await import("../../dist/htmlize.js")
+  assert.equal(selectStyleForContent("wechat-chat"), "relationship")
+  assert.equal(selectStyleForContent("rideshare-history"), "personal-atlas")
+  assert.equal(selectStyleForContent("csv-tabular"), "dashboard")
+  assert.equal(selectStyleForContent("markdown-document"), "editorial")
+  assert.equal(selectStyleForContent("git-diff"), "developer")
+  assert.equal(selectStyleForContent("pdf-document"), "paper")
+  assert.equal(selectStyleForContent("plain-text"), "default")
+  assert.equal(selectStyleForContent("csv-tabular", { style: "teaching" }), "teaching")
+})
+
+test("htmlize injects the selected style prompt into the LLM request", async () => {
+  const { htmlize } = await import("../../dist/htmlize.js")
+  const parsed = {
+    contentType: "csv-tabular",
+    summary: "2 rows, 2 columns",
+    sample: { rows: [{ category: "A", amount: 10 }] },
+    data: { rows: [{ category: "A", amount: 10 }] },
+    meta: { sourceFile: "input.csv", sizeBytes: 32 },
+  }
+  let seenPrompt = ""
+  const llm = {
+    async ask(prompt) {
+      seenPrompt = prompt
+      return "<!doctype html><html><body><script>const DATA = __DATA__;</script></body></html>"
+    },
+  }
+  const html = await htmlize(parsed, llm)
+  assert.match(seenPrompt, /Selected style: dashboard/)
+  assert.match(seenPrompt, /# Dashboard Style/)
+  assert.match(seenPrompt, /# csv — tabular data/)
+  assert.match(html, /"category":"A"/)
+})
+
 test("checked-in example pages are complete and have parseable inline scripts", async () => {
   const examplesDir = path.join(REPO, "examples")
   const files = (await walkFiles(examplesDir))
