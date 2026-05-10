@@ -82,6 +82,7 @@ as behavior and page shape, not a superficial CSS skin.
 
 | Auto style | Use for | Page shape |
 |---|---|---|
+| `default` | Unknown, mixed, or weakly classified briefs/sources | Clean live page with strong summary, useful sections, and practical drill-down |
 | `teaching` | Tutorials, lessons, educational briefs, "teach me", interactive explainers, course-like pages | Guided lesson: visual stage, step rail, annotations, try-it control, check-yourself moment, recap |
 | `interactive-studio` | Scientific topics, product/spec objects, anatomy, architecture, "explain this system" briefs, object labs | App-like object lab: interactive stage, selector, inspector, comparison, generated or procedural visuals |
 | `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | Aggregate-first rhythm report, heatmaps, language fingerprints, evidence snippets, no raw appendix by default |
@@ -99,6 +100,7 @@ Honor explicit style direction in natural language:
 - "more dashboard-like" → increase density, filters, charts.
 - "more editorial" → stronger narrative, scroll story, reading rhythm.
 - "more playful" → richer visuals, while keeping content accurate.
+- If nothing fits cleanly → use `default`.
 
 ## Standard Workflow
 
@@ -232,5 +234,5 @@ content-specific analysis guidance. Use the closest one:
 If no prompt fits, proceed from `default.md` and the user's brief.
 
 Style prompts under [`prompts/styles/`](./prompts/styles/) define reusable page
-shapes such as `teaching`. They complement source prompts; they do not replace
-source-specific analysis.
+shapes such as `default`, `teaching`, `dashboard`, and `personal-atlas`. They
+complement source prompts; they do not replace source-specific analysis.

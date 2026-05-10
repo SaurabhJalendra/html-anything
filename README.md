@@ -105,6 +105,7 @@ The skill picks the page shape from the content:
 
 | Content | Typical style |
 |---|---|
+| Unknown or mixed inputs | Default |
 | Tutorials, lessons, explainers, "teach me" prompts | Teaching |
 | Objects, scientific topics, product specs, system explainers | Interactive studio |
 | Chats and relationship exports | Relationship report |
@@ -116,6 +117,11 @@ The skill picks the page shape from the content:
 You can still steer it naturally: "make it more tutorial-like", "more
 app-like", "less academic", "more dashboard-like", "more editorial", or
 "more playful".
+
+Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
+There is a fallback `default` style plus eight auto-selected specialized
+styles: `teaching`, `interactive-studio`, `relationship`, `dashboard`,
+`personal-atlas`, `editorial`, `developer`, and `paper`.
 
 ## Source Examples
 
