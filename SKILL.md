@@ -1,320 +1,236 @@
 ---
 name: html-anything
-description: Turn any file or URL into a single self-contained interactive HTML infographic — analyze the content, extract patterns, visualize them, then inline the original data so users can drill in.
-when_to_use: User says "convert to HTML", "render as HTML", "make a webpage from", "analyze and visualize", asks for an "interactive" or "browsable" version of a file, or pastes a file path / URL with a request to view, share, understand, or get insights from it.
+description: Turn an idea, file, folder, or URL into a polished live HTML page. Use when the user wants a webpage, interactive teaching site, visual report, dashboard, atlas, browsable export, or shareable HTML artifact from a prompt or source.
+when_to_use: User says "make a webpage", "create a teaching site", "turn this into HTML", "visualize/analyze this", "make a dashboard/report/atlas", gives a file/folder/URL to make browsable, or names a data source they want exported and converted.
 ---
 
 # html-anything
 
-You are turning a file or URL into a **single self-contained HTML page
-that surfaces the insights in the content**, not a faithful re-render of
-the source. Think infographic + analysis dashboard, not document viewer.
+You are the `html-anything` skill.
 
-The output should make the user say *"I learned something I didn't know
-from the raw file"* — patterns, timelines, distributions, outliers,
-themes — visualized as the headline. The original data goes inline so
-the user can drill in, but it's the **drill-down**, not the lede.
+Your job is to turn **an idea, file, folder, URL, or exported dataset**
+into a polished live HTML page the user can open, share, or publish.
 
-Examples of the right shape:
+Do not present this as a parser, CLI, or internal pipeline. The user only
+needs to understand:
 
-- **2-person WhatsApp or WeChat / 微信 export** → mock-academic
-  relationship report: calendar heatmap, hourly chat rhythm, monthly
-  relative enthusiasm, signature words, high-frequency word
-  contribution, lexical sentiment, and relationship-keyword extraction.
-  Keep shareable reports aggregate-first; do not include a raw-message
-  appendix unless the user explicitly asks for one.
-- **200-person Slack channel** → top contributors leaderboard, channel
-  activity heatmap by day-of-week + hour, topic cloud, recent
-  highlights — full message log behind a "Show all messages" tab.
-- **50K-row sales CSV** → summary stats, category breakdown chart,
-  outlier callouts, time-series line — sortable table behind a
-  "Browse rows" tab.
-- **Long PDF / article** → 3-bullet TL;DR, pulled key quotes, section
-  nav with one-line summaries — full text as a reading-mode toggle.
-- **GitHub repo** → "what is this" 2-paragraph summary, architecture
-  sketch, the 3 files that explain it, file tree as drill-down.
+- **Input**: an idea, file, folder, URL, or source they want help exporting.
+- **Output**: a live HTML page, usually `output.html`, sometimes with an
+  `assets/` folder when generated images or local media are useful.
 
-Your job is to **look at a sample, find what's interesting in it**,
-design the analysis + charts + visual story, then ship the HTML+CSS+JS
-that renders all of it. The full data is inlined into the HTML for
-client-side rendering of the drill-down sections.
+Everything else is your responsibility: source understanding, export
+guidance, style choice, page design, asset generation, implementation,
+browser verification, and final handoff.
 
-## Behavior
+## User-Facing Promise
 
-1. **Identify the source the user wants converted.**
-   - If they pasted a path or URL → confirm it (file exists, URL fetches).
-   - If they named a *kind* of data ("my WeChat chat", "my WhatsApp
-     chat", "my Spotify history", "my Google Maps stars", "my Twitch
-     viewing history"):
-     **don't ask for the file yet.** First read the matching source
-     prompt's `## Export instructions` section and walk them through
-     getting the data. Most data sources need a 2–4 step export from the
-     source app or service before there's a file to convert. The skill
-     does this onboarding *first*; the conversion is the second half.
+Accept requests like:
 
-2. **Read [`prompts/_design.md`](./prompts/_design.md) first.** It has
-   the Clockless design tokens (colors, fonts, spacing, radius, shadow
-   scales, the Google Fonts import line) every output must use. Apply
-   these regardless of source type. They are non-negotiable so all
-   html-anything outputs feel like one product line.
+- "Create an interactive teaching site about the solar system."
+- "Turn my Amazon order history into a personal spending atlas."
+- "Make this WhatsApp export into a relationship rhythm report."
+- "Turn this transcript into a meeting scorecard."
+- "Make this CSV into a dashboard I can share."
+- "Use this GitHub repo URL and make a browsable architecture page."
 
-3. **Look up the matching source prompt** in `prompts/<source-type>.md`.
-   The source prompt covers what's specific to this content type
-   (analytical structure, data shape, choice of visualizations, and
-   often `## Export instructions` for how the user gets the data in the
-   first place). If no specific prompt fits, use `prompts/default.md`.
+Return a working HTML artifact, not a proposal.
 
-4. **Read a sample, not the whole thing.** ~5–15 KB is plenty.
-   - Tabular data: header + first 5 rows + last 2 rows + column stats.
-   - Chat: first 8 + last 4 messages + sender list.
-   - Long text: first 1500 chars + headings + word count.
-   - Email archive: counts + senders + thread shapes + first 4 / last 4
-     messages + a sample of the longest thread + open-loop callouts.
-   - Meeting transcript: speaker stats with talk-time + first 12 cues +
-     last 4 cues + each speaker's opening turn + the longest cues.
-   - Event stream (JSONL / NDJSON / server log): inferred schema +
-     time-bucket histogram + severity / category counts + top sources
-     and messages + outlier cards + first 12 + last 4 events.
-   - Finance file (bank / invoice / QuickBooks CSV): summary card
-     (in / out / net or invoiced / paid / outstanding) + category or
-     account breakdown + recurring vendors + flag cards (duplicate /
-     outlier / first-time / overdue) + first 8 + last 3 rows.
-   - Geo / route (GPX / KML / itinerary / location-history): pre-
-     projected SVG polyline + bbox + km splits + elevation profile
-     + pace profile + pauses (routes); day buckets + cities + types
-     + conflict callouts (itineraries); top dwell clusters + hour-
-     of-day counts + per-day density (location history).
-   - URL article: first 2-3K chars of the rendered text + meta.
-   - Repo: README + tree + 3 key files.
+## Inputs
 
-5. **Design the page**, applying the design tokens from `_design.md`
-   plus the source-specific guidance. Aim for a page that lets the
-   user **re-experience** their data — not just read it. An infographic
-   is the floor, not the ceiling: where the content supports it, push
-   into interactive maps, scrubbable timelines, "year in review" style
-   replays, hover-to-reveal storytelling, animated reveals on scroll.
-   The user should leave saying *"I lived through this again"*, not
-   *"I saw a chart"*.
-   Universal requirements:
-   - Light + dark mode via `prefers-color-scheme` (tokens cover both).
-   - Mobile-first responsive layout.
-   - Search where the content has searchable items.
-   - "Copy as Markdown" button where it makes sense.
-   - Single self-contained HTML — inline CSS, inline JS. The only
-     external resource allowed is the Google Fonts import in
-     `_design.md` (Space Grotesk + Plus Jakarta Sans).
+Handle these input modes automatically:
 
-5. **Inline the full data.** Embed it as a JSON literal:
-   ```html
-   <script>const DATA = /* the full data here */;</script>
-   ```
-   Escape `</script>` to `<\/script>` inside the JSON string to keep the
-   browser parser happy. The JS you wrote uses `DATA` to render rows /
-   messages / sections — the LLM (you) only ever saw the sample, but the
-   page renders the full thing client-side.
-
-6. **Write the file** to `<input-stem>.html` next to the input (or
-   wherever the user asked).
-
-## Sources supported
-
-| Prompt file | When |
+| Input mode | What to do |
 |---|---|
-| [`prompts/google-maps-stars.md`](./prompts/google-maps-stars.md) | Google Maps stars / saved places (via Google Takeout) — interactive personal world atlas |
-| [`prompts/amazon-orders.md`](./prompts/amazon-orders.md) | Amazon "Request Your Information" / legacy Order Reports CSV — personal commerce memory + money audit (spend over years, reorder DNA, categories, recipients, returns / refunds, searchable item drill-down) |
-| [`prompts/youtube-watch-history.md`](./prompts/youtube-watch-history.md) | Google Takeout `watch-history.json` (YouTube + YouTube Music) — personal attention mirror (channels, topic mix, monthly + weekly bars, day-of-week × hour heatmap, binge sessions, rediscovery list, late-night audit, searchable watch table) |
-| [`prompts/kindle-highlights.md`](./prompts/kindle-highlights.md) | Kindle `My Clippings.txt` (USB) + per-book Kindle Notebook HTML email export — personal reading-memory atlas (books shelf, monthly reading rhythm + hour-of-day strip, heuristic theme clusters, searchable quote browser with Copy-as-Markdown) |
-| [`prompts/google-photos-takeout.md`](./prompts/google-photos-takeout.md) | Google Takeout `Takeout/Google Photos/` directory of `*.jpg.json` / `*.heic.json` / `*.mp4.json` sidecars (+ per-album `metadata.json`) — personal photo-memory atlas (hero / activity timeline + year×month heatmap / inline-SVG places scatter / album cards with hashed-from-filename mosaic / device leaderboard / bursts + duplicates + edited-pairs + missing-metadata audit / searchable media table). **Metadata only — never opens the actual image or video files.** |
-| [`prompts/vcard-contacts.md`](./prompts/vcard-contacts.md) | `.vcf` / vCard 3.0 + 4.0 multi-card exports from Apple Contacts / Google Contacts / iCloud / Android / Outlook — address book audit + relationship atlas (hero reachability / health audit cards / organizations + email-domain + city + birthday + tag panels / read-only duplicate merge worksheet / searchable card grid with mask-by-default phone+email + per-card reveal). **Photos are recorded as metadata only — never embedded.** |
-| [`prompts/linkedin-connections.md`](./prompts/linkedin-connections.md) | LinkedIn "Download your data" → `Connections.csv` (with the optional `Notes:` preamble) — professional network atlas (hero coverage / yearly growth bars + cumulative line + spike callouts / top-companies + role-keyword + industry + email-domain panels / heuristic reconnect queue / observational audit row for missing-company / missing-email / stale / very-recent / duplicate-name / duplicate-URL / searchable contact grid with mask-by-default email + per-card reveal). **No outreach copy. URLs are shown but never clickable.** |
-| [`prompts/spotify-history.md`](./prompts/spotify-history.md) | Spotify Privacy export (Account Data or Extended Streaming History) — year-by-year scroll experience |
-| [`prompts/twitch-history.md`](./prompts/twitch-history.md) | Twitch data request export (viewing history + chat) — top streamers wall, chat heatmap |
-| [`prompts/iphone-health.md`](./prompts/iphone-health.md) | Apple Health `export.zip` (export.xml + workout-routes/) — personal health story with rings + sleep + routes |
-| [`prompts/wechat.md`](./prompts/wechat.md) | WeChat / 微信 exports from WeChatMsg / 留痕 (`.html`, `.csv`, `.txt`, `.json`, `.docx`) — relationship report with calendar heatmap, relative enthusiasm, word specificity, contribution rating, sentiment trend, no raw appendix by default |
-| [`prompts/whatsapp.md`](./prompts/whatsapp.md) | WhatsApp `_chat.txt` export — same detailed relationship report as WeChat: calendar heatmap, relative enthusiasm, word specificity, contribution rating, sentiment trend, no raw appendix by default |
-| [`prompts/slack.md`](./prompts/slack.md) | Slack channel JSON export — multi-sender pack: heatmap, leaderboard, threaded drill-down |
-| [`prompts/discord.md`](./prompts/discord.md) | DiscordChatExporter JSON / CSV — community-server pack: leaderboard with long-tail, reply chains, emoji signature |
-| [`prompts/telegram.md`](./prompts/telegram.md) | Telegram Desktop `result.json` — personal/group/channel framing, reply chains, forwarded-from callouts |
-| [`prompts/imessage.md`](./prompts/imessage.md) | iMessage-style CSV (Date/Timestamp + Sender/From/IsFromMe + Message/Body/Text) — bubble drill-down with right-aligned own-side messages |
-| [`prompts/multi-sender-chat.md`](./prompts/multi-sender-chat.md) | Generic chat CSV from an unknown source — platform-agnostic heatmap + leaderboard + decisions |
-| [`prompts/csv.md`](./prompts/csv.md) | CSV / TSV tabular data |
-| [`prompts/markdown.md`](./prompts/markdown.md) | Markdown documents |
-| [`prompts/pdf.md`](./prompts/pdf.md) | `.pdf` — long-form documents, reports, papers |
-| [`prompts/docx.md`](./prompts/docx.md) | `.docx` — Word memos, RFCs, briefs |
-| [`prompts/email.md`](./prompts/email.md) | `.eml` / `.mbox` mailboxes (including Gmail Takeout exports) |
-| [`prompts/transcript.md`](./prompts/transcript.md) | `.vtt` / `.srt` / timecoded Zoom & Teams `.txt` meeting transcripts |
-| [`prompts/jsonl.md`](./prompts/jsonl.md) | `.jsonl` / `.ndjson` line-delimited JSON event streams (and `.json` / `.log` / `.txt` files whose contents are line-delimited JSON) |
-| [`prompts/log.md`](./prompts/log.md) | `.log` / `.txt` server logs — Apache / Nginx access logs, syslog, application error logs, generic timestamped app logs |
-| [`prompts/json.md`](./prompts/json.md) | JSON data files |
-| [`prompts/git-diff.md`](./prompts/git-diff.md) | `.diff`, raw `git diff` output — review checklist, risk map, collapsible diff |
-| [`prompts/pr-review.md`](./prompts/pr-review.md) | `.patch` (`git format-patch` mailbox or GitHub PR `.patch`) — commit timeline, evidence-based reviewer's checklist, test-touched flags |
-| [`prompts/ci-log.md`](./prompts/ci-log.md) | CI / build / test logs (GitHub Actions, GitLab CI, CircleCI, Buildkite, Jenkins, generic `npm test` / `pytest` / `go test`) — failure summary, suspected-cause hypotheses |
-| [`prompts/stack-trace.md`](./prompts/stack-trace.md) | Runtime stack traces (Python, Node / JS, Java, Go, Ruby, Rust, .NET) — likely-app-frame headline, folded vendor frames, cause chain |
-| [`prompts/bank-transactions.md`](./prompts/bank-transactions.md) | Bank / credit-card statement CSVs — cashflow timeline, category breakdown, recurring-vendor + duplicate + outlier panels, searchable transactions |
-| [`prompts/invoices.md`](./prompts/invoices.md) | Invoice / receipt CSVs — invoiced-vs-paid-vs-outstanding card, aging buckets, top customers, overdue callouts, invoice scorecard |
-| [`prompts/quickbooks.md`](./prompts/quickbooks.md) | QuickBooks / Xero / Wave general-ledger and P&L exports — collapsible account tree, top-level category rollup, class breakdown, period framing |
-| [`prompts/venmo-paypal-payments.md`](./prompts/venmo-paypal-payments.md) | Venmo statement CSV / PayPal Activity CSV — social-payments pack: source-aware hero, monthly cashflow timeline, counterparty leaderboard with loop ↻ markers, heuristic story clusters from notes (rent / food / rides / travel / gifts / subscriptions / utilities / reimbursement), recurring reimbursements, round-trip + refund + fee + held + dispute + cash-out flags, privacy-styled drill-down |
-| [`prompts/ics-calendar.md`](./prompts/ics-calendar.md) | `.ics` / `.ical` calendar exports (Google Calendar, Outlook, Apple Calendar, Fastmail) — calendar audit: time-allocation map, busy-hours heatmap, recurring series, back-to-back blocks, meeting-free streaks |
-| [`prompts/issue-tracker.md`](./prompts/issue-tracker.md) | Issue / task CSVs from Linear, Jira, GitHub Issues, Asana, ClickUp, generic project trackers — project audit: status flow, owner load, priority distribution, stale items, bottleneck callouts, swimlane drill-down |
-| [`prompts/trello-board.md`](./prompts/trello-board.md) | Trello board JSON export (`{ id, name, lists, cards, members, labels }`) — board audit: lane breakdown, member load, stale + overdue cards, read-only kanban swimlanes |
-| [`prompts/obsidian-vault.md`](./prompts/obsidian-vault.md) | Directory of `.md` files cross-linked with `[[wikilinks]]` (Obsidian vaults, wiki-style notes) — concept map / backlink graph, theme clusters, hub leaderboard, TODO + stale + orphan callouts, searchable knowledge atlas |
-| [`prompts/notion-export.md`](./prompts/notion-export.md) | Notion "Markdown & CSV" workspace export — page tree mirroring Notion hierarchy, top-level page index, cross-page link counts, TODO + stale + orphan callouts, searchable atlas |
-| [`prompts/markdown-folder.md`](./prompts/markdown-folder.md) | Generic directory of `.md` files (Hugo / Jekyll content, dumped Bear exports, "Notes" folders, MkDocs `docs/`) — folder breakdown, publication timeline, longest-notes leaderboard, TODO + stale + orphan callouts, searchable atlas |
-| [`prompts/gpx.md`](./prompts/gpx.md) | `.gpx` GPX routes & workouts (Strava, Garmin, Komoot, Apple Health) — inline-SVG polyline (no map tiles), km splits, elevation profile, pace profile, pauses |
-| [`prompts/kml.md`](./prompts/kml.md) | `.kml` KML coordinates (Google Earth, Google My Maps) — inline-SVG paths + place dots, placemark list |
-| [`prompts/travel-itinerary.md`](./prompts/travel-itinerary.md) | multi-day itinerary CSVs (Date + Location + Type/Title/Time/Notes/Cost columns) — day-by-day timeline, anchor-city strip, conflict callouts, city / country / type breakdowns |
-| [`prompts/location-history.md`](./prompts/location-history.md) | Google-Takeout-style location-history JSON / flat lat-lon CSV — inline-SVG dwell map (no map tiles), top places leaderboard, hour-of-day rhythm, per-day density |
-| [`prompts/bookmarks.md`](./prompts/bookmarks.md) | Netscape-format bookmarks HTML exports (Chrome / Firefox / Safari / Edge / Pinboard / Raindrop) — research audit: topic clusters, top-domain leaderboard, folder breakdown, saving-rhythm sparkline, duplicate / stale / dead-link callouts, searchable card drill-down |
-| [`prompts/bibliography.md`](./prompts/bibliography.md) | BibTeX (`.bib`) and RIS (`.ris`) bibliographies (Zotero, Mendeley, EndNote, Google Scholar, JabRef) — literature-review audit: year-coverage histogram, venue + author leaderboards, reference-type breakdown, abstract drill-down with DOI |
-| [`prompts/url-list.md`](./prompts/url-list.md) | Plain `.txt` or markdown with one URL per line ("tab dump"), optionally with section headings or trailing notes — research audit: keyword-driven topic clusters, top domains, section breakdown, duplicate / dead callouts, searchable cards |
-| [`prompts/reading-list.md`](./prompts/reading-list.md) | Pocket / Instapaper / Raindrop / Matter / Readwise Reader / Omnivore CSV / JSON exports — reading-queue audit: saving-rhythm timeline, top domains, status / collection breakdown, stale-inbox callouts, searchable cards |
-| [`prompts/github-repo.md`](./prompts/github-repo.md) | github.com/owner/repo URLs |
-| [`prompts/url-article.md`](./prompts/url-article.md) | Blog posts, news articles, long-form web pages |
-| [`prompts/medical-visit.md`](./prompts/medical-visit.md) | Clinical visit summaries (`.md` / `.txt`) — care-record summary: encounters, vitals (label-only, no interpretation), medication mentions, missing-info & "ask your clinician" question list. Synthetic data only. |
-| [`prompts/lab-results.md`](./prompts/lab-results.md) | Laboratory results CSV with reference ranges (header trio of test/value/reference) — out-of-reference callouts using *"outside the reference range printed on this row"*, trend sparklines for repeated tests, panel grouping. |
-| [`prompts/legal-chronology.md`](./prompts/legal-chronology.md) | Free-text legal case chronologies (`.md` / `.txt`) — case header, deadline map (dates listed on the document), filings list, parties, missing-exhibit callouts, "ask your attorney" question list. Synthetic data only. |
-| [`prompts/chatgpt-export.md`](./prompts/chatgpt-export.md) | OpenAI ChatGPT data export `conversations.json` — array of conversations with `mapping` graph + `current_node` + `default_model_slug`. Personal AI work-memory atlas — overview cards, weekly timeline, topic clusters, reusable-prompt + important-answer + unresolved heuristics, filterable conversation index with drill-down. |
-| [`prompts/claude-chat-export.md`](./prompts/claude-chat-export.md) | Anthropic Claude chat export — `conversations.json` with `chat_messages` per conversation (`sender: human / assistant`), ISO timestamps. Same atlas as ChatGPT, with `claude-*` model labels. |
-| [`prompts/ai-chat-export.md`](./prompts/ai-chat-export.md) | Generic AI chat history — `{ conversations: [...] }` JSON wrapper, OR markdown / text "User: / Assistant:" transcript (separated by `## Conversation` / `# heading` / `---`). Same atlas; degrades gracefully when timestamps / model slugs are missing. |
-| [`prompts/default.md`](./prompts/default.md) | Anything else |
+| Idea / brief | Expand the brief into a concrete content plan, choose an auto style, create the HTML, and generate assets when useful. |
+| Local file | Inspect the file, sample it if large, identify the source type, and create the page. |
+| Folder | Inspect structure and representative files, then create an atlas / audit / browser for the folder. |
+| URL | Fetch or inspect the URL when possible, then create a page from the page/repo/article content. |
+| Export request | If the user names a platform/source but has no file yet, read the relevant source prompt's export instructions and guide them first. |
 
-Long-document sources (`markdown`, `pdf`, `docx`) also load
-[`prompts/_document.md`](./prompts/_document.md) — shared
-insight-first guidance (TL;DR, claim cards, section nav, 5-min vs
-full reading mode). New long-document sources should follow the same
-pattern.
+Do not ask the user to pick a style by default. Use `auto`.
 
-Multi-sender chat sources (`slack`, `discord`, `telegram`, `imessage`,
-`multi-sender-chat`) also load
-[`prompts/_chat.md`](./prompts/_chat.md) — the shared contract for
-the chat pack: activity heatmap, contributor leaderboard, decisions /
-action items / open questions, topic clusters, and a searchable log
-drill-down. WhatsApp and WeChat keep the bespoke intimate-relationship
-report framing and are **not** part of this family.
+Ask a question only when the target is genuinely ambiguous or the next
+step could expose private data unexpectedly.
 
-Developer-artifact sources (`git-diff`, `pr-review`, `ci-log`,
-`stack-trace`) also load
-[`prompts/_developer.md`](./prompts/_developer.md) — the shared
-contract for the developer-artifact pack: review checklist (concrete,
-evidence-based items), risk hotspots, collapsible raw diff / log /
-trace, copyable Markdown summary, and **hypothesis discipline**
-(every inferred cause / risk / call-site is labeled with a visible
-"Hypothesis" chip; no certainty claims).
+## Outputs
 
-Event-stream sources (`jsonl`, `log`) also load
-[`prompts/_event_stream.md`](./prompts/_event_stream.md) — the shared
-contract for the event-stream pack: volume-over-time histogram,
-severity / category breakdown, outlier / anomaly callouts, top sources
-or endpoints leaderboard, and a searchable virtualized event-table
-drill-down.
+Default output:
 
-Finance / admin sources (`bank-transactions`, `invoices`,
-`quickbooks-report`, `venmo-paypal-payments`) also load
-[`prompts/_finance.md`](./prompts/_finance.md) — the shared contract
-for the finance pack: headline cashflow / invoicing summary card,
-category or account breakdown, recurring-items panel,
-anomaly-and-duplicate callouts, and a searchable transactions /
-invoices drill-down. Outputs are **analytical only** — never
-accounting, tax, or legal advice — and the family prompt enforces
-a footer to that effect. The `venmo-paypal-payments` source layers
-social-payment-specific UX on top: counterparties replace merchants,
-heuristic story clusters from payment notes replace categories, and
-the anomaly panel surfaces round-trip splits + refunds + fees +
-holds + cash-outs.
+- `output.html` next to the source, or in a clear project/example folder
+  when starting from a brief.
+- If the user gives `foo.csv`, `foo.html` is also acceptable when it is
+  more natural for the local workflow.
 
-Planning sources (`ics-calendar`, `issue-tracker`, `trello-board`)
-also load
-[`prompts/_planning.md`](./prompts/_planning.md) — the shared
-contract for the planning pack: time-allocation map, owner / status
-filters, stale-and-bottleneck callouts, roadmap / calendar / story-
-map view, and a searchable item drill-down. Outputs are read-only
-audits, not editing tools.
+Asset outputs:
 
-Knowledge-base sources (`notion-export`, `obsidian-vault`,
-`markdown-folder`) also load
-[`prompts/_knowledge_base.md`](./prompts/_knowledge_base.md) — the
-shared contract for the knowledge-base pack: concept map / backlink
-graph, theme clusters, TODO + stale + orphan callouts, searchable
-knowledge atlas drill-down, and a hub leaderboard. The CLI accepts
-a directory as input (`html-anything ~/Vault`) and walks it
-recursively; in skill mode, point Claude Code at the folder and it
-reads the markdown files via the standard file tools.
+- If generated images, sprite sheets, thumbnails, or other local media make
+  the page materially better, create an `assets/` folder next to the HTML.
+- If the user asks for "single-file", inline CSS, JS, data, and assets into
+  one HTML file where practical.
 
-Geo / travel sources (`gpx-route`, `kml-route`, `travel-itinerary`,
-`location-history`) also load
-[`prompts/_geo.md`](./prompts/_geo.md) — the shared contract for
-the geo pack: stats card, inline-SVG route or footprint trace,
-splits / timeline / day-by-day, waypoints / places list, and a
-searchable item drill-down. **Hard rule**: outputs are **offline-
-only** — never embed Leaflet, Mapbox, Google Maps, OpenStreetMap
-tiles, or any other tile provider. Render geometry as inline SVG
-using a cosine-corrected equirectangular projection over a faint
-graticule; the parser already pre-projects polylines into a 1000-
-wide viewBox.
+Final response:
 
-Research / reading-list sources (`bookmarks-html`, `bibliography`,
-`url-list`, `reading-list`) also load
-[`prompts/_research.md`](./prompts/_research.md) — the shared
-contract for the research pack: topic clusters, domain (or venue +
-author) leaderboard, duplicate / stale / dead-link callouts,
-reading-queue prioritization (or year histogram for bibliographies),
-and a searchable card drill-down. **Hard rule**: outputs are
-**offline-only** — the page never fetches any of the saved URLs at
-render or click time (no favicon services, no link previews, no
-OpenGraph unfurls, no dead-link verification calls). Open-original
-links are plain `<a href target="_blank" rel="noopener noreferrer">`.
-Duplicate, stale, and dead-link flags are heuristic-only hypotheses,
-not verdicts.
+- Give the path/link to the HTML.
+- Mention important generated assets if any.
+- Mention browser verification.
+- Do not explain the internal pipeline unless the user asks.
 
-Sensitive-record sources (`medical-visit`, `lab-results`,
-`legal-chronology`) also load
-[`prompts/_sensitive.md`](./prompts/_sensitive.md) — the shared
-contract for the sensitive-record pack: timeline of events, parties
-+ roles, documents (with "missing" badge for items the record
-references but does not include), missing information & "ask
-your clinician / attorney / case manager" question list, and a
-searchable record drill-down. Subtype-specific layers add
-out-of-reference callouts + trend sparklines (lab-results),
-encounter cards + medications (medical-visit), and case header +
-deadline map + filings list (legal-chronology). **Hard rule**:
-outputs are organizational summaries — never medical, legal,
-immigration, or insurance advice. The page never diagnoses,
-prognoses, prescribes, recommends a treatment, computes a statute
-of limitations, opines on a motion, or tells the user what to file
-/ take / pay. Out-of-range lab rows are flagged with the canonical
-phrase *"outside the reference range printed on this row"* —
-never *"abnormal"*. Deadlines are *"dates listed on this
-document"*. Examples shipped in this repo under
-`examples/medical-visit/`, `examples/lab-results/`, and
-`examples/legal-chronology/` are **fully synthetic**; do not commit
-real records.
+## Auto Style
 
-**Adding a new source** = drop a new `<source>.md` in `prompts/`,
-following the same shape as existing ones. No code changes, no
-registration step. The skill auto-finds it.
+Pick a style automatically from the user's intent and source. Treat styles
+as behavior and page shape, not a superficial CSS skin.
 
-## Hard rules
+| Auto style | Use for | Page shape |
+|---|---|---|
+| `teaching` | Tutorials, lessons, educational briefs, "teach me", interactive explainers, course-like pages | Guided lesson: visual stage, step rail, annotations, try-it control, check-yourself moment, recap |
+| `interactive-studio` | Scientific topics, product/spec objects, anatomy, architecture, "explain this system" briefs, object labs | App-like object lab: interactive stage, selector, inspector, comparison, generated or procedural visuals |
+| `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | Aggregate-first rhythm report, heatmaps, language fingerprints, evidence snippets, no raw appendix by default |
+| `dashboard` | CSVs, finance/admin data, logs, operational data, issue trackers | Dense but readable KPIs, charts, filters, tables, anomaly/flag cards |
+| `personal-atlas` | Personal exports like Amazon, Spotify, YouTube, Maps, Photos, Health, Kindle, contacts | Memory-oriented atlas with timelines, category clusters, highlights, searchable drill-down |
+| `editorial` | Essays, articles, reading lists, bookmarks, research collections | Magazine-like reading experience, sections, pull quotes, claims, topic cards |
+| `developer` | Diffs, PR patches, CI logs, stack traces, repos | Evidence-based technical report with risks, hotspots, collapsible raw evidence |
+| `paper` | PDFs, DOCX, legal/medical/lab/academic records | Structured review mode with caveats, cited evidence, conservative wording |
 
-- **Single file out.** No multi-file SPAs. Email-attachable.
-- **Self-contained.** Must work offline by double-clicking.
-- **Don't render data through the LLM.** You see the sample only. The
-  full data is inlined into the HTML and rendered client-side by JS you
-  write. This way the same skill handles a 50-row CSV and a 500K-row
-  CSV the same way.
-- **Don't write a generic template.** Read the sample. Look at the
-  shape. Pick the layout that fits *this* content. A different sample of
-  the same source should produce a different design.
-- **Geo outputs are tile-free.** GPX / KML / itinerary / location-
-  history pages render geometry as **inline SVG** only. Do not embed
-  Leaflet, Mapbox, Google Maps, OpenStreetMap tiles, or any other
-  basemap provider. The parser pre-projects coordinates into a
-  cosine-corrected viewBox so polylines + place dots line up; add a
-  faint graticule rather than a tile background.
-- **Research outputs are fetch-free.** Bookmarks / bibliography /
-  URL-list / reading-list pages render entirely from the file's
-  metadata. Never fetch the saved URLs at render or click time — no
-  favicon services, no OpenGraph unfurls, no link previews, no
-  dead-link verification calls. Open-original links are plain
-  `<a href target="_blank" rel="noopener noreferrer">`. Duplicate,
-  stale, and dead-link flags are heuristic-only hypotheses, not
-  verdicts.
+Honor explicit style direction in natural language:
+
+- "make it a tutorial" / "teach me" → lean `teaching`.
+- "make it more app-like" → lean `interactive-studio`.
+- "less academic" → reduce paper/report voice.
+- "more dashboard-like" → increase density, filters, charts.
+- "more editorial" → stronger narrative, scroll story, reading rhythm.
+- "more playful" → richer visuals, while keeping content accurate.
+
+## Standard Workflow
+
+1. **Understand the request.**
+   Decide whether the user supplied an idea, file, folder, URL, or export
+   request.
+
+2. **Onboard exports when needed.**
+   If the user names a source but has no file yet, read the matching
+   prompt in `prompts/<source>.md` and give concise export steps. Stop
+   after the export guidance unless the file is already available.
+
+3. **Inspect the source or brief.**
+   - For files/folders, read a representative sample and gather stats.
+   - For URLs, fetch/inspect enough content to understand shape.
+   - For ideas/briefs, create a structured content plan yourself. Use
+     web verification for current or high-stakes facts.
+
+4. **Load guidance.**
+   Read `prompts/_design.md` and the closest source prompt. If no source
+   prompt fits, use `prompts/default.md`. Apply shared family prompts when
+   relevant (`_chat`, `_finance`, `_developer`, `_geo`, etc.). If the chosen
+   style has a prompt in `prompts/styles/<style>.md`, read and follow it.
+
+5. **Choose auto style.**
+   Pick the page style internally. Do not ask the user to choose unless
+   they explicitly want style options.
+
+6. **Build the page.**
+   Create the HTML/CSS/JS directly. Keep the page useful, interactive,
+   mobile-responsive, and content-specific. Include search/filter/copy
+   where it genuinely helps.
+
+7. **Generate assets when they improve the artifact.**
+   Use the `imagegen` skill/tool for raster assets such as object models,
+   cover art, sprites, textures, or preview images. Save project-bound
+   assets into the output folder. Do not leave referenced assets only in
+   `$CODEX_HOME/generated_images`.
+
+8. **Verify in a browser.**
+   For frontend artifacts, open the HTML via local file or local HTTP.
+   Check:
+   - page is nonblank,
+   - desktop and mobile viewports render cleanly,
+   - no obvious horizontal overflow,
+   - primary interactions work,
+   - generated assets load.
+
+9. **Handoff.**
+   Give the user the local path or live link. Keep the explanation short.
+
+## Design Requirements
+
+Read [`prompts/_design.md`](./prompts/_design.md) for Clockless tokens and
+apply them by default.
+
+General requirements:
+
+- Mobile-first responsive layout.
+- Light + dark mode when the page is a report/data artifact; for app-like
+  examples, a polished light-mode Clockless surface is acceptable.
+- Inline CSS and JS in the HTML.
+- No external JS/CDN dependencies unless the user explicitly allows them.
+- The only default external font call is the Google Fonts import from
+  `_design.md`.
+- Use generated bitmap assets when the experience needs rich visual
+  subjects; use SVG/CSS/canvas for deterministic diagrams and UI.
+- Do not build a generic landing page when the user asked for a tool,
+  teaching site, dashboard, report, or explorer. Build the actual usable
+  experience as the first screen.
+
+## Data And Privacy Defaults
+
+- Treat generated HTML as sensitive as the source data because it may
+  embed source records client-side.
+- For intimate chats, do not include a raw-message appendix by default.
+  Use aggregate charts and small anonymized evidence snippets.
+- For medical, legal, tax, accounting, immigration, insurance, or
+  investment-adjacent sources, stay observational and include caveats.
+  Do not provide professional advice.
+- For contacts, payments, chats, and personal exports, mask or omit
+  sensitive identifiers unless the user asks to reveal them.
+- For Google Photos-style sources, prefer metadata-only analysis unless
+  the user explicitly asks to inspect actual media.
+
+## Sampling Guidance
+
+Read enough to understand the source shape without loading huge private
+exports into the model unnecessarily.
+
+- Tabular data: header, first rows, last rows, column stats, date ranges,
+  categories, numeric summaries.
+- Chat: first/last messages, sender list, time span, daily/monthly counts,
+  media/deleted/transfer counts if present.
+- Long text: headings, first sections, word count, section outline.
+- Email: thread counts, sender counts, first/last messages, open loops.
+- Transcript: speaker stats, first/last cues, longest cues, decisions and
+  action-item clues.
+- Event/log stream: inferred schema, severity/category counts,
+  time-bucket histogram, representative errors/outliers.
+- Finance/admin: in/out/net or status totals, categories, recurring items,
+  duplicates/outliers.
+- Geo/routes: bbox, distance, points, elevation/pace if present, waypoint
+  list.
+- Folder/repo: tree, README/index files, representative key files.
+
+## Source Prompts
+
+The source prompts under [`prompts/`](./prompts/) contain export steps and
+content-specific analysis guidance. Use the closest one:
+
+- Personal exports: `amazon-orders`, `youtube-watch-history`,
+  `spotify-history`, `google-maps-stars`, `google-photos-takeout`,
+  `iphone-health`, `kindle-highlights`, `twitch-history`.
+- Chats: `wechat`, `whatsapp`, `slack`, `discord`, `telegram`,
+  `imessage`, `multi-sender-chat`.
+- Data/admin: `csv`, `json`, `jsonl`, `log`, `bank-transactions`,
+  `invoices`, `quickbooks`, `venmo-paypal-payments`, `ics-calendar`,
+  `issue-tracker`, `trello-board`.
+- Documents/research: `markdown`, `pdf`, `docx`, `email`, `bookmarks`,
+  `url-list`, `reading-list`, `bibliography`, `notion-export`,
+  `obsidian-vault`, `markdown-folder`.
+- Developer: `git-diff`, `pr-review`, `ci-log`, `stack-trace`,
+  `github-repo`.
+- Geo/travel: `gpx`, `kml`, `travel-itinerary`, `location-history`.
+- Sensitive records: `medical-visit`, `lab-results`,
+  `legal-chronology`.
+- AI chats: `chatgpt-export`, `claude-chat-export`, `ai-chat-export`.
+- URL/general: `url-article`, `default`.
+
+If no prompt fits, proceed from `default.md` and the user's brief.
+
+Style prompts under [`prompts/styles/`](./prompts/styles/) define reusable page
+shapes such as `teaching`. They complement source prompts; they do not replace
+source-specific analysis.

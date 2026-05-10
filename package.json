@@ -1,7 +1,7 @@
 {
   "name": "html-anything",
   "version": "0.1.0",
-  "description": "Turn any file into the best possible HTML reading experience for that specific content — designed by an LLM, rendered as a single self-contained file.",
+  "description": "Codex / Claude Code skill for turning an idea, file, folder, or URL into a polished live HTML page.",
   "license": "Apache-2.0",
   "type": "module",
   "bin": {
@@ -20,7 +20,8 @@
   ],
   "keywords": [
     "html",
-    "converter",
+    "skill",
+    "interactive-html",
     "markdown",
     "wechat",
     "weixin",
