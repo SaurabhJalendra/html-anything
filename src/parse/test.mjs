@@ -663,3 +663,49 @@ test("sensitive family prompts are present on disk", async () => {
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
 })
+
+test("experiential parser routes the synthetic Amazon order fixture to amazon-orders", async () => {
+  const fp = path.join(REPO, "examples/amazon-orders/input.csv")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "experiential")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "amazon-orders")
+  assert.equal(out.data.format, "amazon-orders")
+  assert.ok(out.data.rows.length >= 80, `expected >= 80 line items, got ${out.data.rows.length}`)
+  // Required aggregates per prompts/amazon-orders.md.
+  for (const k of ["summary", "yearTotals", "monthTotals", "categoryTotals", "reorders", "recipients", "returnsAndRefunds"]) {
+    assert.ok(out.data[k] !== undefined, `missing required field: ${k}`)
+  }
+  assert.ok(out.data.summary.totalSpend > 0, "summary.totalSpend should be > 0")
+  assert.ok(out.data.summary.orderCount > 0, "summary.orderCount should be > 0")
+  assert.ok(out.data.yearTotals.length >= 2, `expected >= 2 years covered, got ${out.data.yearTotals.length}`)
+  assert.ok(out.data.categoryTotals.length >= 3, `expected >= 3 categories`)
+  assert.ok(out.data.reorders.length > 0, "fixture should expose at least one repeat-purchase candidate")
+  assert.ok(out.data.recipients.length >= 2, "fixture has multiple recipients — recipients panel should populate")
+  // Returns / cancellations / problem buckets all surfaced.
+  assert.ok(out.data.returnsAndRefunds.returned.length > 0, "fixture includes refunded items")
+  assert.ok(out.data.returnsAndRefunds.cancelled.length > 0, "fixture includes cancelled orders")
+  // Synthetic-data invariants — no real Amazon identifiers leaked.
+  for (const r of out.data.rows) {
+    assert.ok(/^B0SYNTH/.test(r.asin || ""), `non-synthetic ASIN: ${r.asin}`)
+    assert.ok(/^222-SYNTH-/.test(r.orderId || ""), `non-synthetic Order ID: ${r.orderId}`)
+  }
+})
+
+test("experiential (amazon-orders) detection beats finance + csv on Amazon-shaped CSVs", async () => {
+  const { parsers } = await import("../../dist/parse/index.js")
+  const names = parsers.map(p => p.name)
+  const experientialIdx = names.indexOf("experiential")
+  const financeIdx = names.indexOf("finance")
+  const csvIdx = names.indexOf("csv")
+  assert.ok(experientialIdx >= 0, `parsers missing 'experiential' — got ${names.join(", ")}`)
+  assert.ok(experientialIdx < financeIdx, "experiential must come before finance (Amazon CSVs have Order Date + Item Total signals that would otherwise mis-route to bank-transactions)")
+  assert.ok(experientialIdx < csvIdx, "experiential must come before generic csv")
+})
+
+test("amazon-orders prompt is present on disk", async () => {
+  const fs = await import("node:fs/promises")
+  const p = path.join(REPO, "prompts", "amazon-orders.md")
+  const stat = await fs.stat(p)
+  assert.ok(stat.isFile(), "missing prompt file: amazon-orders.md")
+})

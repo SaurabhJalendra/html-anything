@@ -19,6 +19,11 @@
  *                          Columns: Title, Note, URL, Comment.
  *   - iphone-health      — Apple Health "Export All Health Data" XML
  *                          (`export.xml`). Records + workouts.
+ *   - amazon-orders      — Amazon "Request Your Information" / legacy
+ *                          Order Reports CSV (`Retail.OrderHistory.*.csv`,
+ *                          `Items.csv`). Item-level row per ordered item.
+ *                          Detected by header containing `Order ID`
+ *                          plus one of `ASIN` / `Title` / `Product Name`.
  */
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
@@ -33,7 +38,7 @@ export const parser: Parser = {
     try {
       const head = await readHead(filepath, 8192)
       if (ext === ".json") return looksLikeSpotify(head, base)
-      if (ext === ".csv") return looksLikeTwitch(head, base) || looksLikeStars(head, base)
+      if (ext === ".csv") return looksLikeAmazon(head, base) || looksLikeTwitch(head, base) || looksLikeStars(head, base)
       if (ext === ".xml") return looksLikeAppleHealth(head)
     } catch { /* fall through */ }
     return false
@@ -49,6 +54,7 @@ export const parser: Parser = {
     if (ext === ".json") return parseSpotify(raw, meta)
     if (ext === ".csv") {
       const firstLine = (raw.split(/\r?\n/, 1)[0] || "").toLowerCase()
+      if (looksLikeAmazon(firstLine, base)) return parseAmazon(raw, meta)
       if (looksLikeTwitch(firstLine, base)) return parseTwitch(raw, meta)
       return parseStars(raw, meta)
     }
@@ -87,6 +93,21 @@ function looksLikeStars(head: string, base: string): boolean {
 
 function looksLikeAppleHealth(head: string): boolean {
   return /<HealthData[\s>]/i.test(head) || /<!DOCTYPE\s+HealthData/i.test(head)
+}
+
+function looksLikeAmazon(head: string, base: string): boolean {
+  if (/retail\.orderhistory|retail\.returnsandrefunds|order[-_ ]?history|orderitemreport|items\.csv/i.test(base)) return true
+  const firstLine = head.split(/\r?\n/, 1)[0] || ""
+  const lower = firstLine.toLowerCase()
+  // Order ID is the strongest signal; pair it with ASIN, Title, or Product Name.
+  const hasOrderId = /\border\s*id\b/.test(lower) || /"order\s*id"/.test(lower)
+  if (!hasOrderId) return false
+  const hasItemSignal =
+    /\basin\b/.test(lower) ||
+    /\bproduct\s*name\b/.test(lower) ||
+    /\btitle\b/.test(lower) ||
+    /\bitem\s*total\b/.test(lower)
+  return hasItemSignal
 }
 
 // ----------------------------------- spotify
@@ -388,6 +409,462 @@ function parseLatLngFromMapsUrl(url: string): { lat?: number; lng?: number } {
   const ll = /[?&]ll=(-?\d+\.\d+),\s*(-?\d+\.\d+)/.exec(url)
   if (ll) return { lat: Number(ll[1]), lng: Number(ll[2]) }
   return {}
+}
+
+// ----------------------------------- amazon-orders
+
+interface AmazonRow {
+  id: string
+  date: string
+  shipDate: string | null
+  title: string
+  asin: string | null
+  orderId: string
+  category: string | null
+  categoryInferred: boolean
+  quantity: number
+  itemSubtotal: number
+  itemTotal: number
+  currency: string
+  status: string
+  recipient: string | null
+  shipState: string | null
+  carrier: string | null
+  flags: string[]
+  raw: Record<string, string>
+}
+
+const AMAZON_HEADER_PATTERNS: Record<string, RegExp[]> = {
+  date: [/^order\s*date$/i, /^purchase\s*date$/i],
+  shipDate: [/^ship(ment|ping)?\s*date$/i],
+  title: [/^title$/i, /^product\s*name$/i, /^item\s*name$/i],
+  asin: [/^asin(?:\/?isbn)?$/i, /^asin$/i],
+  orderId: [/^order\s*id$/i, /^order\s*number$/i],
+  category: [/^category$/i, /^product\s*category$/i, /^department$/i],
+  quantity: [/^quantity$/i, /^qty$/i, /^item\s*quantity$/i],
+  itemSubtotal: [/^item\s*subtotal$/i, /^subtotal$/i],
+  itemTotal: [/^item\s*total$/i, /^total\s*charged$/i, /^total$/i, /^amount$/i],
+  currency: [/^currency$/i],
+  status: [/^order\s*status$/i, /^shipment\s*status$/i, /^status$/i],
+  recipient: [/^shipping\s*address\s*name$/i, /^ship[\s_-]*to(\s*name)?$/i, /^recipient$/i],
+  shipState: [/^shipping\s*address\s*state$/i, /^ship\s*state$/i, /^state$/i],
+  carrier: [/^carrier(\s*name(\s*&\s*tracking\s*number)?)?$/i, /^shipping\s*carrier$/i],
+}
+
+const CATEGORY_KEYWORDS: Array<[RegExp, string]> = [
+  [/\b(book|novel|paperback|hardcover|kindle edition)\b/i, "Books"],
+  [/\b(diaper|formula|crib|stroller|pacifier|onesie|baby\b)/i, "Baby"],
+  [/\b(cat|dog|pet|kibble|litter|leash|fish food)\b/i, "Pet Supplies"],
+  [/\b(coffee|tea|kettle|french press|grinder|filter|espresso)\b/i, "Kitchen"],
+  [/\b(blender|toaster|mixer|knife|cutting board|spatula|sauce pan|skillet|pot)\b/i, "Kitchen"],
+  [/\b(diapers?|shampoo|conditioner|toothpaste|toothbrush|deodorant|razor|lotion|moisturiz)\b/i, "Health & Personal Care"],
+  [/\b(vitamin|supplement|magnesium|melatonin|ibuprofen|advil|tylenol|protein)\b/i, "Health & Personal Care"],
+  [/\b(notebook|pen|pencil|highlighter|stapler|paper|printer ink|toner)\b/i, "Office"],
+  [/\b(headphone|earbud|usb|charger|cable|hdmi|laptop|webcam|keyboard|mouse|monitor|adapter|battery|powerbank)\b/i, "Electronics"],
+  [/\b(t-shirt|shirt|sock|jean|sweater|jacket|hoodie|sneaker|boot|dress|skirt)\b/i, "Apparel"],
+  [/\b(toy|lego|puzzle|board game|action figure)\b/i, "Toys"],
+  [/\b(tools?|drill|screw|hammer|wrench|saw|sand paper|paint(?:brush)?)\b/i, "Tools & Home"],
+  [/\b(garden|plant|seed|soil|hose|trowel|fertilizer)\b/i, "Garden"],
+  [/\b(cleaner|detergent|wipes|sponge|paper towel|trash bag|broom|mop|vacuum)\b/i, "Household"],
+  [/\b(snack|crackers|chocolate|cereal|peanut butter|protein bar|granola)\b/i, "Grocery"],
+]
+
+function parseAmazon(raw: string, meta: ParsedFile["meta"]): ParsedFile {
+  const rows = parseCsv(raw)
+  if (rows.length === 0) throw new Error("amazon-orders: empty CSV")
+  const headers = rows[0]
+  const headerLower = headers.map(h => (h || "").trim())
+  const cols: Record<string, number | null> = {}
+  for (const slot of Object.keys(AMAZON_HEADER_PATTERNS)) {
+    cols[slot] = null
+    for (let i = 0; i < headerLower.length; i++) {
+      if (AMAZON_HEADER_PATTERNS[slot].some(p => p.test(headerLower[i]))) {
+        cols[slot] = i
+        break
+      }
+    }
+  }
+
+  const get = (r: string[], idx: number | null) => (idx !== null ? (r[idx] || "").trim() : "")
+
+  const items: AmazonRow[] = []
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i]
+    if (!r || r.every(c => !c || !c.trim())) continue
+    const date = parseAmazonDate(get(r, cols.date))
+    if (!date) continue
+    const itemTotal = parseAmazonAmount(get(r, cols.itemTotal))
+    const itemSubtotal = parseAmazonAmount(get(r, cols.itemSubtotal)) || itemTotal
+    const titleRaw = get(r, cols.title) || "(no title)"
+    const title = titleRaw.length > 240 ? titleRaw.slice(0, 240) + "…" : titleRaw
+    const status = get(r, cols.status) || "Unknown"
+    const flags = classifyAmazonStatus(status)
+    let category = get(r, cols.category) || null
+    let categoryInferred = false
+    if (!category) {
+      category = inferCategory(title)
+      categoryInferred = category !== null
+    }
+    const rawObj: Record<string, string> = {}
+    for (let j = 0; j < headers.length && j < r.length; j++) {
+      const k = (headers[j] || `col_${j}`).trim() || `col_${j}`
+      const v = (r[j] || "").trim()
+      if (v.length > 240) rawObj[k] = v.slice(0, 240) + "…"
+      else rawObj[k] = v
+    }
+    items.push({
+      id: `amz_${(i).toString().padStart(6, "0")}`,
+      date,
+      shipDate: parseAmazonDate(get(r, cols.shipDate)) || null,
+      title,
+      asin: get(r, cols.asin) || null,
+      orderId: get(r, cols.orderId) || "",
+      category,
+      categoryInferred,
+      quantity: Math.max(1, Number(get(r, cols.quantity)) || 1),
+      itemSubtotal,
+      itemTotal,
+      currency: get(r, cols.currency) || "USD",
+      status,
+      recipient: get(r, cols.recipient) || null,
+      shipState: get(r, cols.shipState) || null,
+      carrier: get(r, cols.carrier) || null,
+      flags,
+      raw: rawObj,
+    })
+  }
+
+  items.sort((a, b) => a.date.localeCompare(b.date))
+
+  const currencyCode = items[0]?.currency || "USD"
+  const currencySymbol = currencyCode === "USD" || currencyCode === "" ? "$"
+    : currencyCode === "GBP" ? "£" : currencyCode === "EUR" ? "€"
+    : currencyCode === "JPY" ? "¥" : currencyCode === "CAD" ? "$"
+    : currencyCode === "AUD" ? "$" : "$"
+
+  const orderIds = new Set<string>()
+  const titleKeyTotals: Record<string, { title: string; key: string; count: number; quantity: number; spend: number; first: string; last: string; ids: string[] }> = {}
+  const yearAgg: Record<string, { spend: number; orders: Set<string>; items: number; categories: Record<string, number> }> = {}
+  const monthAgg: Record<string, { spend: number; orders: Set<string>; items: number }> = {}
+  const categoryAgg: Record<string, { spend: number; items: number; inferred: boolean; monthly: Record<string, number> }> = {}
+  const recipientAgg: Record<string, { spend: number; items: number; titles: Record<string, number> }> = {}
+
+  let totalSpend = 0
+  let totalSubtotal = 0
+  let refundedAmount = 0
+  let refundedCount = 0
+  let cancelledCount = 0
+
+  for (const it of items) {
+    if (it.orderId) orderIds.add(it.orderId)
+    totalSpend += it.itemTotal
+    totalSubtotal += it.itemSubtotal
+    if (it.flags.includes("refund") || it.flags.includes("return")) {
+      refundedAmount += it.itemTotal
+      refundedCount += 1
+    }
+    if (it.flags.includes("cancelled")) cancelledCount += 1
+
+    const year = it.date.slice(0, 4)
+    const month = it.date.slice(0, 7)
+    const yEntry = yearAgg[year] = yearAgg[year] || { spend: 0, orders: new Set<string>(), items: 0, categories: {} }
+    yEntry.spend += it.itemTotal
+    yEntry.items += 1
+    if (it.orderId) yEntry.orders.add(it.orderId)
+    if (it.category) yEntry.categories[it.category] = (yEntry.categories[it.category] || 0) + it.itemTotal
+
+    const mEntry = monthAgg[month] = monthAgg[month] || { spend: 0, orders: new Set<string>(), items: 0 }
+    mEntry.spend += it.itemTotal
+    mEntry.items += 1
+    if (it.orderId) mEntry.orders.add(it.orderId)
+
+    const cat = it.category || "Uncategorized"
+    const cEntry = categoryAgg[cat] = categoryAgg[cat] || { spend: 0, items: 0, inferred: false, monthly: {} }
+    cEntry.spend += it.itemTotal
+    cEntry.items += 1
+    if (it.categoryInferred) cEntry.inferred = true
+    cEntry.monthly[month] = (cEntry.monthly[month] || 0) + it.itemTotal
+
+    if (it.recipient) {
+      const rEntry = recipientAgg[it.recipient] = recipientAgg[it.recipient] || { spend: 0, items: 0, titles: {} }
+      rEntry.spend += it.itemTotal
+      rEntry.items += 1
+      rEntry.titles[it.title] = (rEntry.titles[it.title] || 0) + 1
+    }
+
+    const key = (it.asin || it.title).toLowerCase()
+    const tk = titleKeyTotals[key] = titleKeyTotals[key] || {
+      title: it.title, key, count: 0, quantity: 0, spend: 0,
+      first: it.date, last: it.date, ids: [],
+    }
+    tk.count += 1
+    tk.quantity += it.quantity
+    tk.spend += it.itemTotal
+    if (it.date < tk.first) tk.first = it.date
+    if (it.date > tk.last) tk.last = it.date
+    tk.ids.push(it.id)
+  }
+
+  const sortedMonths = Object.keys(monthAgg).sort()
+  const monthTotals = sortedMonths.map(m => ({
+    month: m,
+    spend: round2(monthAgg[m].spend),
+    orders: monthAgg[m].orders.size,
+    items: monthAgg[m].items,
+  }))
+  const yearTotals = Object.keys(yearAgg).sort().map(y => ({
+    year: y,
+    spend: round2(yearAgg[y].spend),
+    orders: yearAgg[y].orders.size,
+    items: yearAgg[y].items,
+    topCategory: topKey(yearAgg[y].categories),
+  }))
+
+  const categoryTotalsList = Object.entries(categoryAgg)
+    .map(([category, v]) => ({
+      category,
+      spend: round2(v.spend),
+      items: v.items,
+      share: totalSpend > 0 ? v.spend / totalSpend : 0,
+      inferred: v.inferred,
+      monthly: sortedMonths.map(m => ({ month: m, spend: round2(v.monthly[m] || 0) })),
+    }))
+    .sort((a, b) => b.spend - a.spend)
+
+  const reorders = Object.values(titleKeyTotals)
+    .filter(t => t.count >= 3)
+    .map(t => ({
+      key: t.key,
+      title: t.title,
+      timesOrdered: t.count,
+      totalQuantity: t.quantity,
+      totalSpend: round2(t.spend),
+      firstSeen: t.first,
+      lastSeen: t.last,
+      cadenceLabel: cadenceLabel(t.first, t.last, t.count),
+      cadenceTag: cadenceTag(t.first, t.last, t.count, t.spend / t.count),
+      sampleItemIds: t.ids.slice(0, 12),
+    }))
+    .sort((a, b) => b.totalSpend - a.totalSpend)
+
+  const habitCandidates = reorders.length === 0
+    ? Object.values(titleKeyTotals)
+        .filter(t => t.count === 2)
+        .slice(0, 10)
+        .map(t => ({
+          key: t.key,
+          title: t.title,
+          timesOrdered: t.count,
+          totalQuantity: t.quantity,
+          totalSpend: round2(t.spend),
+          firstSeen: t.first,
+          lastSeen: t.last,
+          cadenceLabel: cadenceLabel(t.first, t.last, t.count),
+          cadenceTag: "habit-candidate" as const,
+          sampleItemIds: t.ids.slice(0, 4),
+        }))
+    : []
+
+  const recipients = Object.entries(recipientAgg)
+    .map(([name, v]) => ({
+      name,
+      spend: round2(v.spend),
+      items: v.items,
+      share: totalSpend > 0 ? v.spend / totalSpend : 0,
+      topItems: Object.entries(v.titles).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([title, count]) => ({ title, count })),
+    }))
+    .sort((a, b) => b.spend - a.spend)
+
+  const returned: AmazonRow[] = items.filter(it => it.flags.includes("return") || it.flags.includes("refund"))
+  const cancelled: AmazonRow[] = items.filter(it => it.flags.includes("cancelled"))
+  const problem: AmazonRow[] = items.filter(it => it.flags.includes("problem"))
+
+  const period = items.length ? `${items[0].date} → ${items[items.length - 1].date}` : "(empty)"
+  const months = sortedMonths.length
+
+  const summary = {
+    rowCount: items.length,
+    orderCount: orderIds.size,
+    distinctItemCount: Object.keys(titleKeyTotals).length,
+    totalSpend: round2(totalSpend),
+    totalSubtotal: round2(totalSubtotal),
+    refundedAmount: round2(refundedAmount),
+    refundedCount,
+    cancelledCount,
+    currencySymbol,
+    currencyCode: currencyCode || "USD",
+    period,
+    durationLabel: durationLabel(items[0]?.date, items[items.length - 1]?.date),
+    activeMonths: months,
+    distinctCategories: Object.keys(categoryAgg).length,
+    distinctRecipients: Object.keys(recipientAgg).length,
+    topCategory: categoryTotalsList[0]?.category || null,
+    topCategoryShare: categoryTotalsList[0]?.share || 0,
+  }
+
+  const returnsAndRefunds = {
+    returned: returned.map(rowSummaryForRefund),
+    cancelled: cancelled.map(rowSummaryForRefund),
+    problem: problem.map(rowSummaryForRefund),
+  }
+
+  const data = {
+    format: "amazon-orders",
+    subtype: "items",
+    rows: items,
+    summary,
+    yearTotals,
+    monthTotals,
+    categoryTotals: categoryTotalsList,
+    reorders: reorders.length ? reorders : habitCandidates,
+    reordersKind: reorders.length ? "reorder" : "habit-candidate",
+    recipients,
+    returnsAndRefunds,
+    meta: {
+      ...meta,
+      headers,
+      detectedColumns: Object.fromEntries(Object.entries(cols).filter(([_, v]) => v !== null).map(([k, v]) => [k, headers[v as number]])),
+      currencyCode: summary.currencyCode,
+      currencySymbol: summary.currencySymbol,
+    },
+  }
+
+  const sample = {
+    summary,
+    yearTotals,
+    monthTotals: monthTotals.slice(-12),
+    categoryTotals: categoryTotalsList.slice(0, 8),
+    reordersTop: data.reorders.slice(0, 6),
+    recipients,
+    returnsAndRefundsCounts: {
+      returned: returned.length,
+      cancelled: cancelled.length,
+      problem: problem.length,
+    },
+    firstRows: items.slice(0, 6).map(stripAmazonRow),
+    lastRows: items.slice(-3).map(stripAmazonRow),
+    detectedColumns: data.meta.detectedColumns,
+    headers,
+  }
+
+  const summaryLine = `Amazon order history — ${items.length} items across ${orderIds.size} orders, ${currencySymbol}${Math.round(totalSpend).toLocaleString("en-US")} spent over ${period} (${Object.keys(categoryAgg).length} categories, ${Object.keys(recipientAgg).length} recipients).`
+
+  return {
+    contentType: "amazon-orders",
+    summary: summaryLine,
+    sample,
+    data,
+    meta: {
+      ...meta,
+      shape: "amazon-orders",
+      itemCount: items.length,
+      orderCount: orderIds.size,
+      totalSpend: round2(totalSpend),
+      currencyCode: summary.currencyCode,
+      currencySymbol: summary.currencySymbol,
+      period,
+    },
+  }
+}
+
+function stripAmazonRow(it: AmazonRow): AmazonRow {
+  const raw: Record<string, string> = {}
+  let n = 0
+  for (const [k, v] of Object.entries(it.raw)) {
+    if (n >= 8) { raw["…"] = `+${Object.keys(it.raw).length - n} more`; break }
+    raw[k] = v.length > 60 ? v.slice(0, 60) + "…" : v
+    n += 1
+  }
+  return { ...it, raw }
+}
+
+function rowSummaryForRefund(r: AmazonRow): { id: string; title: string; date: string; amount: number; status: string; orderId: string } {
+  return { id: r.id, title: r.title, date: r.date, amount: r.itemTotal, status: r.status, orderId: r.orderId }
+}
+
+function classifyAmazonStatus(status: string): string[] {
+  const s = status.toLowerCase()
+  if (/cancel/.test(s)) return ["cancelled"]
+  if (/refund/.test(s)) return ["refund"]
+  if (/return/.test(s)) return ["return"]
+  if (/lost|damag|delay|exception|problem|undeliver/.test(s)) return ["problem"]
+  return []
+}
+
+function inferCategory(title: string): string | null {
+  for (const [re, cat] of CATEGORY_KEYWORDS) {
+    if (re.test(title)) return cat
+  }
+  return null
+}
+
+function topKey(rec: Record<string, number>): string | null {
+  let best: [string, number] | null = null
+  for (const [k, v] of Object.entries(rec)) {
+    if (best === null || v > best[1]) best = [k, v]
+  }
+  return best?.[0] || null
+}
+
+function round2(n: number): number {
+  return Math.round(n * 100) / 100
+}
+
+function parseAmazonDate(s: string): string {
+  if (!s) return ""
+  const t = s.trim()
+  // ISO 8601 (2024-03-14, 2024-03-14T12:00:00Z)
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(t)
+  if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`
+  // M/D/YYYY or MM/DD/YYYY (Amazon US default)
+  const us = /^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})/.exec(t)
+  if (us) {
+    const yyyy = us[3].length === 2 ? "20" + us[3] : us[3]
+    return `${yyyy}-${us[1].padStart(2, "0")}-${us[2].padStart(2, "0")}`
+  }
+  return ""
+}
+
+function parseAmazonAmount(s: string): number {
+  if (!s) return 0
+  const cleaned = s.replace(/[^0-9.\-]/g, "")
+  const n = Number(cleaned)
+  return Number.isFinite(n) ? n : 0
+}
+
+function durationLabel(first: string | undefined, last: string | undefined): string {
+  if (!first || !last) return ""
+  const d1 = new Date(first + "T00:00:00Z").getTime()
+  const d2 = new Date(last + "T00:00:00Z").getTime()
+  if (!Number.isFinite(d1) || !Number.isFinite(d2)) return ""
+  const days = Math.max(1, Math.round((d2 - d1) / 86400000))
+  if (days < 60) return `${days} days`
+  const months = Math.round(days / 30)
+  if (months < 24) return `${months} months`
+  const years = Math.floor(months / 12)
+  const rem = months % 12
+  return rem ? `${years} years ${rem} months` : `${years} years`
+}
+
+function cadenceLabel(first: string, last: string, count: number): string {
+  if (count < 2) return "one-off"
+  const days = Math.max(1, Math.round((Date.parse(last) - Date.parse(first)) / 86400000))
+  const avg = days / Math.max(1, count - 1)
+  if (avg < 21) return "every ~2 weeks"
+  if (avg < 45) return "every ~month"
+  if (avg < 75) return "every ~6 weeks"
+  if (avg < 150) return "every ~3 months"
+  if (avg < 240) return "every ~6 months"
+  if (avg < 400) return "yearly"
+  return "occasional"
+}
+
+function cadenceTag(first: string, last: string, count: number, avgPrice: number): "habit" | "subscribe" | "splurge-rebuy" {
+  const days = Math.max(1, Math.round((Date.parse(last) - Date.parse(first)) / 86400000))
+  const avg = days / Math.max(1, count - 1)
+  if (count >= 5 && avg < 60 && avgPrice < 60) return "subscribe"
+  if (avg < 90) return "habit"
+  return "splurge-rebuy"
 }
 
 // ----------------------------------- iphone-health
