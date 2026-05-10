@@ -709,3 +709,110 @@ test("amazon-orders prompt is present on disk", async () => {
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: amazon-orders.md")
 })
+
+test("ai-chat-export parser routes a synthetic ChatGPT conversations.json to chatgpt-export", async () => {
+  const fp = path.join(REPO, "examples/chatgpt-export/input.json")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "ai-chat-export")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "chatgpt-export")
+  assert.equal(out.meta.format, "chatgpt-export")
+  assert.equal(out.meta.kind, "ai-chat-export")
+  assert.ok(out.meta.conversationCount >= 12, `expected >= 12 conversations, got ${out.meta.conversationCount}`)
+  assert.ok(out.meta.messageCount >= 30, `expected >= 30 messages, got ${out.meta.messageCount}`)
+  assert.ok(out.meta.codeBlockCount >= 5, `expected >= 5 code blocks, got ${out.meta.codeBlockCount}`)
+  for (const k of ["conversations", "weeklyHistogram", "monthlyHistogram", "hourCounts", "dowCounts",
+                   "topicClusters", "kindBreakdown", "modelBreakdown", "longestConversations",
+                   "reusablePrompts", "importantAnswers", "unresolvedThreads"]) {
+    assert.ok(k in out.data, `missing required field: ${k}`)
+  }
+  assert.equal(out.data.hourCounts.length, 24)
+  assert.equal(out.data.dowCounts.length, 7)
+  const modelNames = out.data.modelBreakdown.map(m => m.model)
+  assert.ok(modelNames.includes("gpt-4o"), `expected 'gpt-4o' in model breakdown — got ${modelNames.join(", ")}`)
+  assert.ok(out.data.unresolvedThreads.length >= 2, `expected >= 2 unresolved threads, got ${out.data.unresolvedThreads.length}`)
+  for (const u of out.data.unresolvedThreads) {
+    assert.ok(typeof u.lastUserText === "string" && u.lastUserText.length > 0, "unresolved thread missing lastUserText")
+    assert.ok(typeof u.reason === "string" && u.reason.length > 0, "unresolved thread missing reason")
+  }
+  const first = out.data.conversations[0]
+  assert.ok(first.messages.length >= 1)
+  for (const m of first.messages) {
+    assert.ok(m.role === "user" || m.role === "assistant" || m.role === "system" || m.role === "tool")
+    assert.ok(typeof m.text === "string")
+  }
+  assert.ok(first.createdIso?.startsWith("2026"), `expected 2026 createdIso, got ${first.createdIso}`)
+})
+
+test("ai-chat-export parser routes a markdown User:/Assistant: chat log to ai-chat-export", async () => {
+  const fp = path.join(REPO, "examples/ai-chat-log/input.md")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "ai-chat-export")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "ai-chat-export")
+  assert.equal(out.meta.format, "ai-chat-log-md")
+  assert.ok(out.meta.conversationCount >= 5, `expected >= 5 conversations, got ${out.meta.conversationCount}`)
+  assert.ok(out.meta.messageCount >= 15, `expected >= 15 messages, got ${out.meta.messageCount}`)
+  for (const k of ["conversations", "weeklyHistogram", "topicClusters", "kindBreakdown",
+                   "modelBreakdown", "reusablePrompts", "importantAnswers", "unresolvedThreads"]) {
+    assert.ok(k in out.data, `missing required field: ${k}`)
+  }
+  for (const c of out.data.conversations) {
+    assert.ok(c.messages.length > 0, `conversation ${c.id} has no messages`)
+    for (const m of c.messages) {
+      assert.ok(m.role === "user" || m.role === "assistant" || m.role === "system" || m.role === "tool",
+        `unexpected role: ${m.role}`)
+      assert.ok(m.text && m.text.length > 0, "empty message text after parse")
+    }
+  }
+  assert.ok(out.meta.codeBlockCount >= 2, `expected >= 2 code blocks, got ${out.meta.codeBlockCount}`)
+})
+
+test("ai-chat-export parser does NOT claim a generic JSON / non-chat .md", async () => {
+  const { parser } = await import("../../dist/parse/ai-chat-export.js")
+  const fs = await import("node:fs/promises")
+  const tmpJson = path.join(REPO, "src/parse/_test_aichat.json")
+  const tmpMd = path.join(REPO, "src/parse/_test_aichat.md")
+  try {
+    await fs.writeFile(tmpJson, JSON.stringify({ items: [{ id: 1, name: "x" }] }))
+    assert.equal(await parser.detect(tmpJson), false, "should refuse generic items JSON")
+    await fs.writeFile(tmpMd, "# A note\n\nThis is just a markdown document with no chat shape at all.\n")
+    assert.equal(await parser.detect(tmpMd), false, "should refuse non-chat markdown")
+  } finally {
+    await fs.unlink(tmpJson).catch(() => {})
+    await fs.unlink(tmpMd).catch(() => {})
+  }
+})
+
+test("registry order: ai-chat-export comes before slack/sensitive/markdown/json", async () => {
+  const { parsers } = await import("../../dist/parse/index.js")
+  const names = parsers.map(p => p.name)
+  const aiIdx = names.indexOf("ai-chat-export")
+  assert.ok(aiIdx >= 0, `parsers missing 'ai-chat-export' — got ${names.join(", ")}`)
+  for (const after of ["slack", "sensitive", "markdown", "json"]) {
+    const i = names.indexOf(after)
+    assert.ok(i > aiIdx, `ai-chat-export must come before '${after}' — got ai-chat-export@${aiIdx}, ${after}@${i}`)
+  }
+})
+
+test("ai-chat-export family prompts are present on disk", async () => {
+  const fs = await import("node:fs/promises")
+  const expectedPrompts = ["_ai_chat_export.md", "chatgpt-export.md", "claude-chat-export.md", "ai-chat-export.md"]
+  for (const name of expectedPrompts) {
+    const p = path.join(REPO, "prompts", name)
+    const stat = await fs.stat(p)
+    assert.ok(stat.isFile(), `missing prompt file: ${name}`)
+  }
+})
+
+test("ai-chat-export output.html files render the required family sections", async () => {
+  const fs = await import("node:fs/promises")
+  for (const rel of ["examples/chatgpt-export/output.html", "examples/ai-chat-log/output.html"]) {
+    const html = await fs.readFile(path.join(REPO, rel), "utf8")
+    for (const needle of ["Overview", "Timeline", "Topics", "Reusable prompts",
+                          "Important answers", "Unresolved", "Conversation index",
+                          "Heuristic", "Generated locally"]) {
+      assert.ok(html.includes(needle), `${rel} missing required section/text: ${needle}`)
+    }
+  }
+})

@@ -108,6 +108,7 @@ The result is a live `.html` file, not markdown: inline CSS, inline JS, inline d
 | 🌐 | GitHub repo URL | `github.com/owner/repo` URLs, best in skill mode | Live HTML generated from the repo |
 | 🌐 | Article URL | Blog posts, news pages, long-form webpages, best in skill mode | Live HTML generated from the page |
 | 🩺 | Sensitive records | Medical visit notes, lab-results CSVs, legal chronologies | [Medical visit](https://clockless-org.github.io/html-anything/examples/medical-visit/output.html), [lab results](https://clockless-org.github.io/html-anything/examples/lab-results/output.html), [legal chronology](https://clockless-org.github.io/html-anything/examples/legal-chronology/output.html) |
+| 🤖 | AI chat exports | ChatGPT `conversations.json`, Claude chat export, generic `{conversations: [...]}` JSON, plain markdown `User:` / `Assistant:` logs | [ChatGPT export](https://clockless-org.github.io/html-anything/examples/chatgpt-export/output.html), [saved AI chat log](https://clockless-org.github.io/html-anything/examples/ai-chat-log/output.html) — heuristic, offline-only, no calls back to OpenAI / Anthropic |
 | ✨ | Anything else | Plain text or unknown file shape | Live HTML generated from the source |
 
 ## Standalone CLI

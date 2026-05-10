@@ -30,11 +30,13 @@ import { parser as financeParser } from "./finance.js"
 import { parser as researchParser } from "./research.js"
 import { parser as geoParser } from "./geo.js"
 import { parser as experientialParser } from "./experiential.js"
+import { parser as aiChatExportParser } from "./ai-chat-export.js"
 import { parser as textParser } from "./text.js"
 
 export const parsers: Parser[] = [
   emailParser,              // .eml / .mbox (also catches Gmail Takeout exports)
   transcriptParser,         // .vtt / .srt / timecoded .txt (Zoom, Teams, Meet, YouTube)
+  aiChatExportParser,       // .json (ChatGPT / Claude / generic conversations) / .md / .txt — must run before wechat/whatsapp/slack/sensitive/markdown/json
   wechatParser,             // .html/.docx/.csv/.txt/.json — WeChatMsg / 留痕 relationship exports
   whatsappParser,           // .txt with timestamp prefix
   slackParser,              // .json — Slack channel export array

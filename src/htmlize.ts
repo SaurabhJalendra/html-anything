@@ -257,6 +257,20 @@ function familyFor(contentType: string): string | null {
   ) {
     return "_sensitive.md"
   }
+  // AI chat-history sources (ChatGPT `conversations.json`, Claude
+  // export-style JSON, generic `{ conversations: [...] }`, plain
+  // markdown / text "User: / Assistant:" logs) share the
+  // overview-cards / weekly-timeline / topic-clusters / reusable-
+  // prompts / unresolved-threads / conversation-index / drill-down
+  // contract — and the hard rule that outputs are offline-only and
+  // never call back to OpenAI / Anthropic at render time.
+  if (
+    contentType === "chatgpt-export" ||
+    contentType === "claude-chat-export" ||
+    contentType === "ai-chat-export"
+  ) {
+    return "_ai_chat_export.md"
+  }
   return null
 }
 
