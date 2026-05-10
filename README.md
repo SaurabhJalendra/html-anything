@@ -93,6 +93,7 @@ The result is a live `.html` file, not markdown: inline CSS, inline JS, inline d
 | 💵 | Bank transactions | Bank or credit-card CSV exports | Live HTML generated from your statement |
 | 💵 | Invoices / receipts | CSV with invoice number, customer, amount, status, due dates | Live HTML generated from your invoice export |
 | 💵 | Accounting export | QuickBooks, Xero, Wave general-ledger or P&L exports | Live HTML generated from your export |
+| 🤝 | Venmo / PayPal social payments | Venmo statement CSV, PayPal Activity CSV — counterparty leaderboard, story clusters, reimbursement loops | [Venmo activity](https://clockless-org.github.io/html-anything/examples/venmo-paypal-payments/output.html) |
 | 📅 | Calendar | `.ics`, `.ical`; Google Calendar, Outlook, Apple Calendar, Fastmail | Live HTML generated from your calendar |
 | ✅ | Issue tracker / Trello | Linear, Jira, GitHub Issues, Asana, ClickUp, Trello JSON | Live HTML generated from your board |
 | 🧠 | Obsidian / Notion / Markdown folder | Directories of markdown, Notion "Markdown & CSV" export | Live HTML generated from your workspace |

@@ -27,6 +27,7 @@ import { parser as developerArtifactParser } from "./developer-artifact.js"
 import { parser as logParser } from "./log.js"
 import { parser as planningParser } from "./planning.js"
 import { parser as sensitiveParser } from "./sensitive.js"
+import { parser as socialPaymentsParser } from "./social-payments.js"
 import { parser as financeParser } from "./finance.js"
 import { parser as researchParser } from "./research.js"
 import { parser as geoParser } from "./geo.js"
@@ -49,6 +50,7 @@ export const parsers: Parser[] = [
   experientialParser,       // .json (spotify, youtube-watch-history), .csv (twitch / google-maps-stars / amazon-orders), .xml (apple health)
   planningParser,           // .ics / .json (Trello) / .csv (Linear/Jira/GitHub issue trackers)
   sensitiveParser,          // .csv (lab-results), .md/.markdown (medical-visit, legal-chronology) — must run before finance & markdown
+  socialPaymentsParser,     // .csv — Venmo / PayPal consumer activity exports — must run before finance so social-payment headers don't fall through to bank-statement framing
   financeParser,            // .csv / .tsv — bank txns, invoices, QuickBooks/Xero GL & P&L
   researchParser,           // .html (bookmarks) / .bib / .ris / .txt (URL lists) / .csv|.json (reading lists)
   jsonlParser,              // .jsonl / .ndjson; also detects line-delimited JSON in .json/.log/.txt

@@ -193,7 +193,8 @@ function familyFor(contentType: string): string | null {
   if (
     contentType === "bank-transactions" ||
     contentType === "invoices" ||
-    contentType === "quickbooks-report"
+    contentType === "quickbooks-report" ||
+    contentType === "venmo-paypal-payments"
   ) {
     return "_finance.md"
   }

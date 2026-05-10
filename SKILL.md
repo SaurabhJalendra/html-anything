@@ -150,6 +150,7 @@ client-side rendering of the drill-down sections.
 | [`prompts/bank-transactions.md`](./prompts/bank-transactions.md) | Bank / credit-card statement CSVs — cashflow timeline, category breakdown, recurring-vendor + duplicate + outlier panels, searchable transactions |
 | [`prompts/invoices.md`](./prompts/invoices.md) | Invoice / receipt CSVs — invoiced-vs-paid-vs-outstanding card, aging buckets, top customers, overdue callouts, invoice scorecard |
 | [`prompts/quickbooks.md`](./prompts/quickbooks.md) | QuickBooks / Xero / Wave general-ledger and P&L exports — collapsible account tree, top-level category rollup, class breakdown, period framing |
+| [`prompts/venmo-paypal-payments.md`](./prompts/venmo-paypal-payments.md) | Venmo statement CSV / PayPal Activity CSV — social-payments pack: source-aware hero, monthly cashflow timeline, counterparty leaderboard with loop ↻ markers, heuristic story clusters from notes (rent / food / rides / travel / gifts / subscriptions / utilities / reimbursement), recurring reimbursements, round-trip + refund + fee + held + dispute + cash-out flags, privacy-styled drill-down |
 | [`prompts/ics-calendar.md`](./prompts/ics-calendar.md) | `.ics` / `.ical` calendar exports (Google Calendar, Outlook, Apple Calendar, Fastmail) — calendar audit: time-allocation map, busy-hours heatmap, recurring series, back-to-back blocks, meeting-free streaks |
 | [`prompts/issue-tracker.md`](./prompts/issue-tracker.md) | Issue / task CSVs from Linear, Jira, GitHub Issues, Asana, ClickUp, generic project trackers — project audit: status flow, owner load, priority distribution, stale items, bottleneck callouts, swimlane drill-down |
 | [`prompts/trello-board.md`](./prompts/trello-board.md) | Trello board JSON export (`{ id, name, lists, cards, members, labels }`) — board audit: lane breakdown, member load, stale + overdue cards, read-only kanban swimlanes |
@@ -205,14 +206,18 @@ or endpoints leaderboard, and a searchable virtualized event-table
 drill-down.
 
 Finance / admin sources (`bank-transactions`, `invoices`,
-`quickbooks-report`) also load
+`quickbooks-report`, `venmo-paypal-payments`) also load
 [`prompts/_finance.md`](./prompts/_finance.md) — the shared contract
 for the finance pack: headline cashflow / invoicing summary card,
 category or account breakdown, recurring-items panel,
 anomaly-and-duplicate callouts, and a searchable transactions /
 invoices drill-down. Outputs are **analytical only** — never
 accounting, tax, or legal advice — and the family prompt enforces
-a footer to that effect.
+a footer to that effect. The `venmo-paypal-payments` source layers
+social-payment-specific UX on top: counterparties replace merchants,
+heuristic story clusters from payment notes replace categories, and
+the anomaly panel surfaces round-trip splits + refunds + fees +
+holds + cash-outs.
 
 Planning sources (`ics-calendar`, `issue-tracker`, `trello-board`)
 also load

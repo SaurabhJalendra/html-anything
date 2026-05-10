@@ -1010,3 +1010,53 @@ test("ai-chat-export output.html files render the required family sections", asy
     }
   }
 })
+
+test("social-payments parser routes a synthetic Venmo CSV", async () => {
+  const fp = path.join(REPO, "examples/venmo-paypal-payments/input.csv")
+  const parser = await pickParser(fp)
+  assert.equal(parser?.name, "social-payments")
+  const out = await parser.parse(fp)
+  assert.equal(out.contentType, "venmo-paypal-payments")
+  assert.equal(out.data.source, "venmo")
+  assert.ok(out.data.rows.length > 50, `expected > 50 rows, got ${out.data.rows.length}`)
+  assert.ok(out.data.summary.distinctCounterparties >= 3, `expected >= 3 counterparties, got ${out.data.summary.distinctCounterparties}`)
+  assert.ok(out.data.counterparties.length >= 3)
+  assert.ok(out.data.stories.length >= 3)
+  assert.ok(out.data.monthlyCashflow.length >= 6)
+  // Recurring patterns and flag kinds the synthetic fixture is designed to
+  // exercise — round-trip + self-transfer + fee + held + refund.
+  assert.ok(out.data.recurring.some(r => /Riley Park/i.test(r.name)), "expected recurring Riley Park rent pattern")
+  const flagKinds = new Set(out.data.flags.map(f => f.kind))
+  for (const k of ["round-trip", "self-transfer", "refund", "held"]) {
+    assert.ok(flagKinds.has(k), `expected '${k}' flag kind, got ${[...flagKinds].join(",")}`)
+  }
+  // No row leaks the user as counterparty in non-internal directions.
+  for (const r of out.data.rows) {
+    if (r.direction !== "internal" && r.counterparty) {
+      assert.notEqual(r.counterparty.toLowerCase(), "cami synth")
+    }
+  }
+})
+
+test("venmo-paypal-payments output.html renders the required family + social sections", async () => {
+  const fs = await import("node:fs/promises")
+  const html = await fs.readFile(path.join(REPO, "examples/venmo-paypal-payments/output.html"), "utf8")
+  for (const needle of [
+    "Monthly cashflow",
+    "People",
+    "Stories",
+    "Recurring",
+    "Flags",
+    "Browse all 0 transactions",
+    "Heuristic",
+    "Generated locally",
+    "venmo-paypal-payments",
+    "VENMO",
+    "not tax, accounting, or legal advice",
+  ]) {
+    assert.ok(html.includes(needle), `examples/venmo-paypal-payments/output.html missing: ${needle}`)
+  }
+  // Privacy: no external CDN beyond the shared Google Fonts import.
+  assert.ok(!/<img\s+[^>]*\bsrc=/i.test(html), "venmo-paypal-payments output must not include external <img> tags")
+  assert.ok(!/<iframe\b/i.test(html), "venmo-paypal-payments output must not embed iframes")
+})
