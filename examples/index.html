@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>html-anything — examples</title>
+<title>html-anything - examples</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23fff8f6"/><path d="M17 34c10-20 20-20 30 0" fill="none" stroke="%23a03b00" stroke-width="6" stroke-linecap="round"/><circle cx="32" cy="34" r="5" fill="%237b40e0"/></svg>'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +22,6 @@
   --primary: #a03b00;
   --primary-2: #c94c00;
   --purple: #7b40e0;
-  --green: #0f766e;
   --shadow-sm: 0 1px 2px rgba(30, 27, 25, 0.04);
   --shadow-md: 0 8px 24px rgba(30, 27, 25, 0.08);
   --shadow-lg: 0 18px 48px rgba(160, 59, 0, 0.14);
@@ -51,7 +51,7 @@ a { color: inherit; }
   grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.72fr);
   gap: 40px;
   align-items: end;
-  margin-bottom: 36px;
+  margin-bottom: 34px;
 }
 .hero h1 {
   margin: 0 0 16px;
@@ -67,12 +67,36 @@ a { color: inherit; }
   color: transparent;
 }
 .tagline {
-  max-width: 700px;
+  max-width: 720px;
   margin: 0;
   color: var(--fg-2);
   font-size: clamp(17px, 2vw, 22px);
   line-height: 1.44;
 }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.cta {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(160, 59, 0, 0.15);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.cta.secondary {
+  color: var(--fg-1);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
 .hero-panel {
   padding: 18px;
   border: 1px solid var(--border);
@@ -115,76 +139,48 @@ a { color: inherit; }
   line-height: 1.25;
 }
 
-.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-.cta {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(160, 59, 0, 0.15);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.cta.secondary {
-  color: var(--fg-1);
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-sm);
-}
-.cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-
-.controls {
+.filters {
   position: sticky;
   z-index: 20;
   top: 0;
-  margin: 0 -8px 34px;
+  margin: 0 -8px 42px;
   padding: 14px 8px 18px;
   background: linear-gradient(180deg, var(--bg) 0%, rgba(255, 248, 246, 0.94) 76%, rgba(255, 248, 246, 0));
   backdrop-filter: blur(18px);
 }
-.control-top {
+.filter-head {
   display: flex;
-  gap: 14px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 12px;
 }
-.view-switch {
-  display: inline-flex;
-  padding: 4px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: var(--shadow-sm);
-}
-.view-switch button,
-.filter-row button {
-  border: 0;
-  font-family: var(--font-body);
-  cursor: pointer;
-}
-.view-switch button {
-  min-height: 36px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--fg-muted);
+.filter-title {
+  margin: 0;
+  color: var(--fg-2);
+  font-size: 14px;
   font-weight: 700;
-}
-.view-switch button[aria-pressed="true"] {
-  color: #fff;
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
 }
 .status {
   color: var(--fg-muted);
   font-size: 13px;
   text-align: right;
+}
+.filter-stack {
+  display: grid;
+  gap: 10px;
+}
+.filter-line {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+.filter-label {
+  color: var(--fg-muted);
+  font: 700 11px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .filter-row {
   display: flex;
@@ -204,8 +200,10 @@ a { color: inherit; }
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--fg-2);
-  font-weight: 700;
+  font-family: var(--font-body);
   font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
   box-shadow: var(--shadow-sm);
 }
 .filter-row button[aria-pressed="true"] {
@@ -225,130 +223,116 @@ a { color: inherit; }
   font-size: 10px;
 }
 
-.section-title {
-  margin: 0 0 18px;
+.intro {
+  margin-bottom: 24px;
   display: flex;
-  align-items: end;
   justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
+  align-items: end;
 }
-.section-title h2 {
+.intro h2 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(30px, 4vw, 44px);
   line-height: 1;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.04em;
 }
-.section-title p {
+.intro p {
+  max-width: 720px;
   margin: 8px 0 0;
-  max-width: 680px;
   color: var(--fg-2);
   line-height: 1.55;
 }
-
-.featured { margin: 24px 0 54px; }
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
+.group-count {
+  flex: 0 0 auto;
+  color: var(--fg-muted);
+  font: 700 11px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-.feature-card {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  min-height: 0;
+
+.group {
+  margin: 0 0 52px;
+  scroll-margin-top: 150px;
+}
+.group[hidden] { display: none !important; }
+.group-head {
   display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  text-decoration: none;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
 }
-.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.feature-card img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: var(--surface);
-  transition: transform 0.35s ease;
+.group-mark {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface-3));
+  color: var(--accent, var(--primary));
+  font: 700 15px/1 var(--font-display);
 }
-.feature-card:hover img { transform: scale(1.025); }
-.feature-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 45%, rgba(30, 27, 25, 0.76));
-}
-.feature-card .feature-body {
-  position: relative;
-  z-index: 1;
-  padding: 14px;
-  color: #fff;
-}
-.feature-card h3 {
-  margin: 0 0 6px;
+.group-head h3 {
+  margin: 0 0 5px;
   font-family: var(--font-display);
-  font-size: 16px;
-  line-height: 1.1;
+  font-size: 26px;
+  letter-spacing: -0.025em;
 }
-.feature-card span {
-  color: rgba(255, 255, 255, 0.78);
-  font-family: var(--font-mono);
-  font-size: 10px;
+.group-head p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: 14px;
+  line-height: 1.45;
 }
-
-.gallery {
+.example-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
-.collection-card {
+.example-card {
   display: flex;
   flex-direction: column;
-  min-height: 0;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.82);
+  color: inherit;
+  text-decoration: none;
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
-.collection-card:hover {
-  transform: translateY(-3px);
+.example-card:hover {
+  transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--accent, var(--primary)) 42%, var(--border-strong));
   box-shadow: var(--shadow-lg);
 }
-.media-link {
+.shot {
   position: relative;
   display: block;
   aspect-ratio: 16 / 9;
-  min-height: 0;
   overflow: hidden;
-  background: var(--surface-2);
+  background: var(--surface);
 }
-.media-link img,
-.media-link video {
+.shot img,
+.shot video {
   width: 100%;
   height: 100%;
-  min-height: 0;
   object-fit: contain;
-  background: var(--surface);
   display: block;
+  background: var(--surface);
   transition: transform 0.35s ease;
 }
-.media-link video {
+.shot video {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 0.2s ease, transform 0.35s ease;
 }
-.media-link.has-video:hover video { opacity: 1; }
-.collection-card:hover .media-link img,
-.collection-card:hover .media-link video { transform: scale(1.02); }
+.shot.has-video:hover video,
+.example-card:focus-visible .shot.has-video video { opacity: 1; }
+.example-card:hover .shot img,
+.example-card:hover .shot video { transform: scale(1.02); }
 .media-badge {
   position: absolute;
   z-index: 2;
@@ -366,92 +350,57 @@ a { color: inherit; }
   letter-spacing: 0.04em;
   box-shadow: 0 8px 18px rgba(30, 27, 25, 0.10);
 }
-.collection-body {
+.example-body {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  gap: 10px;
+  flex: 1;
+  padding: 16px;
+}
+.example-body h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.example-body p {
+  margin: 0;
+  color: var(--fg-2);
+  font-size: 13px;
+  line-height: 1.48;
 }
 .eyebrow {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  color: var(--accent, var(--primary));
-  font: 700 11px/1 var(--font-mono);
+  gap: 7px;
+  color: var(--fg-muted);
+  font: 700 10px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.eyebrow .mark {
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface-3));
-  letter-spacing: 0;
-  text-transform: none;
-}
-.collection-body h3 {
-  margin: 0 0 8px;
-  font-family: var(--font-display);
-  font-size: 24px;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-}
-.collection-body p {
-  margin: 0;
-  color: var(--fg-2);
-  font-size: 14px;
-  line-height: 1.52;
+.eyebrow .group-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  font-size: 11px;
 }
 .chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin: 16px 0;
+  margin-top: auto;
 }
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  min-height: 26px;
-  padding: 0 9px;
+  min-height: 25px;
+  padding: 0 8px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--accent, var(--primary)) 24%, var(--border));
-  background: color-mix(in srgb, var(--accent, var(--primary)) 9%, transparent);
-  color: color-mix(in srgb, var(--accent, var(--primary)) 74%, var(--fg-1));
-  font: 700 11px/1 var(--font-mono);
-}
-.variant-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
-}
-.variant-list a {
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--fg-2);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-}
-.variant-list a.primary {
-  color: #fff;
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
-}
-.variant-list a:hover {
-  border-color: var(--border-strong);
-  color: var(--fg-1);
+  background: color-mix(in srgb, var(--accent, var(--primary)) 8%, transparent);
+  color: color-mix(in srgb, var(--accent, var(--primary)) 72%, var(--fg-1));
+  font: 700 10px/1 var(--font-mono);
 }
 .empty {
   padding: 28px;
@@ -462,7 +411,7 @@ a { color: inherit; }
 }
 
 .matrix {
-  margin-top: 56px;
+  margin-top: 64px;
   border: 1px solid var(--border);
   border-radius: 22px;
   overflow: hidden;
@@ -515,16 +464,15 @@ footer.foot a { color: var(--primary); }
 
 @media (max-width: 1040px) {
   .hero { grid-template-columns: 1fr; }
-  .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .gallery { grid-template-columns: 1fr; }
+  .example-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
   .wrap { padding: 38px 16px 84px; }
   .hero-stats { grid-template-columns: 1fr; }
-  .control-top { align-items: flex-start; flex-direction: column; }
+  .filter-head, .intro { align-items: flex-start; flex-direction: column; }
   .status { text-align: left; }
-  .featured-grid { grid-template-columns: 1fr; }
-  .section-title { display: block; }
+  .filter-line { grid-template-columns: 1fr; }
+  .example-grid { grid-template-columns: 1fr; }
   .matrix-grid { grid-template-columns: 1fr; }
   .matrix-grid .head { display: none; }
 }
@@ -544,138 +492,76 @@ footer.foot a { color: var(--primary); }
       <h1>html-<span>anything</span></h1>
       <p class="tagline">Upload any source. The skill auto-picks a style and turns it into a shareable live HTML page.</p>
       <div class="cta-row">
-        <a class="cta" href="https://github.com/clockless-org/html-anything">View on GitHub →</a>
+        <a class="cta" href="https://github.com/clockless-org/html-anything">View on GitHub -&gt;</a>
         <a class="cta secondary" href="https://github.com/clockless-org/html-anything#install">Install the skill</a>
       </div>
     </div>
     <div class="hero-panel">
       <p class="label">Example map</p>
       <div class="hero-stats">
-        <div class="hero-stat"><strong>30</strong><span>curated output pages</span></div>
-        <div class="hero-stat"><strong>10</strong><span>source collections</span></div>
+        <div class="hero-stat"><strong>30</strong><span>curated examples</span></div>
+        <div class="hero-stat"><strong>8</strong><span>source groups</span></div>
         <div class="hero-stat"><strong>8</strong><span>auto styles</span></div>
       </div>
     </div>
   </header>
 
-  <div class="controls">
-    <div class="control-top">
-      <div class="view-switch" aria-label="Choose gallery view">
-        <button type="button" data-view="source" aria-pressed="true">Browse by source</button>
-        <button type="button" data-view="style" aria-pressed="false">Browse by style</button>
-      </div>
+  <div class="filters">
+    <div class="filter-head">
+      <p class="filter-title">Filter examples by source and by output style.</p>
       <div class="status" id="status"></div>
     </div>
-    <nav class="filter-row" id="filters" aria-label="Quick category filters"></nav>
+    <div class="filter-stack">
+      <div class="filter-line">
+        <div class="filter-label">Source</div>
+        <nav class="filter-row" id="source-filters" aria-label="Filter by source group"></nav>
+      </div>
+      <div class="filter-line">
+        <div class="filter-label">Style</div>
+        <nav class="filter-row" id="style-filters" aria-label="Filter by style"></nav>
+      </div>
+    </div>
   </div>
 
-  <section class="featured">
-    <div class="section-title">
-      <div>
-        <h2>Featured outputs</h2>
-        <p>Five examples that show the range: prompt-only teaching, private chats, personal archives, place data, and developer review.</p>
-      </div>
-    </div>
-    <div class="featured-grid" id="featured-grid"></div>
-  </section>
-
   <main>
-    <div class="section-title">
+    <div class="intro">
       <div>
-        <h2 id="gallery-title">Source collections</h2>
-        <p id="gallery-copy">Similar examples are grouped together. Open the main screenshot or jump to a specific output from the chips.</p>
+        <h2>Curated examples</h2>
+        <p>Each card is a real output page. The sections group related sources lightly; the filters narrow by input family and by the style html-anything picked.</p>
       </div>
+      <div class="group-count" id="group-count"></div>
     </div>
-    <div class="gallery" id="gallery"></div>
+    <div id="groups"></div>
   </main>
 
   <section class="matrix">
     <div class="matrix-head">
       <h2>Auto-routing examples</h2>
-      <p>The user does not need to choose this manually, but the gallery makes the source → style relationship visible.</p>
+      <p>The user does not need to choose a style manually, but the map makes source -&gt; style behavior visible.</p>
     </div>
     <div class="matrix-grid" id="matrix-grid"></div>
   </section>
 
   <footer class="foot">
     <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-    <div>30 curated demos · grouped by source and style</div>
+    <div>30 curated demos · source filter + style filter</div>
   </footer>
 </div>
 
 <script>
 (() => {
-  const examples = {
-    "solar-system-studio": ["Solar system lesson", "Prompt", "Teaching lab", "teaching", "A single request becomes an interactive lesson with orbit controls and planet explainers."],
-    "wechat-couple": ["Couple chat rhythm", "WeChat export", "Relationship report", "relationship", "A two-year relationship report with activity rhythms, response patterns, and selected insights."],
-    "whatsapp": ["WhatsApp chat", "WhatsApp export", "Relationship report", "relationship", "A two-sender WhatsApp archive summarized without exposing raw private text by default."],
-    "slack": ["Slack channel", "Slack export", "Network map", "network-map", "Team messages folded by sender, decisions, threads, and action-item callouts."],
-    "email": ["Email archive", "Mailbox sample", "Network map", "network-map", "Threads, senders, open loops, and follow-up hotspots."],
-    "amazon-orders": ["Amazon orders", "Orders CSV", "Timeline story", "timeline-story", "Three years of purchases as a commerce-memory timeline."],
-    "spotify-history": ["Spotify history", "Streaming export", "Timeline story", "timeline-story", "Listening history as a year-by-year music story."],
-    "iphone-health": ["Apple Health", "Health export", "Timeline story", "timeline-story", "Activity, sleep, workouts, and rhythm patterns as a personal timeline."],
-    "kindle-highlights": ["Kindle highlights", "My Clippings.txt", "Timeline story", "timeline-story", "Highlights and notes organized into books, themes, and quote browser."],
-    "browser-history": ["Browser history", "Browser export", "Timeline story", "timeline-story", "Browsing sessions clustered into topics, returners, and search patterns."],
-    "chatgpt-export": ["ChatGPT archive", "conversations.json", "Timeline story", "timeline-story", "AI conversations clustered into topics, projects, and recurring threads."],
-    "notes-vault": ["Notes vault", "Markdown folder", "Timeline story", "timeline-story", "A folder of notes becomes topic clusters, backlinks, and last-edited rhythm."],
-    "google-photos-takeout": ["Google Photos atlas", "Takeout folder", "Map atlas", "map-atlas", "EXIF and sidecar metadata become places, albums, bursts, and device patterns."],
-    "rideshare-history": ["Rideshare history", "Uber/Lyft CSV", "Map atlas", "map-atlas", "Commute lanes, airport runs, late-night returns, and route clusters."],
-    "run-route": ["Morning run route", "GPX file", "Map atlas", "map-atlas", "A GPX route rendered with split times, elevation, and inline map geometry."],
-    "linkedin-connections": ["LinkedIn network", "Connections CSV", "Network map", "network-map", "Professional connections clustered by era, company, and role."],
-    "vcard-contacts": ["Address book", "vCard file", "Network map", "network-map", "Contacts grouped by organizations, domains, cities, birthdays, and duplicate candidates."],
-    "venmo-paypal-payments": ["Venmo / PayPal", "Payments CSV", "Network map", "network-map", "Counterparties, categories, time patterns, and who-paid-whom relationships."],
-    "markdown": ["Long-form essay", "Markdown file", "Document review", "document", "A markdown essay becomes a polished reading view with anchored navigation."],
-    "bookmarks-market-research": ["Market bookmarks", "Bookmarks HTML", "Document review", "document", "Bookmarks grouped into themes, domains, duplicates, and research signals."],
-    "pdf": ["PDF report", "PDF document", "Document review", "document", "A long report distilled into claims, evidence, summary, and navigation."],
-    "legal-chronology": ["Legal chronology", "Case notes", "Document review", "document", "Timeline of parties, exhibits, and observational summary."],
-    "csv": ["Sales CSV", "CSV table", "Ops console", "dashboard", "Tabular data with summary, sortable rows, and chart-friendly structure."],
-    "bank-transactions": ["Bank statement", "Transactions CSV", "Ops console", "dashboard", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
-    "quickbooks": ["QuickBooks ledger", "General ledger", "Ops console", "dashboard", "Ledger export as P&L view, category breakdown, and anomaly flags."],
-    "backlog-product": ["Product backlog", "Issue CSV", "Ops console", "dashboard", "Issues grouped by epic, owner, blocked state, and stale tickets."],
-    "transcript-sales-call": ["Sales call", "Transcript", "Ops console", "dashboard", "Talk time, decisions, action items, risks, and searchable transcript."],
-    "log-error": ["Error log", "Service log", "Ops console", "dashboard", "Incident log grouped by severity, stack groups, and recovery path."],
-    "git-diff": ["Git diff", "Patch file", "Developer review", "developer", "Code changes with risk callouts and evidence-margin annotations."],
-    "ci-log": ["CI failure", "CI log", "Developer review", "developer", "Failure log grouped by step, stack, and likely-cause hypothesis."]
-  };
-
   const sourceGroups = [
-    ["prompt", "Prompt to lesson", "Prompt", "#", "#0f766e", "Start with one sentence and produce a real teaching page, not a blank template.", ["solar-system-studio"]],
-    ["chats", "Relationship chats", "Chats", "~", "#be3455", "1:1 exports become rhythm reports with timing, initiation, sentiment, and privacy-aware evidence.", ["wechat-couple", "whatsapp"]],
-    ["chats", "Team and community messages", "Chats", "~", "#355f91", "Multi-sender conversations become people maps, decisions, activity rhythm, and searchable context.", ["slack", "email"]],
-    ["personal", "Personal timelines", "Personal data", "»", "#9a4b14", "Consumer histories become memory timelines: orders, music, health, reading, and browsing.", ["amazon-orders", "spotify-history", "iphone-health", "kindle-highlights", "browser-history"]],
-    ["personal", "AI and notes archives", "Personal data", "»", "#7b40e0", "AI conversations and notes folders become topic maps, project threads, and knowledge trails.", ["chatgpt-export", "notes-vault"]],
-    ["places", "Places and movement", "Geo", "+", "#17695a", "Location-rich sources become atlases: photos, rides, and GPX routes.", ["google-photos-takeout", "rideshare-history", "run-route"]],
-    ["people", "People and payment networks", "People", "×", "#355f91", "Contacts, professional networks, and payments become hubs, clusters, and relationship ledgers.", ["linkedin-connections", "vcard-contacts", "venmo-paypal-payments"]],
-    ["docs", "Documents and research", "Files", "§", "#8b3f1f", "Markdown, PDFs, records, and bookmarks become polished dossiers.", ["markdown", "bookmarks-market-research", "pdf", "legal-chronology"]],
-    ["work", "Work data consoles", "Work data", "=", "#0f5f6f", "Tables, finance exports, issue trackers, transcripts, and logs become working consoles.", ["csv", "bank-transactions", "quickbooks", "backlog-product", "transcript-sales-call", "log-error"]],
-    ["dev", "Developer review artifacts", "Developer", "!", "#38bdf8", "Diffs and CI logs become risk-aware review workbenches.", ["git-diff", "ci-log"]]
-  ].map(makeGroup);
+    ["prompt", "Prompt", "#", "#0f766e", "Start with one sentence and produce a real teaching page."],
+    ["chats", "Chats", "~", "#be3455", "Private chats, team conversations, email, and message exports."],
+    ["personal", "Personal data", ">", "#9a4b14", "Consumer histories, health data, reading, browsing, AI archives, and notes."],
+    ["geo", "Geo", "+", "#17695a", "Location-rich sources such as photos, rides, routes, and movement."],
+    ["people", "People", "x", "#355f91", "Contacts, professional networks, and payment counterparties."],
+    ["files", "Files", "§", "#8b3f1f", "Markdown, PDFs, records, and research documents."],
+    ["work", "Work data", "=", "#0f5f6f", "Tables, finance exports, backlogs, transcripts, and logs."],
+    ["dev", "Developer", "!", "#38bdf8", "Diffs, CI logs, and engineering review artifacts."]
+  ].map(([id, title, mark, accent, description]) => ({ id, title, mark, accent, description }));
 
-  const styleDefs = [
-    ["teaching", "Teaching lab", "Style", "#", "#0f766e", "Visual stage first, entity selector, controls, and check-yourself moments.", ["solar-system-studio"]],
-    ["relationship", "Relationship report", "Style", "~", "#be3455", "Aggregate-first private chat analysis: rhythm, initiation, response, mood, and evidence snippets.", ["wechat-couple", "whatsapp"]],
-    ["timeline-story", "Timeline story", "Style", "»", "#9a4b14", "Chronological memory pages with chapters, rhythm strips, and searchable drawers.", ["amazon-orders", "spotify-history", "iphone-health", "kindle-highlights", "browser-history", "chatgpt-export", "notes-vault"]],
-    ["map-atlas", "Map atlas", "Style", "+", "#17695a", "Spatial stage, place drawer, waypoint browser, and offline SVG geography.", ["google-photos-takeout", "rideshare-history", "run-route"]],
-    ["network-map", "Network map", "Style", "×", "#355f91", "People, senders, counterparties, and communities shown as hubs and clusters.", ["linkedin-connections", "vcard-contacts", "slack", "email", "venmo-paypal-payments"]],
-    ["document", "Document review", "Style", "§", "#8b3f1f", "Reading rail, evidence margin, summary, and source-grounded drill-down.", ["markdown", "bookmarks-market-research", "pdf", "legal-chronology"]],
-    ["dashboard", "Ops console", "Style", "=", "#0f5f6f", "KPI rail, charts, filters, flag queue, and searchable operational data grid.", ["csv", "log-error", "transcript-sales-call", "bank-transactions", "quickbooks", "backlog-product"]],
-    ["developer", "Developer review", "Style", "!", "#38bdf8", "Risk hotspots, raw evidence, copyable handoff, and implementation-review flow.", ["git-diff", "ci-log"]]
-  ].map(makeGroup);
-
-  const featured = ["wechat-couple", "solar-system-studio", "google-photos-takeout", "amazon-orders", "git-diff"];
-  const sourceFilters = [
-    ["all", "All", "#a03b00"],
-    ["prompt", "Prompt", "#0f766e"],
-    ["chats", "Chats", "#be3455"],
-    ["personal", "Personal", "#9a4b14"],
-    ["places", "Geo", "#17695a"],
-    ["people", "People", "#355f91"],
-    ["docs", "Files", "#8b3f1f"],
-    ["work", "Work", "#0f5f6f"],
-    ["dev", "Dev", "#38bdf8"]
-  ];
-  const styleFilters = [
-    ["all", "All", "#a03b00"],
+  const styles = [
     ["teaching", "Teaching", "#0f766e"],
     ["relationship", "Relationship", "#be3455"],
     ["timeline-story", "Timeline", "#9a4b14"],
@@ -685,131 +571,171 @@ footer.foot a { color: var(--primary); }
     ["dashboard", "Ops", "#0f5f6f"],
     ["developer", "Developer", "#38bdf8"]
   ];
+
+  const examples = [
+    ["solar-system-studio", "Solar system lesson", "Prompt", "teaching", "prompt", "A single request becomes an interactive lesson with orbit controls and planet explainers."],
+    ["wechat-couple", "Couple chat rhythm", "WeChat export", "relationship", "chats", "A two-year relationship report with activity rhythms, response patterns, and selected insights."],
+    ["whatsapp", "WhatsApp chat", "WhatsApp export", "relationship", "chats", "A two-sender WhatsApp archive summarized without exposing raw private text by default."],
+    ["slack", "Slack channel", "Slack export", "network-map", "chats", "Team messages folded by sender, decisions, threads, and action-item callouts."],
+    ["email", "Email archive", "Mailbox sample", "network-map", "chats", "Threads, senders, open loops, and follow-up hotspots."],
+    ["amazon-orders", "Amazon orders", "Orders CSV", "timeline-story", "personal", "Three years of purchases as a commerce-memory timeline."],
+    ["spotify-history", "Spotify history", "Streaming export", "timeline-story", "personal", "Listening history as a year-by-year music story."],
+    ["iphone-health", "Apple Health", "Health export", "timeline-story", "personal", "Activity, sleep, workouts, and rhythm patterns as a personal timeline."],
+    ["kindle-highlights", "Kindle highlights", "My Clippings.txt", "timeline-story", "personal", "Highlights and notes organized into books, themes, and quote browser."],
+    ["browser-history", "Browser history", "Browser export", "timeline-story", "personal", "Browsing sessions clustered into topics, returners, and search patterns."],
+    ["chatgpt-export", "ChatGPT archive", "conversations.json", "timeline-story", "personal", "AI conversations clustered into topics, projects, and recurring threads."],
+    ["notes-vault", "Notes vault", "Markdown folder", "timeline-story", "personal", "A folder of notes becomes topic clusters, backlinks, and last-edited rhythm."],
+    ["google-photos-takeout", "Google Photos atlas", "Takeout folder", "map-atlas", "geo", "EXIF and sidecar metadata become places, albums, bursts, and device patterns."],
+    ["rideshare-history", "Rideshare history", "Uber/Lyft CSV", "map-atlas", "geo", "Commute lanes, airport runs, late-night returns, and route clusters."],
+    ["run-route", "Morning run route", "GPX file", "map-atlas", "geo", "A GPX route rendered with split times, elevation, and inline map geometry."],
+    ["linkedin-connections", "LinkedIn network", "Connections CSV", "network-map", "people", "Professional connections clustered by era, company, and role."],
+    ["vcard-contacts", "Address book", "vCard file", "network-map", "people", "Contacts grouped by organizations, domains, cities, birthdays, and duplicate candidates."],
+    ["venmo-paypal-payments", "Venmo / PayPal", "Payments CSV", "network-map", "people", "Counterparties, categories, time patterns, and who-paid-whom relationships."],
+    ["markdown", "Long-form essay", "Markdown file", "document", "files", "A markdown essay becomes a polished reading view with anchored navigation."],
+    ["bookmarks-market-research", "Market bookmarks", "Bookmarks HTML", "document", "files", "Bookmarks grouped into themes, domains, duplicates, and research signals."],
+    ["pdf", "PDF report", "PDF document", "document", "files", "A long report distilled into claims, evidence, summary, and navigation."],
+    ["legal-chronology", "Legal chronology", "Case notes", "document", "files", "Timeline of parties, exhibits, and observational summary."],
+    ["csv", "Sales CSV", "CSV table", "dashboard", "work", "Tabular data with summary, sortable rows, and chart-friendly structure."],
+    ["bank-transactions", "Bank statement", "Transactions CSV", "dashboard", "work", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
+    ["quickbooks", "QuickBooks ledger", "General ledger", "dashboard", "work", "Ledger export as P&L view, category breakdown, and anomaly flags."],
+    ["backlog-product", "Product backlog", "Issue CSV", "dashboard", "work", "Issues grouped by epic, owner, blocked state, and stale tickets."],
+    ["transcript-sales-call", "Sales call", "Transcript", "dashboard", "work", "Talk time, decisions, action items, risks, and searchable transcript."],
+    ["log-error", "Error log", "Service log", "dashboard", "work", "Incident log grouped by severity, stack groups, and recovery path."],
+    ["git-diff", "Git diff", "Patch file", "developer", "dev", "Code changes with risk callouts and evidence-margin annotations."],
+    ["ci-log", "CI failure", "CI log", "developer", "dev", "Failure log grouped by step, stack, and likely-cause hypothesis."]
+  ].map(([slug, title, source, style, group, description]) => ({ slug, title, source, style, group, description }));
+
+  const styleNames = new Map([
+    ["teaching", "Teaching lab"],
+    ["relationship", "Relationship report"],
+    ["timeline-story", "Timeline story"],
+    ["map-atlas", "Map atlas"],
+    ["network-map", "Network map"],
+    ["document", "Document review"],
+    ["dashboard", "Ops console"],
+    ["developer", "Developer review"]
+  ]);
+
   const matrixRows = [
-    ["Prompt: “teach the solar system”", "Teaching lab", "solar-system-studio"],
+    ["Prompt: teach the solar system", "Teaching lab", "solar-system-studio"],
     ["WeChat / WhatsApp chat export", "Relationship report", "wechat-couple"],
     ["Amazon order history CSV", "Timeline story", "amazon-orders"],
     ["Google Photos Takeout", "Map atlas", "google-photos-takeout"],
     ["vCard / LinkedIn contacts", "Network map", "vcard-contacts"],
-    ["PDF / DOCX / Markdown", "Document review", "pdf"],
-    ["Bank / invoice / ledger CSV", "Ops console", "bank-transactions"],
-    ["Git diff / CI log / stack trace", "Developer review", "git-diff"]
+    ["PDF / Markdown", "Document review", "pdf"],
+    ["Bank / ledger CSV", "Ops console", "bank-transactions"],
+    ["Git diff / CI log", "Developer review", "git-diff"]
   ];
 
-  const state = { view: "source", filter: "all" };
+  const state = { source: "all", style: "all" };
+  const videoSlugs = new Set([]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function makeGroup(row) {
-    const [category, title, label, icon, accent, description, slugs] = row;
-    return { category, title, label, icon, accent, description, slugs, primary: slugs[0] };
-  }
-  function example(slug) {
-    const item = examples[slug];
-    if (!item) throw new Error(`Missing example metadata: ${slug}`);
-    const [title, source, styleName, style, description] = item;
-    return { slug, title, source, styleName, style, description };
-  }
-  function outputCount(groups, filter) {
-    return groups
-      .filter(group => filter === "all" || group.category === filter)
-      .reduce((sum, group) => sum + group.slugs.length, 0);
-  }
-  function filterCount(filters, groups, id) {
-    if (id === "all") return groups.reduce((sum, group) => sum + group.slugs.length, 0);
-    return groups.filter(group => group.category === id).reduce((sum, group) => sum + group.slugs.length, 0);
-  }
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   }
   function img(slug) {
     return `../docs/example-previews/${slug}.jpg`;
   }
-  function link(slug, className = "") {
-    const item = example(slug);
-    return `<a class="${className}" href='${slug}/output.html'>${escapeHtml(item.title)}</a>`;
+  function styleAccent(style) {
+    return styles.find(([id]) => id === style)?.[2] || "var(--primary)";
   }
-  function renderFilters() {
-    const filters = state.view === "source" ? sourceFilters : styleFilters;
-    const groups = state.view === "source" ? sourceGroups : styleDefs;
-    document.getElementById("filters").innerHTML = filters.map(([id, label, accent]) => `
-      <button type="button" data-filter="${id}" aria-pressed="${state.filter === id}" style="--accent:${accent}">
-        <span class="dot"></span>${escapeHtml(label)} <span class="num">${filterCount(filters, groups, id)}</span>
-      </button>
-    `).join("");
-    document.querySelectorAll("#filters button").forEach(button => {
+  function sourceMeta(id) {
+    return sourceGroups.find(group => group.id === id);
+  }
+  function visibleExamples() {
+    return examples.filter(item =>
+      (state.source === "all" || item.group === state.source) &&
+      (state.style === "all" || item.style === state.style)
+    );
+  }
+  function countFor(kind, id) {
+    return examples.filter(item => {
+      const sourceOk = kind === "source" ? (id === "all" || item.group === id) : (state.source === "all" || item.group === state.source);
+      const styleOk = kind === "style" ? (id === "all" || item.style === id) : (state.style === "all" || item.style === state.style);
+      return sourceOk && styleOk;
+    }).length;
+  }
+  function renderFilterRow(targetId, kind) {
+    const target = document.getElementById(targetId);
+    const rows = kind === "source"
+      ? [["all", "All", "#a03b00"], ...sourceGroups.map(group => [group.id, group.title, group.accent])]
+      : [["all", "All", "#a03b00"], ...styles];
+    target.innerHTML = rows.map(([id, label, accent]) => {
+      const pressed = kind === "source" ? state.source === id : state.style === id;
+      return `
+        <button type="button" data-kind="${kind}" data-filter="${id}" aria-pressed="${pressed}" style="--accent:${accent}">
+          <span class="dot"></span>${escapeHtml(label)} <span class="num">${countFor(kind, id)}</span>
+        </button>`;
+    }).join("");
+    target.querySelectorAll("button").forEach(button => {
       button.addEventListener("click", () => {
-        state.filter = button.dataset.filter || "all";
+        if (button.dataset.kind === "source") state.source = button.dataset.filter || "all";
+        if (button.dataset.kind === "style") state.style = button.dataset.filter || "all";
         render();
       });
     });
   }
-  function renderFeatured() {
-    document.getElementById("featured-grid").innerHTML = featured.map(slug => {
-      const item = example(slug);
-      return `
-        <a class="feature-card" href='${slug}/output.html'>
-          <img loading="lazy" src="${img(slug)}" alt="${escapeHtml(item.title)} screenshot">
-          <div class="feature-body">
-            <h3>${escapeHtml(item.title)}</h3>
-            <span>${escapeHtml(item.source)} → ${escapeHtml(item.styleName)}</span>
-          </div>
-        </a>`;
-    }).join("");
-  }
-  function renderCard(group) {
-    const primary = example(group.primary);
-    const variants = group.slugs.map((slug, index) => link(slug, index === 0 ? "primary" : "")).join("");
+  function renderCard(item) {
+    const meta = sourceMeta(item.group);
     return `
-      <article class="collection-card" style="--accent:${group.accent}" data-category="${group.category}">
-        <a class="media-link" href='${primary.slug}/output.html' data-slug="${primary.slug}">
-          <img loading="lazy" src="${img(primary.slug)}" alt="${escapeHtml(primary.title)} screenshot">
+      <a class="example-card" href='${item.slug}/output.html' style="--accent:${styleAccent(item.style)}" data-slug="${item.slug}">
+        <span class="shot" data-slug="${item.slug}">
+          <img loading="lazy" src="${img(item.slug)}" alt="${escapeHtml(item.title)} screenshot">
           <span class="media-badge">Screenshot</span>
-        </a>
-        <div class="collection-body">
-          <div class="eyebrow"><span class="mark">${escapeHtml(group.icon)}</span>${escapeHtml(group.label)}</div>
-          <h3>${escapeHtml(group.title)}</h3>
-          <p>${escapeHtml(group.description)}</p>
-          <div class="chip-row">
-            <span class="chip">${group.slugs.length} output${group.slugs.length === 1 ? "" : "s"}</span>
-            <span class="chip">Auto style: ${escapeHtml(primary.styleName)}</span>
-            <span class="chip">Source: ${escapeHtml(primary.source)}</span>
-          </div>
-          <div class="variant-list">${variants}</div>
-        </div>
-      </article>`;
+        </span>
+        <span class="example-body">
+          <span class="eyebrow"><span class="group-mark">${escapeHtml(meta?.mark || "#")}</span>${escapeHtml(item.source)}</span>
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.description)}</p>
+          <span class="chip-row">
+            <span class="chip">${escapeHtml(styleNames.get(item.style) || item.style)}</span>
+            <span class="chip">${escapeHtml(meta?.title || item.group)}</span>
+          </span>
+        </span>
+      </a>`;
   }
-  function renderGallery() {
-    const groups = state.view === "source" ? sourceGroups : styleDefs;
-    const visible = groups.filter(group => state.filter === "all" || group.category === state.filter);
-    document.getElementById("gallery-title").textContent = state.view === "source" ? "Source collections" : "Built-in styles";
-    document.getElementById("gallery-copy").textContent = state.view === "source"
-      ? "Similar examples are grouped together. Open the main screenshot or jump to a specific output from the chips."
-      : "Each style is a design system plus layout logic. The skill picks one automatically from the source.";
-    document.getElementById("gallery").innerHTML = visible.length
-      ? visible.map(renderCard).join("")
-      : `<div class="empty">No examples match this filter.</div>`;
-
-    const outputs = outputCount(groups, state.filter);
-    const noun = state.view === "source" ? "source collection" : "style";
-    document.getElementById("status").textContent = `Showing ${visible.length} ${noun}${visible.length === 1 ? "" : "s"} with ${outputs} live output${outputs === 1 ? "" : "s"}.`;
+  function renderGroups() {
+    const allVisible = visibleExamples();
+    const groupsHtml = sourceGroups.map(group => {
+      const items = allVisible.filter(item => item.group === group.id);
+      if (!items.length) return "";
+      return `
+        <section class="group" style="--accent:${group.accent}" id="group-${group.id}">
+          <div class="group-head">
+            <div class="group-mark">${escapeHtml(group.mark)}</div>
+            <div>
+              <h3>${escapeHtml(group.title)}</h3>
+              <p>${escapeHtml(group.description)}</p>
+            </div>
+          </div>
+          <div class="example-grid">${items.map(renderCard).join("")}</div>
+        </section>`;
+    }).join("");
+    document.getElementById("groups").innerHTML = groupsHtml || `<div class="empty">No examples match this filter pair.</div>`;
+    const activeGroups = sourceGroups.filter(group => allVisible.some(item => item.group === group.id)).length;
+    document.getElementById("status").textContent = `Showing ${allVisible.length} of ${examples.length} examples.`;
+    document.getElementById("group-count").textContent = `${activeGroups} group${activeGroups === 1 ? "" : "s"}`;
     hydrateMedia();
   }
   function renderMatrix() {
+    const bySlug = new Map(examples.map(item => [item.slug, item]));
     const rows = [
       `<div class="head">Source</div><div class="head">Auto style</div><div class="head">Example</div>`,
       ...matrixRows.map(([source, style, slug]) => {
-        const item = example(slug);
-        return `<div>${escapeHtml(source)}</div><div>${escapeHtml(style)}</div><div><a href='${slug}/output.html'>${escapeHtml(item.title)}</a></div>`;
+        const item = bySlug.get(slug);
+        return `<div>${escapeHtml(source)}</div><div>${escapeHtml(style)}</div><div><a href='${slug}/output.html'>${escapeHtml(item?.title || slug)}</a></div>`;
       })
     ];
     document.getElementById("matrix-grid").innerHTML = rows.join("");
   }
   function hydrateMedia() {
     if (reduceMotion) return;
-    document.querySelectorAll(".media-link[data-slug]").forEach(frame => {
+    document.querySelectorAll(".shot[data-slug]").forEach(frame => {
       if (frame.dataset.videoChecked) return;
       frame.dataset.videoChecked = "true";
       const slug = frame.dataset.slug;
+      if (!videoSlugs.has(slug)) return;
       const badge = frame.querySelector(".media-badge");
       fetch(`../docs/example-videos/${slug}.mp4`, { method: "HEAD" })
         .then(response => {
@@ -832,22 +758,11 @@ footer.foot a { color: var(--primary); }
     });
   }
   function render() {
-    renderFilters();
-    document.querySelectorAll(".view-switch button").forEach(button => {
-      button.setAttribute("aria-pressed", String(button.dataset.view === state.view));
-    });
-    renderGallery();
+    renderFilterRow("source-filters", "source");
+    renderFilterRow("style-filters", "style");
+    renderGroups();
   }
 
-  document.querySelectorAll(".view-switch button").forEach(button => {
-    button.addEventListener("click", () => {
-      state.view = button.dataset.view || "source";
-      state.filter = "all";
-      render();
-    });
-  });
-
-  renderFeatured();
   renderMatrix();
   render();
 })();
