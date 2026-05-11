@@ -3,643 +3,871 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
-<title>html-anything — example gallery</title>
+<title>html-anything — examples</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #fff8f6;
   --surface: #ffffff;
   --surface-2: #fbf2ef;
-  --border: rgba(0,0,0,.07);
-  --border-strong: rgba(0,0,0,.14);
+  --surface-3: #fff1eb;
+  --border: rgba(30, 27, 25, 0.08);
+  --border-strong: rgba(30, 27, 25, 0.14);
   --fg-1: #1e1b19;
   --fg-2: #594138;
   --fg-muted: #8d7166;
   --primary: #a03b00;
-  --primary-soft: #ffdbcd;
-  --shadow-sm: 0 1px 2px rgba(30,27,25,.04);
-  --shadow-md: 0 8px 28px rgba(160,59,0,.07);
-  --shadow-lg: 0 16px 48px rgba(160,59,0,.10);
-  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'SF Mono', Menlo, ui-monospace, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #15110e;
-    --surface: #1e1814;
-    --surface-2: #25201a;
-    --border: rgba(255,255,255,.07);
-    --border-strong: rgba(255,255,255,.14);
-    --fg-1: #f1ece5;
-    --fg-2: #c5b9ad;
-    --fg-muted: #9d958a;
-    --primary: #ee8a5b;
-    --primary-soft: #3a1f10;
-  }
+  --primary-2: #c94c00;
+  --purple: #7b40e0;
+  --green: #0f766e;
+  --shadow-sm: 0 1px 2px rgba(30, 27, 25, 0.04);
+  --shadow-md: 0 8px 24px rgba(30, 27, 25, 0.08);
+  --shadow-lg: 0 18px 48px rgba(160, 59, 0, 0.14);
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SF Mono", Menlo, ui-monospace, monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
+  margin: 0;
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.55;
   color: var(--fg-1);
-  background: var(--bg);
+  background:
+    radial-gradient(900px 420px at 88% -120px, rgba(160, 59, 0, 0.10), transparent 62%),
+    radial-gradient(760px 460px at 8% 520px, rgba(123, 64, 224, 0.07), transparent 68%),
+    var(--bg);
   -webkit-font-smoothing: antialiased;
-  background-image:
-    radial-gradient(1200px 600px at 90% -200px, rgba(160,59,0,0.06), transparent),
-    radial-gradient(900px 500px at 10% 800px, rgba(123,64,224,0.04), transparent);
-  background-attachment: fixed;
 }
 
-.wrap { max-width: 1180px; margin: 0 auto; padding: 56px 24px 120px; }
+a { color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 56px 24px 112px; }
 
-header.hero { margin-bottom: 56px; }
-header.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
-  font-weight: 700;
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.72fr);
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 36px;
+}
+.hero h1 {
   margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7vw, 78px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
 }
-header.hero h1 .gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, #7b40e0 60%, #4d44e3 100%);
+.hero h1 span {
+  background: linear-gradient(135deg, var(--primary) 8%, var(--purple) 78%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
-header.hero .tagline {
-  font-size: clamp(17px, 2vw, 21px);
+.tagline {
+  max-width: 700px;
+  margin: 0;
   color: var(--fg-2);
-  max-width: 660px;
-  margin: 0 0 28px;
-  line-height: 1.45;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.44;
 }
-header.hero .meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: center;
-  font-size: 13px;
-  color: var(--fg-muted);
+.hero-panel {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
 }
-header.hero .meta .stat strong {
+.hero-panel .label {
+  margin: 0 0 14px;
+  font: 700 11px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.hero-stat {
+  min-height: 84px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.hero-stat strong {
   display: block;
   font-family: var(--font-display);
-  font-size: 26px;
-  color: var(--fg-1);
+  font-size: 30px;
+  letter-spacing: -0.04em;
   line-height: 1;
 }
-header.hero .meta .sep { width: 1px; height: 32px; background: var(--border-strong); }
-header.hero .cta-row {
-  margin-top: 28px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-header.hero .cta {
-  display: inline-block;
-  padding: 10px 16px;
-  background: var(--primary);
-  color: #fff !important;
-  text-decoration: none;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 14px;
-  transition: transform .15s, box-shadow .15s;
-}
-header.hero .cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
-header.hero .cta.secondary {
-  background: transparent;
-  color: var(--fg-1) !important;
-  border: 1px solid var(--border-strong);
+.hero-stat span {
+  display: block;
+  margin-top: 8px;
+  color: var(--fg-muted);
+  font-size: 12px;
+  line-height: 1.25;
 }
 
-.style-nav {
-  position: sticky;
-  z-index: 10;
-  top: 0;
-  display: flex;
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.cta {
+  min-height: 44px;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(160, 59, 0, 0.15);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.cta.secondary {
+  color: var(--fg-1);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.controls {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  margin: 0 -8px 34px;
+  padding: 14px 8px 18px;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(255, 248, 246, 0.94) 76%, rgba(255, 248, 246, 0));
+  backdrop-filter: blur(18px);
+}
+.control-top {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.view-switch {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-sm);
+}
+.view-switch button,
+.filter-row button {
+  border: 0;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+.view-switch button {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg-muted);
+  font-weight: 700;
+}
+.view-switch button[aria-pressed="true"] {
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+}
+.status {
+  color: var(--fg-muted);
+  font-size: 13px;
+  text-align: right;
+}
+.filter-row {
+  display: flex;
   gap: 8px;
   overflow-x: auto;
-  margin: 0 -4px 10px;
-  padding: 14px 4px 16px;
-  background:
-    linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 92%, transparent) 78%, transparent 100%);
-  backdrop-filter: blur(16px);
   scrollbar-width: none;
 }
-.style-nav::-webkit-scrollbar { display: none; }
-.style-nav button {
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-row button {
+  flex: 0 0 auto;
+  min-height: 36px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  flex: 0 0 auto;
-  padding: 9px 12px;
+  padding: 0 12px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--fg-2);
-  font: 600 12px/1 var(--font-body);
-  cursor: pointer;
+  font-weight: 700;
+  font-size: 12px;
   box-shadow: var(--shadow-sm);
-  transition: background .15s, color .15s, transform .15s, border-color .15s;
 }
-.style-nav button:hover {
+.filter-row button[aria-pressed="true"] {
   color: var(--fg-1);
-  background: var(--surface-2);
-  transform: translateY(-1px);
-}
-.style-nav button[aria-pressed="true"] {
-  color: var(--fg-1);
-  border-color: color-mix(in srgb, var(--accent, var(--primary)) 38%, var(--border-strong));
+  border-color: color-mix(in srgb, var(--accent, var(--primary)) 42%, var(--border-strong));
   background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface));
 }
-.style-nav button .dot {
+.filter-row .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--accent, var(--primary));
 }
-.style-nav button .num {
+.filter-row .num {
+  color: var(--fg-muted);
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--fg-muted);
-}
-.filter-status {
-  margin: 0 0 48px;
-  color: var(--fg-muted);
-  font-size: 13px;
 }
 
-.section { margin-bottom: 80px; scroll-margin-top: 84px; }
-.section[hidden] { display: none !important; }
-.section-head {
-  margin-bottom: 24px;
+.section-title {
+  margin: 0 0 18px;
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
 }
-.section-head .accent-bar {
-  width: 4px;
-  align-self: stretch;
-  min-height: 64px;
-  background: var(--accent, var(--primary));
-  border-radius: 999px;
-  flex-shrink: 0;
-}
-.section-head .text { flex: 1; min-width: 0; }
-.section-head h2 {
+.section-title h2 {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin: 0 0 6px;
-  display: flex;
-  align-items: center;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.section-title p {
+  margin: 8px 0 0;
+  max-width: 680px;
+  color: var(--fg-2);
+  line-height: 1.55;
+}
+
+.featured { margin: 24px 0 54px; }
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(160px, 1fr));
   gap: 12px;
-  flex-wrap: wrap;
 }
-.section-head h2 .chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--accent, var(--primary));
-  background: color-mix(in srgb, var(--accent, var(--primary)) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent, var(--primary)) 25%, transparent);
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-}
-.section-head p { margin: 0; color: var(--fg-2); font-size: 15px; max-width: 720px; line-height: 1.55; }
-.section-head .count {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--fg-muted);
-  margin-top: 6px;
-}
-
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px)  { .grid { grid-template-columns: 1fr; gap: 16px; } }
-
-.card {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform .15s, box-shadow .25s, border-color .15s;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-  border-color: color-mix(in srgb, var(--accent, var(--primary)) 40%, var(--border-strong));
-}
-
-.card .thumb {
+.feature-card {
   position: relative;
-  aspect-ratio: 16 / 10;
-  background: var(--surface-2);
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
   overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.card .thumb img,
-.card .thumb video {
-  width: 100%; height: 100%;
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.feature-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  transition: transform .35s ease;
-  display: block;
+  transition: transform 0.35s ease;
 }
-.card .thumb video {
+.feature-card:hover img { transform: scale(1.04); }
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 25%, rgba(30, 27, 25, 0.76));
+}
+.feature-card .feature-body {
+  position: relative;
+  z-index: 1;
+  padding: 14px;
+  color: #fff;
+}
+.feature-card h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.1;
+}
+.feature-card span {
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.collection-card {
+  display: grid;
+  grid-template-columns: 42% 1fr;
+  min-height: 310px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.collection-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent, var(--primary)) 42%, var(--border-strong));
+  box-shadow: var(--shadow-lg);
+}
+.media-link {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.media-link img,
+.media-link video {
+  width: 100%;
+  height: 100%;
+  min-height: 310px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.media-link video {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity .2s ease, transform .35s ease;
+  transition: opacity 0.2s ease, transform 0.35s ease;
 }
-.card:hover .thumb img,
-.card:focus-visible .thumb img,
-.card:hover .thumb video,
-.card:focus-visible .thumb video { transform: scale(1.03); }
-.card .thumb.has-video:hover video,
-.card:focus-visible .thumb.has-video video { opacity: 1; }
+.media-link.has-video:hover video { opacity: 1; }
+.collection-card:hover .media-link img,
+.collection-card:hover .media-link video { transform: scale(1.035); }
 .media-badge {
   position: absolute;
   z-index: 2;
-  top: 10px;
-  left: 10px;
+  left: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(30, 27, 25, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--fg-2);
+  font: 700 10px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 18px rgba(30, 27, 25, 0.10);
+}
+.collection-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--accent, var(--primary));
+  font: 700 11px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.eyebrow .mark {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface-3));
+  letter-spacing: 0;
+  text-transform: none;
+}
+.collection-body h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+.collection-body p {
+  margin: 0;
+  color: var(--fg-2);
+  font-size: 14px;
+  line-height: 1.52;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 16px 0;
+}
+.chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 8px;
+  min-height: 26px;
+  padding: 0 9px;
   border-radius: 999px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,.08);
-  color: var(--fg-2);
-  box-shadow: 0 4px 14px rgba(30,27,25,.10);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: .04em;
+  border: 1px solid color-mix(in srgb, var(--accent, var(--primary)) 24%, var(--border));
+  background: color-mix(in srgb, var(--accent, var(--primary)) 9%, transparent);
+  color: color-mix(in srgb, var(--accent, var(--primary)) 74%, var(--fg-1));
+  font: 700 11px/1 var(--font-mono);
 }
-
-.card .thumb.placeholder {
+.variant-list {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--fg-muted);
-  letter-spacing: 0.1em;
-  background:
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--accent, var(--primary)) 8%, var(--surface-2)) 0%,
-      var(--surface-2) 100%);
-}
-.card .thumb.placeholder::before {
-  content: "";
-  position: absolute;
-  inset: 12%;
-  border: 1.5px dashed color-mix(in srgb, var(--accent, var(--primary)) 35%, transparent);
-  border-radius: 10px;
-}
-.card .thumb.placeholder span { position: relative; z-index: 1; }
-
-.card .body {
-  padding: 16px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-}
-.card .body h3 {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  margin: 0;
-  color: var(--fg-1);
-  line-height: 1.25;
-}
-.card .body p {
-  font-size: 13px;
-  color: var(--fg-muted);
-  margin: 0;
-  line-height: 1.45;
-}
-.card .meta {
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: auto;
-  padding-top: 10px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--accent, var(--primary));
-  letter-spacing: 0.04em;
-  display: flex;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.variant-list a {
+  min-height: 30px;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg-2);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
 }
-.card .meta::before {
-  content: "";
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: currentColor;
+.variant-list a.primary {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
 }
+.variant-list a:hover {
+  border-color: var(--border-strong);
+  color: var(--fg-1);
+}
+.empty {
+  padding: 28px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 18px;
+  color: var(--fg-muted);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.matrix {
+  margin-top: 56px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-sm);
+}
+.matrix-head {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.matrix-head h2 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: -0.025em;
+}
+.matrix-head p { margin: 0; color: var(--fg-2); }
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.8fr;
+}
+.matrix-grid div {
+  padding: 13px 16px;
+  border-top: 1px solid var(--border);
+  color: var(--fg-2);
+  font-size: 13px;
+}
+.matrix-grid .head {
+  border-top: 0;
+  color: var(--fg-1);
+  font: 700 11px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--surface-3);
+}
+.matrix-grid a { color: var(--primary); font-weight: 700; text-decoration: none; }
 
 footer.foot {
-  margin-top: 96px;
-  padding-top: 32px;
+  margin-top: 84px;
+  padding-top: 28px;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 16px;
+  flex-wrap: wrap;
   color: var(--fg-muted);
   font-size: 13px;
 }
 footer.foot a { color: var(--primary); }
+
+@media (max-width: 1040px) {
+  .hero { grid-template-columns: 1fr; }
+  .featured-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .wrap { padding: 38px 16px 84px; }
+  .hero-stats { grid-template-columns: 1fr; }
+  .control-top { align-items: flex-start; flex-direction: column; }
+  .status { text-align: left; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .feature-card { min-height: 190px; }
+  .collection-card { grid-template-columns: 1fr; }
+  .media-link img, .media-link video { min-height: 230px; }
+  .section-title { display: block; }
+  .matrix-grid { grid-template-columns: 1fr; }
+  .matrix-grid .head { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-<header class="hero">
-  <h1>html-<span class="gradient">anything</span></h1>
-  <p class="tagline">Turn an idea, file, folder, or URL into a polished live HTML page — designed by an LLM for each source.</p>
-  <div class="meta">
-    <div class="stat"><strong>49</strong>live example demos</div>
-    <div class="sep"></div>
-    <div class="stat"><strong>8</strong>visual categories</div>
-    <div class="sep"></div>
-    <div class="stat"><strong>34</strong>parsers</div>
-  </div>
-  <div class="cta-row">
-    <a class="cta" href="https://github.com/clockless-org/html-anything">View on GitHub →</a>
-    <a class="cta secondary" href="https://github.com/clockless-org/html-anything#install">Install the skill</a>
-  </div>
-</header>
-
-<nav class="style-nav" aria-label="Filter examples by category">
-  <button type="button" data-filter="all" aria-pressed="true" style="--accent:#a03b00"><span class="dot"></span>✨ All <span class="num">49</span></button>
-  <button type="button" data-filter="teaching" style="--accent:#0f766e"><span class="dot"></span>🪐 Teaching <span class="num">1</span></button>
-  <button type="button" data-filter="relationship" style="--accent:#be3455"><span class="dot"></span>💬 Relationship <span class="num">2</span></button>
-  <button type="button" data-filter="timeline-story" style="--accent:#9a4b14"><span class="dot"></span>🕰 Timeline <span class="num">10</span></button>
-  <button type="button" data-filter="map-atlas" style="--accent:#17695a"><span class="dot"></span>🗺 Map <span class="num">5</span></button>
-  <button type="button" data-filter="network-map" style="--accent:#355f91"><span class="dot"></span>🕸 Network <span class="num">7</span></button>
-  <button type="button" data-filter="document" style="--accent:#8b3f1f"><span class="dot"></span>📚 Document <span class="num">9</span></button>
-  <button type="button" data-filter="dashboard" style="--accent:#0f5f6f"><span class="dot"></span>📊 Ops <span class="num">11</span></button>
-  <button type="button" data-filter="developer" style="--accent:#38bdf8"><span class="dot"></span>🧪 Developer <span class="num">4</span></button>
-</nav>
-<p class="filter-status" id="filter-status">Showing all 49 live examples. Every card has a committed screenshot; hover video previews appear automatically when a matching video file exists.</p>
-
-<section class="section" id="teaching" style="--accent:#0f766e">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Lesson Lab <span class="chip">teaching</span></h2>
-      <p>Tutorials, lessons, "teach me", and interactive object/system/spec exploration. Visual stage first, step rail or entity selector, try-it controls, optional check-yourself.</p>
-      <div class="count">1 demo</div>
+  <header class="hero">
+    <div>
+      <h1>html-<span>anything</span></h1>
+      <p class="tagline">Upload any source. The skill auto-picks a style and turns it into a shareable live HTML page.</p>
+      <div class="cta-row">
+        <a class="cta" href="https://github.com/clockless-org/html-anything">View on GitHub →</a>
+        <a class="cta secondary" href="https://github.com/clockless-org/html-anything#install">Install the skill</a>
+      </div>
     </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="solar-system-studio/output.html">
-      <div class="thumb"><img loading="lazy" src="../docs/example-previews/solar-system-studio.jpg" alt="Solar system lesson"></div>
-      <div class="body"><h3>Solar system — interactive lesson</h3><p>Built from a single prompt. Orbit speed, scale toggles, planet explainers, check-yourself quiz.</p><div class="meta">teaching · object mode</div></div>
-    </a>
-  </div>
-</section>
-
-<section class="section" id="relationship" style="--accent:#be3455">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Rhythm Report <span class="chip">relationship</span></h2>
-      <p>1:1 chats and intimate message exports — WhatsApp, WeChat, iMessage. Aggregate-first rhythm story: who initiates, response times, peak hours, mood cadence. No raw private text by default.</p>
-      <div class="count">2 demos</div>
+    <div class="hero-panel">
+      <p class="label">Example map</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>49</strong><span>live output pages</span></div>
+        <div class="hero-stat"><strong>11</strong><span>source collections</span></div>
+        <div class="hero-stat"><strong>8</strong><span>auto styles</span></div>
+      </div>
     </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="wechat-couple/output.html">
-      <div class="thumb"><img loading="lazy" src="../docs/example-previews/wechat-couple.jpg" alt="Couple chat report"></div>
-      <div class="body"><h3>Couple chat — rhythm report</h3><p>A multi-year WeChat-style export distilled into pulse calendar, initiation lanes, quiet-period callouts.</p><div class="meta">relationship</div></div>
-    </a>
-    <a class="card" href="whatsapp/output.html">
-      <div class="thumb"><img loading="lazy" src="../docs/example-previews/whatsapp.jpg" alt="WhatsApp relationship"></div>
-      <div class="body"><h3>WhatsApp — friends relationship</h3><p>Two-sender WhatsApp export, one month. Bubble timeline + relationship rhythm without exposing content.</p><div class="meta">relationship</div></div>
-    </a>
-  </div>
-</section>
+  </header>
 
-<section class="section" id="timeline-story" style="--accent:#9a4b14">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Timeline Story <span class="chip">timeline-story</span></h2>
-      <p>Personal histories — both chronological (orders, listening, reading, health, AI chats) and topical (Notion/Obsidian vaults). Time lens, timeline spine, chapter panels, rhythm strip, searchable drawer.</p>
-      <div class="count">10 demos</div>
+  <div class="controls">
+    <div class="control-top">
+      <div class="view-switch" aria-label="Choose gallery view">
+        <button type="button" data-view="source" aria-pressed="true">Browse by source</button>
+        <button type="button" data-view="style" aria-pressed="false">Browse by style</button>
+      </div>
+      <div class="status" id="status"></div>
     </div>
+    <nav class="filter-row" id="filters" aria-label="Quick category filters"></nav>
   </div>
-  <div class="grid">
-    <a class="card" href="amazon-orders/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/amazon-orders.jpg" alt="Amazon orders"></div><div class="body"><h3>Amazon — order history</h3><p>3 years of orders → commerce memory. Cadence, categories, gifting, returns.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="spotify-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/spotify-history.jpg" alt="Spotify history"></div><div class="body"><h3>Spotify — listening history</h3><p>Lifetime plays as a scroll-driven year-by-year story with top tracks and listening rhythm.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="youtube-watch-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/youtube-watch-history.jpg" alt="YouTube watch history"></div><div class="body"><h3>YouTube — watch history</h3><p>Months of watches as an attention mirror — channels, binges, late-night patterns.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="iphone-health/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/iphone-health.jpg" alt="Apple Health"></div><div class="body"><h3>Apple Health — body rhythm</h3><p>Activity rings, sleep arc, workouts, resting HR — Strava-style joy, not a clinical chart.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="kindle-highlights/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/kindle-highlights.jpg" alt="Kindle highlights"></div><div class="body"><h3>Kindle — highlights yearbook</h3><p>2 years of clippings across 8 books, organized as a personal reading-memory atlas.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="twitch-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/twitch-history.jpg" alt="Twitch viewing"></div><div class="body"><h3>Twitch — viewing history</h3><p>Top streamers wall + when-you-watched heatmap. Fan-shrine vibe, not parental dashboard.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="browser-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/browser-history.jpg" alt="Browser history"></div><div class="body"><h3>Browser — attention trail</h3><p>Days of browser history clustered into 11 topic threads with returners and search patterns.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="chatgpt-export/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/chatgpt-export.jpg" alt="ChatGPT export"></div><div class="body"><h3>ChatGPT — conversation archive</h3><p>Months of ChatGPT conversations clustered into topics, projects, and recurring threads.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="ai-chat-log/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/ai-chat-log.jpg" alt="AI chat log"></div><div class="body"><h3>Generic AI chat log</h3><p>A working chat session as structured back-and-forth with tool calls and revision history.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="notes-vault/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/notes-vault.jpg" alt="Markdown notes vault"></div><div class="body"><h3>Markdown notes vault</h3><p>14 founder notes as a knowledge atlas — topic clusters and last-edited rhythm strip.</p><div class="meta">timeline-story · topical</div></div></a>
-  </div>
-</section>
 
-<section class="section" id="map-atlas" style="--accent:#17695a">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Map Atlas <span class="chip">map-atlas</span></h2>
-      <p>Places, routes, trips, rideshare, location history, geotagged photos. Spatial stage, place drawer, period filters, waypoint browser. Offline SVG world map — no map tiles.</p>
-      <div class="count">5 demos</div>
+  <section class="featured">
+    <div class="section-title">
+      <div>
+        <h2>Featured outputs</h2>
+        <p>Six examples that show the range: prompt-only teaching, private chats, personal archives, place data, finance ops, and developer review.</p>
+      </div>
     </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="google-maps-stars/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/google-maps-stars.jpg" alt="Google Maps saved"></div><div class="body"><h3>Google Maps — saved places</h3><p>Starred places across 4 continents pinned on a personal world atlas with notes-on-hover.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="google-photos-takeout/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/google-photos-takeout.jpg" alt="Google Photos atlas"></div><div class="body"><h3>Google Photos — takeout atlas</h3><p>EXIF metadata becomes a place-driven memory map — no Google CDN, no photos uploaded.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="rideshare-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/rideshare-history.jpg" alt="Rideshare"></div><div class="body"><h3>Uber / Lyft — rideshare history</h3><p>Rides clustered into routines: commute lanes, late-night returns, airport runs, one-offs.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="run-route/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/run-route.jpg" alt="GPX running route"></div><div class="body"><h3>Morning run — GPX route</h3><p>A 7.6 km Prospect Park loop with splits, elevation, and an inline SVG route polyline.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="itinerary-trip/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/itinerary-trip.jpg" alt="Trip itinerary"></div><div class="body"><h3>Tokyo + Kyoto — trip itinerary</h3><p>An 8-day itinerary CSV → day-by-day plan with conflicts, neighborhoods, costs.</p><div class="meta">map-atlas</div></div></a>
-  </div>
-</section>
+    <div class="featured-grid" id="featured-grid"></div>
+  </section>
 
-<section class="section" id="network-map" style="--accent:#355f91">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Network Map <span class="chip">network-map</span></h2>
-      <p>People, senders, contacts, communities, payments, professional networks. Relationship graph with entity inspector, clusters, hubs, linked records.</p>
-      <div class="count">7 demos</div>
+  <main>
+    <div class="section-title">
+      <div>
+        <h2 id="gallery-title">Source collections</h2>
+        <p id="gallery-copy">Similar examples are grouped together. Open the main screenshot or jump to a specific output from the chips.</p>
+      </div>
     </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="linkedin-connections/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/linkedin-connections.jpg" alt="LinkedIn network"></div><div class="body"><h3>LinkedIn — connections graph</h3><p>12 years of connections clustered by company, role, and era. Hub leaderboards.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="vcard-contacts/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/vcard-contacts.jpg" alt="vCard contacts"></div><div class="body"><h3>Address book audit</h3><p>34 contacts clustered into domains and life-stages. Duplicate detection and stale-relationship surfacing.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="slack/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/slack.jpg" alt="Slack channel"></div><div class="body"><h3>Slack — channel export</h3><p>A multi-sender Slack channel folded by sender with decisions and action-item callouts.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="discord/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/discord.jpg" alt="Discord community"></div><div class="body"><h3>Discord — community export</h3><p>Server messages clustered into channels and contributors with activity rhythm.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="telegram/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/telegram.jpg" alt="Telegram"></div><div class="body"><h3>Telegram — chat export</h3><p>Result.json export turned into a multi-sender chat report with hub leaderboard.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="email/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/email.jpg" alt="Email archive"></div><div class="body"><h3>Email — mailbox snapshot</h3><p>13 messages across 3 threads → thread browser, sender leaderboard, "open loops" callout.</p><div class="meta">network-map</div></div></a>
-    <a class="card" href="venmo-paypal-payments/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/venmo-paypal-payments.jpg" alt="Venmo PayPal"></div><div class="body"><h3>Venmo / PayPal payments</h3><p>Consumer payment activity by counterparty, category, and time — who owes whom.</p><div class="meta">network-map</div></div></a>
-  </div>
-</section>
+    <div class="gallery" id="gallery"></div>
+  </main>
 
-<section class="section" id="document" style="--accent:#8b3f1f">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Document Review <span class="chip">document</span></h2>
-      <p>Essays, articles, reading lists, bookmarks, PDFs, DOCX, legal/medical/lab records. Cover, reading rail, body sheet, evidence margin, drill-down. Narrative or formal tone picked from the source.</p>
-      <div class="count">9 demos</div>
+  <section class="matrix">
+    <div class="matrix-head">
+      <h2>Auto-routing examples</h2>
+      <p>The user does not need to choose this manually, but the gallery makes the source → style relationship visible.</p>
     </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="markdown/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/markdown.jpg" alt="Markdown essay"></div><div class="body"><h3>Long-form essay</h3><p>A 3 KB markdown essay → reading view with anchored navigation and typographic rhythm.</p><div class="meta">document · narrative</div></div></a>
-    <a class="card" href="bookmarks-market-research/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/bookmarks-market-research.jpg" alt="Market bookmarks"></div><div class="body"><h3>Founder market-research bookmarks</h3><p>HTML bookmarks export clustered into themes — domain leaderboard, duplicate detection.</p><div class="meta">document · narrative</div></div></a>
-    <a class="card" href="reading-list-academic/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/reading-list-academic.jpg" alt="Academic reading list"></div><div class="body"><h3>Academic reading list</h3><p>BibTeX → research dossier with topic clusters, author leaderboard, and queue cards.</p><div class="meta">document · narrative</div></div></a>
-    <a class="card" href="pdf/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/pdf.jpg" alt="PDF report"></div><div class="body"><h3>PDF — industry outlook</h3><p>A long-form PDF report distilled into executive summary, claims, and evidence margin.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="docx/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/docx.jpg" alt="DOCX memo"></div><div class="body"><h3>DOCX — decision memo</h3><p>A pricing RFC distilled into decision, rationale, alternatives, and follow-ups.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="medical-visit/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/medical-visit.jpg" alt="Medical visit"></div><div class="body"><h3>Medical visit note (synthetic)</h3><p>Organizational summary with caveats and "ask a clinician" questions. Not medical advice.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="lab-results/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/lab-results.jpg" alt="Lab results"></div><div class="body"><h3>Lab results (synthetic)</h3><p>Panels with reference ranges, trends, and observation-only context.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="legal-chronology/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/legal-chronology.jpg" alt="Legal chronology"></div><div class="body"><h3>Legal chronology (synthetic)</h3><p>Case timeline with parties, exhibits, and observational summary — not legal advice.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="goodreads/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/goodreads.jpg" alt="Goodreads reading export"></div><div class="body"><h3>Goodreads — reading export</h3><p>Books read, rated, shelved → reading-life dossier with patterns and standouts.</p><div class="meta">document · narrative</div></div></a>
-  </div>
-</section>
+    <div class="matrix-grid" id="matrix-grid"></div>
+  </section>
 
-<section class="section" id="dashboard" style="--accent:#0f5f6f">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Ops Console <span class="chip">dashboard</span></h2>
-      <p>Operational, tabular, finance, admin, log, planning data. KPI rail, charts, filters, flag queue, searchable data grid.</p>
-      <div class="count">11 demos</div>
-    </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="csv/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/csv.jpg" alt="CSV sales"></div><div class="body"><h3>CSV — coffee equipment sales</h3><p>46 rows, 8 columns → sortable table + summary. Different size CSVs skew to charts.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="jsonl/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/jsonl.jpg" alt="JSONL events"></div><div class="body"><h3>JSONL — application event stream</h3><p>Payments service event stream with severity histogram and outlier callouts.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="log-access/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/log-access.jpg" alt="Access log"></div><div class="body"><h3>Nginx — access log (90 min)</h3><p>shop.example access log → traffic by status, hot paths, slow requests, ip-pattern flags.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="log-error/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/log-error.jpg" alt="Error log"></div><div class="body"><h3>Orders service — error log</h3><p>Payment incident error log: root-cause stack groups, severity timeline, recovery path.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="transcript-sales-call/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/transcript-sales-call.jpg" alt="Sales call"></div><div class="body"><h3>Sales-call transcript</h3><p>Pilot-scoping call → talk-time bars, decisions, action items, searchable transcript.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="transcript-product-meeting/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/transcript-product-meeting.jpg" alt="Product meeting"></div><div class="body"><h3>Product-meeting transcript</h3><p>Sprint review SRT → decisions, owners, open questions, risk register.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="bank-transactions/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/bank-transactions.jpg" alt="Bank transactions"></div><div class="body"><h3>Bank statement — Q1 2026</h3><p>Cashflow timeline, category breakdown, recurring vendors, anomaly callouts.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="invoices/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/invoices.jpg" alt="Invoices and receivables"></div><div class="body"><h3>Invoices & receivables</h3><p>Outstanding invoices aged by bucket with customer-side breakdowns.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="quickbooks/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/quickbooks.jpg" alt="QuickBooks ledger"></div><div class="body"><h3>QuickBooks — general ledger</h3><p>P&L view + category breakdown + recurring vendors + anomaly flags.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="calendar-founder/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/calendar-founder.jpg" alt="Founder calendar"></div><div class="body"><h3>Founder calendar (2 weeks)</h3><p>Time allocation by category, stale follow-ups, conflicts, owner-status filters.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="backlog-product/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/backlog-product.jpg" alt="Product backlog"></div><div class="body"><h3>Product backlog — 39 issues</h3><p>Issue tracker CSV → epic clusters, blocked items, stale tickets, owner workload.</p><div class="meta">dashboard</div></div></a>
-  </div>
-</section>
-
-<section class="section" id="developer" style="--accent:#38bdf8">
-  <div class="section-head">
-    <div class="accent-bar"></div>
-    <div class="text">
-      <h2>Evidence Workbench <span class="chip">developer</span></h2>
-      <p>Diffs, PR patches, CI logs, stack traces, repos. Risk-annotated review brief with hotspots, raw evidence, copyable handoff.</p>
-      <div class="count">4 demos</div>
-    </div>
-  </div>
-  <div class="grid">
-    <a class="card" href="git-diff/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/git-diff.jpg" alt="Git diff"></div><div class="body"><h3>Git diff — session expiry fix</h3><p>checkout-service diff → hunks with risk callouts and evidence-margin annotations.</p><div class="meta">developer</div></div></a>
-    <a class="card" href="pr-review/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/pr-review.jpg" alt="PR review"></div><div class="body"><h3>PR — webhook drain</h3><p>Patch review with risk hotspots, review checklist, and copyable summary.</p><div class="meta">developer</div></div></a>
-    <a class="card" href="ci-log/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/ci-log.jpg" alt="CI log"></div><div class="body"><h3>CI failure — run #482</h3><p>Failure log grouped by step + stack with rerun candidates and likely-cause hypothesis.</p><div class="meta">developer</div></div></a>
-    <a class="card" href="stack-trace/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/stack-trace.jpg" alt="Stack trace"></div><div class="body"><h3>Stack trace — tax-rate KeyError</h3><p>Trace with raw frames, deduplicated by signature, and likely-cause hypothesis.</p><div class="meta">developer</div></div></a>
-  </div>
-</section>
-
-<footer class="foot">
-  <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-  <div>49 live demos · contributions welcome (write a parser or a style)</div>
-</footer>
-
+  <footer class="foot">
+    <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
+    <div>49 live demos · grouped by source and style</div>
+  </footer>
 </div>
+
 <script>
 (() => {
-  const sections = Array.from(document.querySelectorAll(".section"));
-  const buttons = Array.from(document.querySelectorAll(".style-nav button[data-filter]"));
-  const status = document.getElementById("filter-status");
-  const total = document.querySelectorAll(".card").length;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const labels = new Map(sections.map(section => {
-    const title = section.querySelector("h2")?.childNodes[0]?.textContent?.trim() || section.id;
-    return [section.id, title];
-  }));
-
-  const setFilter = (filter) => {
-    let visible = 0;
-    sections.forEach(section => {
-      const show = filter === "all" || section.id === filter;
-      section.hidden = !show;
-      if (show) visible += section.querySelectorAll(".card").length;
-    });
-    buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
-    if (status) {
-      const label = filter === "all" ? "all categories" : labels.get(filter) || filter;
-      status.textContent = `Showing ${visible} of ${total} live examples in ${label}. Every visible card has a committed screenshot; hover video previews appear automatically when available.`;
-    }
+  const examples = {
+    "solar-system-studio": ["Solar system lesson", "Prompt", "Teaching lab", "teaching", "A single request becomes an interactive lesson with orbit controls and planet explainers."],
+    "wechat-couple": ["Couple chat rhythm", "WeChat export", "Relationship report", "relationship", "A two-year relationship report with activity rhythms, response patterns, and selected insights."],
+    "whatsapp": ["WhatsApp chat", "WhatsApp export", "Relationship report", "relationship", "A two-sender WhatsApp archive summarized without exposing raw private text by default."],
+    "slack": ["Slack channel", "Slack export", "Network map", "network-map", "Team messages folded by sender, decisions, threads, and action-item callouts."],
+    "discord": ["Discord community", "Discord export", "Network map", "network-map", "Server activity clustered by contributors, channels, and rhythm."],
+    "telegram": ["Telegram chat", "Telegram result.json", "Network map", "network-map", "Multi-sender chat export with hubs, activity patterns, and searchable records."],
+    "email": ["Email archive", "Mailbox sample", "Network map", "network-map", "Threads, senders, open loops, and follow-up hotspots."],
+    "amazon-orders": ["Amazon orders", "Orders CSV", "Timeline story", "timeline-story", "Three years of purchases as a commerce-memory timeline."],
+    "spotify-history": ["Spotify history", "Streaming export", "Timeline story", "timeline-story", "Listening history as a year-by-year music story."],
+    "youtube-watch-history": ["YouTube watch history", "Takeout JSON", "Timeline story", "timeline-story", "Watch activity clustered by channels, binges, and attention patterns."],
+    "iphone-health": ["Apple Health", "Health export", "Timeline story", "timeline-story", "Activity, sleep, workouts, and rhythm patterns as a personal timeline."],
+    "kindle-highlights": ["Kindle highlights", "My Clippings.txt", "Timeline story", "timeline-story", "Highlights and notes organized into books, themes, and quote browser."],
+    "goodreads": ["Goodreads library", "Goodreads CSV", "Document review", "document", "Books read, rated, and shelved as a reading-life dossier."],
+    "twitch-history": ["Twitch viewing", "Viewing export", "Timeline story", "timeline-story", "Top streamers, viewing windows, and fan-rhythm heatmaps."],
+    "browser-history": ["Browser history", "Browser export", "Timeline story", "timeline-story", "Browsing sessions clustered into topics, returners, and search patterns."],
+    "chatgpt-export": ["ChatGPT archive", "conversations.json", "Timeline story", "timeline-story", "AI conversations clustered into topics, projects, and recurring threads."],
+    "ai-chat-log": ["Generic AI chat log", "Chat transcript", "Timeline story", "timeline-story", "A chat session rendered as structured turns, tool calls, and revisions."],
+    "notes-vault": ["Notes vault", "Markdown folder", "Timeline story", "timeline-story", "A folder of notes becomes topic clusters, backlinks, and last-edited rhythm."],
+    "google-maps-stars": ["Google Maps stars", "Saved places", "Map atlas", "map-atlas", "Starred places plotted as a personal world atlas."],
+    "google-photos-takeout": ["Google Photos atlas", "Takeout folder", "Map atlas", "map-atlas", "EXIF and sidecar metadata become places, albums, bursts, and device patterns."],
+    "rideshare-history": ["Rideshare history", "Uber/Lyft CSV", "Map atlas", "map-atlas", "Commute lanes, airport runs, late-night returns, and route clusters."],
+    "run-route": ["Morning run route", "GPX file", "Map atlas", "map-atlas", "A GPX route rendered with split times, elevation, and inline map geometry."],
+    "itinerary-trip": ["Trip itinerary", "Itinerary CSV", "Map atlas", "map-atlas", "Multi-day travel plan with conflicts, neighborhoods, and cost hints."],
+    "linkedin-connections": ["LinkedIn network", "Connections CSV", "Network map", "network-map", "Professional connections clustered by era, company, and role."],
+    "vcard-contacts": ["Address book", "vCard file", "Network map", "network-map", "Contacts grouped by organizations, domains, cities, birthdays, and duplicate candidates."],
+    "venmo-paypal-payments": ["Venmo / PayPal", "Payments CSV", "Network map", "network-map", "Counterparties, categories, time patterns, and who-paid-whom relationships."],
+    "markdown": ["Long-form essay", "Markdown file", "Document review", "document", "A markdown essay becomes a polished reading view with anchored navigation."],
+    "bookmarks-market-research": ["Market bookmarks", "Bookmarks HTML", "Document review", "document", "Bookmarks grouped into themes, domains, duplicates, and research signals."],
+    "reading-list-academic": ["Academic reading list", "BibTeX", "Document review", "document", "Citation list as a research dossier with topic clusters and queue cards."],
+    "pdf": ["PDF report", "PDF document", "Document review", "document", "A long report distilled into claims, evidence, summary, and navigation."],
+    "docx": ["DOCX memo", "Word document", "Document review", "document", "A decision memo rendered with rationale, alternatives, and follow-ups."],
+    "medical-visit": ["Medical visit note", "Clinical note", "Document review", "document", "Synthetic note organized with caveats and clinician questions."],
+    "lab-results": ["Lab results", "Lab PDF/text", "Document review", "document", "Panels, ranges, trends, and observation-only explanations."],
+    "legal-chronology": ["Legal chronology", "Case notes", "Document review", "document", "Timeline of parties, exhibits, and observational summary."],
+    "csv": ["Sales CSV", "CSV table", "Ops console", "dashboard", "Tabular data with summary, sortable rows, and chart-friendly structure."],
+    "bank-transactions": ["Bank statement", "Transactions CSV", "Ops console", "dashboard", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
+    "invoices": ["Invoices", "Receivables CSV", "Ops console", "dashboard", "Aging buckets, customer breakdowns, and outstanding invoice queue."],
+    "quickbooks": ["QuickBooks ledger", "General ledger", "Ops console", "dashboard", "Ledger export as P&L view, category breakdown, and anomaly flags."],
+    "calendar-founder": ["Founder calendar", "ICS calendar", "Ops console", "dashboard", "Two weeks of time allocation, conflicts, follow-ups, and meeting load."],
+    "backlog-product": ["Product backlog", "Issue CSV", "Ops console", "dashboard", "Issues grouped by epic, owner, blocked state, and stale tickets."],
+    "transcript-sales-call": ["Sales call", "Transcript", "Ops console", "dashboard", "Talk time, decisions, action items, risks, and searchable transcript."],
+    "transcript-product-meeting": ["Product meeting", "SRT transcript", "Ops console", "dashboard", "Sprint review with decisions, owners, open questions, and risk register."],
+    "jsonl": ["JSONL events", "Event stream", "Ops console", "dashboard", "Application events summarized by severity, schema, and outliers."],
+    "log-access": ["Access log", "Nginx log", "Ops console", "dashboard", "Traffic by status, hot paths, slow requests, and IP-pattern flags."],
+    "log-error": ["Error log", "Service log", "Ops console", "dashboard", "Incident log grouped by severity, stack groups, and recovery path."],
+    "git-diff": ["Git diff", "Patch file", "Developer review", "developer", "Code changes with risk callouts and evidence-margin annotations."],
+    "pr-review": ["PR review", "Pull request", "Developer review", "developer", "Patch review with hotspots, checklist, and copyable handoff."],
+    "ci-log": ["CI failure", "CI log", "Developer review", "developer", "Failure log grouped by step, stack, and likely-cause hypothesis."],
+    "stack-trace": ["Stack trace", "Error trace", "Developer review", "developer", "Raw frames deduplicated by signature with likely cause."]
   };
 
-  buttons.forEach(button => {
-    button.addEventListener("click", () => setFilter(button.dataset.filter || "all"));
-  });
+  const sourceGroups = [
+    ["prompt", "Prompt to lesson", "Prompt", "#", "#0f766e", "Start with one sentence and produce a real teaching page, not a blank template.", ["solar-system-studio"]],
+    ["chats", "Relationship chats", "Chats", "~", "#be3455", "1:1 exports become rhythm reports with timing, initiation, sentiment, and privacy-aware evidence.", ["wechat-couple", "whatsapp"]],
+    ["chats", "Team and community messages", "Chats", "~", "#355f91", "Multi-sender conversations become people maps, decisions, activity rhythm, and searchable context.", ["slack", "discord", "telegram", "email"]],
+    ["personal", "Personal timelines", "Personal data", "»", "#9a4b14", "Consumer histories become memory timelines: orders, music, video, health, reading, browsing.", ["amazon-orders", "spotify-history", "youtube-watch-history", "iphone-health", "kindle-highlights", "goodreads", "twitch-history", "browser-history"]],
+    ["personal", "AI and notes archives", "Personal data", "»", "#7b40e0", "AI conversations and notes folders become topic maps, project threads, and knowledge trails.", ["chatgpt-export", "ai-chat-log", "notes-vault"]],
+    ["places", "Places and movement", "Geo", "+", "#17695a", "Location-rich sources become atlases: saved places, photos, rides, GPX routes, and itineraries.", ["google-maps-stars", "google-photos-takeout", "rideshare-history", "run-route", "itinerary-trip"]],
+    ["people", "People and payment networks", "People", "×", "#355f91", "Contacts, professional networks, and payments become hubs, clusters, and relationship ledgers.", ["linkedin-connections", "vcard-contacts", "venmo-paypal-payments"]],
+    ["docs", "Documents and research", "Files", "§", "#8b3f1f", "Markdown, PDFs, DOCX, citations, records, and bookmarks become polished dossiers.", ["markdown", "bookmarks-market-research", "reading-list-academic", "pdf", "docx", "medical-visit", "lab-results", "legal-chronology"]],
+    ["work", "Finance and operations", "Work data", "=", "#0f5f6f", "Tables, finance exports, issue trackers, calendars, and transcripts become working consoles.", ["csv", "bank-transactions", "invoices", "quickbooks", "calendar-founder", "backlog-product", "transcript-sales-call", "transcript-product-meeting"]],
+    ["work", "Logs and event streams", "Work data", "=", "#466089", "JSONL, access logs, and error logs become incident-aware dashboards with outlier lanes.", ["jsonl", "log-access", "log-error"]],
+    ["dev", "Developer review artifacts", "Developer", "!", "#38bdf8", "Diffs, PRs, CI logs, and stack traces become risk-aware review workbenches.", ["git-diff", "pr-review", "ci-log", "stack-trace"]]
+  ].map(makeGroup);
 
-  document.querySelectorAll(".card").forEach(card => {
-    const thumb = card.querySelector(".thumb");
-    const href = card.getAttribute("href") || "";
-    const slug = href.replace(/\/output\.html$/, "");
-    if (!thumb || !slug) return;
+  const styleDefs = [
+    ["teaching", "Teaching lab", "Style", "#", "#0f766e", "Visual stage first, entity selector, controls, and check-yourself moments.", ["solar-system-studio"]],
+    ["relationship", "Relationship report", "Style", "~", "#be3455", "Aggregate-first private chat analysis: rhythm, initiation, response, mood, and evidence snippets.", ["wechat-couple", "whatsapp"]],
+    ["timeline-story", "Timeline story", "Style", "»", "#9a4b14", "Chronological memory pages with chapters, rhythm strips, and searchable drawers.", ["amazon-orders", "spotify-history", "youtube-watch-history", "iphone-health", "kindle-highlights", "twitch-history", "browser-history", "chatgpt-export", "ai-chat-log", "notes-vault"]],
+    ["map-atlas", "Map atlas", "Style", "+", "#17695a", "Spatial stage, place drawer, waypoint browser, and offline SVG geography.", ["google-maps-stars", "google-photos-takeout", "rideshare-history", "run-route", "itinerary-trip"]],
+    ["network-map", "Network map", "Style", "×", "#355f91", "People, senders, counterparties, and communities shown as hubs and clusters.", ["linkedin-connections", "vcard-contacts", "slack", "discord", "telegram", "email", "venmo-paypal-payments"]],
+    ["document", "Document review", "Style", "§", "#8b3f1f", "Reading rail, evidence margin, summary, and source-grounded drill-down.", ["markdown", "bookmarks-market-research", "reading-list-academic", "pdf", "docx", "medical-visit", "lab-results", "legal-chronology", "goodreads"]],
+    ["dashboard", "Ops console", "Style", "=", "#0f5f6f", "KPI rail, charts, filters, flag queue, and searchable operational data grid.", ["csv", "jsonl", "log-access", "log-error", "transcript-sales-call", "transcript-product-meeting", "bank-transactions", "invoices", "quickbooks", "calendar-founder", "backlog-product"]],
+    ["developer", "Developer review", "Style", "!", "#38bdf8", "Risk hotspots, raw evidence, copyable handoff, and implementation-review flow.", ["git-diff", "pr-review", "ci-log", "stack-trace"]]
+  ].map(makeGroup);
 
-    const badge = document.createElement("span");
-    badge.className = "media-badge";
-    badge.textContent = "📸 Screenshot";
-    thumb.appendChild(badge);
+  const featured = ["wechat-couple", "solar-system-studio", "google-photos-takeout", "amazon-orders", "quickbooks", "git-diff"];
+  const sourceFilters = [
+    ["all", "All", "#a03b00"],
+    ["prompt", "Prompt", "#0f766e"],
+    ["chats", "Chats", "#be3455"],
+    ["personal", "Personal", "#9a4b14"],
+    ["places", "Geo", "#17695a"],
+    ["people", "People", "#355f91"],
+    ["docs", "Files", "#8b3f1f"],
+    ["work", "Work", "#0f5f6f"],
+    ["dev", "Dev", "#38bdf8"]
+  ];
+  const styleFilters = [
+    ["all", "All", "#a03b00"],
+    ["teaching", "Teaching", "#0f766e"],
+    ["relationship", "Relationship", "#be3455"],
+    ["timeline-story", "Timeline", "#9a4b14"],
+    ["map-atlas", "Map", "#17695a"],
+    ["network-map", "Network", "#355f91"],
+    ["document", "Document", "#8b3f1f"],
+    ["dashboard", "Ops", "#0f5f6f"],
+    ["developer", "Developer", "#38bdf8"]
+  ];
+  const matrixRows = [
+    ["Prompt: “teach the solar system”", "Teaching lab", "solar-system-studio"],
+    ["WeChat / WhatsApp chat export", "Relationship report", "wechat-couple"],
+    ["Amazon order history CSV", "Timeline story", "amazon-orders"],
+    ["Google Photos Takeout", "Map atlas", "google-photos-takeout"],
+    ["vCard / LinkedIn contacts", "Network map", "vcard-contacts"],
+    ["PDF / DOCX / Markdown", "Document review", "pdf"],
+    ["Bank / invoice / ledger CSV", "Ops console", "bank-transactions"],
+    ["Git diff / CI log / stack trace", "Developer review", "git-diff"]
+  ];
 
-    if (reduceMotion) return;
-    const videoSrc = `../docs/example-videos/${slug}.mp4`;
-    fetch(videoSrc, { method: "HEAD" })
-      .then(response => {
-        if (!response.ok) return;
-        const video = document.createElement("video");
-        video.src = videoSrc;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.preload = "metadata";
-        thumb.appendChild(video);
-        thumb.classList.add("has-video");
-        badge.textContent = "▶ Video";
+  const state = { view: "source", filter: "all" };
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-        const play = () => video.play().catch(() => {});
-        const pause = () => { video.pause(); video.currentTime = 0; };
-        card.addEventListener("mouseenter", play);
-        card.addEventListener("focus", play);
-        card.addEventListener("mouseleave", pause);
-        card.addEventListener("blur", pause);
+  function makeGroup(row) {
+    const [category, title, label, icon, accent, description, slugs] = row;
+    return { category, title, label, icon, accent, description, slugs, primary: slugs[0] };
+  }
+  function example(slug) {
+    const item = examples[slug];
+    if (!item) throw new Error(`Missing example metadata: ${slug}`);
+    const [title, source, styleName, style, description] = item;
+    return { slug, title, source, styleName, style, description };
+  }
+  function outputCount(groups, filter) {
+    return groups
+      .filter(group => filter === "all" || group.category === filter)
+      .reduce((sum, group) => sum + group.slugs.length, 0);
+  }
+  function filterCount(filters, groups, id) {
+    if (id === "all") return groups.reduce((sum, group) => sum + group.slugs.length, 0);
+    return groups.filter(group => group.category === id).reduce((sum, group) => sum + group.slugs.length, 0);
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+  }
+  function img(slug) {
+    return `../docs/example-previews/${slug}.jpg`;
+  }
+  function link(slug, className = "") {
+    const item = example(slug);
+    return `<a class="${className}" href='${slug}/output.html'>${escapeHtml(item.title)}</a>`;
+  }
+  function renderFilters() {
+    const filters = state.view === "source" ? sourceFilters : styleFilters;
+    const groups = state.view === "source" ? sourceGroups : styleDefs;
+    document.getElementById("filters").innerHTML = filters.map(([id, label, accent]) => `
+      <button type="button" data-filter="${id}" aria-pressed="${state.filter === id}" style="--accent:${accent}">
+        <span class="dot"></span>${escapeHtml(label)} <span class="num">${filterCount(filters, groups, id)}</span>
+      </button>
+    `).join("");
+    document.querySelectorAll("#filters button").forEach(button => {
+      button.addEventListener("click", () => {
+        state.filter = button.dataset.filter || "all";
+        render();
+      });
+    });
+  }
+  function renderFeatured() {
+    document.getElementById("featured-grid").innerHTML = featured.map(slug => {
+      const item = example(slug);
+      return `
+        <a class="feature-card" href='${slug}/output.html'>
+          <img loading="lazy" src="${img(slug)}" alt="${escapeHtml(item.title)} screenshot">
+          <div class="feature-body">
+            <h3>${escapeHtml(item.title)}</h3>
+            <span>${escapeHtml(item.source)} → ${escapeHtml(item.styleName)}</span>
+          </div>
+        </a>`;
+    }).join("");
+  }
+  function renderCard(group) {
+    const primary = example(group.primary);
+    const variants = group.slugs.map((slug, index) => link(slug, index === 0 ? "primary" : "")).join("");
+    return `
+      <article class="collection-card" style="--accent:${group.accent}" data-category="${group.category}">
+        <a class="media-link" href='${primary.slug}/output.html' data-slug="${primary.slug}">
+          <img loading="lazy" src="${img(primary.slug)}" alt="${escapeHtml(primary.title)} screenshot">
+          <span class="media-badge">Screenshot</span>
+        </a>
+        <div class="collection-body">
+          <div class="eyebrow"><span class="mark">${escapeHtml(group.icon)}</span>${escapeHtml(group.label)}</div>
+          <h3>${escapeHtml(group.title)}</h3>
+          <p>${escapeHtml(group.description)}</p>
+          <div class="chip-row">
+            <span class="chip">${group.slugs.length} output${group.slugs.length === 1 ? "" : "s"}</span>
+            <span class="chip">Auto style: ${escapeHtml(primary.styleName)}</span>
+            <span class="chip">Source: ${escapeHtml(primary.source)}</span>
+          </div>
+          <div class="variant-list">${variants}</div>
+        </div>
+      </article>`;
+  }
+  function renderGallery() {
+    const groups = state.view === "source" ? sourceGroups : styleDefs;
+    const visible = groups.filter(group => state.filter === "all" || group.category === state.filter);
+    document.getElementById("gallery-title").textContent = state.view === "source" ? "Source collections" : "Built-in styles";
+    document.getElementById("gallery-copy").textContent = state.view === "source"
+      ? "Similar examples are grouped together. Open the main screenshot or jump to a specific output from the chips."
+      : "Each style is a design system plus layout logic. The skill picks one automatically from the source.";
+    document.getElementById("gallery").innerHTML = visible.length
+      ? visible.map(renderCard).join("")
+      : `<div class="empty">No examples match this filter.</div>`;
+
+    const outputs = outputCount(groups, state.filter);
+    const noun = state.view === "source" ? "source collection" : "style";
+    document.getElementById("status").textContent = `Showing ${visible.length} ${noun}${visible.length === 1 ? "" : "s"} with ${outputs} live output${outputs === 1 ? "" : "s"}.`;
+    hydrateMedia();
+  }
+  function renderMatrix() {
+    const rows = [
+      `<div class="head">Source</div><div class="head">Auto style</div><div class="head">Example</div>`,
+      ...matrixRows.map(([source, style, slug]) => {
+        const item = example(slug);
+        return `<div>${escapeHtml(source)}</div><div>${escapeHtml(style)}</div><div><a href='${slug}/output.html'>${escapeHtml(item.title)}</a></div>`;
       })
-      .catch(() => {});
+    ];
+    document.getElementById("matrix-grid").innerHTML = rows.join("");
+  }
+  function hydrateMedia() {
+    if (reduceMotion) return;
+    document.querySelectorAll(".media-link[data-slug]").forEach(frame => {
+      if (frame.dataset.videoChecked) return;
+      frame.dataset.videoChecked = "true";
+      const slug = frame.dataset.slug;
+      const badge = frame.querySelector(".media-badge");
+      fetch(`../docs/example-videos/${slug}.mp4`, { method: "HEAD" })
+        .then(response => {
+          if (!response.ok) return;
+          const video = document.createElement("video");
+          video.src = `../docs/example-videos/${slug}.mp4`;
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.preload = "metadata";
+          frame.appendChild(video);
+          frame.classList.add("has-video");
+          if (badge) badge.textContent = "Video";
+          frame.addEventListener("mouseenter", () => video.play().catch(() => {}));
+          frame.addEventListener("mouseleave", () => { video.pause(); video.currentTime = 0; });
+          frame.addEventListener("focus", () => video.play().catch(() => {}));
+          frame.addEventListener("blur", () => { video.pause(); video.currentTime = 0; });
+        })
+        .catch(() => {});
+    });
+  }
+  function render() {
+    renderFilters();
+    document.querySelectorAll(".view-switch button").forEach(button => {
+      button.setAttribute("aria-pressed", String(button.dataset.view === state.view));
+    });
+    renderGallery();
+  }
+
+  document.querySelectorAll(".view-switch button").forEach(button => {
+    button.addEventListener("click", () => {
+      state.view = button.dataset.view || "source";
+      state.filter = "all";
+      render();
+    });
   });
 
-  setFilter("all");
+  renderFeatured();
+  renderMatrix();
+  render();
 })();
 </script>
 </body>
