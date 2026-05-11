@@ -85,6 +85,23 @@ Final response:
 - Mention browser verification.
 - Do not explain the internal pipeline unless the user asks.
 
+## Use-Case Taxonomy
+
+Route every request through one of six user-facing use cases before choosing
+the style system. Source prompts can be many; use cases should stay stable.
+
+| Use case | User means | Likely styles |
+|---|---|---|
+| Teaching Studios | Turn an idea, article, lesson, or concept into an interactive learning surface, not a scrolling article. | `teaching`, `interactive-learning` |
+| Conversation Analysis | Analyze private chats, relationship exports, team channels, or message archives. | `relationship`, `kinetic-scoreboard`, `network-map` |
+| Personal Data Recaps | Make a recap/timeline/story from personal exports: orders, health, browsing, media, payments, professional networks, notes, AI chats. | `timeline-story`, `living-essay`, `network-map` |
+| Places & Trips | Make a map, route atlas, travel dossier, photo-location view, or trip paper trail. | `map-atlas`, `paper-trail` |
+| Files & Work Data | Transform files and work artifacts: CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, research records, and slide-style carousel outputs. | `dashboard`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Developer Evidence | Review, explain, or debug code artifacts: diffs, PRs, CI logs, stack traces, repos. | `developer` |
+
+Do not expose this as a required choice to the user. Use it internally to make
+auto-routing predictable.
+
 ## Auto Style
 
 Pick a style automatically from the user's intent and source. Treat styles
@@ -294,31 +311,26 @@ exports into the model unnecessarily.
 ## Source Prompts
 
 The source prompts under [`prompts/sources/`](./prompts/sources/) contain export steps and
-content-specific analysis guidance. Use the closest one:
+content-specific analysis guidance. Use the closest one, then roll it up to
+the use-case taxonomy above:
 
-- Personal exports: `amazon-orders`, `youtube-watch-history`,
-  `spotify-history`, `google-maps-stars`, `google-photos-takeout`,
-  `iphone-health`, `kindle-highlights`, `twitch-history`,
-  `rideshare-history` (Uber + Lyft trip exports — mobility + spending
-  atlas with offline SVG places scatter, no map tiles, no geocoding),
-  `browser-history` (Chrome / Edge / Brave / Safari / Firefox CSV or
-  JSON history export — domain leaderboard, topic clusters, research
-  sessions, returners, and repeated searches; URLs only in drill-down).
-- Chats: `wechat`, `whatsapp`, `slack`, `discord`, `telegram`,
-  `imessage`, `multi-sender-chat`.
-- Data/admin: `csv`, `json`, `jsonl`, `log`, `bank-transactions`,
-  `invoices`, `quickbooks`, `venmo-paypal-payments`, `ics-calendar`,
-  `issue-tracker`, `trello-board`.
-- Documents/research: `markdown`, `pdf`, `docx`, `email`, `bookmarks`,
-  `url-list`, `reading-list`, `bibliography`, `notion-export`,
-  `obsidian-vault`, `markdown-folder`.
-- Developer: `git-diff`, `pr-review`, `ci-log`, `stack-trace`,
+- Teaching Studios: `url-article`, `markdown`, `default`.
+- Conversation Analysis: `wechat`, `whatsapp`, `slack`, `discord`,
+  `telegram`, `imessage`, `multi-sender-chat`, `email`.
+- Personal Data Recaps: `amazon-orders`, `youtube-watch-history`,
+  `spotify-history`, `iphone-health`, `kindle-highlights`, `twitch-history`,
+  `browser-history`, `venmo-paypal-payments`, `linkedin-connections`,
+  `vcard-contacts`, `chatgpt-export`, `claude-chat-export`, `ai-chat-export`,
+  `notion-export`, `obsidian-vault`, `markdown-folder`.
+- Places & Trips: `google-maps-stars`, `google-photos-takeout`,
+  `rideshare-history`, `gpx`, `kml`, `travel-itinerary`, `location-history`.
+- Files & Work Data: `csv`, `json`, `jsonl`, `log`, `bank-transactions`,
+  `invoices`, `quickbooks`, `ics-calendar`, `issue-tracker`, `trello-board`,
+  `markdown`, `pdf`, `docx`, `bookmarks`, `url-list`, `reading-list`,
+  `bibliography`, `medical-visit`, `lab-results`, `legal-chronology`.
+- Developer Evidence: `git-diff`, `pr-review`, `ci-log`, `stack-trace`,
   `github-repo`.
-- Geo/travel: `gpx`, `kml`, `travel-itinerary`, `location-history`.
-- Sensitive records: `medical-visit`, `lab-results`,
-  `legal-chronology`.
-- AI chats: `chatgpt-export`, `claude-chat-export`, `ai-chat-export`.
-- URL/general: `url-article`, `default`.
+- General fallback: `default`.
 
 If no prompt fits, proceed from `prompts/sources/default.md` and the user's
 brief.

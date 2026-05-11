@@ -183,6 +183,7 @@ async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string>
         system?: string
         mode?: string
         summary?: string
+        useCases?: string[]
         triggers?: string[]
         bestSources?: string[]
         example?: string | null
@@ -203,6 +204,7 @@ async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string>
       `- Underlying system: ${entry.system || style}`,
       `- Mode: ${entry.mode || "auto"}`,
       `- Summary: ${entry.summary || ""}`,
+      `- Use cases: ${(entry.useCases || []).join(", ")}`,
       `- Triggers: ${(entry.triggers || []).join(", ")}`,
       `- Best sources: ${(entry.bestSources || []).join(", ")}`,
       `- Example: ${entry.example || "(none yet)"}`,

@@ -104,8 +104,11 @@ test("style catalog stays in sync with style types, prompts, examples, and previ
   const catalog = JSON.parse(catalogRaw)
   assert.equal(catalog.schemaVersion, 1)
   assert.ok(Array.isArray(catalog.sharedQualityGates) && catalog.sharedQualityGates.length >= 5)
+  assert.ok(Array.isArray(catalog.useCases) && catalog.useCases.length >= 5)
   assert.ok(Array.isArray(catalog.styles) && catalog.styles.length >= 10)
 
+  const useCaseIds = new Set(catalog.useCases.map(u => u.id))
+  assert.equal(useCaseIds.size, catalog.useCases.length, "use case ids must be unique")
   const typeSource = await fs.readFile(path.join(REPO, "src/types.ts"), "utf8")
   const typeBlock = typeSource.match(/export type HtmlAnythingStyle =([\s\S]*?)\n\nexport interface/)
   assert.ok(typeBlock, "could not find HtmlAnythingStyle union")
@@ -116,10 +119,28 @@ test("style catalog stays in sync with style types, prompts, examples, and previ
   assert.deepEqual(catalogStyles, declaredStyles)
   assert.equal(new Set(catalogStyles).size, catalogStyles.length, "style ids must be unique")
 
+  for (const useCase of catalog.useCases) {
+    assert.ok(typeof useCase.title === "string" && useCase.title.length >= 4, `${useCase.id} missing title`)
+    assert.ok(typeof useCase.summary === "string" && useCase.summary.length >= 30, `${useCase.id} missing summary`)
+    assert.ok(Array.isArray(useCase.styles) && useCase.styles.length >= 1, `${useCase.id} needs styles`)
+    assert.ok(Array.isArray(useCase.examples) && useCase.examples.length >= 1, `${useCase.id} needs examples`)
+    for (const style of useCase.styles) {
+      assert.ok(catalogStyles.includes(style), `${useCase.id} references unknown style ${style}`)
+    }
+    for (const example of useCase.examples) {
+      const outputStat = await fs.stat(path.join(REPO, "examples", example, "output.html"))
+      assert.ok(outputStat.isFile(), `${useCase.id} example missing output.html: ${example}`)
+    }
+  }
+
   for (const entry of catalog.styles) {
     assert.ok(entry.id, "catalog style missing id")
     assert.ok(typeof entry.system === "string" && entry.system.length >= 4, `${entry.id} missing system`)
     assert.ok(typeof entry.summary === "string" && entry.summary.length >= 20, `${entry.id} missing summary`)
+    assert.ok(Array.isArray(entry.useCases) && entry.useCases.length >= 1, `${entry.id} needs useCases`)
+    for (const useCase of entry.useCases) {
+      assert.ok(useCaseIds.has(useCase), `${entry.id} references unknown use case ${useCase}`)
+    }
     assert.ok(Array.isArray(entry.triggers) && entry.triggers.length >= 3, `${entry.id} needs triggers`)
     assert.ok(Array.isArray(entry.bestSources) && entry.bestSources.length >= 1, `${entry.id} needs bestSources`)
     assert.ok(Array.isArray(entry.coreScaffold) && entry.coreScaffold.length >= 4, `${entry.id} needs coreScaffold`)
@@ -163,6 +184,7 @@ test("htmlize injects the selected style prompt into the LLM request", async () 
   assert.match(seenPrompt, /# csv — tabular data/)
   assert.match(seenPrompt, /## Style catalog metadata/)
   assert.match(seenPrompt, /Underlying system: Ops Console/)
+  assert.match(seenPrompt, /Use cases: files-work/)
   assert.match(seenPrompt, /Required primitives: .*\.ops-shell/)
   assert.match(seenPrompt, /Shared quality gates:/)
   assert.match(seenPrompt, /# Structural Style System Contract/)

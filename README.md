@@ -13,7 +13,7 @@ you something you can open, share, or publish.
 
 ## Preview
 
-→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 22 demos, organized by source and style.
+→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 22 demos, organized by use case and style.
 
 ### Featured
 
@@ -21,7 +21,7 @@ you something you can open, share, or publish.
 
 [![Solar system teaching style screenshot](./docs/solar-system-studio-preview.png)](https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html)
 
-A self-contained interactive lesson built from a single prompt — *"create an interactive teaching site about the solar system"*. Each planet has its own stage with orbit controls, comparison tools, and a try-it quiz. No tutoring software, no slides, no setup. Style: `teaching`.
+A self-contained interactive lesson built from a single teaching brief — *"create an interactive teaching site about the solar system"*. Each planet has its own stage with orbit controls, comparison tools, and a try-it quiz. No tutoring software, no slides, no setup. Style: `teaching`.
 
 #### [Couple chat relationship report →](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
 
@@ -171,9 +171,10 @@ Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
 The shared structural contract is
 [`prompts/styles/_system.md`](./prompts/styles/_system.md). The internal
 style catalog lives in [`prompts/styles/catalog.json`](./prompts/styles/catalog.json):
-it records each style's triggers, best sources, example, preview, required
-primitives, and avoid rules so generation can stay style-faithful without
-asking users to pick options. There is a fallback `default` style plus 12
+it records the six use cases plus each style's triggers, best sources,
+example, preview, required primitives, and avoid rules so generation can stay
+style-faithful without asking users to pick options. There is a fallback
+`default` style plus 12
 auto-selected styles (`teaching`,
 `interactive-learning`, `relationship`, `living-essay`, `dashboard`,
 `kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
@@ -193,20 +194,23 @@ npx tsx src/cli.ts examples/pdf/input.pdf \
   --out /tmp/battery-storage-guide.html \
   --title "Mid-Market Battery Storage Field Guide"
 ```
-## Source Examples
+## Use Cases And Sources
 
-|  | Source family | Examples |
+Sources can be endless, but the skill routes them into six stable use cases.
+Each use case can use one or more style systems.
+
+| Use case | Example sources | Likely styles |
 |---|---|---|
-| 💾 | Personal exports | Amazon orders, rideshare history, browser history (Chrome / Edge / Safari / Firefox), YouTube watch history, Spotify history, Google Maps saved places, Apple Health, Twitch, Kindle highlights |
-| 🖼️ | Photos and contacts | Google Photos Takeout metadata, vCard contacts, LinkedIn connections |
-| 💬 | Chats and communities | WeChat, WhatsApp, Slack, Discord, Telegram, iMessage-style CSV |
-| 📊 | Data and operations | CSV / TSV, JSON, JSONL, logs, bank transactions, invoices, QuickBooks, Venmo / PayPal, calendar, issue trackers |
-| 📚 | Documents and research | Markdown, PDF, DOCX, email archives, bookmarks, URL lists, bibliographies, reading lists, Notion / Obsidian / markdown folders |
-| 🛠️ | Developer artifacts | Git diff, PR patch, CI log, stack trace, GitHub repo URL |
-| 🗺️ | Geo and travel | GPX, KML, itinerary CSV, location history |
-| 🔒 | Sensitive records | Medical visit notes, lab results, legal chronologies |
-| 🤖 | AI chat exports | ChatGPT, Claude, generic AI chat logs |
-| ✨ | Anything else | Plain text, unknown file shapes, or a natural-language idea |
+| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL | `teaching`, `interactive-learning` |
+| Conversation Analysis | WeChat, WhatsApp, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `kinetic-scoreboard`, `network-map` |
+| Personal Data Recaps | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, LinkedIn, Venmo / PayPal, AI chat exports, notes vaults | `timeline-story`, `living-essay`, `network-map` |
+| Places & Trips | Google Photos Takeout, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `map-atlas`, `paper-trail` |
+| Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Developer Evidence | Git diff, PR patch, CI log, stack trace, GitHub repo URL | `developer` |
+
+Use case is user-facing; style is internal. A user can simply say "make this
+CSV prettier" or "turn this into a teaching site" and the skill picks the
+right system automatically.
 
 The detailed source-specific instructions live in [`prompts/sources/`](./prompts/sources/).
 

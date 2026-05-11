@@ -27,7 +27,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `timeline-story` | Personal histories — chronological (orders, listening, health) and topical (Notion / Obsidian vaults) | Scroll-driven story with timeline spine, chapters, rhythm strip, drawer |
 | `map-atlas` | Places, routes, trips, rideshare, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
 | `paper-trail` | Explicit tactile/printed-collateral requests: itineraries, hotel folios, receipts, tickets, reservation bundles | Artifact desk with folio tabs, receipt tape, stamp callouts, source drawer |
-| `network-map` | People, senders, contacts, communities, payments, professional networks | Relationship graph with entity inspector, clusters, hubs, linked records |
+| `network-map` | Personal/professional networks, senders, contacts, communities, payments | Relationship graph with entity inspector, clusters, hubs, linked records |
 | `document` | Essays, articles, reading lists, research collections, PDFs, DOCX, legal/medical/lab records, policy docs | Document review with cover, reading rail, body sheet, evidence/citations, drill-down |
 | `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | Two-page guide spread with cover, TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | Magazine-like issue with cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
@@ -98,6 +98,7 @@ Every style in `src/types.ts` must have exactly one `catalog.json` entry. Each
 entry should include:
 
 - `system`: the underlying design/layout system, not a visual mood.
+- `useCases`: one or more stable user-facing use cases from the catalog.
 - `triggers`: natural language cues that should route here.
 - `bestSources`: source families that fit this style.
 - `example` and `preview`: a concrete checked-in example when available.
@@ -110,24 +111,17 @@ example/preview paths. When adding a style, update the catalog before shipping.
 
 ## Use Case Routing
 
-| Use case | Prefer |
+Use cases are user-facing. Styles are internal systems that one use case can
+choose from.
+
+| Use case | Includes | Prefer |
 |---|---|
-| "My listening/watch/browsing/order/reading year" | `timeline-story` |
-| "My Kindle highlights / reflective reading notes / concept essay" | `living-essay` |
-| "My Notion / Obsidian / markdown knowledge base" | `timeline-story` |
-| "Where I went / saved / traveled / rode" | `map-atlas` |
-| "Make it feel like tickets / receipts / a hotel folio / travel papers" | `paper-trail` |
-| "Who I know / talk to / pay / email" | `network-map` |
-| "Who contributed most / which team member drove the channel / rank this activity stream" | `kinetic-scoreboard` |
-| "Operate this queue / ledger / incident / backlog" | `dashboard` |
-| "Teach this idea as a lesson/tutorial" | `teaching` |
-| "Explore this object/system/spec as an interactive app/studio" | `interactive-learning` |
-| "Analyze this 1:1 relationship chat" | `relationship` |
-| "Read/synthesize this argument or research set" | `document` |
-| "Make this a PDF guide / e-guide / playbook / lead magnet" | `digital-eguide` |
-| "Turn this essay into a carousel / make it feel like a magazine issue" | `editorial-carousel` |
-| "Review this diff/log/trace/repo" | `developer` |
-| "Review this formal/high-stakes document" | `document` |
+| Teaching Studios | Tutorials, explainers, lessons, object/system studios | `teaching`, `interactive-learning` |
+| Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `kinetic-scoreboard`, `network-map` |
+| Personal Data Recaps | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats | `timeline-story`, `living-essay`, `network-map` |
+| Places & Trips | Photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `map-atlas`, `paper-trail` |
+| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, research records, slide-style carousel outputs | `dashboard`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Developer Evidence | Diffs, PRs, CI logs, stack traces, repos | `developer` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.

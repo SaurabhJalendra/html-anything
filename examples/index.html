@@ -490,7 +490,7 @@ footer.foot a { color: var(--primary); }
   <header class="hero">
     <div>
       <h1>html-<span>anything</span></h1>
-      <p class="tagline">Upload any source. The skill auto-picks a style and turns it into a shareable live HTML page.</p>
+      <p class="tagline">Give it a goal or a source. The skill picks the right use case, chooses a style system, and turns it into a shareable live HTML page.</p>
       <div class="cta-row">
         <a class="cta" href="https://github.com/clockless-org/html-anything">View on GitHub -&gt;</a>
         <a class="cta secondary" href="https://github.com/clockless-org/html-anything#install">Install the skill</a>
@@ -500,21 +500,21 @@ footer.foot a { color: var(--primary); }
       <p class="label">Example map</p>
       <div class="hero-stats">
         <div class="hero-stat"><strong>22</strong><span>curated examples</span></div>
-        <div class="hero-stat"><strong>8</strong><span>source groups</span></div>
-        <div class="hero-stat"><strong>12</strong><span>output styles</span></div>
+        <div class="hero-stat"><strong>6</strong><span>use cases</span></div>
+        <div class="hero-stat"><strong>15</strong><span>style systems</span></div>
       </div>
     </div>
   </header>
 
   <div class="filters">
     <div class="filter-head">
-      <p class="filter-title">Filter examples by source and by output style.</p>
+      <p class="filter-title">Filter examples by use case and by output style.</p>
       <div class="status" id="status"></div>
     </div>
     <div class="filter-stack">
       <div class="filter-line">
-        <div class="filter-label">Source</div>
-        <nav class="filter-row" id="source-filters" aria-label="Filter by source group"></nav>
+        <div class="filter-label">Use case</div>
+        <nav class="filter-row" id="use-case-filters" aria-label="Filter by use case"></nav>
       </div>
       <div class="filter-line">
         <div class="filter-label">Style</div>
@@ -527,7 +527,7 @@ footer.foot a { color: var(--primary); }
     <div class="intro">
       <div>
         <h2>Curated examples</h2>
-        <p>Each card is a real output page. The sections group related sources lightly; the filters narrow by input family and by the style html-anything picked or the user requested.</p>
+        <p>Each card is a real output page. Sections group what the user is trying to do; the style chip shows the rendering system html-anything picked or the user requested.</p>
       </div>
       <div class="group-count" id="group-count"></div>
     </div>
@@ -536,29 +536,27 @@ footer.foot a { color: var(--primary); }
 
   <section class="matrix">
     <div class="matrix-head">
-      <h2>Auto-routing examples</h2>
-      <p>The user does not need to choose a style manually, but the map makes source -&gt; style behavior visible.</p>
+      <h2>Use-case routing examples</h2>
+      <p>The user does not need to choose a style manually. The skill maps input intent to a stable use case, then picks one of that use case's style systems.</p>
     </div>
     <div class="matrix-grid" id="matrix-grid"></div>
   </section>
 
   <footer class="foot">
     <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-    <div>22 curated demos · source filter + style filter</div>
+    <div>22 curated demos · use-case filter + style filter</div>
   </footer>
 </div>
 
 <script>
 (() => {
-  const sourceGroups = [
-    ["prompt", "Prompt", "#", "#0f766e", "Start with one sentence and produce a real teaching page."],
-    ["chats", "Chats", "~", "#be3455", "Private chats, team conversations, email, and message exports."],
-    ["personal", "Personal data", ">", "#9a4b14", "Consumer histories, health data, reading, browsing, AI archives, and notes."],
-    ["geo", "Geo", "+", "#17695a", "Location-rich sources such as photos, rides, routes, and movement."],
-    ["people", "People", "x", "#355f91", "Contacts, professional networks, and payment counterparties."],
-    ["files", "Files", "§", "#8b3f1f", "Markdown, PDFs, records, and research documents."],
-    ["work", "Work data", "=", "#0f5f6f", "Tables, finance exports, backlogs, transcripts, and logs."],
-    ["dev", "Developer", "!", "#38bdf8", "Diffs, CI logs, and engineering review artifacts."]
+  const useCases = [
+    ["teaching", "Teaching Studios", "#", "#0f766e", "One prompt, article, or concept becomes an interactive learning studio with controls, stages, and checks."],
+    ["conversation", "Conversation Analysis", "~", "#be3455", "Private chats, relationship exports, and team channels become rhythm, contribution, and evidence reports."],
+    ["personal", "Personal Data Recaps", ">", "#9a4b14", "Orders, health, reading, browsing, payments, professional networks, AI chats, and notes become personal stories."],
+    ["geo", "Places & Trips", "+", "#17695a", "Location-rich exports become maps, route atlases, trip folders, and photo-location views."],
+    ["files", "Files & Work Data", "=", "#0f5f6f", "Spreadsheets, CSV exports, PDFs, DOCX, Markdown, logs, calendars, finance, work records, and slide-style outputs become polished live pages."],
+    ["dev", "Developer Evidence", "!", "#38bdf8", "Diffs, CI logs, stack traces, and repos become evidence workbenches for review and debugging."]
   ].map(([id, title, mark, accent, description]) => ({ id, title, mark, accent, description }));
 
   const styles = [
@@ -577,26 +575,26 @@ footer.foot a { color: var(--primary); }
   ];
 
   const examples = [
-    ["solar-system-studio", "Solar system lesson", "Prompt", "teaching", "prompt", "A single request becomes an interactive lesson with orbit controls and planet explainers."],
-    ["wechat-couple", "Couple chat rhythm", "WeChat export", "relationship", "chats", "A two-year relationship report with activity rhythms, response patterns, and selected insights."],
-    ["whatsapp", "WhatsApp chat", "WhatsApp export", "relationship", "chats", "A two-sender WhatsApp archive summarized without exposing raw private text by default."],
-    ["slack", "Slack championship", "Slack export", "kinetic-scoreboard", "chats", "Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence."],
+    ["solar-system-studio", "Solar system lesson", "Teaching brief", "teaching", "teaching", "A single request becomes an interactive lesson with orbit controls and planet explainers."],
+    ["wechat-couple", "Couple chat rhythm", "WeChat export", "relationship", "conversation", "A two-year relationship report with activity rhythms, response patterns, and selected insights."],
+    ["whatsapp", "WhatsApp chat", "WhatsApp export", "relationship", "conversation", "A two-sender WhatsApp archive summarized without exposing raw private text by default."],
+    ["slack", "Slack championship", "Slack export", "kinetic-scoreboard", "conversation", "Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence."],
     ["amazon-orders", "Amazon orders", "Orders CSV", "timeline-story", "personal", "Three years of purchases as a commerce-memory timeline."],
     ["iphone-health", "Apple Health", "Health export", "timeline-story", "personal", "Activity, sleep, workouts, and rhythm patterns as a personal timeline."],
     ["kindle-highlights", "Kindle highlights", "My Clippings.txt", "living-essay", "personal", "Highlights become a mycelium writing field with a living margin question."],
     ["browser-history", "Browser history", "Browser export", "timeline-story", "personal", "Browsing sessions clustered into topics, returners, and search patterns."],
     ["google-photos-takeout", "Google Photos atlas", "Takeout folder", "map-atlas", "geo", "EXIF and sidecar metadata become places, albums, bursts, and device patterns."],
     ["rideshare-history", "Rideshare history", "Uber/Lyft CSV", "map-atlas", "geo", "Commute lanes, airport runs, late-night returns, and route clusters."],
-    ["linkedin-connections", "LinkedIn network", "Connections CSV", "network-map", "people", "Professional connections clustered by era, company, and role."],
-    ["venmo-paypal-payments", "Venmo / PayPal", "Payments CSV", "network-map", "people", "Counterparties, categories, time patterns, and who-paid-whom relationships."],
+    ["linkedin-connections", "LinkedIn network", "Connections CSV", "network-map", "personal", "Professional connections clustered by era, company, and role."],
+    ["venmo-paypal-payments", "Venmo / PayPal", "Payments CSV", "network-map", "personal", "Counterparties, categories, time patterns, and who-paid-whom relationships."],
     ["editorial-carousel", "Brand positioning carousel", "Strategy essay", "editorial-carousel", "files", "A brand strategy essay compressed into a five-spread magazine carousel with evidence drawer and copy actions."],
     ["markdown", "Long-form essay", "Markdown file", "document", "files", "A markdown essay becomes a polished reading view with anchored navigation."],
     ["bookmarks-market-research", "Market bookmarks", "Bookmarks HTML", "document", "files", "Bookmarks grouped into themes, domains, duplicates, and research signals."],
     ["pdf", "PDF e-guide", "PDF report", "digital-eguide", "files", "A sector report becomes a two-page guide preview with TOC, lesson spread, evidence drawer, and actions."],
     ["legal-chronology", "Legal chronology", "Case notes", "document", "files", "Timeline of parties, exhibits, and observational summary."],
-    ["csv", "Sales CSV", "CSV table", "dashboard", "work", "Tabular data with summary, sortable rows, and chart-friendly structure."],
-    ["bank-transactions", "Bank statement", "Transactions CSV", "dashboard", "work", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
-    ["log-error", "Error log", "Service log", "dashboard", "work", "Incident log grouped by severity, stack groups, and recovery path."],
+    ["csv", "Sales CSV", "CSV table", "dashboard", "files", "Tabular data with summary, sortable rows, and chart-friendly structure."],
+    ["bank-transactions", "Bank statement", "Transactions CSV", "dashboard", "files", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
+    ["log-error", "Error log", "Service log", "dashboard", "files", "Incident log grouped by severity, stack groups, and recovery path."],
     ["git-diff", "Git diff", "Patch file", "developer", "dev", "Code changes with risk callouts and evidence-margin annotations."],
     ["ci-log", "CI failure", "CI log", "developer", "dev", "Failure log grouped by step, stack, and likely-cause hypothesis."]
   ].map(([slug, title, source, style, group, description]) => ({ slug, title, source, style, group, description }));
@@ -617,7 +615,7 @@ footer.foot a { color: var(--primary); }
   ]);
 
   const matrixRows = [
-    ["Prompt: teach the solar system", "Teaching lab", "solar-system-studio"],
+    ["Teaching brief: solar system", "Teaching lab", "solar-system-studio"],
     ["WeChat / WhatsApp chat export", "Relationship report", "wechat-couple"],
     ["Kindle highlights / reflective notes", "Living essay", "kindle-highlights"],
     ["Amazon order history CSV", "Timeline story", "amazon-orders"],
@@ -631,7 +629,7 @@ footer.foot a { color: var(--primary); }
     ["Git diff / CI log", "Developer review", "git-diff"]
   ];
 
-  const state = { source: "all", style: "all" };
+  const state = { useCase: "all", style: "all" };
   const videoSlugs = new Set([]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -644,29 +642,29 @@ footer.foot a { color: var(--primary); }
   function styleAccent(style) {
     return styles.find(([id]) => id === style)?.[2] || "var(--primary)";
   }
-  function sourceMeta(id) {
-    return sourceGroups.find(group => group.id === id);
+  function useCaseMeta(id) {
+    return useCases.find(group => group.id === id);
   }
   function visibleExamples() {
     return examples.filter(item =>
-      (state.source === "all" || item.group === state.source) &&
+      (state.useCase === "all" || item.group === state.useCase) &&
       (state.style === "all" || item.style === state.style)
     );
   }
   function countFor(kind, id) {
     return examples.filter(item => {
-      const sourceOk = kind === "source" ? (id === "all" || item.group === id) : (state.source === "all" || item.group === state.source);
+      const useCaseOk = kind === "use-case" ? (id === "all" || item.group === id) : (state.useCase === "all" || item.group === state.useCase);
       const styleOk = kind === "style" ? (id === "all" || item.style === id) : (state.style === "all" || item.style === state.style);
-      return sourceOk && styleOk;
+      return useCaseOk && styleOk;
     }).length;
   }
   function renderFilterRow(targetId, kind) {
     const target = document.getElementById(targetId);
-    const rows = kind === "source"
-      ? [["all", "All", "#a03b00"], ...sourceGroups.map(group => [group.id, group.title, group.accent])]
+    const rows = kind === "use-case"
+      ? [["all", "All", "#a03b00"], ...useCases.map(group => [group.id, group.title, group.accent])]
       : [["all", "All", "#a03b00"], ...styles];
     target.innerHTML = rows.map(([id, label, accent]) => {
-      const pressed = kind === "source" ? state.source === id : state.style === id;
+      const pressed = kind === "use-case" ? state.useCase === id : state.style === id;
       return `
         <button type="button" data-kind="${kind}" data-filter="${id}" aria-pressed="${pressed}" style="--accent:${accent}">
           <span class="dot"></span>${escapeHtml(label)} <span class="num">${countFor(kind, id)}</span>
@@ -674,14 +672,14 @@ footer.foot a { color: var(--primary); }
     }).join("");
     target.querySelectorAll("button").forEach(button => {
       button.addEventListener("click", () => {
-        if (button.dataset.kind === "source") state.source = button.dataset.filter || "all";
+        if (button.dataset.kind === "use-case") state.useCase = button.dataset.filter || "all";
         if (button.dataset.kind === "style") state.style = button.dataset.filter || "all";
         render();
       });
     });
   }
   function renderCard(item) {
-    const meta = sourceMeta(item.group);
+    const meta = useCaseMeta(item.group);
     return `
       <a class="example-card" href='${item.slug}/output.html' style="--accent:${styleAccent(item.style)}" data-slug="${item.slug}">
         <span class="shot" data-slug="${item.slug}">
@@ -701,7 +699,7 @@ footer.foot a { color: var(--primary); }
   }
   function renderGroups() {
     const allVisible = visibleExamples();
-    const groupsHtml = sourceGroups.map(group => {
+    const groupsHtml = useCases.map(group => {
       const items = allVisible.filter(item => item.group === group.id);
       if (!items.length) return "";
       return `
@@ -717,7 +715,7 @@ footer.foot a { color: var(--primary); }
         </section>`;
     }).join("");
     document.getElementById("groups").innerHTML = groupsHtml || `<div class="empty">No examples match this filter pair.</div>`;
-    const activeGroups = sourceGroups.filter(group => allVisible.some(item => item.group === group.id)).length;
+    const activeGroups = useCases.filter(group => allVisible.some(item => item.group === group.id)).length;
     document.getElementById("status").textContent = `Showing ${allVisible.length} of ${examples.length} examples.`;
     document.getElementById("group-count").textContent = `${activeGroups} group${activeGroups === 1 ? "" : "s"}`;
     hydrateMedia();
@@ -725,7 +723,7 @@ footer.foot a { color: var(--primary); }
   function renderMatrix() {
     const bySlug = new Map(examples.map(item => [item.slug, item]));
     const rows = [
-      `<div class="head">Source</div><div class="head">Auto style</div><div class="head">Example</div>`,
+      `<div class="head">Input intent</div><div class="head">Auto style</div><div class="head">Example</div>`,
       ...matrixRows.map(([source, style, slug]) => {
         const item = bySlug.get(slug);
         return `<div>${escapeHtml(source)}</div><div>${escapeHtml(style)}</div><div><a href='${slug}/output.html'>${escapeHtml(item?.title || slug)}</a></div>`;
@@ -762,7 +760,7 @@ footer.foot a { color: var(--primary); }
     });
   }
   function render() {
-    renderFilterRow("source-filters", "source");
+    renderFilterRow("use-case-filters", "use-case");
     renderFilterRow("style-filters", "style");
     renderGroups();
   }

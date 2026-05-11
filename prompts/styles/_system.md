@@ -209,7 +209,23 @@ Motion:
 
 ## Layout Diversity Requirement
 
-Avoid defaulting data to dashboard. Pick a system by use case:
+Avoid defaulting data to dashboard. First choose one of the stable use cases,
+then pick a system inside it:
+
+- **Teaching Studios** for lessons, explainers, tutorials, and object/system
+  studios.
+- **Conversation Analysis** for private chats, relationship exports, team
+  channels, and message streams.
+- **Personal Data Recaps** for personal exports, histories, payments,
+  professional networks, reading archives, and notes.
+- **Places & Trips** for location-rich exports, travel, routes, rides, and
+  photo geodata.
+- **Files & Work Data** for spreadsheets/CSV exports, documents, PDFs, logs,
+  finance, calendars, records, work artifacts, and slide-style carousel
+  outputs.
+- **Developer Evidence** for diffs, PRs, CI logs, stack traces, and repos.
+
+Then choose the style system:
 
 - **Ops Console** only for operational monitoring, finance/admin work,
   issue queues, logs, and dense tabular decision surfaces.
