@@ -90,6 +90,7 @@ test("htmlize auto style selector routes major source families", async () => {
   assert.equal(selectStyleForContent("pdf-document"), "document")
   assert.equal(selectStyleForContent("plain-text"), "default")
   assert.equal(selectStyleForContent("csv-tabular", { style: "teaching" }), "teaching")
+  assert.equal(selectStyleForContent("csv-tabular", { style: "interactive-learning" }), "interactive-learning")
 })
 
 test("htmlize injects the selected style prompt into the LLM request", async () => {
@@ -110,6 +111,8 @@ test("htmlize injects the selected style prompt into the LLM request", async () 
   }
   const html = await htmlize(parsed, llm)
   assert.match(seenPrompt, /Selected style: dashboard/)
+  assert.match(seenPrompt, /# Design system \(shared\)/)
+  assert.match(seenPrompt, /# csv — tabular data/)
   assert.match(seenPrompt, /# Structural Style System Contract/)
   assert.match(seenPrompt, /Styles in html-anything are \*\*design systems \+ layout systems\*\*/)
   assert.match(seenPrompt, /# Dashboard Style/)
@@ -333,7 +336,7 @@ test("htmlize family routing: finance content types resolve to _finance.md", asy
   const fs = await import("node:fs/promises")
   const expectedPrompts = ["_finance.md", "bank-transactions.md", "invoices.md", "quickbooks.md"]
   for (const name of expectedPrompts) {
-    const p = path.join(REPO, "prompts", name)
+    const p = path.join(REPO, "prompts", "sources", name)
     const stat = await fs.stat(p)
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
@@ -511,7 +514,7 @@ test("knowledge-base family prompts are present on disk", async () => {
   const fs = await import("node:fs/promises")
   const expectedPrompts = ["_knowledge_base.md", "obsidian-vault.md", "notion-export.md", "markdown-folder.md"]
   for (const name of expectedPrompts) {
-    const p = path.join(REPO, "prompts", name)
+    const p = path.join(REPO, "prompts", "sources", name)
     const stat = await fs.stat(p)
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
@@ -622,7 +625,7 @@ test("geo family prompts are present on disk", async () => {
   const fs = await import("node:fs/promises")
   const expectedPrompts = ["_geo.md", "gpx.md", "kml.md", "travel-itinerary.md", "location-history.md"]
   for (const name of expectedPrompts) {
-    const p = path.join(REPO, "prompts", name)
+    const p = path.join(REPO, "prompts", "sources", name)
     const stat = await fs.stat(p)
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
@@ -699,7 +702,7 @@ test("sensitive family prompts are present on disk", async () => {
   const fs = await import("node:fs/promises")
   const expectedPrompts = ["_sensitive.md", "medical-visit.md", "lab-results.md", "legal-chronology.md"]
   for (const name of expectedPrompts) {
-    const p = path.join(REPO, "prompts", name)
+    const p = path.join(REPO, "prompts", "sources", name)
     const stat = await fs.stat(p)
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
@@ -713,7 +716,7 @@ test("experiential parser routes the synthetic Amazon order fixture to amazon-or
   assert.equal(out.contentType, "amazon-orders")
   assert.equal(out.data.format, "amazon-orders")
   assert.ok(out.data.rows.length >= 80, `expected >= 80 line items, got ${out.data.rows.length}`)
-  // Required aggregates per prompts/amazon-orders.md.
+  // Required aggregates per prompts/sources/amazon-orders.md.
   for (const k of ["summary", "yearTotals", "monthTotals", "categoryTotals", "reorders", "recipients", "returnsAndRefunds"]) {
     assert.ok(out.data[k] !== undefined, `missing required field: ${k}`)
   }
@@ -746,7 +749,7 @@ test("experiential (amazon-orders) detection beats finance + csv on Amazon-shape
 
 test("amazon-orders prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "amazon-orders.md")
+  const p = path.join(REPO, "prompts", "sources", "amazon-orders.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: amazon-orders.md")
 })
@@ -840,7 +843,7 @@ test("ai-chat-export family prompts are present on disk", async () => {
   const fs = await import("node:fs/promises")
   const expectedPrompts = ["_ai_chat_export.md", "chatgpt-export.md", "claude-chat-export.md", "ai-chat-export.md"]
   for (const name of expectedPrompts) {
-    const p = path.join(REPO, "prompts", name)
+    const p = path.join(REPO, "prompts", "sources", name)
     const stat = await fs.stat(p)
     assert.ok(stat.isFile(), `missing prompt file: ${name}`)
   }
@@ -855,7 +858,7 @@ test("kindle parser routes My Clippings.txt to kindle-highlights and pre-aggrega
   assert.equal(out.data.format, "kindle-highlights")
   assert.equal(out.data.subtype, "my-clippings")
   assert.ok(out.data.rows.length >= 80, `expected >= 80 clippings, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/kindle-highlights.md.
+  // Required pre-aggregations per prompts/sources/kindle-highlights.md.
   for (const k of ["rows", "books", "authors", "yearTotals", "monthTotals", "hourCounts", "themeClusters", "duplicateGroups", "summary"]) {
     assert.ok(out.data[k] !== undefined, `missing required field: ${k}`)
   }
@@ -919,7 +922,7 @@ test("registry order: kindle comes before whatsapp + text + research", async () 
 
 test("kindle-highlights prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "kindle-highlights.md")
+  const p = path.join(REPO, "prompts", "sources", "kindle-highlights.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: kindle-highlights.md")
 })
@@ -932,7 +935,7 @@ test("experiential parser routes the synthetic YouTube watch-history fixture to 
   assert.equal(out.contentType, "youtube-watch-history")
   assert.equal(out.data.format, "youtube-watch-history")
   assert.ok(out.data.rows.length >= 200, `expected >= 200 watch events, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/youtube-watch-history.md.
+  // Required pre-aggregations per prompts/sources/youtube-watch-history.md.
   for (const k of ["rows", "summary", "channels", "topics", "bucketTotals",
                    "monthTotals", "weekTotals", "hourCounts", "dowCounts", "heatmap",
                    "rediscoveries", "binges"]) {
@@ -992,7 +995,7 @@ test("experiential parser does NOT confuse YouTube + Spotify JSON", async () => 
 
 test("youtube-watch-history prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "youtube-watch-history.md")
+  const p = path.join(REPO, "prompts", "sources", "youtube-watch-history.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: youtube-watch-history.md")
 })
@@ -1077,7 +1080,7 @@ test("browser-history detection does not steal Spotify or YouTube JSON", async (
 
 test("browser-history prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "browser-history.md")
+  const p = path.join(REPO, "prompts", "sources", "browser-history.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: browser-history.md")
 })
@@ -1175,7 +1178,7 @@ test("photos-takeout parser routes the synthetic Google Photos Takeout fixture t
   assert.equal(out.contentType, "google-photos-takeout")
   assert.equal(out.data.format, "google-photos-takeout")
   assert.ok(out.data.rows.length >= 200, `expected >= 200 media rows, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/google-photos-takeout.md.
+  // Required pre-aggregations per prompts/sources/google-photos-takeout.md.
   for (const k of ["rows", "summary", "albums", "devices",
                    "monthTotals", "yearTotals", "yearMonthHeatmap",
                    "hourCounts", "dowCounts", "heatmap",
@@ -1233,7 +1236,7 @@ test("photos-takeout parser refuses an empty directory and a non-directory", asy
 
 test("google-photos-takeout prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "google-photos-takeout.md")
+  const p = path.join(REPO, "prompts", "sources", "google-photos-takeout.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: google-photos-takeout.md")
 })
@@ -1295,7 +1298,7 @@ test("vcard parser routes a multi-card .vcf to vcard-contacts and pre-aggregates
   assert.equal(out.contentType, "vcard-contacts")
   assert.equal(out.data.format, "vcard-contacts")
   assert.ok(out.data.rows.length >= 25, `expected >= 25 contacts, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/vcard-contacts.md.
+  // Required pre-aggregations per prompts/sources/vcard-contacts.md.
   for (const k of ["rows", "organizations", "emailDomains", "cities",
                    "birthdayMonths", "categories", "duplicateClusters",
                    "audit", "summary"]) {
@@ -1404,7 +1407,7 @@ test("registry exposes vcard parser before generic text", async () => {
 
 test("vcard-contacts prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "vcard-contacts.md")
+  const p = path.join(REPO, "prompts", "sources", "vcard-contacts.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: vcard-contacts.md")
 })
@@ -1457,7 +1460,7 @@ test("linkedin-connections detection routes Connections.csv through experiential
   assert.equal(out.data.format, "linkedin-connections")
   assert.ok(out.data.rows.length >= 40,
     `expected >= 40 connections per AC, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/linkedin-connections.md.
+  // Required pre-aggregations per prompts/sources/linkedin-connections.md.
   for (const k of ["rows", "monthlyGrowth", "yearlyGrowth", "spikes",
                    "companyLeaderboard", "positionKeywords", "emailDomains",
                    "industries", "reconnectQueue", "audit", "summary"]) {
@@ -1532,7 +1535,7 @@ test("linkedin-connections detection ignores generic CSVs without LinkedIn heade
 
 test("linkedin-connections prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "linkedin-connections.md")
+  const p = path.join(REPO, "prompts", "sources", "linkedin-connections.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: linkedin-connections.md")
 })
@@ -1609,7 +1612,7 @@ test("rideshare-history parser routes the synthetic Uber CSV", async () => {
   assert.equal(out.data.format, "rideshare-history")
   assert.equal(out.data.source, "uber")
   assert.ok(out.data.rows.length >= 200, `expected >= 200 rides, got ${out.data.rows.length}`)
-  // Required pre-aggregations per prompts/rideshare-history.md.
+  // Required pre-aggregations per prompts/sources/rideshare-history.md.
   for (const k of ["rows", "summary", "monthly", "yearly", "heatmap",
                    "cities", "pickupPlaces", "dropoffPlaces",
                    "productTypes", "distanceBuckets", "money",
@@ -1724,7 +1727,7 @@ test("registry exposes rideshare-history parser before finance + csv", async () 
 
 test("rideshare-history prompt is present on disk", async () => {
   const fs = await import("node:fs/promises")
-  const p = path.join(REPO, "prompts", "rideshare-history.md")
+  const p = path.join(REPO, "prompts", "sources", "rideshare-history.md")
   const stat = await fs.stat(p)
   assert.ok(stat.isFile(), "missing prompt file: rideshare-history.md")
   const body = await fs.readFile(p, "utf8")
@@ -1732,7 +1735,7 @@ test("rideshare-history prompt is present on disk", async () => {
                         "Spend timeline", "When you ride", "Top places",
                         "Trip lengths", "Money", "Flags",
                         "Browse all", "Privacy", "no map tiles", "no geocoding"]) {
-    assert.ok(body.includes(needle), `prompts/rideshare-history.md missing: ${needle}`)
+    assert.ok(body.includes(needle), `prompts/sources/rideshare-history.md missing: ${needle}`)
   }
 })
 

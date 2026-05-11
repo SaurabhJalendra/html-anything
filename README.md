@@ -136,14 +136,15 @@ the system from the content, then builds the page inside that system:
 | Content | Style |
 |---|---|
 | Unknown or mixed inputs | `default` (Insight Brief) |
-| Tutorials, lessons, explainers, "teach me" prompts, object/system explorers | `teaching` (Lesson Lab) |
+| Tutorials, lessons, explainers, "teach me" prompts | `teaching` (Lesson Lab) |
+| App-like object/system/spec explorers, anatomy/architecture/product studios | `interactive-learning` (Learning Studio) |
 | 1:1 chats and intimate message exports | `relationship` (Rhythm Report) |
 | Personal histories — chronological (orders, history, listening, health) **and** topical (Notion / Obsidian vaults) | `timeline-story` (Timeline Story) |
 | Places, trips, routes, rideshare, geotagged photos | `map-atlas` (Map Atlas) |
 | Contacts, LinkedIn, communities, email, social payments | `network-map` (Network Map) |
 | Finance, spreadsheets, logs, backlog, operational data | `dashboard` (Ops Console) |
 | Essays, articles, reading lists, bookmarks, PDFs, DOCX, legal/medical/lab records | `document` (Document Review) |
-| Logs, diffs, stack traces, CI failures, repos | `developer` (Evidence Workbench) |
+| Logs, diffs, stack traces, CI failures, repos | `developer` (Terminal Evidence Workbench) |
 
 You can still steer it naturally: "make it more tutorial-like", "more
 app-like", "less academic", "more dashboard-like", or "more playful".
@@ -151,9 +152,9 @@ app-like", "less academic", "more dashboard-like", or "more playful".
 Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
 The shared structural contract is
 [`prompts/styles/_system.md`](./prompts/styles/_system.md). There is a
-fallback `default` style plus 8 auto-selected styles:
-`teaching`, `relationship`, `dashboard`, `timeline-story`, `map-atlas`,
-`network-map`, `document`, and `developer`.
+fallback `default` style plus 9 auto-selected styles:
+`teaching`, `interactive-learning`, `relationship`, `dashboard`,
+`timeline-story`, `map-atlas`, `network-map`, `document`, and `developer`.
 
 ## Source Examples
 
@@ -170,7 +171,7 @@ fallback `default` style plus 8 auto-selected styles:
 | 🤖 | AI chat exports | ChatGPT, Claude, generic AI chat logs |
 | ✨ | Anything else | Plain text, unknown file shapes, or a natural-language idea |
 
-The detailed source-specific instructions live in [`prompts/`](./prompts/).
+The detailed source-specific instructions live in [`prompts/sources/`](./prompts/sources/).
 
 ## Defaults
 

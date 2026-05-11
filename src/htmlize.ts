@@ -51,15 +51,15 @@ export async function htmlize(
   options: ConverterOptions = {},
 ): Promise<string> {
   // Three prompts get loaded for every conversion:
-  //   1. _design.md — default Clockless design tokens (colors, fonts,
+  //   1. styles/_design.md — default Clockless design tokens (colors, fonts,
   //      spacing), unless the selected style provides a complete override.
-  //   2. <contentType>.md — source-specific guidance (what to analyze,
-  //      what to visualize, data shape). Falls back to default.md.
+  //   2. sources/<contentType>.md — source-specific guidance (what to
+  //      analyze, what to visualize, data shape). Falls back to default.md.
   //   3. styles/<style>.md — the page-shape contract. Defaults to auto
   //      selection from the parsed source, but can be overridden.
   // The skill (Claude Code mode) reads the same three files, so both
   // modes converge on identical output styling.
-  const designPrompt = await loadPromptFile("_design.md")
+  const designPrompt = await loadPromptFile(path.join("styles", "_design.md"))
   const sourcePrompt = await loadSourcePrompt(parsed.contentType)
   const selectedStyle = selectStyleForContent(parsed.contentType, options)
   const stylePrompt = await loadStylePrompt(selectedStyle)
@@ -134,6 +134,10 @@ async function loadStylePrompt(style: HtmlAnythingStyle): Promise<string> {
   if (body) return `${system}\n\n---\n\n${body}`
   const fallback = await loadPromptFile(path.join("styles", "default.md"))
   return `${system}\n\n---\n\n${fallback}`
+}
+
+async function loadSourcePromptFile(name: string): Promise<string> {
+  return loadPromptFile(path.join("sources", name))
 }
 
 export function selectStyleForContent(contentType: string, options: ConverterOptions = {}): HtmlAnythingStyle {
@@ -247,12 +251,12 @@ async function loadSourcePrompt(contentType: string): Promise<string> {
   for (const name of candidates) {
     if (seen.has(name)) continue
     seen.add(name)
-    const content = await loadPromptFile(name)
+    const content = await loadSourcePromptFile(name)
     if (content) { body = content; break }
   }
   const familyPrompt = familyFor(contentType)
   if (!familyPrompt) return body
-  const shared = await loadPromptFile(familyPrompt)
+  const shared = await loadSourcePromptFile(familyPrompt)
   if (!shared) return body
   return `${shared}\n\n---\n\n${body}`
 }
