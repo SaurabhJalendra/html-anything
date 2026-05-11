@@ -78,20 +78,23 @@ export async function htmlize(
   llm: LlmHelper,
   options: ConverterOptions = {},
 ): Promise<string> {
-  // Three prompts get loaded for every conversion:
+  // Four prompts get loaded for every conversion:
   //   1. styles/_design.md — default Clockless design tokens (colors, fonts,
   //      spacing), unless the selected style provides a complete override.
   //   2. sources/<contentType>.md — source-specific guidance (what to
   //      analyze, what to visualize, data shape). Falls back to default.md.
-  //   3. styles/<style>.md — the page-shape contract. Defaults to auto
+  //   3. styles/catalog.json — compact style metadata: routing triggers,
+  //      examples, required primitives, and anti-patterns.
+  //   4. styles/<style>.md — the page-shape contract. Defaults to auto
   //      selection from the parsed source, but can be overridden.
-  // The skill (Claude Code mode) reads the same three files, so both
+  // The skill (Claude Code mode) reads the same four files, so both
   // modes converge on identical output styling.
   const designPrompt = await loadPromptFile(path.join("styles", "_design.md"))
   const sourcePrompt = await loadSourcePrompt(parsed.contentType)
   const selectedStyle = selectStyleForContent(parsed.contentType, options)
+  const styleCatalogPrompt = await loadStyleCatalogPrompt(selectedStyle)
   const stylePrompt = await loadStylePrompt(selectedStyle)
-  const userPrompt = buildUserPrompt(parsed, options, designPrompt, sourcePrompt, selectedStyle, stylePrompt)
+  const userPrompt = buildUserPrompt(parsed, options, designPrompt, sourcePrompt, selectedStyle, styleCatalogPrompt, stylePrompt)
 
   const raw = await llm.ask(`${BASE_PROMPT}\n\n---\n\n${userPrompt}`, {
     model: options.model || "claude-sonnet-4-6",
@@ -114,6 +117,7 @@ function buildUserPrompt(
   designPrompt: string,
   sourcePrompt: string,
   selectedStyle: HtmlAnythingStyle,
+  styleCatalogPrompt: string,
   stylePrompt: string,
 ): string {
   const title = options.title || parsed.meta.sourceFile.replace(/\.[^.]+$/, "")
@@ -127,6 +131,8 @@ function buildUserPrompt(
     designPrompt,
     "",
     "## Style-specific guidance",
+    styleCatalogPrompt,
+    "",
     stylePrompt,
     "",
     STYLE_COMPLIANCE_PROMPT.replaceAll("{selectedStyle}", selectedStyle),
@@ -164,6 +170,53 @@ async function loadStylePrompt(style: HtmlAnythingStyle): Promise<string> {
   if (body) return `${system}\n\n---\n\n${body}`
   const fallback = await loadPromptFile(path.join("styles", "default.md"))
   return `${system}\n\n---\n\n${fallback}`
+}
+
+async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string> {
+  const raw = await loadPromptFile(path.join("styles", "catalog.json"))
+  if (!raw) return ""
+  try {
+    const catalog = JSON.parse(raw) as {
+      sharedQualityGates?: string[]
+      styles?: Array<{
+        id?: string
+        system?: string
+        mode?: string
+        summary?: string
+        triggers?: string[]
+        bestSources?: string[]
+        example?: string | null
+        preview?: string | null
+        coreScaffold?: string[]
+        requiredPrimitives?: string[]
+        avoid?: string[]
+      }>
+    }
+    const entry = catalog.styles?.find(item => item.id === style)
+    if (!entry) return ""
+    return [
+      "## Style catalog metadata",
+      "",
+      "This metadata is the routing and QA source of truth for the selected style. Treat it as a compact preflight checklist before applying the full style prompt.",
+      "",
+      `- Style id: ${style}`,
+      `- Underlying system: ${entry.system || style}`,
+      `- Mode: ${entry.mode || "auto"}`,
+      `- Summary: ${entry.summary || ""}`,
+      `- Triggers: ${(entry.triggers || []).join(", ")}`,
+      `- Best sources: ${(entry.bestSources || []).join(", ")}`,
+      `- Example: ${entry.example || "(none yet)"}`,
+      `- Preview: ${entry.preview || "(none yet)"}`,
+      `- Core scaffold: ${(entry.coreScaffold || []).join(" / ")}`,
+      `- Required primitives: ${(entry.requiredPrimitives || []).join(", ")}`,
+      `- Avoid: ${(entry.avoid || []).join(" / ")}`,
+      "",
+      "Shared quality gates:",
+      ...(catalog.sharedQualityGates || []).map(item => `- ${item}`),
+    ].join("\n")
+  } catch {
+    return ""
+  }
 }
 
 async function loadSourcePromptFile(name: string): Promise<string> {

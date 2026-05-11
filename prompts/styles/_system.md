@@ -51,6 +51,24 @@ Before writing the final HTML, internally answer:
 
 The final HTML must pass that self-check.
 
+## Catalog Metadata Preflight
+
+html-anything keeps compact style metadata in `prompts/styles/catalog.json`.
+This borrows a useful pattern from Open Design: the skill-level instructions
+stay simple, while each design system carries its own examples, required
+primitives, and anti-patterns.
+
+Before generating, use the injected catalog metadata to answer:
+
+1. What underlying system is this page supposed to inhabit?
+2. Which example/preview proves the visual target?
+3. Which primitives must appear in the HTML?
+4. Which generic fallback would make the output feel fake?
+
+If catalog metadata and the full style prompt differ, the full style prompt
+wins on visual detail; the catalog wins on routing, example linkage, and
+checklist completeness.
+
 ## Required Generation Order
 
 1. Choose the page system from the selected style.
@@ -122,6 +140,22 @@ Rules:
   introduction.
 - Use CSS transitions/keyframes and small vanilla JS only. No animation
   libraries.
+
+## Anti-Slop Gate
+
+Borrow this discipline from design-system skills: never let the generated page
+look like a generic AI demo.
+
+- No filler labels such as "Feature One", "Insight Two", or unsupported
+  placeholder metrics.
+- No fake precision. If a value is estimated or synthetic, label it honestly.
+- No generic product chrome when the selected style does not call for it.
+- No decorative icon repeated next to every heading just to make the page feel
+  designed.
+- No default purple/blue gradient hero unless the style explicitly requires
+  that visual system.
+- No source claims that are not grounded in the parsed content, verified
+  public facts, or clearly marked sample data.
 
 ## UI Quality Gate
 

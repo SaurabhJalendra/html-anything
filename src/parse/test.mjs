@@ -99,6 +99,48 @@ test("htmlize auto style selector routes major source families", async () => {
   assert.equal(selectStyleForContent("pdf-document", { style: "digital-eguide" }), "digital-eguide")
 })
 
+test("style catalog stays in sync with style types, prompts, examples, and previews", async () => {
+  const catalogRaw = await fs.readFile(path.join(REPO, "prompts/styles/catalog.json"), "utf8")
+  const catalog = JSON.parse(catalogRaw)
+  assert.equal(catalog.schemaVersion, 1)
+  assert.ok(Array.isArray(catalog.sharedQualityGates) && catalog.sharedQualityGates.length >= 5)
+  assert.ok(Array.isArray(catalog.styles) && catalog.styles.length >= 10)
+
+  const typeSource = await fs.readFile(path.join(REPO, "src/types.ts"), "utf8")
+  const typeBlock = typeSource.match(/export type HtmlAnythingStyle =([\s\S]*?)\n\nexport interface/)
+  assert.ok(typeBlock, "could not find HtmlAnythingStyle union")
+  const declaredStyles = [...typeBlock[1].matchAll(/\|\s+"([^"]+)"/g)]
+    .map(m => m[1])
+    .sort()
+  const catalogStyles = catalog.styles.map(s => s.id).sort()
+  assert.deepEqual(catalogStyles, declaredStyles)
+  assert.equal(new Set(catalogStyles).size, catalogStyles.length, "style ids must be unique")
+
+  for (const entry of catalog.styles) {
+    assert.ok(entry.id, "catalog style missing id")
+    assert.ok(typeof entry.system === "string" && entry.system.length >= 4, `${entry.id} missing system`)
+    assert.ok(typeof entry.summary === "string" && entry.summary.length >= 20, `${entry.id} missing summary`)
+    assert.ok(Array.isArray(entry.triggers) && entry.triggers.length >= 3, `${entry.id} needs triggers`)
+    assert.ok(Array.isArray(entry.bestSources) && entry.bestSources.length >= 1, `${entry.id} needs bestSources`)
+    assert.ok(Array.isArray(entry.coreScaffold) && entry.coreScaffold.length >= 4, `${entry.id} needs coreScaffold`)
+    assert.ok(Array.isArray(entry.requiredPrimitives) && entry.requiredPrimitives.length >= 4, `${entry.id} needs requiredPrimitives`)
+    assert.ok(entry.requiredPrimitives.every(p => p.startsWith(".")), `${entry.id} primitives should be class selectors`)
+    assert.ok(Array.isArray(entry.avoid) && entry.avoid.length >= 2, `${entry.id} needs avoid rules`)
+
+    const promptStat = await fs.stat(path.join(REPO, "prompts/styles", `${entry.id}.md`))
+    assert.ok(promptStat.isFile(), `${entry.id} missing style prompt`)
+
+    if (entry.example) {
+      const outputStat = await fs.stat(path.join(REPO, "examples", entry.example, "output.html"))
+      assert.ok(outputStat.isFile(), `${entry.id} example missing output.html`)
+    }
+    if (entry.preview) {
+      const previewStat = await fs.stat(path.join(REPO, entry.preview))
+      assert.ok(previewStat.isFile(), `${entry.id} preview asset missing`)
+    }
+  }
+})
+
 test("htmlize injects the selected style prompt into the LLM request", async () => {
   const { htmlize } = await import("../../dist/htmlize.js")
   const parsed = {
@@ -119,6 +161,10 @@ test("htmlize injects the selected style prompt into the LLM request", async () 
   assert.match(seenPrompt, /Selected style: dashboard/)
   assert.match(seenPrompt, /# Design system \(shared\)/)
   assert.match(seenPrompt, /# csv — tabular data/)
+  assert.match(seenPrompt, /## Style catalog metadata/)
+  assert.match(seenPrompt, /Underlying system: Ops Console/)
+  assert.match(seenPrompt, /Required primitives: .*\.ops-shell/)
+  assert.match(seenPrompt, /Shared quality gates:/)
   assert.match(seenPrompt, /# Structural Style System Contract/)
   assert.match(seenPrompt, /Styles in html-anything are \*\*design systems \+ layout systems\*\*/)
   assert.match(seenPrompt, /## Style Fidelity Contract/)
@@ -148,6 +194,10 @@ test("htmlize injects the explicit paper-trail style prompt into the LLM request
   }
   await htmlize(parsed, llm, { style: "paper-trail" })
   assert.match(seenPrompt, /Selected style: paper-trail/)
+  assert.match(seenPrompt, /## Style catalog metadata/)
+  assert.match(seenPrompt, /Underlying system: Paper Trail/)
+  assert.match(seenPrompt, /Example: itinerary-trip/)
+  assert.match(seenPrompt, /Required primitives: .*\.paper-desk/)
   assert.match(seenPrompt, /# Paper Trail Style/)
   assert.match(seenPrompt, /Underlying System: Paper Trail/)
   assert.match(seenPrompt, /Post Post Reference Contract/)
@@ -178,6 +228,10 @@ test("htmlize injects the explicit digital-eguide style prompt into the LLM requ
   }
   await htmlize(parsed, llm, { style: "digital-eguide" })
   assert.match(seenPrompt, /Selected style: digital-eguide/)
+  assert.match(seenPrompt, /## Style catalog metadata/)
+  assert.match(seenPrompt, /Underlying system: Digital E-Guide Spread/)
+  assert.match(seenPrompt, /Example: pdf/)
+  assert.match(seenPrompt, /Required primitives: .*\.eguide-desk/)
   assert.match(seenPrompt, /# Digital E-Guide Style/)
   assert.match(seenPrompt, /Underlying System: Digital E-Guide Spread/)
   assert.match(seenPrompt, /data-ha-style="digital-eguide"/)

@@ -6,7 +6,10 @@ answer "what system should shape the HTML experience?"
 
 Styles are not skins. A style must change the page shell, first viewport,
 component vocabulary, interaction model, density, chart grammar, and voice.
-The shared contract is [`_system.md`](./_system.md).
+The shared contract is [`_system.md`](./_system.md). The compact catalog is
+[`catalog.json`](./catalog.json): it keeps each style's routing triggers,
+source fit, example, preview, required primitives, and avoid rules in one
+machine-checkable place.
 
 The default is `auto`: the agent picks a style from the request and source.
 
@@ -82,6 +85,28 @@ override. Borrow archetypes, not brand identities:
 - creator guide / PDF guide systems → `digital-eguide`
 - premium carousel / manifesto systems → `editorial-carousel`
 - playful canvas / learning studios → `teaching`, `interactive-learning`
+
+The Open Design repo is useful for style packaging discipline: each skill-like
+style should carry a concrete design intent, implementation checklist, example
+surface, and anti-pattern list. In this repo that discipline lives in
+`catalog.json` plus the individual style prompt, rather than in user-facing
+docs.
+
+## Catalog Contract
+
+Every style in `src/types.ts` must have exactly one `catalog.json` entry. Each
+entry should include:
+
+- `system`: the underlying design/layout system, not a visual mood.
+- `triggers`: natural language cues that should route here.
+- `bestSources`: source families that fit this style.
+- `example` and `preview`: a concrete checked-in example when available.
+- `coreScaffold`: the first-viewport/layout skeleton.
+- `requiredPrimitives`: style-native classes that generated HTML should use.
+- `avoid`: generic fallbacks or false signals the style must not produce.
+
+The tests validate catalog completeness, prompt existence, and checked-in
+example/preview paths. When adding a style, update the catalog before shipping.
 
 ## Use Case Routing
 

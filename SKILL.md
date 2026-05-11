@@ -155,12 +155,15 @@ Honor explicit style direction in natural language:
      web verification for current or high-stakes facts.
 
 4. **Load guidance.**
-   Read `prompts/styles/_design.md` and the closest source prompt. If no source
-   prompt fits, use `prompts/sources/default.md`. Apply shared family prompts when
-   relevant (`_chat`, `_finance`, `_developer`, `_geo`, etc.). If the chosen
-   style has a prompt in `prompts/styles/<style>.md`, read and follow it. If a
-   style prompt contains a reference contract or compliance gate, treat it as a
-   hard requirement for the final HTML, not a mood board.
+   Read `prompts/styles/_design.md`, `prompts/styles/catalog.json`, and the
+   closest source prompt. If no source prompt fits, use
+   `prompts/sources/default.md`. Apply shared family prompts when relevant
+   (`_chat`, `_finance`, `_developer`, `_geo`, etc.). Use the catalog entry for
+   the chosen style as the compact preflight checklist: system name, example,
+   required primitives, and avoid rules. Then read and follow
+   `prompts/styles/<style>.md`. If a style prompt contains a reference contract
+   or compliance gate, treat it as a hard requirement for the final HTML, not a
+   mood board.
 
 5. **Choose auto style.**
    Pick the page style internally. Do not ask the user to choose unless
@@ -170,8 +173,10 @@ Honor explicit style direction in natural language:
    Before writing HTML, identify the selected style's 5-8 core invariants:
    first viewport geometry, layout scaffold, typography roles, color/surface
    language, component vocabulary, primary interaction, motion grammar, and
-   what must be absent. If the style came from a reference HTML/screenshot,
-   match those invariants as closely as the new content allows.
+   what must be absent. Pull required primitives and avoid rules from
+   `catalog.json`, then pull visual details from the full style prompt. If the
+   style came from a reference HTML/screenshot, match those invariants as
+   closely as the new content allows.
 
 7. **Build the page.**
    Create the HTML/CSS/JS directly. Keep the page useful, interactive,

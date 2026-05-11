@@ -169,8 +169,12 @@ or "more playful".
 
 Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
 The shared structural contract is
-[`prompts/styles/_system.md`](./prompts/styles/_system.md). There is a
-fallback `default` style plus 12 auto-selected styles (`teaching`,
+[`prompts/styles/_system.md`](./prompts/styles/_system.md). The internal
+style catalog lives in [`prompts/styles/catalog.json`](./prompts/styles/catalog.json):
+it records each style's triggers, best sources, example, preview, required
+primitives, and avoid rules so generation can stay style-faithful without
+asking users to pick options. There is a fallback `default` style plus 12
+auto-selected styles (`teaching`,
 `interactive-learning`, `relationship`, `living-essay`, `dashboard`,
 `kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
 `document`, `editorial-carousel`, and `developer`), plus explicit overrides
