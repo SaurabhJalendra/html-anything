@@ -160,9 +160,14 @@ export function selectStyleForContent(contentType: string, options: ConverterOpt
     contentType === "docx-document" ||
     contentType === "medical-visit" ||
     contentType === "lab-results" ||
-    contentType === "legal-chronology"
+    contentType === "legal-chronology" ||
+    contentType === "markdown-document" ||
+    contentType === "bookmarks-html" ||
+    contentType === "bibliography" ||
+    contentType === "url-list" ||
+    contentType === "reading-list"
   ) {
-    return "paper"
+    return "document"
   }
 
   if (
@@ -201,27 +206,12 @@ export function selectStyleForContent(contentType: string, options: ConverterOpt
     contentType === "kindle-highlights" ||
     contentType === "chatgpt-export" ||
     contentType === "claude-chat-export" ||
-    contentType === "ai-chat-export"
-  ) {
-    return "timeline-story"
-  }
-
-  if (
-    contentType === "markdown-document" ||
-    contentType === "bookmarks-html" ||
-    contentType === "bibliography" ||
-    contentType === "url-list" ||
-    contentType === "reading-list"
-  ) {
-    return "editorial"
-  }
-
-  if (
+    contentType === "ai-chat-export" ||
     contentType === "notion-export" ||
     contentType === "obsidian-vault" ||
     contentType === "markdown-folder"
   ) {
-    return "personal-atlas"
+    return "timeline-story"
   }
 
   if (

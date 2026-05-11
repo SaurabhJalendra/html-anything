@@ -88,25 +88,22 @@ model, density, chart grammar, and voice.
 | Auto style | Use for | Page shape |
 |---|---|---|
 | `default` | Unknown, mixed, or weakly classified briefs/sources | **Insight Brief**: answer header, primary insight panel, evidence stack, local drill-down |
-| `teaching` | Tutorials, lessons, educational briefs, "teach me", interactive explainers, course-like pages | **Lesson Lab**: visual stage, step rail, annotations, try-it control, check-yourself moment, recap |
-| `interactive-studio` | Scientific topics, product/spec objects, anatomy, architecture, "explain this system" briefs, object labs | **Object Studio**: interactive stage, selector, inspector, comparison, generated or procedural visuals |
+| `teaching` | Tutorials, lessons, "teach me", interactive explainers, course-like pages, **object/system/spec exploration** (anatomy, architecture, scientific topics, product specs) | **Lesson Lab**: visual stage (or object stage), step rail / entity selector, try-it controls, live inspector or check-yourself, recap or comparison |
 | `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | **Rhythm Report**: aggregate-first pulse calendar, comparison lanes, evidence snippets, no raw appendix by default |
 | `dashboard` | Finance/admin data, logs, operational data, issue trackers, dense tabular queues | **Ops Console**: command bar, KPI rail, work surface, flag queue, searchable data grid |
-| `personal-atlas` | Hybrid personal archives and knowledge collections that mix time, place, people, and themes | **Memory Atlas**: memory cover, timeline spine, clusters, rediscovery cards, private browser |
-| `timeline-story` | Personal histories like Amazon, browser history, Spotify, YouTube, Twitch, Health, Kindle, AI chats | **Timeline Story**: time lens, timeline spine, chapter panels, rhythm strip, memory drawer |
+| `timeline-story` | Personal histories — chronological (Amazon, browser, Spotify, YouTube, Twitch, Health, Kindle, AI chats) **and** topical (Notion exports, Obsidian vaults, markdown folders) | **Timeline Story**: time lens, timeline spine, chapter panels, rhythm strip, memory drawer (or cluster cards for topical sources) |
 | `map-atlas` | Places, trips, routes, rideshare, location history, geotagged photo metadata | **Map Atlas**: spatial stage, place drawer, period/place filters, waypoint browser |
 | `network-map` | Contacts, LinkedIn, Slack, Discord, Telegram, email, Venmo/PayPal, people/org graphs | **Network Map**: graph canvas, entity inspector, cluster controls, hub cards, linked records |
-| `editorial` | Essays, articles, reading lists, bookmarks, research collections | **Editorial Desk**: masthead, reader rail, argument body, pull quotes, source/evidence spread |
+| `document` | Essays, articles, reading lists, bookmarks, research collections, PDFs, DOCX, legal/medical/lab/academic records | **Document Review**: cover, reading rail, body sheet, evidence margin, drill-down. Tone shifts narrative ↔ formal based on source. |
 | `developer` | Diffs, PR patches, CI logs, stack traces, repos | **Evidence Workbench**: finding bar, hotspots, risk checklist, raw artifact navigator, copyable handoff |
-| `paper` | PDFs, DOCX, legal/medical/lab/academic records | **Review Dossier**: dossier cover, review tabs, document sheet, evidence margin, question panel |
 
 Honor explicit style direction in natural language:
 
 - "make it a tutorial" / "teach me" → lean `teaching`.
-- "make it more app-like" → lean `interactive-studio`.
-- "less academic" → reduce paper/report voice.
+- "make it more app-like" / "explore this object" → lean `teaching` (object mode).
+- "less academic" → reduce formal `document` voice.
 - "more dashboard-like" → increase density, filters, charts.
-- "more editorial" → stronger narrative, scroll story, reading rhythm.
+- "more editorial" / "magazine feel" → narrative `document` voice.
 - "make it a map" / "spatial" → lean `map-atlas`.
 - "show relationships/network" → lean `network-map`.
 - "make it a year-in-review" / "story over time" → lean `timeline-story`.

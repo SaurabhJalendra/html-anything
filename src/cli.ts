@@ -59,16 +59,13 @@ const STYLES = new Set<HtmlAnythingStyle | "auto">([
   "auto",
   "default",
   "teaching",
-  "interactive-studio",
   "relationship",
   "dashboard",
-  "personal-atlas",
   "timeline-story",
   "map-atlas",
   "network-map",
-  "editorial",
+  "document",
   "developer",
-  "paper",
 ])
 
 function parseStyle(value: string | undefined): ConverterOptions["style"] {
@@ -98,9 +95,9 @@ timeline; 200-person channel → folded by sender). The full data is inlined
 into the output; the LLM only ever sees a representative sample.
 
 Default style is auto. Auto injects one of the built-in style prompts
-(teaching, interactive-studio, relationship, dashboard, personal-atlas,
-timeline-story, map-atlas, network-map, editorial, developer, paper, or
-default) based on the parsed content type.
+(teaching, relationship, dashboard, timeline-story, map-atlas,
+network-map, document, developer, or default) based on the parsed
+content type.
 `
 
 async function main() {

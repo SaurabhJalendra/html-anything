@@ -1,9 +1,19 @@
 # Timeline Story Style
 
-Use this style for personal histories and archives where the main experience is
-time passing: purchases, browsing/search history, listening/watch history,
-health/activity trends, Kindle highlights, AI chat exports, project diaries,
-and "year in review" style outputs.
+Use this style for **personal histories and archives** — both
+chronological and topical. Covers:
+
+- **Chronological** sources where time is the spine: purchases,
+  browsing/search history, listening/watch history, health/activity
+  trends, Kindle highlights, AI chat exports, project diaries, "year in
+  review" outputs.
+- **Topical** personal collections where topic clusters are primary but
+  time is still a meaningful secondary axis: Notion exports, Obsidian
+  vaults, generic markdown folders, personal knowledge bases.
+
+For chronological sources the page leads with the timeline spine. For
+topical collections it leads with cluster cards, but a "last edited"
+rhythm strip stays visible so the archive still feels alive.
 
 ## Underlying System: Timeline Story
 
@@ -50,6 +60,9 @@ Use-case variants:
 - **Receipt tape memory** — Amazon orders, purchases, payments.
 - **Reading yearbook** — Kindle, reading lists, AI chat highlights.
 - **Body rhythm journal** — Apple Health / workouts.
+- **Knowledge atlas** — Notion / Obsidian / markdown-folder. Leads with
+  topic clusters + tag map; rhythm strip uses last-edited cadence.
+  Drawer is a searchable note browser instead of a memory drawer.
 
 ## Avoid
 

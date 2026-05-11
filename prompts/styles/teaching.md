@@ -1,17 +1,25 @@
 # Teaching Style
 
 Use this style when the user asks for a teaching site, tutorial, lesson,
-interactive explainer, course page, "teach me", or educational page from a
-brief/source.
+interactive explainer, course page, "teach me", "explore this object/
+system/spec", or any educational page from a brief/source. This style
+also handles **object exploration** briefs — anatomy, architecture,
+science, products, specs — where the user should manipulate an object
+rather than read a report.
 
-The page should feel like a guided learning artifact, not a paper, blog post,
-or dashboard. The user should be able to learn by looking, changing something,
-checking themselves, and moving to the next idea.
+The page should feel like a guided learning artifact, not a paper, blog
+post, or dashboard. The user should be able to learn by looking,
+changing something, checking themselves, and moving to the next idea.
+
+For pure **object-as-interface** briefs (e.g. "an interactive lab for
+the solar system"), drop the step rail in favor of an entity selector
+and a live inspector — the lesson scaffolding (check-yourself, recap)
+remains optional but the object stage is always primary.
 
 ## Underlying System: Lesson Lab
 
-This is a classroom-lab system. The first screen is the lesson apparatus, not
-a hero page.
+This is a classroom-lab system. The first screen is the lesson apparatus
+or object stage, not a hero page.
 
 Base scaffold:
 
@@ -80,13 +88,21 @@ Interaction model:
 ## Required Modules
 
 - **Objective**: one sentence stating what the learner will understand or do.
-- **Lesson stage**: the main interactive visual or worked example.
-- **Step rail**: ordered lesson states with active progress.
-- **Concept cards**: 3-6 compact ideas with examples.
-- **Try it**: learner-controlled input or toggle.
-- **Check yourself**: one lightweight quiz, prediction, or reflection prompt
-  with immediate feedback.
-- **Recap**: takeaways, misconception, and next exploration.
+- **Lesson stage** (or **object stage** for explorer briefs): the main
+  interactive visual or worked example.
+- **Step rail** (lessons) **or entity selector** (object explorers):
+  ordered states / chips that change the stage and explanation.
+- **Concept cards** (lessons) **or live inspector panel** (explorers):
+  3-6 compact ideas with examples, or a persistent panel whose facts
+  update with the selected entity.
+- **Try it / mode controls**: learner-controlled input — toggle, slider,
+  selector, scale, compare, layer, scrub, orbit, focus, exploded view,
+  or prediction.
+- **Check yourself** (lessons; optional for explorers): one lightweight
+  quiz, prediction, or reflection prompt with immediate feedback.
+- **Recap or comparison bench**: takeaways/misconception/next
+  exploration for lessons; side-by-side metrics or proportional bars for
+  explorers.
 
 ## Avoid
 

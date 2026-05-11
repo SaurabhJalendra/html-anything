@@ -60,16 +60,13 @@ export interface ConverterOptions {
 export type HtmlAnythingStyle =
   | "default"
   | "teaching"
-  | "interactive-studio"
   | "relationship"
   | "dashboard"
-  | "personal-atlas"
   | "timeline-story"
   | "map-atlas"
   | "network-map"
-  | "editorial"
+  | "document"
   | "developer"
-  | "paper"
 
 export interface LlmHelper {
   /** One-shot prompt → text. Used by htmlize to design the page. */
