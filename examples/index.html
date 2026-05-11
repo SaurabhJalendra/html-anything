@@ -139,92 +139,8 @@ a { color: inherit; }
   line-height: 1.25;
 }
 
-.filters {
-  position: sticky;
-  z-index: 20;
-  top: 0;
-  margin: 0 -8px 42px;
-  padding: 14px 8px 18px;
-  background: linear-gradient(180deg, var(--bg) 0%, rgba(255, 248, 246, 0.94) 76%, rgba(255, 248, 246, 0));
-  backdrop-filter: blur(18px);
-}
-.filter-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-.filter-title {
-  margin: 0;
-  color: var(--fg-2);
-  font-size: 14px;
-  font-weight: 700;
-}
-.status {
-  color: var(--fg-muted);
-  font-size: 13px;
-  text-align: right;
-}
-.filter-stack {
-  display: grid;
-  gap: 10px;
-}
-.filter-line {
-  display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-}
-.filter-label {
-  color: var(--fg-muted);
-  font: 700 11px/1 var(--font-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.filter-row {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.filter-row::-webkit-scrollbar { display: none; }
-.filter-row button {
-  flex: 0 0 auto;
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--fg-2);
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-}
-.filter-row button[aria-pressed="true"] {
-  color: var(--fg-1);
-  border-color: color-mix(in srgb, var(--accent, var(--primary)) 42%, var(--border-strong));
-  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface));
-}
-.filter-row .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent, var(--primary));
-}
-.filter-row .num {
-  color: var(--fg-muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
 .intro {
-  margin-bottom: 24px;
+  margin: 52px 0 24px;
   display: flex;
   justify-content: space-between;
   gap: 24px;
@@ -243,19 +159,10 @@ a { color: inherit; }
   color: var(--fg-2);
   line-height: 1.55;
 }
-.group-count {
-  flex: 0 0 auto;
-  color: var(--fg-muted);
-  font: 700 11px/1 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .group {
   margin: 0 0 52px;
   scroll-margin-top: 150px;
 }
-.group[hidden] { display: none !important; }
 .group-head {
   display: flex;
   align-items: flex-start;
@@ -370,21 +277,6 @@ a { color: inherit; }
   font-size: 13px;
   line-height: 1.48;
 }
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--fg-muted);
-  font: 700 10px/1 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.eyebrow .group-mark {
-  width: 22px;
-  height: 22px;
-  border-radius: 8px;
-  font-size: 11px;
-}
 .chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -394,6 +286,7 @@ a { color: inherit; }
 .chip {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: 25px;
   padding: 0 8px;
   border-radius: 999px;
@@ -402,12 +295,10 @@ a { color: inherit; }
   color: color-mix(in srgb, var(--accent, var(--primary)) 72%, var(--fg-1));
   font: 700 10px/1 var(--font-mono);
 }
-.empty {
-  padding: 28px;
-  border: 1px dashed var(--border-strong);
-  border-radius: 18px;
+.chip-label {
   color: var(--fg-muted);
-  background: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .matrix {
@@ -469,9 +360,7 @@ footer.foot a { color: var(--primary); }
 @media (max-width: 700px) {
   .wrap { padding: 38px 16px 84px; }
   .hero-stats { grid-template-columns: 1fr; }
-  .filter-head, .intro { align-items: flex-start; flex-direction: column; }
-  .status { text-align: left; }
-  .filter-line { grid-template-columns: 1fr; }
+  .intro { align-items: flex-start; flex-direction: column; }
   .example-grid { grid-template-columns: 1fr; }
   .matrix-grid { grid-template-columns: 1fr; }
   .matrix-grid .head { display: none; }
@@ -506,30 +395,12 @@ footer.foot a { color: var(--primary); }
     </div>
   </header>
 
-  <div class="filters">
-    <div class="filter-head">
-      <p class="filter-title">Filter examples by use case and by output style.</p>
-      <div class="status" id="status"></div>
-    </div>
-    <div class="filter-stack">
-      <div class="filter-line">
-        <div class="filter-label">Use case</div>
-        <nav class="filter-row" id="use-case-filters" aria-label="Filter by use case"></nav>
-      </div>
-      <div class="filter-line">
-        <div class="filter-label">Style</div>
-        <nav class="filter-row" id="style-filters" aria-label="Filter by style"></nav>
-      </div>
-    </div>
-  </div>
-
   <main>
     <div class="intro">
       <div>
         <h2>Curated examples</h2>
-        <p>Each card is a real output page. Sections group what the user is trying to do; the style chip shows the rendering system html-anything picked or the user requested.</p>
+        <p>Each card is a real output page, grouped by use case. The card labels show only the source and the style system used to render it.</p>
       </div>
-      <div class="group-count" id="group-count"></div>
     </div>
     <div id="groups"></div>
   </main>
@@ -544,14 +415,14 @@ footer.foot a { color: var(--primary); }
 
   <footer class="foot">
     <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-    <div>22 curated demos · use-case filter + style filter</div>
+    <div>22 curated demos · source + style on every card</div>
   </footer>
 </div>
 
 <script>
 (() => {
   const useCases = [
-    ["teaching", "Teaching Studios", "#", "#0f766e", "One prompt, article, or concept becomes an interactive learning studio with controls, stages, and checks."],
+    ["teaching", "Teaching Studios", "#", "#0f766e", "One brief, article, or concept becomes an interactive learning studio with controls, stages, and checks."],
     ["files", "Files & Work Data", "=", "#0f5f6f", "Spreadsheets, CSV exports, PDFs, DOCX, Markdown, logs, calendars, finance, work records, and slide-style outputs become polished live pages."],
     ["conversation", "Conversation Analysis", "~", "#be3455", "Private chats, relationship exports, and team channels become rhythm, contribution, and evidence reports."],
     ["personal", "Personal Data Recaps", ">", "#9a4b14", "Orders, health, reading, browsing, payments, professional networks, AI chats, and notes become personal stories."],
@@ -629,7 +500,6 @@ footer.foot a { color: var(--primary); }
     ["Git diff / CI log", "Developer review", "git-diff"]
   ];
 
-  const state = { useCase: "all", style: "all" };
   const videoSlugs = new Set([]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -642,44 +512,7 @@ footer.foot a { color: var(--primary); }
   function styleAccent(style) {
     return styles.find(([id]) => id === style)?.[2] || "var(--primary)";
   }
-  function useCaseMeta(id) {
-    return useCases.find(group => group.id === id);
-  }
-  function visibleExamples() {
-    return examples.filter(item =>
-      (state.useCase === "all" || item.group === state.useCase) &&
-      (state.style === "all" || item.style === state.style)
-    );
-  }
-  function countFor(kind, id) {
-    return examples.filter(item => {
-      const useCaseOk = kind === "use-case" ? (id === "all" || item.group === id) : (state.useCase === "all" || item.group === state.useCase);
-      const styleOk = kind === "style" ? (id === "all" || item.style === id) : (state.style === "all" || item.style === state.style);
-      return useCaseOk && styleOk;
-    }).length;
-  }
-  function renderFilterRow(targetId, kind) {
-    const target = document.getElementById(targetId);
-    const rows = kind === "use-case"
-      ? [["all", "All", "#a03b00"], ...useCases.map(group => [group.id, group.title, group.accent])]
-      : [["all", "All", "#a03b00"], ...styles];
-    target.innerHTML = rows.map(([id, label, accent]) => {
-      const pressed = kind === "use-case" ? state.useCase === id : state.style === id;
-      return `
-        <button type="button" data-kind="${kind}" data-filter="${id}" aria-pressed="${pressed}" style="--accent:${accent}">
-          <span class="dot"></span>${escapeHtml(label)} <span class="num">${countFor(kind, id)}</span>
-        </button>`;
-    }).join("");
-    target.querySelectorAll("button").forEach(button => {
-      button.addEventListener("click", () => {
-        if (button.dataset.kind === "use-case") state.useCase = button.dataset.filter || "all";
-        if (button.dataset.kind === "style") state.style = button.dataset.filter || "all";
-        render();
-      });
-    });
-  }
   function renderCard(item) {
-    const meta = useCaseMeta(item.group);
     return `
       <a class="example-card" href='${item.slug}/output.html' style="--accent:${styleAccent(item.style)}" data-slug="${item.slug}">
         <span class="shot" data-slug="${item.slug}">
@@ -687,20 +520,18 @@ footer.foot a { color: var(--primary); }
           <span class="media-badge">Screenshot</span>
         </span>
         <span class="example-body">
-          <span class="eyebrow"><span class="group-mark">${escapeHtml(meta?.mark || "#")}</span>${escapeHtml(item.source)}</span>
           <h4>${escapeHtml(item.title)}</h4>
           <p>${escapeHtml(item.description)}</p>
           <span class="chip-row">
-            <span class="chip">${escapeHtml(styleNames.get(item.style) || item.style)}</span>
-            <span class="chip">${escapeHtml(meta?.title || item.group)}</span>
+            <span class="chip"><span class="chip-label">Source</span>${escapeHtml(item.source)}</span>
+            <span class="chip"><span class="chip-label">Style</span>${escapeHtml(styleNames.get(item.style) || item.style)}</span>
           </span>
         </span>
       </a>`;
   }
   function renderGroups() {
-    const allVisible = visibleExamples();
     const groupsHtml = useCases.map(group => {
-      const items = allVisible.filter(item => item.group === group.id);
+      const items = examples.filter(item => item.group === group.id);
       if (!items.length) return "";
       return `
         <section class="group" style="--accent:${group.accent}" id="group-${group.id}">
@@ -714,10 +545,7 @@ footer.foot a { color: var(--primary); }
           <div class="example-grid">${items.map(renderCard).join("")}</div>
         </section>`;
     }).join("");
-    document.getElementById("groups").innerHTML = groupsHtml || `<div class="empty">No examples match this filter pair.</div>`;
-    const activeGroups = useCases.filter(group => allVisible.some(item => item.group === group.id)).length;
-    document.getElementById("status").textContent = `Showing ${allVisible.length} of ${examples.length} examples.`;
-    document.getElementById("group-count").textContent = `${activeGroups} group${activeGroups === 1 ? "" : "s"}`;
+    document.getElementById("groups").innerHTML = groupsHtml;
     hydrateMedia();
   }
   function renderMatrix() {
@@ -759,14 +587,8 @@ footer.foot a { color: var(--primary); }
         .catch(() => {});
     });
   }
-  function render() {
-    renderFilterRow("use-case-filters", "use-case");
-    renderFilterRow("style-filters", "style");
-    renderGroups();
-  }
-
   renderMatrix();
-  render();
+  renderGroups();
 })();
 </script>
 </body>
