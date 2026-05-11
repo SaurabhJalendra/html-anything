@@ -122,36 +122,65 @@ header.hero .cta.secondary {
 }
 
 .style-nav {
+  position: sticky;
+  z-index: 10;
+  top: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 64px;
-  padding: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
-}
-.style-nav a {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--fg-2);
-  font-size: 13px;
-  font-weight: 500;
-  transition: background .15s, color .15s, transform .15s;
+  overflow-x: auto;
+  margin: 0 -4px 10px;
+  padding: 14px 4px 16px;
+  background:
+    linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 92%, transparent) 78%, transparent 100%);
+  backdrop-filter: blur(16px);
+  scrollbar-width: none;
 }
-.style-nav a:hover { color: var(--fg-1); background: var(--surface-2); transform: translateY(-1px); }
-.style-nav a .dot {
-  width: 8px; height: 8px;
+.style-nav::-webkit-scrollbar { display: none; }
+.style-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg-2);
+  font: 600 12px/1 var(--font-body);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background .15s, color .15s, transform .15s, border-color .15s;
+}
+.style-nav button:hover {
+  color: var(--fg-1);
+  background: var(--surface-2);
+  transform: translateY(-1px);
+}
+.style-nav button[aria-pressed="true"] {
+  color: var(--fg-1);
+  border-color: color-mix(in srgb, var(--accent, var(--primary)) 38%, var(--border-strong));
+  background: color-mix(in srgb, var(--accent, var(--primary)) 12%, var(--surface));
+}
+.style-nav button .dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--accent, var(--primary));
 }
+.style-nav button .num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-muted);
+}
+.filter-status {
+  margin: 0 0 48px;
+  color: var(--fg-muted);
+  font-size: 13px;
+}
 
-.section { margin-bottom: 80px; scroll-margin-top: 24px; }
+.section { margin-bottom: 80px; scroll-margin-top: 84px; }
+.section[hidden] { display: none !important; }
 .section-head {
   margin-bottom: 24px;
   display: flex;
@@ -228,13 +257,43 @@ header.hero .cta.secondary {
   background: var(--surface-2);
   overflow: hidden;
 }
-.card .thumb img {
+.card .thumb img,
+.card .thumb video {
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform .35s ease;
   display: block;
 }
-.card:hover .thumb img { transform: scale(1.03); }
+.card .thumb video {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .2s ease, transform .35s ease;
+}
+.card:hover .thumb img,
+.card:focus-visible .thumb img,
+.card:hover .thumb video,
+.card:focus-visible .thumb video { transform: scale(1.03); }
+.card .thumb.has-video:hover video,
+.card:focus-visible .thumb.has-video video { opacity: 1; }
+.media-badge {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(0,0,0,.08);
+  color: var(--fg-2);
+  box-shadow: 0 4px 14px rgba(30,27,25,.10);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+}
 
 .card .thumb.placeholder {
   display: flex;
@@ -322,7 +381,7 @@ footer.foot a { color: var(--primary); }
   <div class="meta">
     <div class="stat"><strong>49</strong>live example demos</div>
     <div class="sep"></div>
-    <div class="stat"><strong>9</strong>auto-routed page styles</div>
+    <div class="stat"><strong>8</strong>visual categories</div>
     <div class="sep"></div>
     <div class="stat"><strong>34</strong>parsers</div>
   </div>
@@ -332,16 +391,18 @@ footer.foot a { color: var(--primary); }
   </div>
 </header>
 
-<nav class="style-nav" aria-label="Jump to style">
-  <a href="#teaching"        style="--accent:#0f766e"><span class="dot"></span>teaching</a>
-  <a href="#relationship"    style="--accent:#be3455"><span class="dot"></span>relationship</a>
-  <a href="#timeline-story"  style="--accent:#9a4b14"><span class="dot"></span>timeline-story</a>
-  <a href="#map-atlas"       style="--accent:#17695a"><span class="dot"></span>map-atlas</a>
-  <a href="#network-map"     style="--accent:#355f91"><span class="dot"></span>network-map</a>
-  <a href="#document"        style="--accent:#8b3f1f"><span class="dot"></span>document</a>
-  <a href="#dashboard"       style="--accent:#0f5f6f"><span class="dot"></span>dashboard</a>
-  <a href="#developer"       style="--accent:#38bdf8"><span class="dot"></span>developer</a>
+<nav class="style-nav" aria-label="Filter examples by category">
+  <button type="button" data-filter="all" aria-pressed="true" style="--accent:#a03b00"><span class="dot"></span>✨ All <span class="num">49</span></button>
+  <button type="button" data-filter="teaching" style="--accent:#0f766e"><span class="dot"></span>🪐 Teaching <span class="num">1</span></button>
+  <button type="button" data-filter="relationship" style="--accent:#be3455"><span class="dot"></span>💬 Relationship <span class="num">2</span></button>
+  <button type="button" data-filter="timeline-story" style="--accent:#9a4b14"><span class="dot"></span>🕰 Timeline <span class="num">10</span></button>
+  <button type="button" data-filter="map-atlas" style="--accent:#17695a"><span class="dot"></span>🗺 Map <span class="num">5</span></button>
+  <button type="button" data-filter="network-map" style="--accent:#355f91"><span class="dot"></span>🕸 Network <span class="num">7</span></button>
+  <button type="button" data-filter="document" style="--accent:#8b3f1f"><span class="dot"></span>📚 Document <span class="num">9</span></button>
+  <button type="button" data-filter="dashboard" style="--accent:#0f5f6f"><span class="dot"></span>📊 Ops <span class="num">11</span></button>
+  <button type="button" data-filter="developer" style="--accent:#38bdf8"><span class="dot"></span>🧪 Developer <span class="num">4</span></button>
 </nav>
+<p class="filter-status" id="filter-status">Showing all 49 live examples. Every card has a committed screenshot; hover video previews appear automatically when a matching video file exists.</p>
 
 <section class="section" id="teaching" style="--accent:#0f766e">
   <div class="section-head">
@@ -400,7 +461,7 @@ footer.foot a { color: var(--primary); }
     <a class="card" href="browser-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/browser-history.jpg" alt="Browser history"></div><div class="body"><h3>Browser — attention trail</h3><p>Days of browser history clustered into 11 topic threads with returners and search patterns.</p><div class="meta">timeline-story</div></div></a>
     <a class="card" href="chatgpt-export/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/chatgpt-export.jpg" alt="ChatGPT export"></div><div class="body"><h3>ChatGPT — conversation archive</h3><p>Months of ChatGPT conversations clustered into topics, projects, and recurring threads.</p><div class="meta">timeline-story</div></div></a>
     <a class="card" href="ai-chat-log/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/ai-chat-log.jpg" alt="AI chat log"></div><div class="body"><h3>Generic AI chat log</h3><p>A working chat session as structured back-and-forth with tool calls and revision history.</p><div class="meta">timeline-story</div></div></a>
-    <a class="card" href="notes-vault/output.html"><div class="thumb placeholder"><span>NOTES VAULT</span></div><div class="body"><h3>Markdown notes vault</h3><p>14 founder notes as a knowledge atlas — topic clusters and last-edited rhythm strip.</p><div class="meta">timeline-story · topical</div></div></a>
+    <a class="card" href="notes-vault/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/notes-vault.jpg" alt="Markdown notes vault"></div><div class="body"><h3>Markdown notes vault</h3><p>14 founder notes as a knowledge atlas — topic clusters and last-edited rhythm strip.</p><div class="meta">timeline-story · topical</div></div></a>
   </div>
 </section>
 
@@ -417,8 +478,8 @@ footer.foot a { color: var(--primary); }
     <a class="card" href="google-maps-stars/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/google-maps-stars.jpg" alt="Google Maps saved"></div><div class="body"><h3>Google Maps — saved places</h3><p>Starred places across 4 continents pinned on a personal world atlas with notes-on-hover.</p><div class="meta">map-atlas</div></div></a>
     <a class="card" href="google-photos-takeout/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/google-photos-takeout.jpg" alt="Google Photos atlas"></div><div class="body"><h3>Google Photos — takeout atlas</h3><p>EXIF metadata becomes a place-driven memory map — no Google CDN, no photos uploaded.</p><div class="meta">map-atlas</div></div></a>
     <a class="card" href="rideshare-history/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/rideshare-history.jpg" alt="Rideshare"></div><div class="body"><h3>Uber / Lyft — rideshare history</h3><p>Rides clustered into routines: commute lanes, late-night returns, airport runs, one-offs.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="run-route/output.html"><div class="thumb placeholder"><span>GPX ROUTE</span></div><div class="body"><h3>Morning run — GPX route</h3><p>A 7.6 km Prospect Park loop with splits, elevation, and an inline SVG route polyline.</p><div class="meta">map-atlas</div></div></a>
-    <a class="card" href="itinerary-trip/output.html"><div class="thumb placeholder"><span>ITINERARY</span></div><div class="body"><h3>Tokyo + Kyoto — trip itinerary</h3><p>An 8-day itinerary CSV → day-by-day plan with conflicts, neighborhoods, costs.</p><div class="meta">map-atlas</div></div></a>
+    <a class="card" href="run-route/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/run-route.jpg" alt="GPX running route"></div><div class="body"><h3>Morning run — GPX route</h3><p>A 7.6 km Prospect Park loop with splits, elevation, and an inline SVG route polyline.</p><div class="meta">map-atlas</div></div></a>
+    <a class="card" href="itinerary-trip/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/itinerary-trip.jpg" alt="Trip itinerary"></div><div class="body"><h3>Tokyo + Kyoto — trip itinerary</h3><p>An 8-day itinerary CSV → day-by-day plan with conflicts, neighborhoods, costs.</p><div class="meta">map-atlas</div></div></a>
   </div>
 </section>
 
@@ -460,7 +521,7 @@ footer.foot a { color: var(--primary); }
     <a class="card" href="medical-visit/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/medical-visit.jpg" alt="Medical visit"></div><div class="body"><h3>Medical visit note (synthetic)</h3><p>Organizational summary with caveats and "ask a clinician" questions. Not medical advice.</p><div class="meta">document · formal</div></div></a>
     <a class="card" href="lab-results/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/lab-results.jpg" alt="Lab results"></div><div class="body"><h3>Lab results (synthetic)</h3><p>Panels with reference ranges, trends, and observation-only context.</p><div class="meta">document · formal</div></div></a>
     <a class="card" href="legal-chronology/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/legal-chronology.jpg" alt="Legal chronology"></div><div class="body"><h3>Legal chronology (synthetic)</h3><p>Case timeline with parties, exhibits, and observational summary — not legal advice.</p><div class="meta">document · formal</div></div></a>
-    <a class="card" href="goodreads/output.html"><div class="thumb placeholder"><span>GOODREADS</span></div><div class="body"><h3>Goodreads — reading export</h3><p>Books read, rated, shelved → reading-life dossier with patterns and standouts.</p><div class="meta">document · narrative</div></div></a>
+    <a class="card" href="goodreads/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/goodreads.jpg" alt="Goodreads reading export"></div><div class="body"><h3>Goodreads — reading export</h3><p>Books read, rated, shelved → reading-life dossier with patterns and standouts.</p><div class="meta">document · narrative</div></div></a>
   </div>
 </section>
 
@@ -480,11 +541,11 @@ footer.foot a { color: var(--primary); }
     <a class="card" href="log-error/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/log-error.jpg" alt="Error log"></div><div class="body"><h3>Orders service — error log</h3><p>Payment incident error log: root-cause stack groups, severity timeline, recovery path.</p><div class="meta">dashboard</div></div></a>
     <a class="card" href="transcript-sales-call/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/transcript-sales-call.jpg" alt="Sales call"></div><div class="body"><h3>Sales-call transcript</h3><p>Pilot-scoping call → talk-time bars, decisions, action items, searchable transcript.</p><div class="meta">dashboard</div></div></a>
     <a class="card" href="transcript-product-meeting/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/transcript-product-meeting.jpg" alt="Product meeting"></div><div class="body"><h3>Product-meeting transcript</h3><p>Sprint review SRT → decisions, owners, open questions, risk register.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="bank-transactions/output.html"><div class="thumb placeholder"><span>BANK TXNS</span></div><div class="body"><h3>Bank statement — Q1 2026</h3><p>Cashflow timeline, category breakdown, recurring vendors, anomaly callouts.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="invoices/output.html"><div class="thumb placeholder"><span>INVOICES</span></div><div class="body"><h3>Invoices & receivables</h3><p>Outstanding invoices aged by bucket with customer-side breakdowns.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="quickbooks/output.html"><div class="thumb placeholder"><span>QUICKBOOKS</span></div><div class="body"><h3>QuickBooks — general ledger</h3><p>P&L view + category breakdown + recurring vendors + anomaly flags.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="calendar-founder/output.html"><div class="thumb placeholder"><span>CALENDAR</span></div><div class="body"><h3>Founder calendar (2 weeks)</h3><p>Time allocation by category, stale follow-ups, conflicts, owner-status filters.</p><div class="meta">dashboard</div></div></a>
-    <a class="card" href="backlog-product/output.html"><div class="thumb placeholder"><span>BACKLOG</span></div><div class="body"><h3>Product backlog — 39 issues</h3><p>Issue tracker CSV → epic clusters, blocked items, stale tickets, owner workload.</p><div class="meta">dashboard</div></div></a>
+    <a class="card" href="bank-transactions/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/bank-transactions.jpg" alt="Bank transactions"></div><div class="body"><h3>Bank statement — Q1 2026</h3><p>Cashflow timeline, category breakdown, recurring vendors, anomaly callouts.</p><div class="meta">dashboard</div></div></a>
+    <a class="card" href="invoices/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/invoices.jpg" alt="Invoices and receivables"></div><div class="body"><h3>Invoices & receivables</h3><p>Outstanding invoices aged by bucket with customer-side breakdowns.</p><div class="meta">dashboard</div></div></a>
+    <a class="card" href="quickbooks/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/quickbooks.jpg" alt="QuickBooks ledger"></div><div class="body"><h3>QuickBooks — general ledger</h3><p>P&L view + category breakdown + recurring vendors + anomaly flags.</p><div class="meta">dashboard</div></div></a>
+    <a class="card" href="calendar-founder/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/calendar-founder.jpg" alt="Founder calendar"></div><div class="body"><h3>Founder calendar (2 weeks)</h3><p>Time allocation by category, stale follow-ups, conflicts, owner-status filters.</p><div class="meta">dashboard</div></div></a>
+    <a class="card" href="backlog-product/output.html"><div class="thumb"><img loading="lazy" src="../docs/example-previews/backlog-product.jpg" alt="Product backlog"></div><div class="body"><h3>Product backlog — 39 issues</h3><p>Issue tracker CSV → epic clusters, blocked items, stale tickets, owner workload.</p><div class="meta">dashboard</div></div></a>
   </div>
 </section>
 
@@ -507,9 +568,79 @@ footer.foot a { color: var(--primary); }
 
 <footer class="foot">
   <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-  <div>49 demos · contributions welcome (write a parser or a style)</div>
+  <div>49 live demos · contributions welcome (write a parser or a style)</div>
 </footer>
 
 </div>
+<script>
+(() => {
+  const sections = Array.from(document.querySelectorAll(".section"));
+  const buttons = Array.from(document.querySelectorAll(".style-nav button[data-filter]"));
+  const status = document.getElementById("filter-status");
+  const total = document.querySelectorAll(".card").length;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const labels = new Map(sections.map(section => {
+    const title = section.querySelector("h2")?.childNodes[0]?.textContent?.trim() || section.id;
+    return [section.id, title];
+  }));
+
+  const setFilter = (filter) => {
+    let visible = 0;
+    sections.forEach(section => {
+      const show = filter === "all" || section.id === filter;
+      section.hidden = !show;
+      if (show) visible += section.querySelectorAll(".card").length;
+    });
+    buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
+    if (status) {
+      const label = filter === "all" ? "all categories" : labels.get(filter) || filter;
+      status.textContent = `Showing ${visible} of ${total} live examples in ${label}. Every visible card has a committed screenshot; hover video previews appear automatically when available.`;
+    }
+  };
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => setFilter(button.dataset.filter || "all"));
+  });
+
+  document.querySelectorAll(".card").forEach(card => {
+    const thumb = card.querySelector(".thumb");
+    const href = card.getAttribute("href") || "";
+    const slug = href.replace(/\/output\.html$/, "");
+    if (!thumb || !slug) return;
+
+    const badge = document.createElement("span");
+    badge.className = "media-badge";
+    badge.textContent = "📸 Screenshot";
+    thumb.appendChild(badge);
+
+    if (reduceMotion) return;
+    const videoSrc = `../docs/example-videos/${slug}.mp4`;
+    fetch(videoSrc, { method: "HEAD" })
+      .then(response => {
+        if (!response.ok) return;
+        const video = document.createElement("video");
+        video.src = videoSrc;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        thumb.appendChild(video);
+        thumb.classList.add("has-video");
+        badge.textContent = "▶ Video";
+
+        const play = () => video.play().catch(() => {});
+        const pause = () => { video.pause(); video.currentTime = 0; };
+        card.addEventListener("mouseenter", play);
+        card.addEventListener("focus", play);
+        card.addEventListener("mouseleave", pause);
+        card.addEventListener("blur", pause);
+      })
+      .catch(() => {});
+  });
+
+  setFilter("all");
+})();
+</script>
 </body>
 </html>

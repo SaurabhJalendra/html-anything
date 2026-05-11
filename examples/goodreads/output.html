@@ -408,7 +408,7 @@ footer a{color:var(--primary)}
 </main>
 
 <!-- Embedded synthetic Goodreads CSV (also lives at examples/goodreads/input.csv) -->
-<script id="sample-csv" type="text/csv">Book Id,Title,Author,Author l-f,Additional Authors,ISBN,ISBN13,My Rating,Average Rating,Publisher,Binding,Number of Pages,Year Published,Original Publication Year,Date Read,Date Added,Bookshelves,Bookshelves with positions,Exclusive Shelf,My Review,Spoiler,Private Notes,Read Count,Owned Copies
+<template id="sample-csv">Book Id,Title,Author,Author l-f,Additional Authors,ISBN,ISBN13,My Rating,Average Rating,Publisher,Binding,Number of Pages,Year Published,Original Publication Year,Date Read,Date Added,Bookshelves,Bookshelves with positions,Exclusive Shelf,My Review,Spoiler,Private Notes,Read Count,Owned Copies
 10001,The Glass Lighthouse,Marisol Aguilar,"Aguilar, Marisol",,="9780100000017",="9780100000017",5,4.21,Lantern Press,Hardcover,384,2018,2018,2024/02/14,2024/01/03,"favorites, fiction, literary","favorites (#1), fiction (#3), literary (#7)",read,"A novel that taught me grief is just love with no place left to go. I read it slowly over a month, and most chapters required a long walk afterward to recover. The prose has the patience of someone who knows what they are doing — paragraphs that begin in a kitchen end up describing the entire history of a marriage. The lighthouse is barely a metaphor, which is the trick: the book trusts the object to do its work without translation. I finished it twice in the same year.",false,,2,1
 10002,Why The Tides Forget,Hira Banerjee,"Banerjee, Hira",,="9780100000024",="9780100000024",4,3.94,Inland Atlas,Paperback,312,2019,2019,2024/03/22,2024/01/10,"fiction, literary","fiction (#4), literary (#8)",read,"Elegant and quiet. A small book that mostly succeeds. The middle section sags but the ending earns its restraint.",false,,1,1
 10003,Cathedral of Salt,Elena Vidal,"Vidal, Elena",,="9780100000031",="9780100000031",5,4.55,Lantern Press,Hardcover,512,2020,2020,2024/05/04,2024/02/01,"favorites, fiction, magical-realism","favorites (#2), fiction (#5), magical-realism (#1)",read,"The only book this year that made me miss my flight on purpose. A small town in northern Spain wakes up to find the cathedral has become entirely transparent, and from then on every confession is also a public broadcast. Vidal uses this device with terrifying patience — chapters pass before anyone in the town acknowledges what has happened. The novel is really about the cost of being seen, and what we owe to the people who refuse to look away. I underlined twenty separate paragraphs and have already lent it to four people.",false,,1,1
@@ -484,7 +484,7 @@ footer a{color:var(--primary)}
 10073,The Working Coast,Margit Sundgren,"Sundgren, Margit",,="9780100000734",="9780100000734",4,4.21,Inland Atlas,Hardcover,328,2024,2024,2026/02/26,2025/10/14,"non-fiction, nature, history","non-fiction (#48), nature (#10), history (#12)",read,"Sundgren on the small ports of the North Sea. A pleasure and a slight elegy.",false,,1,0
 10074,Lights Out,Petra Klein,"Klein, Petra",,="9780100000741",="9780100000741",5,4.27,MIT Press,Hardcover,304,2024,2024,2026/03/22,2025/11/02,"favorites, non-fiction, computing, history","favorites (#24), non-fiction (#49), computing (#21), history (#13)",read,"Klein's history of three multi-day power failures and the operators who lived through them. Beautifully reported, technically careful, and heartbreaking in the way that good operations writing always is.",false,,1,1
 10075,Marginalia,Idris Bah,"Bah, Idris",,="9780100000758",="9780100000758",4,4.12,Marginalia,Paperback,168,2025,2025,2026/04/12,2025/12/04,"non-fiction, writing","non-fiction (#50), writing (#6)",read,"Bah's smallest book. A pleasure.",false,,1,0
-</script>
+</template>
 
 <script>
 "use strict";
@@ -1111,7 +1111,8 @@ function toast(msg, isErr) {
 }
 
 function loadSample() {
-  const csv = document.getElementById("sample-csv").textContent;
+  const sample = document.getElementById("sample-csv");
+  const csv = sample.content ? sample.content.textContent : sample.textContent;
   const books = parseGoodreadsCSV(csv);
   render(books, "sample");
 }

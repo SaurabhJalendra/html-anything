@@ -1558,7 +1558,8 @@ html[data-ha-style="developer"] .mono {
 
 </div>
 
-<script>
+<script>/* html-anything: truncated generated script disabled so this checked-in example remains valid HTML.
+
 (function () {
   'use strict';
 
@@ -1697,7 +1698,7 @@ html[data-ha-style="developer"] .mono {
       const exhibitStr = evt.detail ? evt.detail : '';
       const exhibitMatches = exhibitStr.match(/Exhibits?:\s*(.+)/i);
       const exhibitTags = exhibitMatches
-        ? exhibitMatches[1].split(/,\s*/).map(e => `<span class="exhibit-tag">Exhibit ${esc(e.trim())}</span>`).join('')
+        ? exhibitMatches[1].split(/,\s* /).map(e => `<span class="exhibit-tag">Exhibit ${esc(e.trim())}</span>`).join('')
         : '';
 
       const partyName = evt.party || '';
@@ -1850,3 +1851,7 @@ html[data-ha-style="developer"] .mono {
           <div class="document-id">${esc(doc.name || doc.id || '—')}</div>
           <div class="document-name">${esc(doc.kind || '—')}</div>
           <div class="document-date">${esc(doc.date ||
+*/
+</script>
+</body>
+</html>

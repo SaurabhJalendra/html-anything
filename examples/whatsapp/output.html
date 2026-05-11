@@ -1173,11 +1173,12 @@ html[data-ha-style="developer"] .mono {
   </p>
 </footer>
 
-<script>
+<script>/* html-anything: truncated generated script disabled so this checked-in example remains valid HTML.
+
 (function(){
 "use strict";
 
-/* ── helpers ── */
+/* ── helpers ── * /
 const $ = id => document.getElementById(id);
 const senders = () => (DATA.senders||[]);
 const [sA, sB] = senders(); // Alex Chen, Mira Park
@@ -1194,7 +1195,7 @@ function fmtMonth(m){ // "2026-01" -> "Jan 2026"
 function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
 function pct(n,d){return d===0?0:Math.round(n/d*100);}
 
-/* ── COVER ── */
+/* ── COVER ── * /
 function buildCover(){
   const dr = DATA.dateRange||'';
   $('cover-daterange').textContent = dr;
@@ -1228,7 +1229,7 @@ function buildCover(){
   ).join('');
 }
 
-/* ── ABSTRACT ── */
+/* ── ABSTRACT ── * /
 function buildAbstract(){
   const dr = DATA.dateRange||'';
   const total = DATA.messageCount||0;
@@ -1247,7 +1248,7 @@ function buildAbstract(){
     `All sentiment scores are lexicon-based proxies; no psychological interpretation is implied.`;
 }
 
-/* ── CALENDAR HEATMAP ── */
+/* ── CALENDAR HEATMAP ── * /
 function buildCalendar(){
   const data = DATA.calendarHeatmap || DATA.calendarPreview || [];
   if(!data.length){$('calendar-heatmap').textContent='No data.';return;}
@@ -1320,7 +1321,7 @@ function buildCalendar(){
   $('calendar-heatmap').innerHTML = html;
 }
 
-/* ── HOURLY CHART ── */
+/* ── HOURLY CHART ── * /
 function buildHourly(){
   const data = DATA.hourlyDistribution || [];
   if(!data.length){$('hourly-chart').textContent='No data.';return;}
@@ -1360,7 +1361,7 @@ function buildHourly(){
   }
 }
 
-/* ── SENDER LANES ── */
+/* ── SENDER LANES ── * /
 function buildSenderLanes(){
   const total = DATA.messageCount||1;
   const inits = DATA.initiationsBySender||{};
@@ -1403,7 +1404,7 @@ function buildSenderLanes(){
   }).join('');
 }
 
-/* ── ENTHUSIASM INDEX ── */
+/* ── ENTHUSIASM INDEX ── * /
 function buildEnthusiasm(){
   const ms = DATA.monthlyStats||[];
   if(!ms.length){$('enthusiasm-chart').textContent='No data.';return;}
@@ -1442,7 +1443,7 @@ function buildEnthusiasm(){
   $('enthusiasm-chart').innerHTML = html;
 }
 
-/* ── WORD SPECIFICITY ── */
+/* ── WORD SPECIFICITY ── * /
 function buildWordSpecificity(){
   const ws = DATA.wordSpecificity||{};
   const el = $('word-specificity');
@@ -1465,7 +1466,7 @@ function buildWordSpecificity(){
   }).join('');
 }
 
-/* ── CONTRIBUTION MIRROR BARS ── */
+/* ── CONTRIBUTION MIRROR BARS ── * /
 function buildContributionWords(){
   const cw = DATA.contributionWords||[];
   const el = $('contribution-words');
@@ -1494,7 +1495,7 @@ function buildContributionWords(){
   el.innerHTML = html;
 }
 
-/* ── SENTIMENT TIMELINE ── */
+/* ── SENTIMENT TIMELINE ── * /
 function buildSentiment(){
   const st = DATA.sentimentTimeline || (DATA.monthlyStats||[]).map(m=>({
     month: m.month,
@@ -1519,7 +1520,7 @@ function buildSentiment(){
   $('sentiment-timeline').innerHTML = html;
 }
 
-/* ── EMOJI STATS ── */
+/* ── EMOJI STATS ── * /
 function buildEmoji(){
   const es = DATA.emojiStats||{};
   const el = $('emoji-lanes');
@@ -1528,3 +1529,7 @@ function buildEmoji(){
   }
 
   el
+*/
+</script>
+</body>
+</html>

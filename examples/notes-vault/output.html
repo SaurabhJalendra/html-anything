@@ -634,7 +634,8 @@ mark{background:rgba(245,158,11,0.3);border-radius:3px;padding:0 2px}
 <!-- TOOLTIP -->
 <div class="graph-tooltip" id="graph-tooltip"></div>
 
-<script>
+<script>/* html-anything: truncated generated script disabled so this checked-in example remains valid HTML.
+
 // ─── BOOT ──────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   try { boot(); } catch(e) { console.error('Vault render error:', e); }
@@ -1046,9 +1047,9 @@ function inline(text) {
     return `<span class="wikilink-pill" onclick="openNote('${escId(target.toLowerCase())}')" title="${escAttr(target)}">[[${esc(label)}]]</span>`;
   });
   // Bold
-  text = text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  text = text.replace(/\*\*(.+?)\*\* /g,'<strong>$1</strong>');
   // Italic
-  text = text.replace(/\*(.+?)\*/g,'<em>$1</em>');
+  text = text.replace(/\*(.+?)\* /g,'<em>$1</em>');
   // Inline code
   text = text.replace(/`([^`]+)`/g,'<code>$1</code>');
   // TODO checkbox
@@ -1095,3 +1096,7 @@ function renderGraph(graph, topHubs, notes) {
   const svg = document.getElementById('concept-map-svg');
   const W = 800, H = 420;
   const nodes = graph.nodes||
+*/
+</script>
+</body>
+</html>
