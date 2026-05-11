@@ -52,7 +52,7 @@ const STYLE_BY_EXAMPLE = {
   "markdown": "document",
   "bookmarks-market-research": "document",
   "reading-list-academic": "document",
-  "pdf": "document",
+  "pdf": "digital-eguide",
   "docx": "document",
   "medical-visit": "document",
   "lab-results": "document",
@@ -476,6 +476,45 @@ html[data-ha-style="document"] header.hero::before {
   background: transparent;
   border-top: 4px solid var(--ha-style-accent);
   border-left: 4px solid var(--ha-style-accent);
+}
+
+html[data-ha-style="digital-eguide"] {
+  --ha-style-accent: #c44a47;
+  --ha-style-accent-2: #e07d52;
+  --ha-style-badge-bg: rgba(250,243,234,.86);
+  --ha-style-badge-fg: #1f1c14;
+  --primary: #c44a47;
+  --secondary-container: #e07d52;
+  --bg: #d8c8c0;
+  --surface: #faf3ea;
+  --surface-container-lowest: #faf3ea;
+  --surface-container-low: #f4ecdf;
+  --surface-container: #eadfd0;
+  --surface-container-high: #d3c9b3;
+  --fg-1: #1f1c14;
+  --fg-2: #4e4435;
+  --fg-muted: #837964;
+  --border: rgba(31,28,20,.13);
+  --font-headline: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: Georgia, "Times New Roman", serif;
+  --gradient-hero: linear-gradient(135deg, #c44a47 0%, #e07d52 100%);
+  --gradient-text: linear-gradient(135deg, #c44a47 0%, #e07d52 100%);
+}
+html[data-ha-style="digital-eguide"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 18%, #ead7cf, transparent 70%),
+    radial-gradient(ellipse 58% 58% at 82% 92%, #c79a8e, transparent 72%) !important;
+}
+html[data-ha-style="digital-eguide"] body::before { content: "digital e-guide"; }
+html[data-ha-style="digital-eguide"] .hero::before,
+html[data-ha-style="digital-eguide"] header.hero::before {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: var(--ha-style-accent-2);
+  transform: rotate(8deg);
+  box-shadow: inset 0 0 0 6px rgba(255,255,255,.24);
 }
 
 html[data-ha-style="editorial-carousel"] {

@@ -70,6 +70,7 @@ export type HtmlAnythingStyle =
   | "paper-trail"
   | "network-map"
   | "document"
+  | "digital-eguide"
   | "editorial-carousel"
   | "developer"
 

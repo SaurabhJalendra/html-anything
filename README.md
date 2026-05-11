@@ -46,6 +46,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [Apple Health →](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) | Activity, sleep, and workouts become a personal rhythm story. | `timeline-story` |
 | [Slack championship →](https://clockless-org.github.io/html-anything/examples/slack/output.html) | Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence. | `kinetic-scoreboard` |
 | [LinkedIn connections →](https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html) | 12 years of connections clustered by company, role, and era. | `network-map` |
+| [PDF e-guide →](https://clockless-org.github.io/html-anything/examples/pdf/output.html) | A sector report becomes a two-page guide preview with TOC, lesson spread, and source drawer. | `digital-eguide` |
 | [Brand positioning carousel →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html) | A strategy essay becomes a 5-spread magazine carousel with source evidence. | `editorial-carousel` |
 | [CSV sales dashboard →](https://clockless-org.github.io/html-anything/examples/csv/output.html) | A small CSV becomes a sortable + summarized ops console. | `dashboard` |
 | [Google Photos atlas →](https://clockless-org.github.io/html-anything/examples/google-photos-takeout/output.html) | Takeout EXIF metadata becomes a place-driven memory map. | `map-atlas` |
@@ -158,6 +159,7 @@ every output into the same dashboard/report shape.
 | Contacts, LinkedIn, communities, email, social payments | `network-map` (Network Map) |
 | Finance, spreadsheets, logs, backlog, operational data | `dashboard` (Ops Console) |
 | Essays, articles, reading lists, bookmarks, PDFs, DOCX, legal/medical/lab records | `document` (Document Review) |
+| E-guides, PDF guides, creator guides, playbooks, lead magnets | `digital-eguide` (Digital E-Guide Spread) |
 | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | `editorial-carousel` (Editorial Carousel) |
 | Logs, diffs, stack traces, CI failures, repos | `developer` (Terminal Evidence Workbench) |
 
@@ -172,7 +174,7 @@ fallback `default` style plus 12 auto-selected styles (`teaching`,
 `interactive-learning`, `relationship`, `living-essay`, `dashboard`,
 `kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
 `document`, `editorial-carousel`, and `developer`), plus explicit overrides
-such as `paper-trail`.
+such as `paper-trail` and `digital-eguide`.
 
 Example explicit style override:
 
@@ -181,6 +183,11 @@ npx tsx src/cli.ts examples/itinerary-trip/input.csv \
   --style paper-trail \
   --out /tmp/paper-trail-itinerary.html \
   --title "Tokyo + Kyoto - 8-day itinerary"
+
+npx tsx src/cli.ts examples/pdf/input.pdf \
+  --style digital-eguide \
+  --out /tmp/battery-storage-guide.html \
+  --title "Mid-Market Battery Storage Field Guide"
 ```
 ## Source Examples
 

@@ -108,6 +108,7 @@ model, density, chart grammar, and voice.
 | `map-atlas` | Places, trips, routes, rideshare, location history, geotagged photo metadata | **Map Atlas**: spatial stage, place drawer, period/place filters, waypoint browser |
 | `network-map` | Contacts, LinkedIn, email, Venmo/PayPal, people/org graphs, community relationship maps | **Network Map**: graph canvas, entity inspector, cluster controls, hub cards, linked records |
 | `document` | Essays, articles, reading lists, bookmarks, research collections, PDFs, DOCX, legal/medical/lab/academic records | **Document Review**: cover, reading rail, body sheet, evidence margin, drill-down. Tone shifts narrative ↔ formal based on source. |
+| `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | **Digital E-Guide Spread**: two paper pages on a warm desk, cover + TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | **Editorial Carousel**: issue cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
 | `developer` | Diffs, PR patches, CI logs, stack traces, repos | **Terminal Evidence Workbench**: prompt line, hotspots, risk checklist, raw artifact navigator, copyable handoff |
 
@@ -123,6 +124,8 @@ Honor explicit style direction in natural language:
 - "make it more app-like" / "explore this object" / "interactive studio" → lean `interactive-learning`.
 - "less academic" → reduce formal `document` voice.
 - "make it a carousel" / "magazine feel" / "social post" → lean `editorial-carousel`.
+- "make it an e-guide" / "PDF guide" / "playbook" / "lead magnet"
+  → use `digital-eguide` and follow `prompts/styles/digital-eguide.md` exactly.
 - "more dashboard-like" → increase density, filters, charts.
 - "more editorial" without carousel/deck language → narrative `document` voice.
 - "make it a map" / "spatial" → lean `map-atlas`.
@@ -318,7 +321,7 @@ brief.
 Style prompts under [`prompts/styles/`](./prompts/styles/) define reusable page
 systems such as `Timeline Story`, `Map Atlas`, `Network Map`, `Lesson Lab`,
 `Learning Studio`, `Ops Console`, `Mycelium Writing Environment`
-(`living-essay`), `Editorial Carousel`, and `Paper Trail` (explicit tactile
-printed-artifact override). They complement source prompts; they do not
-replace source-specific analysis. The style prompt is binding for the final
-HTML's layout and interaction system.
+(`living-essay`), `Editorial Carousel`, `Digital E-Guide Spread`, and
+`Paper Trail` (explicit tactile printed-artifact override). They complement
+source prompts; they do not replace source-specific analysis. The style prompt
+is binding for the final HTML's layout and interaction system.

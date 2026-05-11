@@ -96,6 +96,7 @@ test("htmlize auto style selector routes major source families", async () => {
   assert.equal(selectStyleForContent("markdown-document", { style: "editorial-carousel" }), "editorial-carousel")
   assert.equal(selectStyleForContent("travel-itinerary", { style: "paper-trail" }), "paper-trail")
   assert.equal(selectStyleForContent("csv-tabular", { style: "interactive-learning" }), "interactive-learning")
+  assert.equal(selectStyleForContent("pdf-document", { style: "digital-eguide" }), "digital-eguide")
 })
 
 test("htmlize injects the selected style prompt into the LLM request", async () => {
@@ -157,6 +158,34 @@ test("htmlize injects the explicit paper-trail style prompt into the LLM request
   assert.match(seenPrompt, /paper-rail/)
   assert.match(seenPrompt, /Treat the selected style as a hard contract/)
   assert.match(seenPrompt, /# travel-itinerary/)
+})
+
+test("htmlize injects the explicit digital-eguide style prompt into the LLM request", async () => {
+  const { htmlize } = await import("../../dist/htmlize.js")
+  const parsed = {
+    contentType: "pdf-document",
+    summary: "8-page PDF guide with sections and recommendations",
+    sample: { headings: [{ page: 1, level: 1, text: "Guide" }] },
+    data: { text: "Guide text", headings: [] },
+    meta: { sourceFile: "input.pdf", sizeBytes: 128, pageCount: 8 },
+  }
+  let seenPrompt = ""
+  const llm = {
+    async ask(prompt) {
+      seenPrompt = prompt
+      return "<!doctype html><html><body><script>const DATA = __DATA__;</script></body></html>"
+    },
+  }
+  await htmlize(parsed, llm, { style: "digital-eguide" })
+  assert.match(seenPrompt, /Selected style: digital-eguide/)
+  assert.match(seenPrompt, /# Digital E-Guide Style/)
+  assert.match(seenPrompt, /Underlying System: Digital E-Guide Spread/)
+  assert.match(seenPrompt, /data-ha-style="digital-eguide"/)
+  assert.match(seenPrompt, /two-page digital guide spread/)
+  assert.match(seenPrompt, /cover-page/)
+  assert.match(seenPrompt, /inside-spread/)
+  assert.match(seenPrompt, /Treat the selected style as a hard contract/)
+  assert.match(seenPrompt, /# pdf — long PDF documents/)
 })
 
 test("checked-in example pages are complete and have parseable inline scripts", async () => {

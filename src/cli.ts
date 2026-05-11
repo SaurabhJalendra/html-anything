@@ -69,6 +69,7 @@ const STYLES = new Set<HtmlAnythingStyle | "auto">([
   "paper-trail",
   "network-map",
   "document",
+  "digital-eguide",
   "editorial-carousel",
   "developer",
 ])
@@ -103,7 +104,7 @@ Default style is auto. Auto injects one of the built-in style prompts
 (teaching, interactive-learning, relationship, living-essay, dashboard,
 kinetic-scoreboard, timeline-story, map-atlas, network-map, document,
 editorial-carousel, developer, or default) based on the parsed content type.
-Explicit overrides also include paper-trail.
+Explicit overrides also include paper-trail and digital-eguide.
 `
 
 async function main() {

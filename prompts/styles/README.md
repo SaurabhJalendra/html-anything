@@ -26,6 +26,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `paper-trail` | Explicit tactile/printed-collateral requests: itineraries, hotel folios, receipts, tickets, reservation bundles | Artifact desk with folio tabs, receipt tape, stamp callouts, source drawer |
 | `network-map` | People, senders, contacts, communities, payments, professional networks | Relationship graph with entity inspector, clusters, hubs, linked records |
 | `document` | Essays, articles, reading lists, research collections, PDFs, DOCX, legal/medical/lab records, policy docs | Document review with cover, reading rail, body sheet, evidence/citations, drill-down |
+| `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | Two-page guide spread with cover, TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | Magazine-like issue with cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
 | `developer` | Repos, diffs, PRs, CI logs, traces | Terminal evidence workbench with risks, hotspots, raw evidence |
 
@@ -45,6 +46,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `paper-trail` | Paper Trail |
 | `network-map` | Network Map |
 | `document` | Document Review |
+| `digital-eguide` | Digital E-Guide Spread |
 | `editorial-carousel` | Editorial Carousel |
 | `developer` | Terminal Evidence Workbench |
 
@@ -77,6 +79,7 @@ override. Borrow archetypes, not brand identities:
 - tactile printed-artifact systems → `paper-trail`
 - graph / network systems → `network-map`
 - broadsheet / media systems → `document`
+- creator guide / PDF guide systems → `digital-eguide`
 - premium carousel / manifesto systems → `editorial-carousel`
 - playful canvas / learning studios → `teaching`, `interactive-learning`
 
@@ -96,6 +99,7 @@ override. Borrow archetypes, not brand identities:
 | "Explore this object/system/spec as an interactive app/studio" | `interactive-learning` |
 | "Analyze this 1:1 relationship chat" | `relationship` |
 | "Read/synthesize this argument or research set" | `document` |
+| "Make this a PDF guide / e-guide / playbook / lead magnet" | `digital-eguide` |
 | "Turn this essay into a carousel / make it feel like a magazine issue" | `editorial-carousel` |
 | "Review this diff/log/trace/repo" | `developer` |
 | "Review this formal/high-stakes document" | `document` |
@@ -109,3 +113,11 @@ Use [`examples/itinerary-trip/input.csv`](../../examples/itinerary-trip/input.cs
 as the first `paper-trail` example. It has flights, hotels, restaurants,
 scheduled stops, costs, and overlap warnings, so the style can render a natural
 desk of key cards, ticket stubs, receipt tape, and stamped conflict callouts.
+
+## Example Source For Digital E-Guide
+
+Use [`examples/pdf/input.pdf`](../../examples/pdf/input.pdf) as the first
+`digital-eguide` example. It is a compact sector report with sections,
+recommendations, glossary, and citations, so the style can turn a formal PDF
+into a cover page plus actionable inside spread without falling back to a
+dashboard or memo.
