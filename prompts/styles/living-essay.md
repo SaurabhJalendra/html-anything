@@ -5,61 +5,64 @@ main value is seeing how concepts recur and connect. Good fits include Kindle
 highlights, personal essays, notes about ideas, article collections, reading
 lists, and knowledge-base slices that should feel read, not operated.
 
-## Underlying System: Concept Weave
+## Underlying System: Mycelium Writing Environment
 
-This is a slow-reading and concept-annotation system. It should feel like a
-manuscript with a living margin: a question, theme, or concept stays near the
-reader while relevant passages light up and connect.
+This is a slow-reading manuscript system inspired by a mycelium / fermentation
+writing environment. It should feel sparse, literary, and alive: a vertical
+question capsule sits in the margin while thin SVG hyphae grow toward small
+highlighted "spore" words in the text. It is closer to a poetic reading tool
+than a product dashboard.
 
 Base scaffold:
 
-1. **Manuscript stage** — an article-like central column with a concise
-   synthesis, generous leading, and a few highlighted concept spans.
-2. **Sticky question rail** — one active question / concept capsule and a
-   small list of theme controls. The rail stays close to the text.
-3. **Weave layer** — SVG paths or lightweight line geometry connect the active
-   capsule to matching quotes, passages, or concept nodes.
-4. **Concept garden** — small concept chips/cards that filter the page and
-   explain why a theme appears.
-5. **Evidence folio** — quote cards, excerpts, or note cards filtered by the
-   selected concept, with search and copy actions.
+1. **Paper manuscript** — a single central reading column, generous leading,
+   justified paragraphs, minimal metadata, and an essay-like synthesis.
+2. **Vertical question capsule** — one sticky pill in the left margin, vertical
+   writing mode on desktop, with a subtle pulsing border.
+3. **Mycelium layer** — fixed inline SVG paths that slowly grow, sustain, and
+   fade between the capsule and visible `.spore` words.
+4. **Spore words** — inline terms inside the manuscript. They underline when
+   connected or selected and can focus the underlying evidence.
+5. **Quiet appendix** — source-specific modules such as reading rhythm,
+   bookshelf, themes, and quote browser appear after the essay as simple
+   ruled lists or thin strips, not as cards.
 
 Component vocabulary:
 
-- `.living-shell`, `.manuscript-stage`, `.question-rail`, `.question-capsule`,
-  `.weave-layer`, `.concept-garden`, `.spore`, `.passage-card`,
-  `.evidence-folio`, `.reading-rhythm`, `.folio-search`.
-- Use question, thread, passage, margin, concept, return, echo, seed, and
-  weave language.
+- `.layout`, `.mycelium-layer`, `.question-zone`, `.capsule-container`,
+  `.question-capsule`, `.manuscript`, `.meta-data`, `.spore`,
+  `.analysis-fields`, `.seed-row`, `.book-row`, `.quote-row`,
+  `.reading-rhythm`, `.folio-search`.
+- Use question, soil, spore, hyphae, thread, residue, return, shelf, field, and
+  fermentation language.
 
 Interaction model:
 
-- Clicking a concept in the rail or garden changes the active concept, filters
-  evidence, highlights matching `.spore` spans, and redraws SVG connections.
-- Search filters the evidence folio while preserving the active concept.
-- Clicking a passage can copy the quote or reveal its source metadata.
-- Connections are explanatory, not decorative: draw only to visible matching
-  cards/passages and keep them subtle.
+- Clicking the capsule rotates the active question.
+- Clicking a `.spore` focuses the related theme or book and updates the quiet
+  appendix below.
+- Mycelium paths can appear probabilistically over visible spores; they should
+  feel alive, not like a static network diagram.
+- Search filters the quote browser while preserving the selected spore.
 
 Motion grammar:
 
-- Draw weave paths on concept change.
-- Fade nonmatching passages rather than abruptly removing the manuscript.
-- Let selected spores underline or glow briefly.
+- SVG paths grow from the capsule, pause, then recede.
+- The capsule border pulses slowly.
+- Selected or connected spores underline quietly.
 - Respect `prefers-reduced-motion`; if reduced, skip path animation and use
   static selected states.
 
 ## Page Shape
 
-- Do not lead with KPI cards or a generic hero.
-- First viewport should show the manuscript and margin working together:
-  question rail, synthesis title, concept highlights, and at least one visible
-  connection or evidence card.
-- Metrics are allowed, but as marginal metadata or small rhythm strips, not as
-  the page spine.
-- For highlight archives, include the source-required modules as sections
-  translated into the manuscript system: reading rhythm, bookshelf, themes,
-  and quote browser.
+- Do not lead with KPI cards, chart panels, a top bar, a grid, or a generic
+  hero.
+- First viewport should look like a quiet essay page: left vertical capsule,
+  central title, metadata, paragraphs, inline spores, and living lines.
+- Put metrics and source-required modules below the manuscript as simple ruled
+  sections.
+- For highlight archives, include reading rhythm, bookshelf, themes, and quote
+  browser, but keep them subordinate to the manuscript environment.
 - Put raw/full records in the evidence folio or quote browser, not before the
   synthesis.
 
@@ -67,26 +70,27 @@ Motion grammar:
 
 - Use the Clockless tokens from `prompts/_design.md`; do not import extra font
   families.
-- Warm paper surfaces, restrained rules, quiet amber/orange accent, high
-  readability.
-- Prefer one generous reading column plus one margin rail over a grid of
-  dashboard cards.
-- Cards should feel like folio slips or marginal notes: light borders, compact
-  metadata, clear quote typography.
+- Warm off-white paper (`#faf9f7`), ink text, restrained hairlines, muted
+  mycelium gold (`#cfa86e`), and almost no shadows.
+- Prefer one 680px manuscript column plus a 240px margin rail. Avoid wide
+  app-shell layouts.
+- Use large literary title type and long line-height. Body copy should feel
+  like an essay, not SaaS copy.
+- Avoid cards where a ruled row, simple list, or text passage would work.
 
 ## Required Modules
 
 - Active question / concept capsule.
-- Synthesis manuscript with highlighted concept spans.
-- Concept garden or theme controls.
-- Evidence folio / quote browser with search and copy.
-- At least one linked-highlighting interaction.
+- Synthesis manuscript with inline `.spore` spans.
+- Animated or selected mycelium links from capsule to visible spores.
+- Quiet theme controls or spore rows.
+- Evidence folio / quote browser with search.
 - For reading/highlight sources: reading rhythm, bookshelf, theme heuristic
   note, and full quote browser.
 
 ## Avoid
 
-- Dashboard shell, KPI-first layout, or chart-card grids.
+- Dashboard shell, KPI-first layout, chart-card grids, or product-app chrome.
 - Overly academic paper styling with abstract/methodology sections.
 - Decorative connection lines that do not respond to selection.
 - Treating heuristic themes as semantic truth. Label them.

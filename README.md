@@ -42,7 +42,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | Demo | One-line | Style |
 |---|---|---|
 | [Amazon order history →](https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html) | 3 years of orders → personal commerce memory with cadence, returns, gifting. | `timeline-story` |
-| [Kindle highlights →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) | Highlights become a slow-reading concept weave with linked passages. | `living-essay` |
+| [Kindle highlights →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) | Highlights become a mycelium writing field with a living margin question. | `living-essay` |
 | [Spotify listening history →](https://clockless-org.github.io/html-anything/examples/spotify-history/output.html) | Lifetime listening as a scroll-driven year-by-year story. | `timeline-story` |
 | [LinkedIn connections →](https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html) | 12 years of connections clustered by company, role, and era. | `network-map` |
 | [CSV sales dashboard →](https://clockless-org.github.io/html-anything/examples/csv/output.html) | A small CSV becomes a sortable + summarized ops console. | `dashboard` |
@@ -139,7 +139,7 @@ the system from the content, then builds the page inside that system:
 | Unknown or mixed inputs | `default` (Insight Brief) |
 | Tutorials, lessons, explainers, "teach me" prompts, object/system explorers | `teaching` (Lesson Lab) |
 | 1:1 chats and intimate message exports | `relationship` (Rhythm Report) |
-| Reflective essays, Kindle highlights, idea notes, concept-heavy reading archives | `living-essay` (Concept Weave) |
+| Reflective essays, Kindle highlights, idea notes, concept-heavy reading archives | `living-essay` (Mycelium Writing Environment) |
 | Personal histories — chronological (orders, history, listening, health) **and** topical (Notion / Obsidian vaults) | `timeline-story` (Timeline Story) |
 | Places, trips, routes, rideshare, geotagged photos | `map-atlas` (Map Atlas) |
 | Contacts, LinkedIn, communities, email, social payments | `network-map` (Network Map) |

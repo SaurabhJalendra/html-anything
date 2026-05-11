@@ -95,9 +95,9 @@ Avoid defaulting data to dashboard. Pick a system by use case:
   issue queues, logs, and dense tabular decision surfaces.
 - **Timeline Story** for personal histories, media histories, purchases,
   reading/listening/watching, and AI chat archives.
-- **Concept Weave** for reflective essays, Kindle highlights, idea notes, and
-  reading archives where concepts and passages should connect in a slow-reading
-  manuscript.
+- **Mycelium Writing Environment** for reflective essays, Kindle highlights,
+  idea notes, and reading archives where a vertical margin question connects to
+  inline spore words in a slow-reading manuscript.
 - **Map Atlas** for places, trips, routes, rideshare, photo geodata, and
   location history.
 - **Network Map** for people, senders, communities, contacts, payments, email,

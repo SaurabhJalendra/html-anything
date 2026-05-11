@@ -17,7 +17,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `default` | The input does not clearly fit a specialized style | Clean live page with strong summary, useful sections, practical drill-down |
 | `teaching` | Tutorial, lesson, "teach me", interactive object/system/spec exploration | Visual stage (or object stage), step rail / entity selector, try-it controls, check-yourself / live inspector |
 | `relationship` | 1:1 chats and intimate message exports | Aggregate-first relationship rhythm report with anonymized evidence |
-| `living-essay` | Reflective essays, Kindle highlights, idea notes, and concept-heavy reading archives | Manuscript stage with sticky question rail, concept weave, highlighted passages, and evidence folio |
+| `living-essay` | Reflective essays, Kindle highlights, idea notes, and concept-heavy reading archives | Mycelium writing environment with a vertical question capsule, spore words, living SVG threads, and quiet appendix |
 | `dashboard` | Operational, tabular, finance, admin, log, planning data | Dense KPIs, charts, filters, flags, searchable table |
 | `timeline-story` | Personal histories — chronological (orders, listening, health) and topical (Notion / Obsidian vaults) | Scroll-driven story with timeline spine, chapters, rhythm strip, drawer |
 | `map-atlas` | Places, routes, trips, rideshare, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
@@ -32,7 +32,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `default` | Insight Brief |
 | `teaching` | Lesson Lab |
 | `relationship` | Rhythm Report |
-| `living-essay` | Concept Weave |
+| `living-essay` | Mycelium Writing Environment |
 | `dashboard` | Ops Console |
 | `timeline-story` | Timeline Story |
 | `map-atlas` | Map Atlas |

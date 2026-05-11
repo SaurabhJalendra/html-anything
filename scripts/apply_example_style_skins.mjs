@@ -208,43 +208,40 @@ html[data-ha-style="timeline-story"] header.hero::before {
 }
 
 html[data-ha-style="living-essay"] {
-  --ha-style-accent: #a03b00;
-  --ha-style-accent-2: #7b40e0;
-  --primary: #a03b00;
-  --primary-container: #c94c00;
-  --primary-fixed: #ffeadf;
-  --secondary-container: #7b40e0;
-  --bg: #fbf8f3;
-  --surface: #fbf8f3;
-  --surface-container-lowest: #fffefa;
-  --surface-container-low: #f4ede3;
-  --surface-container: #ece3d6;
-  --surface-container-high: #dfd3c2;
-  --fg-1: #211d18;
-  --fg-2: #5a4b3d;
-  --fg-muted: #8a7968;
-  --border: rgba(160,59,0,.14);
-  --gradient-hero: linear-gradient(135deg, #a03b00 0%, #7b40e0 100%);
-  --gradient-text: linear-gradient(135deg, #a03b00 0%, #7b40e0 100%);
+  --ha-style-accent: #cfa86e;
+  --ha-style-accent-2: #8c7040;
+  --primary: #8c7040;
+  --primary-container: #cfa86e;
+  --primary-fixed: #f0efe9;
+  --secondary-container: #cfa86e;
+  --bg: #faf9f7;
+  --surface: #faf9f7;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f0efe9;
+  --surface-container: #eae8e0;
+  --surface-container-high: #e0ded5;
+  --fg-1: #2b2b2b;
+  --fg-2: #42403c;
+  --fg-muted: #68645d;
+  --border: #eae8e0;
+  --gradient-hero: linear-gradient(135deg, #cfa86e 0%, #8c7040 100%);
+  --gradient-text: linear-gradient(135deg, #2b2b2b 0%, #8c7040 100%);
 }
 html[data-ha-style="living-essay"] body {
   background-color: var(--bg) !important;
-  background-image:
-    linear-gradient(90deg, rgba(160,59,0,.08) 0 1px, transparent 1px),
-    linear-gradient(rgba(160,59,0,.04) 0 1px, transparent 1px);
-  background-size: 76px 100%, 100% 34px;
+  background-image: none;
 }
-html[data-ha-style="living-essay"] body::before { content: "living essay"; }
+html[data-ha-style="living-essay"] body::before { content: "mycelium essay"; }
 html[data-ha-style="living-essay"] .hero::before,
 html[data-ha-style="living-essay"] header.hero::before {
-  width: 46px;
-  height: 72px;
+  width: 40px;
+  height: 92px;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 50% 18px, var(--ha-style-accent) 0 5px, transparent 6px),
-    radial-gradient(circle at 50% 36px, var(--ha-style-accent-2) 0 4px, transparent 5px),
-    linear-gradient(180deg, transparent 0 12px, color-mix(in srgb, var(--ha-style-accent) 55%, transparent) 13px 57px, transparent 58px);
-  border: 1px solid color-mix(in srgb, var(--ha-style-accent) 22%, transparent);
+    radial-gradient(circle at 50% 22px, color-mix(in srgb, var(--ha-style-accent) 55%, transparent) 0 4px, transparent 5px),
+    linear-gradient(180deg, transparent 0 14px, color-mix(in srgb, var(--ha-style-accent) 55%, transparent) 15px 74px, transparent 75px);
+  border: 1px solid #e0ded5;
+  box-shadow: 0 4px 20px rgba(0,0,0,.03);
 }
 
 html[data-ha-style="map-atlas"] {
