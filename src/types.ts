@@ -67,6 +67,7 @@ export type HtmlAnythingStyle =
   | "soft-saas"
   | "kinetic-scoreboard"
   | "timeline-story"
+  | "global-travel"
   | "map-atlas"
   | "network-map"
   | "document"

@@ -66,6 +66,7 @@ const STYLES = new Set<HtmlAnythingStyle | "auto">([
   "soft-saas",
   "kinetic-scoreboard",
   "timeline-story",
+  "global-travel",
   "map-atlas",
   "network-map",
   "document",
@@ -105,7 +106,7 @@ into the output; the LLM only ever sees a representative sample.
 
 Default style is auto. Auto injects one of the built-in style prompts
 (teaching, comic-book, love-romance-3d, living-essay, dashboard,
-kinetic-scoreboard, timeline-story, map-atlas, network-map, document, kami-reading,
+kinetic-scoreboard, timeline-story, global-travel, map-atlas, network-map, document, kami-reading,
 editorial-carousel, developer, or default) based on the parsed content type.
 Explicit overrides also include digital-eguide, architectural-spread, and
 terminal-cli.

@@ -26,7 +26,8 @@ The default is `auto`: the agent picks a style from the request and source.
 | `soft-saas` | Support inboxes, email campaigns, onboarding, customer-success queues, and lightweight SaaS metrics | Airy SaaS app canvas with profile/source card, central metric bloom, campaign panels, leaderboard, and activity strip |
 | `kinetic-scoreboard` | Multi-participant activity streams, team chats, work races, ranked contributors | Full-viewport championship lanes with kinetic bodies, live ranks, telemetry, and linked evidence pits |
 | `timeline-story` | Personal histories — chronological (orders, listening, health) and topical (Notion / Obsidian vaults) | Scroll-driven story with timeline spine, chapters, rhythm strip, drawer |
-| `map-atlas` | Places, routes, trips, rideshare, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
+| `global-travel` | Travel history, Uber/Lyft trip exports, and personal mobility recaps that should open on an airy dotted world map | Centered travel section with selector, dotted map, warm pins, callout, and metric runway |
+| `map-atlas` | Places, routes, trips, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
 | `network-map` | Personal/professional networks, senders, contacts, communities, payments | Relationship graph with entity inspector, clusters, hubs, linked records |
 | `document` | Essays, articles, reading lists, research collections, PDFs, DOCX, legal/medical/lab records, policy docs | Document review with cover, reading rail, body sheet, evidence/citations, drill-down |
 | `kami-reading` | Long prose, DOCX memos, articles, essays, and manuscripts that should feel calm and easy to read | Warm parchment document with serif cover, inline contents, printable chapter sections, progress, and source appendix |
@@ -49,6 +50,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `soft-saas` | Soft SaaS Console |
 | `kinetic-scoreboard` | Kinetic Championship |
 | `timeline-story` | Timeline Story |
+| `global-travel` | Global Travel Map |
 | `map-atlas` | Map Atlas |
 | `network-map` | Network Map |
 | `document` | Document Review |
@@ -83,6 +85,7 @@ override. Borrow archetypes, not brand identities:
 - airy product analytics systems → `soft-saas`
 - cinematic lesson stages → `teaching`
 - temporal / scrollytelling systems → `timeline-story`
+- travel-history world-map sections → `global-travel`
 - kinetic lane / race / scoreboard systems → `kinetic-scoreboard`
 - spatial atlas systems → `map-atlas`
 - graph / network systems → `network-map`
@@ -127,7 +130,7 @@ choose from.
 | Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `comic-book` |
 | Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, PR patches, stack traces, repos, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
-| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `timeline-story`, `living-essay`, `network-map`, `map-atlas` |
+| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, travel/rideshare history, GPX/KML, itineraries | `timeline-story`, `global-travel`, `living-essay`, `network-map`, `map-atlas` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.

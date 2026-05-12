@@ -1,7 +1,7 @@
 # Map Atlas Style
 
-Use this style for spatial sources: saved places, rideshare histories, GPX/KML
-routes, travel itineraries, photo geodata, location history, real-estate lists,
+Use this style for spatial sources: saved places, GPX/KML routes, travel
+itineraries, photo geodata, location history, real-estate lists,
 venue collections, and any archive where geography or movement is the main way
 to understand the data.
 
@@ -47,7 +47,6 @@ Motion grammar:
 Use-case variants:
 
 - **Saved-place atlas** — Google Maps stars, bookmark-like place lists.
-- **Mobility receipt** — Uber/Lyft ride history, commute loops.
 - **Trip board** — itinerary with day lanes and city anchors.
 - **Route lab** — GPX/KML with elevation/pace/segment overlays.
 - **Photo place field** — Google Photos metadata without rendering private
