@@ -22,7 +22,9 @@ default fallback, and ships the HTML.
 
 ## Preview
 
-→ **[Open the usage gallery](https://clockless-org.github.io/html-anything/examples/)** — 11 usage patterns across 4 use cases. GitHub does not reliably render raw `<video>` tags in READMEs, so the cards below use equal-width animated demo previews. Open a card for the live page, or use the `Demo mp4` link for the original video.
+<p align="center">
+  <a href="https://clockless-org.github.io/html-anything/examples/"><strong>Open gallery →</strong></a>
+</p>
 
 ### Teaching Studios
 
