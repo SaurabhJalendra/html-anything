@@ -347,8 +347,8 @@ footer.foot a { color: var(--primary); }
     <div class="hero-panel">
       <p class="label">Example map</p>
       <div class="hero-stats">
-        <div class="hero-stat"><strong>15</strong><span>curated examples</span></div>
-        <div class="hero-stat"><strong>5</strong><span>use cases</span></div>
+        <div class="hero-stat"><strong>14</strong><span>curated examples</span></div>
+        <div class="hero-stat"><strong>4</strong><span>use cases</span></div>
         <div class="hero-stat"><strong>21</strong><span>style systems</span></div>
       </div>
     </div>
@@ -366,7 +366,7 @@ footer.foot a { color: var(--primary); }
 
   <footer class="foot">
     <div><a href="https://github.com/clockless-org/html-anything">github.com/clockless-org/html-anything</a> · Apache 2.0</div>
-    <div>15 curated demos · source + style on every card</div>
+    <div>14 curated demos · source + style on every card</div>
   </footer>
 </div>
 
@@ -374,10 +374,9 @@ footer.foot a { color: var(--primary); }
 (() => {
   const useCases = [
     ["teaching", "Teaching Studios", "#", "#0f766e", "One brief, article, or concept becomes an interactive learning studio with controls, stages, and checks."],
-    ["files", "Files & Work Data", "=", "#0f5f6f", "Spreadsheets, CSV exports, PDFs, DOCX, Markdown, logs, calendars, finance, work records, and slide-style outputs become polished live pages."],
+    ["files", "Files & Work Data", "=", "#0f5f6f", "Spreadsheets, CSV exports, PDFs, DOCX, Markdown, logs, calendars, CI output, finance, work records, and slide-style outputs become polished live pages."],
     ["conversation", "Conversation Analysis", "~", "#be3455", "Private chats, relationship exports, and team channels become rhythm, contribution, and evidence reports."],
-    ["personal", "Personal Data & Places", ">", "#17695a", "Orders, health, reading, routes, saved places, trips, payments, AI chats, and notes become personal atlases."],
-    ["dev", "Developer Evidence", "!", "#38bdf8", "Diffs, CI logs, stack traces, and repos become evidence workbenches for review and debugging."]
+    ["personal", "Personal Data & Places", ">", "#17695a", "Orders, health, reading, routes, saved places, trips, payments, AI chats, and notes become personal atlases."]
   ].map(([id, title, mark, accent, description]) => ({ id, title, mark, accent, description }));
 
   const styles = [
@@ -415,8 +414,7 @@ footer.foot a { color: var(--primary); }
     ["docx", "Decision memo reader", "DOCX memo", "kami-reading", "files", "A long decision memo becomes a quiet parchment document with inline contents, chapter sections, and source appendix."],
     ["pdf", "PDF e-guide", "PDF report", "digital-eguide", "files", "A sector report becomes a two-page guide preview with TOC, lesson spread, evidence drawer, and actions."],
     ["email", "Email support console", "Mbox archive", "soft-saas", "files", "A support mailbox becomes a soft SaaS console with thread health, handoffs, and open-loop metrics."],
-    ["git-diff", "Git diff", "Patch file", "developer", "dev", "Code changes with risk callouts and evidence-margin annotations."],
-    ["ci-log", "CI terminal console", "CI log", "terminal-cli", "dev", "A failed GitHub Actions run becomes a shell-native debugging console with raw evidence."]
+    ["ci-log", "CI terminal console", "CI log", "terminal-cli", "files", "A failed GitHub Actions run becomes a shell-native debugging console with raw evidence."]
   ].map(([slug, title, source, style, group, description]) => ({ slug, title, source, style, group, description }));
 
   const styleNames = new Map([

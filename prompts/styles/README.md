@@ -37,7 +37,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | Two-page guide spread with cover, TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | Magazine-like issue with cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
 | `terminal-cli` | Explicit terminal, CLI, shell, mainframe, hacker-console, or tmux requests | Dark-only shell work surface with prompt, status rail, terminal panes, command controls, and raw console |
-| `developer` | Repos, diffs, PRs, CI logs, traces | Terminal evidence workbench with risks, hotspots, raw evidence |
+| `developer` | Repos, PRs, CI logs, traces | Terminal evidence workbench with risks, hotspots, raw evidence |
 
 ## System Names
 
@@ -133,11 +133,9 @@ choose from.
 | Use case | Includes | Prefer |
 |---|---|
 | Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `interactive-learning`, `comic-book` |
-| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, PR patches, stack traces, repos, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail`, `developer`, `terminal-cli` |
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
-| Personal Data Recaps | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats | `timeline-story`, `living-essay`, `network-map` |
-| Places & Trips | Photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `map-atlas`, `paper-trail` |
-| Developer Evidence | Diffs, PRs, CI logs, stack traces, repos | `developer`, `terminal-cli` |
+| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `timeline-story`, `living-essay`, `network-map`, `map-atlas`, `paper-trail` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.

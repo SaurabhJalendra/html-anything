@@ -215,15 +215,13 @@ then pick a system inside it:
 - **Teaching Studios** for lessons, explainers, tutorials, and object/system
   studios.
 - **Files & Work Data** for spreadsheets/CSV exports, documents, PDFs, logs,
-  finance, calendars, records, work artifacts, and slide-style carousel
-  outputs.
+  CI output, PR patches, stack traces, repos, finance, calendars, records,
+  work artifacts, and slide-style carousel outputs.
 - **Conversation Analysis** for private chats, relationship exports, team
   channels, and message streams.
-- **Personal Data Recaps** for personal exports, histories, payments,
-  professional networks, reading archives, and notes.
-- **Places & Trips** for location-rich exports, travel, routes, rides, and
-  photo geodata.
-- **Developer Evidence** for diffs, PRs, CI logs, stack traces, and repos.
+- **Personal Data & Places** for personal exports, histories, payments,
+  professional networks, reading archives, notes, location-rich exports,
+  travel, routes, rides, and photo geodata.
 
 Then choose the style system:
 
@@ -249,7 +247,8 @@ Then choose the style system:
 - **Document Review** for long, formal, or evidence-heavy documents.
 - **Editorial Carousel** for arguments, research takeaways, and article-like
   sources that should become a compact shareable sequence.
-- **Evidence Workbench** for developer artifacts.
+- **Evidence Workbench** for PRs, CI output, stack traces, and repo evidence
+  inside Files & Work Data.
 
 ## Source Vs Style
 

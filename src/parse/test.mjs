@@ -110,7 +110,7 @@ test("style catalog stays in sync with style types, prompts, examples, and previ
   const catalog = JSON.parse(catalogRaw)
   assert.equal(catalog.schemaVersion, 1)
   assert.ok(Array.isArray(catalog.sharedQualityGates) && catalog.sharedQualityGates.length >= 5)
-  assert.ok(Array.isArray(catalog.useCases) && catalog.useCases.length >= 5)
+  assert.ok(Array.isArray(catalog.useCases) && catalog.useCases.length >= 4)
   assert.ok(Array.isArray(catalog.styles) && catalog.styles.length >= 10)
 
   const useCaseIds = new Set(catalog.useCases.map(u => u.id))

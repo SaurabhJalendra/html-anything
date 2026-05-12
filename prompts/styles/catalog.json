@@ -32,9 +32,9 @@
     {
       "id": "files-work",
       "title": "Files & Work Data",
-      "summary": "Transform spreadsheets, CSV exports, PDFs, DOCX, Markdown, records, logs, calendars, work artifacts, and slide-style carousel outputs into polished live HTML.",
-      "styles": ["dashboard", "soft-saas", "document", "kami-reading", "architectural-spread", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay"],
-      "examples": ["email", "csv", "pdf", "docx", "markdown", "editorial-carousel"]
+      "summary": "Transform spreadsheets, CSV exports, PDFs, DOCX, Markdown, records, logs, CI output, calendars, work artifacts, and slide-style carousel outputs into polished live HTML.",
+      "styles": ["dashboard", "soft-saas", "document", "kami-reading", "architectural-spread", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay", "developer", "terminal-cli"],
+      "examples": ["email", "csv", "pdf", "docx", "markdown", "editorial-carousel", "ci-log"]
     },
     {
       "id": "conversation",
@@ -49,13 +49,6 @@
       "summary": "Turn personal exports, timelines, routes, saved places, trip records, reading fields, payments, and notes into personal stories and atlases.",
       "styles": ["timeline-story", "living-essay", "network-map", "map-atlas", "paper-trail"],
       "examples": ["amazon-orders", "iphone-health", "kindle-highlights", "rideshare-history"]
-    },
-    {
-      "id": "developer",
-      "title": "Developer Evidence",
-      "summary": "Turn diffs, pull requests, CI logs, stack traces, and repos into evidence workbenches for review and debugging.",
-      "styles": ["developer", "terminal-cli"],
-      "examples": ["git-diff", "ci-log"]
     }
   ],
   "styles": [
@@ -349,7 +342,7 @@
       "system": "Terminal CLI",
       "mode": "explicit-or-auto-when-brief-asks-for-terminal",
       "summary": "Dark-only shell work surface for terminal, CLI, mainframe, CI/log, and system-level interfaces.",
-      "useCases": ["developer"],
+      "useCases": ["files-work"],
       "triggers": ["terminal", "CLI", "shell", "mainframe", "hacker console", "server console", "tmux"],
       "bestSources": ["ci-log", "log-events", "stack-trace", "git-diff", "pr-review", "github-repo", "plain-text"],
       "example": "ci-log",
@@ -364,11 +357,11 @@
       "system": "Terminal Evidence Workbench",
       "mode": "auto",
       "summary": "Terminal-style evidence workbench for diffs, PRs, CI logs, stack traces, and repos.",
-      "useCases": ["developer"],
+      "useCases": ["files-work"],
       "triggers": ["diff", "PR", "CI failure", "stack trace", "repo", "debug", "review"],
       "bestSources": ["git-diff", "pr-review", "ci-log", "stack-trace", "github-repo"],
-      "example": "git-diff",
-      "preview": "docs/example-previews/git-diff.jpg",
+      "example": "pr-review",
+      "preview": "docs/example-previews/pr-review.jpg",
       "accent": "#38bdf8",
       "coreScaffold": ["prompt line", "hotspots", "risk checklist", "raw artifact navigator", "copyable handoff"],
       "requiredPrimitives": [".evidence-workbench", ".prompt-line", ".risk-checklist", ".artifact-navigator", ".handoff-block"],

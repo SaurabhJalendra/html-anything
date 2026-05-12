@@ -22,7 +22,7 @@ ships the HTML.
 
 ## Preview
 
-→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 15 demos, organized by use case and style.
+→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 14 demos, organized by use case and style.
 
 ### Featured
 
@@ -64,7 +64,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | A failed GitHub Actions run becomes a shell-native debugging console. | `terminal-cli` |
 | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | A patch becomes a risk-annotated review brief with evidence. | `developer` |
 
-→ **[See the curated gallery (15 demos) →](https://clockless-org.github.io/html-anything/examples/)**
+→ **[See the curated gallery (14 demos) →](https://clockless-org.github.io/html-anything/examples/)**
 
 ## Install
 
@@ -209,7 +209,7 @@ every output into the same dashboard/report shape.
 | E-guides, PDF guides, creator guides, playbooks, lead magnets | `digital-eguide` (Digital E-Guide Spread) |
 | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | `editorial-carousel` (Editorial Carousel) |
 | Explicit terminal, CLI, shell, mainframe, hacker-console requests | `terminal-cli` (Terminal CLI, explicit override) |
-| Logs, diffs, stack traces, CI failures, repos | `developer` (Terminal Evidence Workbench) |
+| Logs, PR patches, stack traces, CI failures, repos | `developer` (Terminal Evidence Workbench) |
 
 You can still steer it naturally: "make it more tutorial-like", "more
 app-like", "less academic", "make it a carousel", "more dashboard-like",
@@ -219,7 +219,7 @@ Reusable style prompts live in [`prompts/styles/`](./prompts/styles/).
 The shared structural contract is
 [`prompts/styles/_system.md`](./prompts/styles/_system.md). The internal
 style catalog lives in [`prompts/styles/catalog.json`](./prompts/styles/catalog.json):
-it records the five use cases plus each style's triggers, best sources,
+it records the four use cases plus each style's triggers, best sources,
 example, preview, required primitives, and avoid rules so generation can stay
 style-faithful without asking users to pick options. There is a fallback
 `default` style plus 16
@@ -244,16 +244,15 @@ npx tsx src/cli.ts examples/pdf/input.pdf \
 ```
 ## Use Cases And Sources
 
-Sources can be endless, but the skill routes them into five stable use cases.
+Sources can be endless, but the skill routes them into four stable use cases.
 Each use case can use one or more style systems.
 
 | Use case | Example sources | Likely styles |
 |---|---|---|
 | Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, PDF/document simplification request | `teaching`, `interactive-learning`, `comic-book` |
-| Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, CI output, PR patches, stack traces, repos, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail`, `developer`, `terminal-cli` |
 | Conversation Analysis | WeChat, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
 | Personal Data & Places | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, Venmo / PayPal, AI chat exports, notes vaults, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `timeline-story`, `living-essay`, `network-map`, `map-atlas`, `paper-trail` |
-| Developer Evidence | Git diff, PR patch, CI log, stack trace, GitHub repo URL | `developer`, `terminal-cli` |
 
 Use case is user-facing; style is internal. A user can simply say "make this
 CSV prettier" or "turn this into a teaching site" and the skill picks the
