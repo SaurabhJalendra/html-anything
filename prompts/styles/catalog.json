@@ -26,29 +26,71 @@
       "id": "teaching",
       "title": "Teaching Studios",
       "summary": "Turn an idea, lesson, article, or technical concept into an interactive learning studio instead of a scrolling article.",
-      "styles": ["teaching", "interactive-learning", "comic-book"],
-      "examples": ["solar-system-studio", "ai-tokens-comic"]
+      "styles": [
+        "teaching",
+        "comic-book"
+      ],
+      "examples": [
+        "solar-system-studio",
+        "ai-tokens-comic"
+      ]
     },
     {
       "id": "files-work",
       "title": "Files & Work Data",
       "summary": "Transform spreadsheets, CSV exports, PDFs, DOCX, Markdown, records, logs, CI output, calendars, work artifacts, and slide-style carousel outputs into polished live HTML.",
-      "styles": ["dashboard", "soft-saas", "document", "kami-reading", "architectural-spread", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay", "developer", "terminal-cli"],
-      "examples": ["email", "csv", "pdf", "docx", "markdown", "editorial-carousel", "ci-log"]
+      "styles": [
+        "dashboard",
+        "soft-saas",
+        "document",
+        "kami-reading",
+        "architectural-spread",
+        "digital-eguide",
+        "editorial-carousel",
+        "living-essay",
+        "developer",
+        "terminal-cli"
+      ],
+      "examples": [
+        "email",
+        "csv",
+        "pdf",
+        "docx",
+        "markdown",
+        "editorial-carousel",
+        "ci-log"
+      ]
     },
     {
       "id": "conversation",
       "title": "Conversation Analysis",
       "summary": "Analyze private chats, relationship threads, team channels, and message exports through rhythm, contribution, and evidence.",
-      "styles": ["relationship", "love-romance-3d", "kinetic-scoreboard", "network-map"],
-      "examples": ["wechat-couple", "slack"]
+      "styles": [
+        "love-romance-3d",
+        "kinetic-scoreboard",
+        "network-map"
+      ],
+      "examples": [
+        "wechat-couple",
+        "slack"
+      ]
     },
     {
       "id": "personal-data",
       "title": "Personal Data & Places",
       "summary": "Turn personal exports, timelines, routes, saved places, trip records, reading fields, payments, and notes into personal stories and atlases.",
-      "styles": ["timeline-story", "living-essay", "network-map", "map-atlas", "paper-trail"],
-      "examples": ["amazon-orders", "iphone-health", "kindle-highlights", "rideshare-history"]
+      "styles": [
+        "timeline-story",
+        "living-essay",
+        "network-map",
+        "map-atlas"
+      ],
+      "examples": [
+        "amazon-orders",
+        "iphone-health",
+        "kindle-highlights",
+        "rideshare-history"
+      ]
     }
   ],
   "styles": [
@@ -57,315 +99,858 @@
       "system": "Insight Brief",
       "mode": "auto-fallback",
       "summary": "A clean live page for unknown, mixed, or weakly classified sources.",
-      "useCases": ["files-work"],
-      "triggers": ["unknown file", "plain text", "mixed source", "quick brief"],
-      "bestSources": ["plain-text", "unknown", "mixed"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "unknown file",
+        "plain text",
+        "mixed source",
+        "quick brief"
+      ],
+      "bestSources": [
+        "plain-text",
+        "unknown",
+        "mixed"
+      ],
       "example": null,
       "preview": null,
       "accent": "#a03b00",
-      "coreScaffold": ["answer header", "primary insight panel", "evidence stack", "local drill-down"],
-      "requiredPrimitives": [".insight-shell", ".answer-panel", ".evidence-stack", ".detail-drawer"],
-      "avoid": ["dashboard-first layout", "large marketing hero", "unsupported conclusions"]
+      "coreScaffold": [
+        "answer header",
+        "primary insight panel",
+        "evidence stack",
+        "local drill-down"
+      ],
+      "requiredPrimitives": [
+        ".insight-shell",
+        ".answer-panel",
+        ".evidence-stack",
+        ".detail-drawer"
+      ],
+      "avoid": [
+        "dashboard-first layout",
+        "large marketing hero",
+        "unsupported conclusions"
+      ]
     },
     {
       "id": "teaching",
       "system": "Lesson Lab",
       "mode": "auto",
       "summary": "Interactive lesson surface for tutorials, explainers, and teaching prompts.",
-      "useCases": ["teaching"],
-      "triggers": ["teach me", "tutorial", "lesson", "explain", "learning site"],
-      "bestSources": ["prompt", "markdown-document", "url-article", "plain-text"],
+      "useCases": [
+        "teaching"
+      ],
+      "triggers": [
+        "teach me",
+        "tutorial",
+        "lesson",
+        "explain",
+        "learning site"
+      ],
+      "bestSources": [
+        "prompt",
+        "markdown-document",
+        "url-article",
+        "plain-text"
+      ],
       "example": "solar-system-studio",
       "preview": "docs/example-previews/solar-system-studio.jpg",
       "accent": "#0f766e",
-      "coreScaffold": ["visual stage", "step rail", "try-it controls", "concept cards", "recap"],
-      "requiredPrimitives": [".lesson-stage", ".step-rail", ".try-it", ".concept-card", ".quiz-panel"],
-      "avoid": ["article-only output", "dashboard KPIs", "static slide deck"]
-    },
-    {
-      "id": "interactive-learning",
-      "system": "Learning Studio",
-      "mode": "explicit-or-auto-when-brief-is-object-studio",
-      "summary": "App-like studio for manipulating an object, anatomy, architecture, or system.",
-      "useCases": ["teaching"],
-      "triggers": ["interactive studio", "explore this object", "anatomy", "architecture", "model", "simulator"],
-      "bestSources": ["prompt", "json-data", "markdown-document", "url-article"],
-      "example": null,
-      "preview": null,
-      "accent": "#8260b7",
-      "coreScaffold": ["entity rail", "central interactive stage", "live inspector", "mode controls", "comparison bench"],
-      "requiredPrimitives": [".studio-shell", ".entity-rail", ".interactive-stage", ".inspector", ".mode-controls"],
-      "avoid": ["text-only explainer", "KPI dashboard", "decorative 3D without readable fallback"]
+      "coreScaffold": [
+        "visual stage",
+        "step rail",
+        "try-it controls",
+        "concept cards",
+        "recap"
+      ],
+      "requiredPrimitives": [
+        ".lesson-stage",
+        ".step-rail",
+        ".try-it",
+        ".concept-card",
+        ".quiz-panel"
+      ],
+      "avoid": [
+        "article-only output",
+        "dashboard KPIs",
+        "static slide deck"
+      ]
     },
     {
       "id": "comic-book",
       "system": "Comic Book Explainer",
       "mode": "explicit-or-auto-when-brief-asks-for-comic",
       "summary": "Six-to-seven-page Doraemon-style knowledge comic for simplifying concepts, PDFs, documents, and articles through a story-led teacher character.",
-      "useCases": ["teaching"],
-      "triggers": ["comic book", "manga", "explain simply", "make it easy to understand", "story explainer", "cartoon lesson"],
-      "bestSources": ["prompt", "plain-text", "markdown-document", "pdf-document", "docx-document", "url-article"],
+      "useCases": [
+        "teaching"
+      ],
+      "triggers": [
+        "comic book",
+        "manga",
+        "explain simply",
+        "make it easy to understand",
+        "story explainer",
+        "cartoon lesson"
+      ],
+      "bestSources": [
+        "prompt",
+        "plain-text",
+        "markdown-document",
+        "pdf-document",
+        "docx-document",
+        "url-article"
+      ],
       "example": "ai-tokens-comic",
       "preview": "docs/example-previews/ai-tokens-comic.jpg",
       "accent": "#1f8bcf",
-      "coreScaffold": ["Doraemon-style comic reader", "six or seven vertical pages", "dynamic panel grid", "Doraemon teacher character", "pocket gadgets", "recap page"],
-      "requiredPrimitives": [".comic-book-shell", ".comic-page", ".panel-grid", ".speech-bubble", ".pocket-gadget", ".page-strip"],
-      "avoid": ["single long article", "generic slide deck", "dashboards or KPI cards", "generic robot-cat substitution when Doraemon is requested"]
-    },
-    {
-      "id": "relationship",
-      "system": "Rhythm Report",
-      "mode": "auto",
-      "summary": "Aggregate-first report for intimate 1:1 message exports.",
-      "useCases": ["conversation"],
-      "triggers": ["couple chat", "relationship report", "wechat", "whatsapp", "1:1 chat", "friend chat"],
-      "bestSources": ["wechat-chat", "whatsapp-chat", "imessage-chat"],
-      "example": "wechat-couple",
-      "preview": "docs/example-previews/wechat-couple.jpg",
-      "accent": "#be3455",
-      "coreScaffold": ["pulse calendar", "comparison lanes", "selected insight tooltips", "evidence snippets", "privacy-first drill-down"],
-      "requiredPrimitives": [".rhythm-shell", ".pulse-calendar", ".comparison-lane", ".insight-tooltip", ".evidence-chip"],
-      "avoid": ["raw message appendix by default", "absolute claims about who loves more", "overly sweet toy metrics"]
+      "coreScaffold": [
+        "Doraemon-style comic reader",
+        "six or seven vertical pages",
+        "dynamic panel grid",
+        "Doraemon teacher character",
+        "pocket gadgets",
+        "recap page"
+      ],
+      "requiredPrimitives": [
+        ".comic-book-shell",
+        ".comic-page",
+        ".panel-grid",
+        ".speech-bubble",
+        ".pocket-gadget",
+        ".page-strip"
+      ],
+      "avoid": [
+        "single long article",
+        "generic slide deck",
+        "dashboards or KPI cards",
+        "generic robot-cat substitution when Doraemon is requested"
+      ]
     },
     {
       "id": "love-romance-3d",
       "system": "Keepsake 3D Rhythm",
       "mode": "explicit-or-demo",
       "summary": "A soft 3D keepsake interface for couple chats and romance-themed relationship recaps.",
-      "useCases": ["conversation"],
-      "triggers": ["love and romance 3d", "romance icons", "valentine style", "couple chat", "cute 3d"],
-      "bestSources": ["wechat-chat", "whatsapp-chat", "imessage-chat"],
+      "useCases": [
+        "conversation"
+      ],
+      "triggers": [
+        "love and romance 3d",
+        "romance icons",
+        "valentine style",
+        "couple chat",
+        "cute 3d"
+      ],
+      "bestSources": [
+        "wechat-chat",
+        "whatsapp-chat",
+        "imessage-chat"
+      ],
       "example": "wechat-couple",
       "preview": "docs/example-previews/wechat-couple.jpg",
       "accent": "#f04d72",
-      "coreScaffold": ["3D keepsake cover", "icon-stage metrics", "message pulse board", "soft comparison lanes", "privacy evidence drawer"],
-      "requiredPrimitives": [".romance-3d-shell", ".icon-stage", ".keepsake-metric", ".message-pulse", ".memory-token", ".evidence-card"],
-      "avoid": ["raw transcript as decoration", "emoji-only romance icons", "who loves more claims", "generic pink dashboard"]
+      "coreScaffold": [
+        "3D keepsake cover",
+        "icon-stage metrics",
+        "message pulse board",
+        "soft comparison lanes",
+        "privacy evidence drawer"
+      ],
+      "requiredPrimitives": [
+        ".romance-3d-shell",
+        ".icon-stage",
+        ".keepsake-metric",
+        ".message-pulse",
+        ".memory-token",
+        ".evidence-card"
+      ],
+      "avoid": [
+        "raw transcript as decoration",
+        "emoji-only romance icons",
+        "who loves more claims",
+        "generic pink dashboard"
+      ]
     },
     {
       "id": "living-essay",
       "system": "Mycelium Writing Environment",
       "mode": "auto",
       "summary": "Slow-reading manuscript for highlights, reflective notes, and concept-heavy archives.",
-      "useCases": ["personal-data", "files-work"],
-      "triggers": ["kindle highlights", "reflective notes", "essay", "idea archive", "reading notes"],
-      "bestSources": ["kindle-highlights", "markdown-document", "reading-list", "plain-text"],
+      "useCases": [
+        "personal-data",
+        "files-work"
+      ],
+      "triggers": [
+        "kindle highlights",
+        "reflective notes",
+        "essay",
+        "idea archive",
+        "reading notes"
+      ],
+      "bestSources": [
+        "kindle-highlights",
+        "markdown-document",
+        "reading-list",
+        "plain-text"
+      ],
       "example": "kindle-highlights",
       "preview": "docs/example-previews/kindle-highlights.jpg",
       "accent": "#cfa86e",
-      "coreScaffold": ["paper manuscript", "vertical margin question", "spore words", "living threads", "quiet appendix"],
-      "requiredPrimitives": [".living-manuscript", ".margin-question", ".spore-word", ".thread-svg", ".quiet-appendix"],
-      "avoid": ["dense dashboard", "generic quote grid", "loud chart-first page"]
+      "coreScaffold": [
+        "paper manuscript",
+        "vertical margin question",
+        "spore words",
+        "living threads",
+        "quiet appendix"
+      ],
+      "requiredPrimitives": [
+        ".living-manuscript",
+        ".margin-question",
+        ".spore-word",
+        ".thread-svg",
+        ".quiet-appendix"
+      ],
+      "avoid": [
+        "dense dashboard",
+        "generic quote grid",
+        "loud chart-first page"
+      ]
     },
     {
       "id": "dashboard",
       "system": "Ops Console",
       "mode": "auto",
       "summary": "Operational console for finance, logs, work queues, and dense tabular decision data.",
-      "useCases": ["files-work"],
-      "triggers": ["dashboard", "operations", "ledger", "log", "admin", "queue", "finance"],
-      "bestSources": ["csv-tabular", "json-data", "jsonl-events", "log-events", "bank-transactions", "invoices", "quickbooks-report", "ics-calendar", "issue-tracker", "trello-board"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "dashboard",
+        "operations",
+        "ledger",
+        "log",
+        "admin",
+        "queue",
+        "finance"
+      ],
+      "bestSources": [
+        "csv-tabular",
+        "json-data",
+        "jsonl-events",
+        "log-events",
+        "bank-transactions",
+        "invoices",
+        "quickbooks-report",
+        "ics-calendar",
+        "issue-tracker",
+        "trello-board"
+      ],
       "example": "csv",
       "preview": "docs/example-previews/csv.jpg",
       "accent": "#0f5f6f",
-      "coreScaffold": ["command bar", "KPI rail", "work surface", "flag queue", "searchable data grid"],
-      "requiredPrimitives": [".ops-shell", ".command-bar", ".kpi-rail", ".flag-queue", ".data-grid"],
-      "avoid": ["marketing hero", "decorative card stacks", "chart values that are hover-only"]
+      "coreScaffold": [
+        "command bar",
+        "KPI rail",
+        "work surface",
+        "flag queue",
+        "searchable data grid"
+      ],
+      "requiredPrimitives": [
+        ".ops-shell",
+        ".command-bar",
+        ".kpi-rail",
+        ".flag-queue",
+        ".data-grid"
+      ],
+      "avoid": [
+        "marketing hero",
+        "decorative card stacks",
+        "chart values that are hover-only"
+      ]
     },
     {
       "id": "soft-saas",
       "system": "Soft SaaS Console",
       "mode": "auto",
       "summary": "Airy product analytics console for customer-facing workstreams, inboxes, campaigns, onboarding, and lightweight operational metrics.",
-      "useCases": ["files-work"],
-      "triggers": ["email campaign", "customer onboarding", "support inbox", "saas metrics", "performance panel", "customer success"],
-      "bestSources": ["email-archive", "csv-tabular", "issue-tracker", "ics-calendar", "slack-chat"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "email campaign",
+        "customer onboarding",
+        "support inbox",
+        "saas metrics",
+        "performance panel",
+        "customer success"
+      ],
+      "bestSources": [
+        "email-archive",
+        "csv-tabular",
+        "issue-tracker",
+        "ics-calendar",
+        "slack-chat"
+      ],
       "example": "email",
       "preview": "docs/example-previews/email.jpg",
       "accent": "#5b7cf6",
-      "coreScaffold": ["soft app canvas", "profile or source card", "central metric bloom", "right-side campaign panels", "bottom activity strip"],
-      "requiredPrimitives": [".soft-saas-shell", ".profile-card", ".metric-bloom", ".campaign-panel", ".activity-strip"],
-      "avoid": ["heavy admin dashboard", "dark terminal or evidence UI", "full-width marketing hero", "dense raw table as first viewport"]
+      "coreScaffold": [
+        "soft app canvas",
+        "profile or source card",
+        "central metric bloom",
+        "right-side campaign panels",
+        "bottom activity strip"
+      ],
+      "requiredPrimitives": [
+        ".soft-saas-shell",
+        ".profile-card",
+        ".metric-bloom",
+        ".campaign-panel",
+        ".activity-strip"
+      ],
+      "avoid": [
+        "heavy admin dashboard",
+        "dark terminal or evidence UI",
+        "full-width marketing hero",
+        "dense raw table as first viewport"
+      ]
     },
     {
       "id": "kinetic-scoreboard",
       "system": "Kinetic Championship",
       "mode": "auto",
       "summary": "Ranked kinetic lanes for multi-participant streams, chats, and contribution races.",
-      "useCases": ["conversation"],
-      "triggers": ["leaderboard", "who contributed most", "team activity", "rank contributors", "scoreboard"],
-      "bestSources": ["slack-chat", "discord-chat", "telegram-chat", "multi-sender-chat"],
+      "useCases": [
+        "conversation"
+      ],
+      "triggers": [
+        "leaderboard",
+        "who contributed most",
+        "team activity",
+        "rank contributors",
+        "scoreboard"
+      ],
+      "bestSources": [
+        "slack-chat",
+        "discord-chat",
+        "telegram-chat",
+        "multi-sender-chat"
+      ],
       "example": "slack",
       "preview": "docs/example-previews/slack.jpg",
       "accent": "#e63946",
-      "coreScaffold": ["full-viewport lanes", "live ranks", "kinetic activity body", "telemetry footer", "evidence pits"],
-      "requiredPrimitives": [".kinetic-arena", ".rank-lane", ".activity-body", ".telemetry-footer", ".evidence-pit"],
-      "avoid": ["static participant table", "generic chat transcript", "ranking without caveats"]
+      "coreScaffold": [
+        "full-viewport lanes",
+        "live ranks",
+        "kinetic activity body",
+        "telemetry footer",
+        "evidence pits"
+      ],
+      "requiredPrimitives": [
+        ".kinetic-arena",
+        ".rank-lane",
+        ".activity-body",
+        ".telemetry-footer",
+        ".evidence-pit"
+      ],
+      "avoid": [
+        "static participant table",
+        "generic chat transcript",
+        "ranking without caveats"
+      ]
     },
     {
       "id": "timeline-story",
       "system": "Timeline Story",
       "mode": "auto",
       "summary": "Time-lens narrative for personal histories and topical knowledge archives.",
-      "useCases": ["personal-data"],
-      "triggers": ["year in review", "history", "orders", "watch history", "listening history", "browsing history", "vault"],
-      "bestSources": ["amazon-orders", "browser-history", "spotify-history", "youtube-watch-history", "twitch-history", "iphone-health", "chatgpt-export", "ai-chat-export", "notion-export", "obsidian-vault", "markdown-folder"],
+      "useCases": [
+        "personal-data"
+      ],
+      "triggers": [
+        "year in review",
+        "history",
+        "orders",
+        "watch history",
+        "listening history",
+        "browsing history",
+        "vault"
+      ],
+      "bestSources": [
+        "amazon-orders",
+        "browser-history",
+        "spotify-history",
+        "youtube-watch-history",
+        "twitch-history",
+        "iphone-health",
+        "chatgpt-export",
+        "ai-chat-export",
+        "notion-export",
+        "obsidian-vault",
+        "markdown-folder"
+      ],
       "example": "amazon-orders",
       "preview": "docs/example-previews/amazon-orders.jpg",
       "accent": "#9a4b14",
-      "coreScaffold": ["time lens", "timeline spine", "chapter panels", "rhythm strip", "memory drawer"],
-      "requiredPrimitives": [".timeline-shell", ".time-lens", ".timeline-spine", ".chapter-panel", ".memory-drawer"],
-      "avoid": ["flat table dump", "dashboard-first layout", "every month shown with equal importance"]
+      "coreScaffold": [
+        "time lens",
+        "timeline spine",
+        "chapter panels",
+        "rhythm strip",
+        "memory drawer"
+      ],
+      "requiredPrimitives": [
+        ".timeline-shell",
+        ".time-lens",
+        ".timeline-spine",
+        ".chapter-panel",
+        ".memory-drawer"
+      ],
+      "avoid": [
+        "flat table dump",
+        "dashboard-first layout",
+        "every month shown with equal importance"
+      ]
     },
     {
       "id": "map-atlas",
       "system": "Map Atlas",
       "mode": "auto",
       "summary": "Spatial atlas for places, routes, trips, rideshare, and geotagged media.",
-      "useCases": ["personal-data"],
-      "triggers": ["map", "places", "route", "trip", "rideshare", "geotagged photos", "location history"],
-      "bestSources": ["google-maps-stars", "google-photos-takeout", "rideshare-history", "gpx-route", "kml-route", "travel-itinerary", "location-history"],
+      "useCases": [
+        "personal-data"
+      ],
+      "triggers": [
+        "map",
+        "places",
+        "route",
+        "trip",
+        "rideshare",
+        "geotagged photos",
+        "location history"
+      ],
+      "bestSources": [
+        "google-maps-stars",
+        "google-photos-takeout",
+        "rideshare-history",
+        "gpx-route",
+        "kml-route",
+        "travel-itinerary",
+        "location-history"
+      ],
       "example": "rideshare-history",
       "preview": "docs/example-previews/rideshare-history.jpg",
       "accent": "#17695a",
-      "coreScaffold": ["spatial stage", "place drawer", "period filters", "waypoint browser", "route stats"],
-      "requiredPrimitives": [".atlas-shell", ".spatial-stage", ".place-drawer", ".waypoint-browser", ".period-filter"],
-      "avoid": ["remote map tiles", "coordinates without labels", "map-only output with no list fallback"]
-    },
-    {
-      "id": "paper-trail",
-      "system": "Paper Trail",
-      "mode": "explicit",
-      "summary": "Tactile artifact desk for itineraries, tickets, receipts, folios, and evidence packets.",
-      "useCases": ["personal-data", "files-work"],
-      "triggers": ["receipt", "ticket", "folio", "passport", "field notes", "paper trail", "hotel key-card"],
-      "bestSources": ["travel-itinerary", "location-history", "legal-chronology", "invoices"],
-      "example": "itinerary-trip",
-      "preview": "docs/example-previews/itinerary-trip.jpg",
-      "accent": "#ffc233",
-      "coreScaffold": ["artifact desk", "folio tabs", "receipt tape", "stamp callouts", "source drawer"],
-      "requiredPrimitives": [".paper-desk", ".folio-tab", ".receipt-tape", ".stamp-callout", ".source-drawer"],
-      "avoid": ["clean dashboard", "generic travel grid", "modern glass UI"]
+      "coreScaffold": [
+        "spatial stage",
+        "place drawer",
+        "period filters",
+        "waypoint browser",
+        "route stats"
+      ],
+      "requiredPrimitives": [
+        ".atlas-shell",
+        ".spatial-stage",
+        ".place-drawer",
+        ".waypoint-browser",
+        ".period-filter"
+      ],
+      "avoid": [
+        "remote map tiles",
+        "coordinates without labels",
+        "map-only output with no list fallback"
+      ]
     },
     {
       "id": "network-map",
       "system": "Network Map",
       "mode": "auto",
       "summary": "Entity graph and inspector for people, organizations, senders, payments, and contacts.",
-      "useCases": ["personal-data", "conversation"],
-      "triggers": ["network", "relationships", "contacts", "linkedin", "email", "payments", "community"],
-      "bestSources": ["linkedin-connections", "vcard-contacts", "venmo-paypal-payments", "discord-chat", "telegram-chat", "imessage-chat"],
+      "useCases": [
+        "personal-data",
+        "conversation"
+      ],
+      "triggers": [
+        "network",
+        "relationships",
+        "contacts",
+        "linkedin",
+        "email",
+        "payments",
+        "community"
+      ],
+      "bestSources": [
+        "linkedin-connections",
+        "vcard-contacts",
+        "venmo-paypal-payments",
+        "discord-chat",
+        "telegram-chat",
+        "imessage-chat"
+      ],
       "example": "vcard-contacts",
       "preview": "docs/example-previews/vcard-contacts.jpg",
       "accent": "#355f91",
-      "coreScaffold": ["graph canvas", "entity inspector", "cluster controls", "hub cards", "linked records"],
-      "requiredPrimitives": [".network-shell", ".graph-canvas", ".entity-inspector", ".cluster-control", ".hub-card"],
-      "avoid": ["unlabeled node cloud", "graph with no list fallback", "relationship claims without evidence"]
+      "coreScaffold": [
+        "graph canvas",
+        "entity inspector",
+        "cluster controls",
+        "hub cards",
+        "linked records"
+      ],
+      "requiredPrimitives": [
+        ".network-shell",
+        ".graph-canvas",
+        ".entity-inspector",
+        ".cluster-control",
+        ".hub-card"
+      ],
+      "avoid": [
+        "unlabeled node cloud",
+        "graph with no list fallback",
+        "relationship claims without evidence"
+      ]
     },
     {
       "id": "document",
       "system": "Document Review",
       "mode": "auto",
       "summary": "Structured reading and evidence surface for essays, research, records, policies, and formal documents.",
-      "useCases": ["files-work"],
-      "triggers": ["document", "essay", "article", "research", "records", "policy", "memo"],
-      "bestSources": ["markdown-document", "docx-document", "medical-visit", "lab-results", "legal-chronology", "bookmarks-html", "bibliography", "url-list", "reading-list"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "document",
+        "essay",
+        "article",
+        "research",
+        "records",
+        "policy",
+        "memo"
+      ],
+      "bestSources": [
+        "markdown-document",
+        "docx-document",
+        "medical-visit",
+        "lab-results",
+        "legal-chronology",
+        "bookmarks-html",
+        "bibliography",
+        "url-list",
+        "reading-list"
+      ],
       "example": "bookmarks-market-research",
       "preview": "docs/example-previews/bookmarks-market-research.jpg",
       "accent": "#8b3f1f",
-      "coreScaffold": ["cover", "reader rail", "body sheet", "evidence margin", "question panel"],
-      "requiredPrimitives": [".document-shell", ".reader-rail", ".body-section", ".evidence-margin", ".question-panel"],
-      "avoid": ["generic blog", "over-quoting", "diagnosis or legal/tax advice"]
+      "coreScaffold": [
+        "cover",
+        "reader rail",
+        "body sheet",
+        "evidence margin",
+        "question panel"
+      ],
+      "requiredPrimitives": [
+        ".document-shell",
+        ".reader-rail",
+        ".body-section",
+        ".evidence-margin",
+        ".question-panel"
+      ],
+      "avoid": [
+        "generic blog",
+        "over-quoting",
+        "diagnosis or legal/tax advice"
+      ]
     },
     {
       "id": "kami-reading",
       "system": "Kami Longform Reader",
       "mode": "auto-for-docx-or-explicit-long-reading",
       "summary": "Warm parchment longform document style inspired by tw93/Kami for sustained reading of essays, articles, DOCX memos, and manuscripts.",
-      "useCases": ["files-work"],
-      "triggers": ["kami", "long-form reading", "long text", "make it easy to read", "readable article", "paper reader"],
-      "bestSources": ["docx-document", "markdown-document", "pdf-document", "url-article", "plain-text"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "kami",
+        "long-form reading",
+        "long text",
+        "make it easy to read",
+        "readable article",
+        "paper reader"
+      ],
+      "bestSources": [
+        "docx-document",
+        "markdown-document",
+        "pdf-document",
+        "url-article",
+        "plain-text"
+      ],
       "example": "docx",
       "preview": "docs/example-previews/docx.jpg",
       "accent": "#1B365D",
-      "coreScaffold": ["parchment document shell", "serif cover", "inline contents strip", "printable chapter sections", "source appendix"],
-      "requiredPrimitives": [".kami-reader", ".kami-cover", ".kami-toc", ".kami-page", ".kami-card", ".kami-progress", ".kami-source-drawer"],
-      "avoid": ["dashboard-first layout", "sticky side rail", "pure white canvas", "cool grays", "italic quotes", "multi-color palettes"]
+      "coreScaffold": [
+        "parchment document shell",
+        "serif cover",
+        "inline contents strip",
+        "printable chapter sections",
+        "source appendix"
+      ],
+      "requiredPrimitives": [
+        ".kami-reader",
+        ".kami-cover",
+        ".kami-toc",
+        ".kami-page",
+        ".kami-card",
+        ".kami-progress",
+        ".kami-source-drawer"
+      ],
+      "avoid": [
+        "dashboard-first layout",
+        "sticky side rail",
+        "pure white canvas",
+        "cool grays",
+        "italic quotes",
+        "multi-color palettes"
+      ]
     },
     {
       "id": "architectural-spread",
       "system": "Architectural Editorial Spread",
       "mode": "explicit-or-auto-for-visual-longform",
       "summary": "Reference-faithful split-screen editorial spread with a large visual object and restrained architectural copy panel.",
-      "useCases": ["files-work"],
-      "triggers": ["architectural spread", "split screen editorial", "visual essay", "object-focused article", "like the Mars HTML", "full-screen magazine spread"],
-      "bestSources": ["markdown-document", "url-article", "plain-text", "docx-document"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "architectural spread",
+        "split screen editorial",
+        "visual essay",
+        "object-focused article",
+        "like the Mars HTML",
+        "full-screen magazine spread"
+      ],
+      "bestSources": [
+        "markdown-document",
+        "url-article",
+        "plain-text",
+        "docx-document"
+      ],
       "example": "markdown",
       "preview": "docs/example-previews/markdown.jpg",
       "accent": "#6B655F",
-      "coreScaffold": ["left visual bay", "right editorial panel", "serif italic emphasis", "absolute nav anchors", "pagination dots"],
-      "requiredPrimitives": [".architectural-viewport", ".col-visual", ".col-content", ".visual-object", ".nav-anchor", ".pagination"],
-      "avoid": ["scrolling blog", "dashboard cards", "top navigation bar", "generic document review shell"]
+      "coreScaffold": [
+        "left visual bay",
+        "right editorial panel",
+        "serif italic emphasis",
+        "absolute nav anchors",
+        "pagination dots"
+      ],
+      "requiredPrimitives": [
+        ".architectural-viewport",
+        ".col-visual",
+        ".col-content",
+        ".visual-object",
+        ".nav-anchor",
+        ".pagination"
+      ],
+      "avoid": [
+        "scrolling blog",
+        "dashboard cards",
+        "top navigation bar",
+        "generic document review shell"
+      ]
     },
     {
       "id": "digital-eguide",
       "system": "Digital E-Guide Spread",
       "mode": "explicit",
       "summary": "Two-page e-guide preview for PDF guides, playbooks, creator guides, lead magnets, and downloadable course material.",
-      "useCases": ["files-work"],
-      "triggers": ["e-guide", "digital guide", "pdf guide", "playbook", "lead magnet", "ebook", "lookbook"],
-      "bestSources": ["pdf-document", "markdown-document", "docx-document", "url-article", "plain-text"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "e-guide",
+        "digital guide",
+        "pdf guide",
+        "playbook",
+        "lead magnet",
+        "ebook",
+        "lookbook"
+      ],
+      "bestSources": [
+        "pdf-document",
+        "markdown-document",
+        "docx-document",
+        "url-article",
+        "plain-text"
+      ],
       "example": "pdf",
       "preview": "docs/example-previews/pdf.jpg",
       "accent": "#c44a47",
-      "coreScaffold": ["warm guide desk", "cover page", "inside spread", "table of contents", "exercise strip"],
-      "requiredPrimitives": [".eguide-desk", ".spread-pair", ".cover-page", ".inside-spread", ".exercise-strip"],
-      "avoid": ["top nav", "KPI dashboard", "long continuous article", "glossy glassmorphism"]
+      "coreScaffold": [
+        "warm guide desk",
+        "cover page",
+        "inside spread",
+        "table of contents",
+        "exercise strip"
+      ],
+      "requiredPrimitives": [
+        ".eguide-desk",
+        ".spread-pair",
+        ".cover-page",
+        ".inside-spread",
+        ".exercise-strip"
+      ],
+      "avoid": [
+        "top nav",
+        "KPI dashboard",
+        "long continuous article",
+        "glossy glassmorphism"
+      ]
     },
     {
       "id": "editorial-carousel",
       "system": "Editorial Carousel",
       "mode": "explicit-or-auto-when-brief-is-carousel",
       "summary": "Magazine-like carousel for argument, brand, and shareable takeaway sequences.",
-      "useCases": ["files-work"],
-      "triggers": ["carousel", "social post", "magazine issue", "slide sequence", "shareable takeaways"],
-      "bestSources": ["markdown-document", "url-article", "pdf-document", "docx-document", "plain-text"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "carousel",
+        "social post",
+        "magazine issue",
+        "slide sequence",
+        "shareable takeaways"
+      ],
+      "bestSources": [
+        "markdown-document",
+        "url-article",
+        "pdf-document",
+        "docx-document",
+        "plain-text"
+      ],
       "example": "editorial-carousel",
       "preview": "docs/example-previews/editorial-carousel.jpg",
       "accent": "#9f3f24",
-      "coreScaffold": ["horizontal slide rail", "fixed editorial slides", "top metadata", "argument sequence", "evidence drawer"],
-      "requiredPrimitives": [".carousel-track", ".slide", ".top-meta", ".bottom-nav", ".evidence-drawer"],
-      "avoid": ["app header", "dashboard widgets", "more than eight primary slides without request"]
+      "coreScaffold": [
+        "horizontal slide rail",
+        "fixed editorial slides",
+        "top metadata",
+        "argument sequence",
+        "evidence drawer"
+      ],
+      "requiredPrimitives": [
+        ".carousel-track",
+        ".slide",
+        ".top-meta",
+        ".bottom-nav",
+        ".evidence-drawer"
+      ],
+      "avoid": [
+        "app header",
+        "dashboard widgets",
+        "more than eight primary slides without request"
+      ]
     },
     {
       "id": "terminal-cli",
       "system": "Terminal CLI",
       "mode": "explicit-or-auto-when-brief-asks-for-terminal",
       "summary": "Dark-only shell work surface for terminal, CLI, mainframe, CI/log, and system-level interfaces.",
-      "useCases": ["files-work"],
-      "triggers": ["terminal", "CLI", "shell", "mainframe", "hacker console", "server console", "tmux"],
-      "bestSources": ["ci-log", "log-events", "stack-trace", "git-diff", "pr-review", "github-repo", "plain-text"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "terminal",
+        "CLI",
+        "shell",
+        "mainframe",
+        "hacker console",
+        "server console",
+        "tmux"
+      ],
+      "bestSources": [
+        "ci-log",
+        "log-events",
+        "stack-trace",
+        "git-diff",
+        "pr-review",
+        "github-repo",
+        "plain-text"
+      ],
       "example": "ci-log",
       "preview": "docs/example-previews/ci-log.jpg",
       "accent": "#33ff00",
-      "coreScaffold": ["shell prompt", "status rail", "terminal pane grid", "command controls", "raw console"],
-      "requiredPrimitives": [".terminal-cli-shell", ".shell-prompt", ".terminal-pane", ".status-code", ".raw-console", ".scanline-overlay"],
-      "avoid": ["Matrix rain", "rounded SaaS cards", "generic dashboard hero", "purple cyberpunk gradients"]
+      "coreScaffold": [
+        "shell prompt",
+        "status rail",
+        "terminal pane grid",
+        "command controls",
+        "raw console"
+      ],
+      "requiredPrimitives": [
+        ".terminal-cli-shell",
+        ".shell-prompt",
+        ".terminal-pane",
+        ".status-code",
+        ".raw-console",
+        ".scanline-overlay"
+      ],
+      "avoid": [
+        "Matrix rain",
+        "rounded SaaS cards",
+        "generic dashboard hero",
+        "purple cyberpunk gradients"
+      ]
     },
     {
       "id": "developer",
       "system": "Terminal Evidence Workbench",
       "mode": "auto",
       "summary": "Terminal-style evidence workbench for diffs, PRs, CI logs, stack traces, and repos.",
-      "useCases": ["files-work"],
-      "triggers": ["diff", "PR", "CI failure", "stack trace", "repo", "debug", "review"],
-      "bestSources": ["git-diff", "pr-review", "ci-log", "stack-trace", "github-repo"],
+      "useCases": [
+        "files-work"
+      ],
+      "triggers": [
+        "diff",
+        "PR",
+        "CI failure",
+        "stack trace",
+        "repo",
+        "debug",
+        "review"
+      ],
+      "bestSources": [
+        "git-diff",
+        "pr-review",
+        "ci-log",
+        "stack-trace",
+        "github-repo"
+      ],
       "example": "pr-review",
       "preview": "docs/example-previews/pr-review.jpg",
       "accent": "#38bdf8",
-      "coreScaffold": ["prompt line", "hotspots", "risk checklist", "raw artifact navigator", "copyable handoff"],
-      "requiredPrimitives": [".evidence-workbench", ".prompt-line", ".risk-checklist", ".artifact-navigator", ".handoff-block"],
-      "avoid": ["pretty product dashboard", "risk claims without file or line evidence", "hiding raw artifacts"]
+      "coreScaffold": [
+        "prompt line",
+        "hotspots",
+        "risk checklist",
+        "raw artifact navigator",
+        "copyable handoff"
+      ],
+      "requiredPrimitives": [
+        ".evidence-workbench",
+        ".prompt-line",
+        ".risk-checklist",
+        ".artifact-navigator",
+        ".handoff-block"
+      ],
+      "avoid": [
+        "pretty product dashboard",
+        "risk claims without file or line evidence",
+        "hiding raw artifacts"
+      ]
     }
   ]
 }

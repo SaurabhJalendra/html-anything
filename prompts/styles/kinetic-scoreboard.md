@@ -97,7 +97,7 @@ Best fits:
 
 Poor fits:
 
-- 1:1 intimate chats — use `relationship`.
+- 1:1 intimate chats — use `love-romance-3d`.
 - Solo reflective notes / highlights — use `living-essay`.
 - Places/routes/geodata — use `map-atlas`.
 - Long documents — use `document`.

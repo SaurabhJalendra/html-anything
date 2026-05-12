@@ -19,9 +19,7 @@ The default is `auto`: the agent picks a style from the request and source.
 |---|---|---|
 | `default` | The input does not clearly fit a specialized style | Clean live page with strong summary, useful sections, practical drill-down |
 | `teaching` | Tutorial, lesson, "teach me", interactive explainers, course-like pages | Visual stage, step rail, try-it controls, concept cards, check-yourself, recap |
-| `interactive-learning` | App-like object/system studios, anatomy/architecture/spec exploration, manipulable learning models | Learning Studio with entity rail, central interactive stage, live inspector, layer/mode controls, comparison bench |
 | `comic-book` | Comic book, manga, cartoon, "explain simply", or story-led explainers for concepts, PDFs, documents, and articles | Six-to-seven-page comic explainer with panels, speech bubbles, teacher character, pocket gadgets, and recap page |
-| `relationship` | 1:1 chats and intimate message exports | Aggregate-first relationship rhythm report with anonymized evidence |
 | `love-romance-3d` | Couple chats or romance-themed relationship recaps that need a soft 3D keepsake look | 3D icon-stage cover, candy-glass metrics, pulse boards, and privacy-first evidence |
 | `living-essay` | Reflective essays, Kindle highlights, idea notes, and concept-heavy reading archives | Mycelium writing environment with a vertical question capsule, spore words, living SVG threads, and quiet appendix |
 | `dashboard` | Operational, tabular, finance, admin, log, planning data | Dense KPIs, charts, filters, flags, searchable table |
@@ -29,7 +27,6 @@ The default is `auto`: the agent picks a style from the request and source.
 | `kinetic-scoreboard` | Multi-participant activity streams, team chats, work races, ranked contributors | Full-viewport championship lanes with kinetic bodies, live ranks, telemetry, and linked evidence pits |
 | `timeline-story` | Personal histories — chronological (orders, listening, health) and topical (Notion / Obsidian vaults) | Scroll-driven story with timeline spine, chapters, rhythm strip, drawer |
 | `map-atlas` | Places, routes, trips, rideshare, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
-| `paper-trail` | Explicit tactile/printed-collateral requests: itineraries, hotel folios, receipts, tickets, reservation bundles | Artifact desk with folio tabs, receipt tape, stamp callouts, source drawer |
 | `network-map` | Personal/professional networks, senders, contacts, communities, payments | Relationship graph with entity inspector, clusters, hubs, linked records |
 | `document` | Essays, articles, reading lists, research collections, PDFs, DOCX, legal/medical/lab records, policy docs | Document review with cover, reading rail, body sheet, evidence/citations, drill-down |
 | `kami-reading` | Long prose, DOCX memos, articles, essays, and manuscripts that should feel calm and easy to read | Warm parchment document with serif cover, inline contents, printable chapter sections, progress, and source appendix |
@@ -45,9 +42,7 @@ The default is `auto`: the agent picks a style from the request and source.
 |---|---|
 | `default` | Insight Brief |
 | `teaching` | Lesson Lab |
-| `interactive-learning` | Learning Studio |
 | `comic-book` | Comic Book Explainer |
-| `relationship` | Rhythm Report |
 | `love-romance-3d` | Keepsake 3D Rhythm |
 | `living-essay` | Mycelium Writing Environment |
 | `dashboard` | Ops Console |
@@ -55,7 +50,6 @@ The default is `auto`: the agent picks a style from the request and source.
 | `kinetic-scoreboard` | Kinetic Championship |
 | `timeline-story` | Timeline Story |
 | `map-atlas` | Map Atlas |
-| `paper-trail` | Paper Trail |
 | `network-map` | Network Map |
 | `document` | Document Review |
 | `kami-reading` | Kami Longform Reader |
@@ -88,11 +82,9 @@ override. Borrow archetypes, not brand identities:
 - precision product / dark app systems → `dashboard`, `developer`
 - airy product analytics systems → `soft-saas`
 - cinematic lesson stages → `teaching`
-- app-like object/system studios → `interactive-learning`
 - temporal / scrollytelling systems → `timeline-story`
 - kinetic lane / race / scoreboard systems → `kinetic-scoreboard`
 - spatial atlas systems → `map-atlas`
-- tactile printed-artifact systems → `paper-trail`
 - graph / network systems → `network-map`
 - broadsheet / media systems → `document`
 - parchment longform reader systems → `kami-reading`
@@ -100,7 +92,7 @@ override. Borrow archetypes, not brand identities:
 - creator guide / PDF guide systems → `digital-eguide`
 - premium carousel / manifesto systems → `editorial-carousel`
 - terminal / CLI / shell systems → `terminal-cli`
-- playful canvas / learning studios → `teaching`, `interactive-learning`, `comic-book`
+- playful canvas / learning studios → `teaching`, `comic-book`
 
 The Open Design repo is useful for style packaging discipline: each skill-like
 style should carry a concrete design intent, implementation checklist, example
@@ -132,20 +124,13 @@ choose from.
 
 | Use case | Includes | Prefer |
 |---|---|
-| Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `interactive-learning`, `comic-book` |
-| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, PR patches, stack traces, repos, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail`, `developer`, `terminal-cli` |
-| Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
-| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `timeline-story`, `living-essay`, `network-map`, `map-atlas`, `paper-trail` |
+| Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `comic-book` |
+| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, PR patches, stack traces, repos, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
+| Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
+| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `timeline-story`, `living-essay`, `network-map`, `map-atlas` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.
-
-## Example Source For Paper Trail
-
-Use [`examples/itinerary-trip/input.csv`](../../examples/itinerary-trip/input.csv)
-as the first `paper-trail` example. It has flights, hotels, restaurants,
-scheduled stops, costs, and overlap warnings, so the style can render a natural
-desk of key cards, ticket stubs, receipt tape, and stamped conflict callouts.
 
 ## Example Source For Digital E-Guide
 

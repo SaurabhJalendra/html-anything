@@ -4,10 +4,9 @@ Use this style when the user asks for a comic book, manga, cartoon lesson,
 story explainer, "explain this simply", or wants a concept, PDF, article, or
 document made easy to understand through a character-led sequence.
 
-Prefer `teaching` when the user wants a lab-like lesson with controls and
-quizzes. Prefer `interactive-learning` when the object/model itself should be
-the app. Use `comic-book` when the lesson should feel like a short illustrated
-book the reader can page through.
+Prefer `teaching` when the user wants a lab-like lesson with controls and an
+object/model stage. Use `comic-book` when the lesson should feel like a short
+illustrated book the reader can page through.
 
 ## Underlying System: Doraemon-Style Comic Explainer
 

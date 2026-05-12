@@ -5,17 +5,15 @@ interactive explainer, course page, "teach me", or any educational page where
 the user should move through a guided learning sequence.
 
 For app-like **object/system/spec exploration** briefs — anatomy,
-architecture, science, products, mechanisms, specs — where the learner should
-manipulate a central object/model as the interface, prefer
-`interactive-learning`.
+architecture, science, products, mechanisms, specs — make the object/model the
+main teaching surface inside this style.
 
 The page should feel like a guided learning artifact, not a paper, blog
 post, or dashboard. The user should be able to learn by looking,
 changing something, checking themselves, and moving to the next idea.
 
 For mixed briefs that need both a guided explanation and an object model, keep
-the step rail and use the object stage as the main teaching surface. For pure
-object-as-interface studios, use `interactive-learning`.
+the step rail and use the object stage as the main teaching surface.
 
 ## Underlying System: Lesson Lab
 

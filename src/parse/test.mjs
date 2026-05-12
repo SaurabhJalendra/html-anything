@@ -79,7 +79,7 @@ test("htmlize fallback: source-prompt resolution covers pdf-document + docx-docu
 
 test("htmlize auto style selector routes major source families", async () => {
   const { selectStyleForContent } = await import("../../dist/htmlize.js")
-  assert.equal(selectStyleForContent("wechat-chat"), "relationship")
+  assert.equal(selectStyleForContent("wechat-chat"), "love-romance-3d")
   assert.equal(selectStyleForContent("rideshare-history"), "map-atlas")
   assert.equal(selectStyleForContent("spotify-history"), "timeline-story")
   assert.equal(selectStyleForContent("browser-history"), "timeline-story")
@@ -96,8 +96,6 @@ test("htmlize auto style selector routes major source families", async () => {
   assert.equal(selectStyleForContent("csv-tabular", { style: "teaching" }), "teaching")
   assert.equal(selectStyleForContent("csv-tabular", { style: "living-essay" }), "living-essay")
   assert.equal(selectStyleForContent("markdown-document", { style: "editorial-carousel" }), "editorial-carousel")
-  assert.equal(selectStyleForContent("travel-itinerary", { style: "paper-trail" }), "paper-trail")
-  assert.equal(selectStyleForContent("csv-tabular", { style: "interactive-learning" }), "interactive-learning")
   assert.equal(selectStyleForContent("pdf-document", { style: "digital-eguide" }), "digital-eguide")
   assert.equal(selectStyleForContent("markdown-document", { style: "architectural-spread" }), "architectural-spread")
   assert.equal(selectStyleForContent("docx-document", { style: "kami-reading" }), "kami-reading")
@@ -157,14 +155,28 @@ test("style catalog stays in sync with style types, prompts, examples, and previ
     const promptStat = await fs.stat(path.join(REPO, "prompts/styles", `${entry.id}.md`))
     assert.ok(promptStat.isFile(), `${entry.id} missing style prompt`)
 
-    if (entry.example) {
-      const outputStat = await fs.stat(path.join(REPO, "examples", entry.example, "output.html"))
-      assert.ok(outputStat.isFile(), `${entry.id} example missing output.html`)
+    if (entry.id === "default") {
+      assert.equal(entry.example, null, "default should stay a fallback without a concrete example")
+      assert.equal(entry.preview, null, "default should stay a fallback without a preview")
+      continue
     }
-    if (entry.preview) {
-      const previewStat = await fs.stat(path.join(REPO, entry.preview))
-      assert.ok(previewStat.isFile(), `${entry.id} preview asset missing`)
-    }
+
+    assert.ok(entry.example, `${entry.id} needs a concrete example`)
+    assert.ok(entry.preview, `${entry.id} needs a preview asset`)
+
+    const outputPath = path.join(REPO, "examples", entry.example, "output.html")
+    const outputStat = await fs.stat(outputPath)
+    assert.ok(outputStat.isFile(), `${entry.id} example missing output.html`)
+
+    const outputHtml = await fs.readFile(outputPath, "utf8")
+    assert.match(
+      outputHtml,
+      new RegExp(`data-ha-style=["']${entry.id}["']`),
+      `${entry.id} example must declare data-ha-style="${entry.id}"`,
+    )
+
+    const previewStat = await fs.stat(path.join(REPO, entry.preview))
+    assert.ok(previewStat.isFile(), `${entry.id} preview asset missing`)
   }
 })
 
@@ -202,40 +214,6 @@ test("htmlize injects the selected style prompt into the LLM request", async () 
   assert.match(seenPrompt, /Underlying System: Ops Console/)
   assert.match(seenPrompt, /# csv — tabular data/)
   assert.match(html, /"category":"A"/)
-})
-
-test("htmlize injects the explicit paper-trail style prompt into the LLM request", async () => {
-  const { htmlize } = await import("../../dist/htmlize.js")
-  const parsed = {
-    contentType: "travel-itinerary",
-    summary: "3 itinerary items across 1 day",
-    sample: { days: [{ date: "2026-05-05", items: [] }] },
-    data: { days: [{ date: "2026-05-05", items: [] }], items: [] },
-    meta: { sourceFile: "input.csv", sizeBytes: 64 },
-  }
-  let seenPrompt = ""
-  const llm = {
-    async ask(prompt) {
-      seenPrompt = prompt
-      return "<!doctype html><html><body><script>const DATA = __DATA__;</script></body></html>"
-    },
-  }
-  await htmlize(parsed, llm, { style: "paper-trail" })
-  assert.match(seenPrompt, /Selected style: paper-trail/)
-  assert.match(seenPrompt, /## Style catalog metadata/)
-  assert.match(seenPrompt, /Underlying system: Paper Trail/)
-  assert.match(seenPrompt, /Example: itinerary-trip/)
-  assert.match(seenPrompt, /Required primitives: .*\.paper-desk/)
-  assert.match(seenPrompt, /# Paper Trail Style/)
-  assert.match(seenPrompt, /Underlying System: Paper Trail/)
-  assert.match(seenPrompt, /Post Post Reference Contract/)
-  assert.match(seenPrompt, /--paper-reference-mustard: #FFC233/)
-  assert.match(seenPrompt, /Style Compliance Gate/)
-  assert.match(seenPrompt, /color-scheme: light/)
-  assert.match(seenPrompt, /warm light paper scene/)
-  assert.match(seenPrompt, /paper-rail/)
-  assert.match(seenPrompt, /Treat the selected style as a hard contract/)
-  assert.match(seenPrompt, /# travel-itinerary/)
 })
 
 test("htmlize injects the explicit digital-eguide style prompt into the LLM request", async () => {

@@ -60,9 +60,7 @@ export interface ConverterOptions {
 export type HtmlAnythingStyle =
   | "default"
   | "teaching"
-  | "interactive-learning"
   | "comic-book"
-  | "relationship"
   | "love-romance-3d"
   | "living-essay"
   | "dashboard"
@@ -70,7 +68,6 @@ export type HtmlAnythingStyle =
   | "kinetic-scoreboard"
   | "timeline-story"
   | "map-atlas"
-  | "paper-trail"
   | "network-map"
   | "document"
   | "kami-reading"

@@ -232,7 +232,7 @@ export function selectStyleForContent(contentType: string, options: ConverterOpt
     contentType === "wechat-chat" ||
     contentType === "whatsapp-chat"
   ) {
-    return "relationship"
+    return "love-romance-3d"
   }
 
   if (

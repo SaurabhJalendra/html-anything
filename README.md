@@ -8,8 +8,8 @@ is actually a page, not a chat message.**
 `html-anything` is a Codex / Claude Code skill that turns the agent's rich
 answers into self-contained HTML artifacts — analyses, reports, recaps,
 dashboards, atlases, teaching sites, comparison studies, decision memos,
-year-in-review pages. The skill picks the right design system from a
-21-style catalog, builds a single-file `.html`, verifies it in a browser,
+year-in-review pages. The skill picks the right design system from an
+18-style catalog, builds a single-file `.html`, verifies it in a browser,
 and hands it back. Short conversational answers stay short — you just stop
 scrolling 4,000-word replies whenever the content was always going to be a
 page.
@@ -17,7 +17,7 @@ page.
 It also works **on demand** for any file, folder, URL, or service export
 (Amazon orders, Kindle highlights, Spotify history, WeChat / iMessage,
 Google Photos Takeout, CSV / PDF / DOCX, logs, GPX, …) —
-the skill figures out the source, chooses one of the 21 style systems, and
+the skill figures out the source, chooses one of the 18 style systems, and
 ships the HTML.
 
 ## Preview
@@ -36,7 +36,7 @@ A self-contained interactive lesson built from a single teaching brief — *"cre
 
 [![Realistic couple chat report screenshot](./docs/relationship-preview.png)](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
 
-A 1:1 chat export reduced to its **rhythm story** — who initiates, response times, peak-hour patterns, mood cadence — without ever exposing private text. Aggregate-first, anonymized evidence. Style: `relationship`.
+A 1:1 chat export reduced to its **rhythm story** — who initiates, response times, peak-hour patterns, mood cadence — without ever exposing private text. Aggregate-first, anonymized evidence. Style: `love-romance-3d`.
 
 #### [Saved places atlas →](https://clockless-org.github.io/html-anything/examples/google-maps-stars/output.html)
 
@@ -178,9 +178,8 @@ if you need everything in one HTML file.
 You do not need to choose a style. The default is `auto`.
 
 Styles are design systems + layout systems, not CSS skins. The skill picks
-the system from the content, then builds the page inside that system. A few
-styles, such as `paper-trail`, are explicit overrides for a requested visual
-system rather than default auto routes:
+the system from the content, then builds the page inside that system. Every
+non-fallback style has a checked-in live example and screenshot preview.
 
 Style fidelity is part of the contract: when a style is based on a reference
 HTML or screenshot, the generated page should reproduce the reference's first
@@ -192,14 +191,12 @@ every output into the same dashboard/report shape.
 |---|---|
 | Unknown or mixed inputs | `default` (Insight Brief) |
 | Tutorials, lessons, explainers, "teach me" prompts | `teaching` (Lesson Lab) |
-| App-like object/system/spec explorers, anatomy/architecture/product studios | `interactive-learning` (Learning Studio) |
 | Comic book, manga, cartoon, "explain simply", PDF/document/article simplification requests | `comic-book` (Comic Book Explainer) |
-| 1:1 chats and intimate message exports | `relationship` (Rhythm Report) |
+| 1:1 chats and intimate message exports | `love-romance-3d` (Keepsake 3D Rhythm) |
 | Reflective essays, Kindle highlights, idea notes, concept-heavy reading archives | `living-essay` (Mycelium Writing Environment) |
 | Multi-participant activity streams, team chats, ranked contributors, owner/reps/players by workload | `kinetic-scoreboard` (Kinetic Championship) |
 | Personal histories — chronological (orders, history, listening, health) **and** topical (Notion / Obsidian vaults) | `timeline-story` (Timeline Story) |
 | Places, trips, routes, rideshare, geotagged photos | `map-atlas` (Map Atlas) |
-| Tactile trip folders, hotel folios, receipts, tickets, reservation bundles | `paper-trail` (Paper Trail, explicit override) |
 | Contacts, communities, social payments | `network-map` (Network Map) |
 | Support mailboxes, email campaigns, onboarding, customer-success queues | `soft-saas` (Soft SaaS Console) |
 | Finance, spreadsheets, logs, backlog, operational data | `dashboard` (Ops Console) |
@@ -222,21 +219,12 @@ style catalog lives in [`prompts/styles/catalog.json`](./prompts/styles/catalog.
 it records the four use cases plus each style's triggers, best sources,
 example, preview, required primitives, and avoid rules so generation can stay
 style-faithful without asking users to pick options. There is a fallback
-`default` style plus 16
-auto-selected styles (`teaching`,
-`interactive-learning`, `comic-book`, `relationship`, `living-essay`, `dashboard`, `soft-saas`,
-`kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
-`document`, `kami-reading`, `architectural-spread`, `editorial-carousel`, and `developer`), plus explicit overrides
-such as `paper-trail`, `digital-eguide`, `love-romance-3d`, and `terminal-cli`.
+`default` style plus 17 concrete style systems, each with a live example and
+preview asset.
 
 Example explicit style override:
 
 ```bash
-npx tsx src/cli.ts examples/itinerary-trip/input.csv \
-  --style paper-trail \
-  --out /tmp/paper-trail-itinerary.html \
-  --title "Tokyo + Kyoto - 8-day itinerary"
-
 npx tsx src/cli.ts examples/pdf/input.pdf \
   --style digital-eguide \
   --out /tmp/battery-storage-guide.html \
@@ -249,10 +237,10 @@ Each use case can use one or more style systems.
 
 | Use case | Example sources | Likely styles |
 |---|---|---|
-| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, PDF/document simplification request | `teaching`, `interactive-learning`, `comic-book` |
-| Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, CI output, PR patches, stack traces, repos, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail`, `developer`, `terminal-cli` |
-| Conversation Analysis | WeChat, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
-| Personal Data & Places | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, Venmo / PayPal, AI chat exports, notes vaults, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `timeline-story`, `living-essay`, `network-map`, `map-atlas`, `paper-trail` |
+| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, PDF/document simplification request | `teaching`, `comic-book` |
+| Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, CI output, PR patches, stack traces, repos, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
+| Conversation Analysis | WeChat, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
+| Personal Data & Places | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, Venmo / PayPal, AI chat exports, notes vaults, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `timeline-story`, `living-essay`, `network-map`, `map-atlas` |
 
 Use case is user-facing; style is internal. A user can simply say "make this
 CSV prettier" or "turn this into a teaching site" and the skill picks the
