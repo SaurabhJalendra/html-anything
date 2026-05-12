@@ -34,7 +34,7 @@
       "title": "Files & Work Data",
       "summary": "Transform spreadsheets, CSV exports, PDFs, DOCX, Markdown, records, logs, calendars, work artifacts, and slide-style carousel outputs into polished live HTML.",
       "styles": ["dashboard", "soft-saas", "document", "architectural-spread", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay"],
-      "examples": ["email", "bank-transactions", "pdf", "markdown", "editorial-carousel", "log-error"]
+      "examples": ["email", "csv", "pdf", "markdown", "editorial-carousel"]
     },
     {
       "id": "conversation",
@@ -179,8 +179,8 @@
       "useCases": ["files-work"],
       "triggers": ["dashboard", "operations", "ledger", "log", "admin", "queue", "finance"],
       "bestSources": ["csv-tabular", "json-data", "jsonl-events", "log-events", "bank-transactions", "invoices", "quickbooks-report", "ics-calendar", "issue-tracker", "trello-board"],
-      "example": "bank-transactions",
-      "preview": "docs/example-previews/bank-transactions.jpg",
+      "example": "csv",
+      "preview": "docs/example-previews/csv.jpg",
       "accent": "#0f5f6f",
       "coreScaffold": ["command bar", "KPI rail", "work surface", "flag queue", "searchable data grid"],
       "requiredPrimitives": [".ops-shell", ".command-bar", ".kpi-rail", ".flag-queue", ".data-grid"],

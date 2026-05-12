@@ -22,7 +22,7 @@ ships the HTML.
 
 ## Preview
 
-→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 23 demos, organized by use case and style.
+→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 21 demos, organized by use case and style.
 
 ### Featured
 
@@ -64,7 +64,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | A failed GitHub Actions run becomes a shell-native debugging console. | `terminal-cli` |
 | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | A patch becomes a risk-annotated review brief with evidence. | `developer` |
 
-→ **[See the curated gallery (23 demos) →](https://clockless-org.github.io/html-anything/examples/)**
+→ **[See the curated gallery (21 demos) →](https://clockless-org.github.io/html-anything/examples/)**
 
 ## Install
 
