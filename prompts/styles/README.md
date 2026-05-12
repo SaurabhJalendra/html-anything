@@ -20,6 +20,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `default` | The input does not clearly fit a specialized style | Clean live page with strong summary, useful sections, practical drill-down |
 | `teaching` | Tutorial, lesson, "teach me", interactive explainers, course-like pages | Visual stage, step rail, try-it controls, concept cards, check-yourself, recap |
 | `interactive-learning` | App-like object/system studios, anatomy/architecture/spec exploration, manipulable learning models | Learning Studio with entity rail, central interactive stage, live inspector, layer/mode controls, comparison bench |
+| `comic-book` | Comic book, manga, cartoon, "explain simply", or story-led explainers for concepts, PDFs, documents, and articles | Six-to-seven-page comic explainer with panels, speech bubbles, teacher character, pocket gadgets, and recap page |
 | `relationship` | 1:1 chats and intimate message exports | Aggregate-first relationship rhythm report with anonymized evidence |
 | `living-essay` | Reflective essays, Kindle highlights, idea notes, and concept-heavy reading archives | Mycelium writing environment with a vertical question capsule, spore words, living SVG threads, and quiet appendix |
 | `dashboard` | Operational, tabular, finance, admin, log, planning data | Dense KPIs, charts, filters, flags, searchable table |
@@ -42,6 +43,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `default` | Insight Brief |
 | `teaching` | Lesson Lab |
 | `interactive-learning` | Learning Studio |
+| `comic-book` | Comic Book Explainer |
 | `relationship` | Rhythm Report |
 | `living-essay` | Mycelium Writing Environment |
 | `dashboard` | Ops Console |
@@ -90,7 +92,7 @@ override. Borrow archetypes, not brand identities:
 - creator guide / PDF guide systems → `digital-eguide`
 - premium carousel / manifesto systems → `editorial-carousel`
 - terminal / CLI / shell systems → `terminal-cli`
-- playful canvas / learning studios → `teaching`, `interactive-learning`
+- playful canvas / learning studios → `teaching`, `interactive-learning`, `comic-book`
 
 The Open Design repo is useful for style packaging discipline: each skill-like
 style should carry a concrete design intent, implementation checklist, example
@@ -122,7 +124,7 @@ choose from.
 
 | Use case | Includes | Prefer |
 |---|---|
-| Teaching Studios | Tutorials, explainers, lessons, object/system studios | `teaching`, `interactive-learning` |
+| Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `interactive-learning`, `comic-book` |
 | Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats | `timeline-story`, `living-essay`, `network-map` |

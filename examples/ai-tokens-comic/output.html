@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en" data-ha-style="comic-book">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Tokens - A Pocket Comic</title>
+<style>
+:root {
+  color-scheme: light;
+  --paper: #fff4d6;
+  --paper-deep: #f3d98b;
+  --ink: #181512;
+  --muted: #695f50;
+  --line: #181512;
+  --blue: #1f8bcf;
+  --blue-dark: #0f4f7c;
+  --yellow: #ffd34f;
+  --red: #e4573d;
+  --green: #35a66f;
+  --cream: #fffaf0;
+  --shadow: 0 18px 42px rgba(44, 34, 15, 0.18);
+  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-comic: "Trebuchet MS", "Arial Rounded MT Bold", var(--font-body);
+  --font-mono: "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { min-height: 100%; }
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: clip;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 16px 16px, rgba(24, 21, 18, 0.12) 1px, transparent 1px) 0 0 / 18px 18px,
+    linear-gradient(135deg, #fff8de, #f7dc82 46%, #f0b55a);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input { font: inherit; }
+button {
+  min-height: 44px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--line);
+}
+button:focus-visible, summary:focus-visible {
+  outline: 4px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.comic-book-shell {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.comic-toolbar {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--cream);
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+.comic-title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+.comic-title > div:last-child {
+  min-width: 0;
+}
+
+.issue-mark {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 4px solid var(--line);
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--font-comic);
+  font-weight: 900;
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-comic);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.comic-title p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.page-counter {
+  min-width: 92px;
+  padding: 10px 12px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-align: center;
+}
+
+.comic-stage {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 16px;
+  align-items: start;
+}
+
+.comic-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  min-height: 700px;
+  border: 5px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(24,21,18,0.05) 1px, transparent 1px) 0 0 / 34px 34px,
+    var(--cream);
+  box-shadow: 8px 8px 0 var(--line), var(--shadow);
+  padding: 16px;
+}
+body.js-ready .comic-page { display: none; }
+body.js-ready .comic-page.is-active { display: grid; }
+
+.page-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+  font-family: var(--font-comic);
+  font-weight: 900;
+}
+
+.page-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+.page-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.comic-panel {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+  min-height: 240px;
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.comic-panel.wide { grid-column: 1 / -1; min-height: 220px; }
+.comic-panel.blue { background: #dff2ff; }
+.comic-panel.yellow { background: #fff2a7; }
+.comic-panel.green { background: #def7df; }
+.comic-panel.red { background: #ffe1d7; }
+
+.caption-box {
+  display: inline-block;
+  max-width: 92%;
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border: 3px solid var(--line);
+  border-radius: 4px;
+  background: var(--yellow);
+  font-family: var(--font-comic);
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.speech-bubble, .thought-bubble {
+  position: relative;
+  max-width: 310px;
+  margin: 8px 0;
+  padding: 11px 12px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 800;
+  line-height: 1.32;
+  overflow-wrap: anywhere;
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 24px;
+  bottom: -12px;
+  border-right: 3px solid var(--line);
+  border-bottom: 3px solid var(--line);
+  background: #fff;
+  transform: rotate(45deg);
+}
+.thought-bubble { border-radius: 28px; }
+.thought-bubble::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  right: 28px;
+  bottom: -12px;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.characters {
+  display: flex;
+  gap: 18px;
+  align-items: end;
+  margin-top: 12px;
+}
+
+.teacher-character, .learner-character {
+  position: relative;
+  flex: 0 0 auto;
+  width: 118px;
+  height: 140px;
+}
+
+.teacher-character .head {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  width: 92px;
+  height: 82px;
+  border: 4px solid var(--line);
+  border-radius: 46px 46px 38px 38px;
+  background: var(--blue);
+}
+.teacher-character .face {
+  position: absolute;
+  left: 24px;
+  top: 18px;
+  width: 68px;
+  height: 58px;
+  border: 3px solid var(--line);
+  border-radius: 36px;
+  background: #fff;
+}
+.teacher-character .ear {
+  position: absolute;
+  top: -8px;
+  width: 28px;
+  height: 28px;
+  border: 4px solid var(--line);
+  background: var(--blue);
+  transform: rotate(45deg);
+}
+.teacher-character .ear.left { left: 16px; }
+.teacher-character .ear.right { right: 16px; }
+.teacher-character .eye {
+  position: absolute;
+  top: 32px;
+  width: 8px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.teacher-character .eye.left { left: 44px; }
+.teacher-character .eye.right { left: 66px; }
+.teacher-character .body {
+  position: absolute;
+  left: 23px;
+  bottom: 0;
+  width: 72px;
+  height: 76px;
+  border: 4px solid var(--line);
+  border-radius: 36px 36px 22px 22px;
+  background: var(--blue);
+}
+.teacher-character .pocket {
+  position: absolute;
+  left: 40px;
+  bottom: 18px;
+  width: 40px;
+  height: 26px;
+  border: 4px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 22px 22px;
+  background: #fff;
+}
+.teacher-character .bell {
+  position: absolute;
+  left: 52px;
+  bottom: 67px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.learner-character .head {
+  position: absolute;
+  left: 26px;
+  top: 10px;
+  width: 68px;
+  height: 68px;
+  border: 4px solid var(--line);
+  border-radius: 50%;
+  background: #f3b37b;
+}
+.learner-character .hair {
+  position: absolute;
+  left: 24px;
+  top: 2px;
+  width: 72px;
+  height: 34px;
+  border: 4px solid var(--line);
+  border-radius: 36px 36px 10px 10px;
+  background: #3c2a20;
+}
+.learner-character .eye {
+  position: absolute;
+  top: 40px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.learner-character .eye.left { left: 48px; }
+.learner-character .eye.right { left: 70px; }
+.learner-character .body {
+  position: absolute;
+  left: 28px;
+  bottom: 0;
+  width: 64px;
+  height: 72px;
+  border: 4px solid var(--line);
+  border-radius: 22px 22px 8px 8px;
+  background: #76c66d;
+}
+
+.pocket-gadget {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 14px 0;
+  padding: 12px;
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--line);
+}
+
+.token-chip, .id-card {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: #eaf6ff;
+  font-family: var(--font-mono);
+  font-weight: 900;
+}
+.token-chip:nth-child(2n) { background: #fff0a9; }
+.token-chip:nth-child(3n) { background: #d8f3d1; }
+.id-card { background: #ffd9cf; }
+
+.arrow {
+  font-family: var(--font-comic);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.sound-fx {
+  display: inline-block;
+  color: var(--red);
+  font-family: var(--font-comic);
+  font-size: 32px;
+  font-weight: 900;
+  transform: rotate(-7deg);
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--line);
+}
+
+.mini-machine {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+.machine-box {
+  min-height: 78px;
+  display: grid;
+  place-items: center;
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.context-meter {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  width: 100%;
+}
+.context-meter span {
+  min-height: 34px;
+  border: 3px solid var(--line);
+  border-radius: 4px;
+  background: var(--green);
+}
+.context-meter span.used { background: var(--red); }
+
+.prediction-bars {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.prediction-bars div {
+  display: grid;
+  grid-template-columns: 86px 1fr 42px;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-weight: 900;
+}
+.prediction-bars span {
+  height: 22px;
+  border: 3px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--blue) var(--w), #fff var(--w));
+}
+
+.lesson-meter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  font-weight: 900;
+}
+.lesson-meter .bar {
+  flex: 1;
+  height: 20px;
+  border: 3px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--red) 0 70%, #fff 70% 100%);
+}
+
+.recap-page .comic-panel {
+  display: grid;
+  align-content: start;
+}
+.recap-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.recap-list li {
+  padding: 10px;
+  border: 3px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 800;
+}
+
+.comic-side {
+  display: grid;
+  gap: 14px;
+}
+
+.page-strip, .comic-glossary, .source-notes {
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: var(--cream);
+  box-shadow: 5px 5px 0 var(--line);
+  padding: 12px;
+}
+
+.page-strip h2, .comic-glossary h2, .source-notes h2 {
+  margin: 0 0 10px;
+  font-family: var(--font-comic);
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+.page-dot {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 8px;
+  padding: 8px;
+  text-align: left;
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--line);
+}
+.page-dot[aria-current="true"] { background: var(--yellow); }
+.page-dot span:first-child {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-mono);
+}
+
+.comic-glossary details {
+  border-top: 3px solid var(--line);
+  padding: 10px 0;
+}
+.comic-glossary summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+.comic-glossary p, .source-notes p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.42;
+}
+
+@media (max-width: 980px) {
+  .comic-stage { grid-template-columns: 1fr; }
+  .comic-side { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .comic-book-shell {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 12px;
+  }
+  .comic-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(calc(100vw - 48px), 342px);
+    max-width: 342px;
+    min-width: 0;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .comic-toolbar * {
+    min-width: 0;
+  }
+  .comic-stage {
+    width: min(calc(100vw - 48px), 342px);
+    max-width: 342px;
+  }
+  .comic-title {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    align-items: flex-start;
+    width: 100%;
+  }
+  .issue-mark { width: 52px; height: 52px; }
+  .toolbar-actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) 68px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .toolbar-actions button {
+    min-width: 0;
+    padding: 0 8px;
+  }
+  .page-counter {
+    min-width: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  h1 { font-size: 22px; line-height: 1.08; }
+  .comic-title p { font-size: 13px; }
+  .comic-page {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .comic-panel { min-height: auto; }
+  .caption-box, .speech-bubble, .thought-bubble { max-width: 100%; }
+  .panel-grid { grid-template-columns: 1fr; }
+  .comic-panel.wide { grid-column: auto; }
+  .comic-side { grid-template-columns: 1fr; }
+  .teacher-character, .learner-character { transform: scale(0.85); transform-origin: bottom left; }
+  .mini-machine { grid-template-columns: 1fr; }
+  .arrow { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .comic-toolbar,
+  .comic-stage {
+    width: calc(100vw - 48px);
+    max-width: 342px;
+  }
+  .comic-title {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .issue-mark {
+    width: 44px;
+    height: 44px;
+    border-width: 3px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  .comic-title p {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+  .toolbar-actions {
+    grid-template-columns: minmax(0, 1fr) 62px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .toolbar-actions button {
+    font-size: 14px;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+  .comic-page {
+    border-width: 4px;
+    padding: 8px;
+  }
+  .comic-panel {
+    border-width: 3px;
+    padding: 10px;
+  }
+  .caption-box,
+  .speech-bubble,
+  .thought-bubble {
+    border-width: 3px;
+    font-size: 14px;
+  }
+  .characters {
+    gap: 4px;
+  }
+  .teacher-character,
+  .learner-character {
+    transform: scale(0.78);
+    margin-right: -18px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .comic-page.is-active .comic-panel {
+    animation: popIn 220ms ease both;
+  }
+  .comic-page.is-active .comic-panel:nth-child(2) { animation-delay: 55ms; }
+  .comic-page.is-active .comic-panel:nth-child(3) { animation-delay: 110ms; }
+  .comic-page.is-active .comic-panel:nth-child(4) { animation-delay: 165ms; }
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+</style>
+</head>
+<body>
+<main class="comic-book-shell">
+  <header class="comic-toolbar">
+    <div class="comic-title">
+      <div class="issue-mark" aria-hidden="true">AI</div>
+      <div>
+        <h1>AI Tokens: A Pocket Comic</h1>
+        <p>Mochi the original robot-cat tutor explains why AI reads text in tiny chunks.</p>
+      </div>
+    </div>
+    <div class="toolbar-actions" aria-label="Comic page controls">
+      <button type="button" id="prevPage">Prev</button>
+      <div class="page-counter" id="pageCounter" aria-live="polite">1 / 7</div>
+      <button type="button" id="nextPage">Next</button>
+    </div>
+  </header>
+
+  <div class="comic-stage">
+    <section class="comic-page is-active" data-page="1" aria-label="Page 1">
+      <div class="page-meta"><span class="page-kicker">Page 1 - The Mystery Meter</span><span class="page-num">Issue 01</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel yellow">
+          <div class="caption-box">Nia opens an AI app and sees a strange warning.</div>
+          <div class="speech-bubble">It says my prompt is 843 tokens. I only wrote a few sentences!</div>
+          <div class="characters">
+            <div class="learner-character" aria-label="Nia, a curious learner"><span class="hair"></span><span class="head"></span><span class="eye left"></span><span class="eye right"></span><span class="body"></span></div>
+            <div class="teacher-character" aria-label="Mochi, an original blue robot-cat tutor"><span class="ear left"></span><span class="ear right"></span><span class="head"></span><span class="face"></span><span class="eye left"></span><span class="eye right"></span><span class="body"></span><span class="pocket"></span><span class="bell"></span></div>
+          </div>
+        </article>
+        <article class="comic-panel blue">
+          <div class="caption-box">Mochi pops open a pocket full of tiny labels.</div>
+          <div class="sound-fx">POP!</div>
+          <div class="speech-bubble">A token is a small piece of text. It might be a word, part of a word, a space, or punctuation.</div>
+          <div class="pocket-gadget" aria-label="Token pieces">
+            <span class="token-chip">AI</span><span class="token-chip"> tools</span><span class="token-chip"> count</span><span class="token-chip"> tiny</span><span class="token-chip"> pieces</span><span class="token-chip">.</span>
+          </div>
+        </article>
+        <article class="comic-panel wide green">
+          <div class="caption-box">First rule: tokens are how the model prepares text for its machinery.</div>
+          <div class="thought-bubble">Not one word at a time. Not one letter at a time. Usually something in between.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page" data-page="2" aria-label="Page 2">
+      <div class="page-meta"><span class="page-kicker">Page 2 - The Chopper</span><span class="page-num">Split the sentence</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel blue">
+          <div class="caption-box">Mochi feeds one sentence into a tiny text chopper.</div>
+          <div class="pocket-gadget mini-machine">
+            <div class="machine-box">"unbelievable!"</div>
+            <div class="arrow">=></div>
+            <div class="machine-box">un + believe + able + !</div>
+          </div>
+          <div class="speech-bubble">Some common words stay whole. Some longer or unusual words get split.</div>
+        </article>
+        <article class="comic-panel yellow">
+          <div class="caption-box">Spaces matter too.</div>
+          <div class="pocket-gadget">
+            <span class="token-chip">Hello</span><span class="token-chip">,</span><span class="token-chip"> world</span><span class="token-chip">!</span>
+          </div>
+          <div class="speech-bubble">See the leading space before "world"? Tokenizers often remember that.</div>
+        </article>
+        <article class="comic-panel wide red">
+          <div class="caption-box">Common misconception</div>
+          <div class="thought-bubble">"One word equals one token" is a handy guess, but it is not a rule.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page" data-page="3" aria-label="Page 3">
+      <div class="page-meta"><span class="page-kicker">Page 3 - The ID Stamp</span><span class="page-num">Tokens become numbers</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel green">
+          <div class="caption-box">The model does not keep the word chunks as ink.</div>
+          <div class="pocket-gadget">
+            <span class="token-chip">cat</span><span class="arrow">=></span><span class="id-card">ID 4719</span>
+            <span class="token-chip"> sat</span><span class="arrow">=></span><span class="id-card">ID 4362</span>
+          </div>
+          <div class="speech-bubble">Each token gets a number from the model's vocabulary.</div>
+        </article>
+        <article class="comic-panel blue">
+          <div class="caption-box">Then the numbers enter the AI workshop.</div>
+          <div class="pocket-gadget mini-machine">
+            <div class="machine-box">Text chunks</div>
+            <div class="arrow">=></div>
+            <div class="machine-box">Token IDs</div>
+          </div>
+          <div class="speech-bubble">Those IDs are the starting signal for pattern matching and prediction.</div>
+        </article>
+        <article class="comic-panel wide yellow">
+          <div class="caption-box">Plain version</div>
+          <div class="thought-bubble">Tokenization is like turning a sentence into labeled puzzle pieces the model can handle.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page" data-page="4" aria-label="Page 4">
+      <div class="page-meta"><span class="page-kicker">Page 4 - The Backpack Window</span><span class="page-num">Context space</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel yellow">
+          <div class="caption-box">Nia tries to stuff a long PDF into Mochi's backpack.</div>
+          <div class="speech-bubble">Can the model remember the whole thing at once?</div>
+          <div class="pocket-gadget">
+            <div class="context-meter" aria-label="Context window meter">
+              <span class="used"></span><span class="used"></span><span class="used"></span><span class="used"></span><span class="used"></span><span class="used"></span><span class="used"></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </article>
+        <article class="comic-panel green">
+          <div class="caption-box">The context window is the working space.</div>
+          <div class="speech-bubble">A model can only look at so many tokens in one request. More source text means more backpack space used.</div>
+          <div class="lesson-meter"><span>PDF pages</span><span class="bar"></span><span>tokens</span></div>
+        </article>
+        <article class="comic-panel wide blue">
+          <div class="caption-box">Why it matters</div>
+          <div class="thought-bubble">Long documents may need summarizing, chunking, retrieval, or a larger context window.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page" data-page="5" aria-label="Page 5">
+      <div class="page-meta"><span class="page-kicker">Page 5 - The Next Token Game</span><span class="page-num">Prediction</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel blue">
+          <div class="caption-box">Mochi covers the end of a sentence.</div>
+          <div class="speech-bubble">The sky is bright blue and the sun is ___</div>
+          <div class="pocket-gadget prediction-bars" aria-label="Possible next tokens">
+            <div><b>shining</b><span style="--w:64%"></span><b>64%</b></div>
+            <div><b>warm</b><span style="--w:22%"></span><b>22%</b></div>
+            <div><b>orange</b><span style="--w:8%"></span><b>8%</b></div>
+          </div>
+        </article>
+        <article class="comic-panel red">
+          <div class="caption-box">The model picks one token, then repeats.</div>
+          <div class="pocket-gadget">
+            <span class="token-chip">shining</span><span class="arrow">+</span><span class="token-chip">.</span><span class="arrow">+</span><span class="token-chip"> Next?</span>
+          </div>
+          <div class="speech-bubble">Generation is a chain of next-token choices, guided by the prompt and context.</div>
+        </article>
+        <article class="comic-panel wide yellow">
+          <div class="caption-box">Tiny experiment</div>
+          <div class="thought-bubble">Better context usually gives the model better clues about which token should come next.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page" data-page="6" aria-label="Page 6">
+      <div class="page-meta"><span class="page-kicker">Page 6 - The Token Toll Booth</span><span class="page-num">Cost and speed</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel green">
+          <div class="caption-box">Every input token must be read.</div>
+          <div class="pocket-gadget">
+            <span class="token-chip">prompt</span><span class="token-chip">source</span><span class="token-chip">instructions</span><span class="token-chip">examples</span>
+          </div>
+          <div class="speech-bubble">More tokens can mean more cost and more time, because there is more text to process.</div>
+        </article>
+        <article class="comic-panel yellow">
+          <div class="caption-box">Every output token must be written.</div>
+          <div class="pocket-gadget">
+            <span class="id-card">input tokens</span><span class="arrow">+</span><span class="id-card">output tokens</span>
+          </div>
+          <div class="speech-bubble">A short answer is cheaper to produce than a long one, all else equal.</div>
+        </article>
+        <article class="comic-panel wide blue">
+          <div class="caption-box">Helpful habit</div>
+          <div class="thought-bubble">Ask for the exact output you need. Include the source that matters. Skip filler.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comic-page recap-page" data-page="7" aria-label="Page 7">
+      <div class="page-meta"><span class="page-kicker">Page 7 - Pocket Recap</span><span class="page-num">Now it clicks</span></div>
+      <div class="panel-grid">
+        <article class="comic-panel yellow">
+          <div class="caption-box">Three takeaways</div>
+          <ul class="recap-list">
+            <li>A token is a small text chunk, not always a word.</li>
+            <li>Tokens become IDs so the model can process them.</li>
+            <li>Context windows, cost, and speed are all tied to token count.</li>
+          </ul>
+        </article>
+        <article class="comic-panel red">
+          <div class="caption-box">One misconception</div>
+          <div class="thought-bubble">Counting words is only a rough estimate. Punctuation, spaces, and unusual words can change the token count.</div>
+        </article>
+        <article class="comic-panel wide green">
+          <div class="caption-box">Next question</div>
+          <div class="speech-bubble">If tokens are puzzle pieces, how does attention decide which pieces matter most?</div>
+          <div class="characters">
+            <div class="teacher-character" aria-label="Mochi waves goodbye"><span class="ear left"></span><span class="ear right"></span><span class="head"></span><span class="face"></span><span class="eye left"></span><span class="eye right"></span><span class="body"></span><span class="pocket"></span><span class="bell"></span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <aside class="comic-side" aria-label="Comic tools">
+      <nav class="page-strip" aria-label="Page navigation">
+        <h2>Pages</h2>
+        <button class="page-dot" type="button" data-target="1" aria-current="true"><span>1</span><b>Mystery meter</b></button>
+        <button class="page-dot" type="button" data-target="2"><span>2</span><b>Text chopper</b></button>
+        <button class="page-dot" type="button" data-target="3"><span>3</span><b>ID stamp</b></button>
+        <button class="page-dot" type="button" data-target="4"><span>4</span><b>Backpack window</b></button>
+        <button class="page-dot" type="button" data-target="5"><span>5</span><b>Next token game</b></button>
+        <button class="page-dot" type="button" data-target="6"><span>6</span><b>Toll booth</b></button>
+        <button class="page-dot" type="button" data-target="7"><span>7</span><b>Recap</b></button>
+      </nav>
+
+      <section class="comic-glossary">
+        <h2>Pocket Glossary</h2>
+        <details open>
+          <summary>Token</summary>
+          <p>A small chunk of text that the AI model processes. It can be a word, word part, space, punctuation mark, or symbol.</p>
+        </details>
+        <details>
+          <summary>Token ID</summary>
+          <p>The number assigned to a token in the model's vocabulary.</p>
+        </details>
+        <details>
+          <summary>Context window</summary>
+          <p>The maximum number of tokens the model can consider in one request.</p>
+        </details>
+      </section>
+
+      <section class="source-notes">
+        <h2>Source Notes</h2>
+        <p>This is a simplified explainer. Real tokenization differs by model and tokenizer, so exact counts vary.</p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script>
+const DATA = {
+  title: "AI Tokens: A Pocket Comic",
+  concept: "AI tokens",
+  pages: [
+    "The mystery meter",
+    "The text chopper",
+    "The ID stamp",
+    "The backpack window",
+    "The next token game",
+    "The token toll booth",
+    "Pocket recap"
+  ],
+  caveat: "Exact token counts depend on the model tokenizer."
+};
+
+document.body.classList.add("js-ready");
+const pages = Array.from(document.querySelectorAll(".comic-page"));
+const dots = Array.from(document.querySelectorAll(".page-dot"));
+const counter = document.getElementById("pageCounter");
+let current = 0;
+
+function showPage(index) {
+  current = Math.max(0, Math.min(index, pages.length - 1));
+  pages.forEach((page, i) => page.classList.toggle("is-active", i === current));
+  dots.forEach((dot, i) => dot.setAttribute("aria-current", i === current ? "true" : "false"));
+  counter.textContent = (current + 1) + " / " + pages.length;
+  document.getElementById("prevPage").disabled = current === 0;
+  document.getElementById("nextPage").disabled = current === pages.length - 1;
+}
+
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => showPage(i));
+});
+document.getElementById("prevPage").addEventListener("click", () => showPage(current - 1));
+document.getElementById("nextPage").addEventListener("click", () => showPage(current + 1));
+document.addEventListener("keydown", event => {
+  if (event.key === "ArrowLeft") showPage(current - 1);
+  if (event.key === "ArrowRight") showPage(current + 1);
+});
+showPage(0);
+</script>
+</body>
+</html>
