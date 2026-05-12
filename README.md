@@ -52,7 +52,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 |---|---|---|
 | [Amazon order history →](https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html) | 3 years of orders → personal commerce memory with cadence, returns, gifting. | `timeline-story` |
 | [Kindle highlights →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) | Highlights become a mycelium writing field with a living margin question. | `living-essay` |
-| [AI tokens comic →](https://clockless-org.github.io/html-anything/examples/ai-tokens-comic/output.html) | A popular AI concept becomes a seven-page comic with a robot-cat tutor and pocket props. | `comic-book` |
+| [AI tokens comic →](https://clockless-org.github.io/html-anything/examples/ai-tokens-comic/output.html) | A popular AI concept becomes a seven-page Doraemon-style knowledge comic with pocket gadgets. | `comic-book` |
 | [Apple Health →](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) | Activity, sleep, and workouts become a personal rhythm story. | `timeline-story` |
 | [Slack championship →](https://clockless-org.github.io/html-anything/examples/slack/output.html) | Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence. | `kinetic-scoreboard` |
 | [LinkedIn connections →](https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html) | 12 years of connections clustered by company, role, and era. | `network-map` |

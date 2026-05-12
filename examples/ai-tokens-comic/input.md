@@ -1,21 +1,21 @@
-# Explain AI Tokens As A Comic
+# 用哆啦A梦漫画解释 AI Token
 
-Create a simple comic-book explainer for the concept "AI tokens".
+请把“AI token 是什么”讲成一部 7 页中文知识漫画。
 
-Audience:
-- Curious non-technical readers
-- People who have heard that AI tools count "tokens" but do not know what that means
+读者：
+- 听过 AI 工具会计算 token，但不知道 token 到底是什么的人
+- 想用很轻松的方式理解上下文窗口、成本、速度的人
 
-Teaching goals:
-- Explain that a token is a small text chunk, not always a whole word.
-- Show that tokens are converted into token IDs.
-- Explain context windows as the model's working space.
-- Explain next-token prediction without math-heavy wording.
-- Show why token counts affect cost, speed, and how much source material fits.
-- Correct the misconception that "one word equals one token".
+教学目标：
+- 解释 token 是一小块文本，不一定等于一个完整单词。
+- 展示 token 会被转换成 token ID。
+- 解释上下文窗口是模型一次能看的工作空间。
+- 用不重数学的方式解释“预测下一个 token”。
+- 说明为什么 token 数会影响成本、速度，以及能塞进多少资料。
+- 纠正常见误解：“一个词 = 一个 token”。
 
-Preferred style:
-- Comic-book explainer
-- 6 to 7 pages
-- Friendly original blue robot-cat teacher with a pocket full of visual props
-- Simple dialogue, captions, and recap page
+偏好的呈现方式：
+- 哆啦A梦风格知识漫画
+- 7 页竖版漫画，每页 3-5 个分镜
+- 哆啦A梦作为讲解主角，从四次元口袋里拿出视觉道具
+- 简单中文对白、清楚分镜、最后一页 recap
