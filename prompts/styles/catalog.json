@@ -61,7 +61,7 @@
       "id": "developer",
       "title": "Developer Evidence",
       "summary": "Turn diffs, pull requests, CI logs, stack traces, and repos into evidence workbenches for review and debugging.",
-      "styles": ["developer"],
+      "styles": ["developer", "terminal-cli"],
       "examples": ["git-diff", "ci-log"]
     }
   ],
@@ -290,6 +290,21 @@
       "coreScaffold": ["horizontal slide rail", "fixed editorial slides", "top metadata", "argument sequence", "evidence drawer"],
       "requiredPrimitives": [".carousel-track", ".slide", ".top-meta", ".bottom-nav", ".evidence-drawer"],
       "avoid": ["app header", "dashboard widgets", "more than eight primary slides without request"]
+    },
+    {
+      "id": "terminal-cli",
+      "system": "Terminal CLI",
+      "mode": "explicit-or-auto-when-brief-asks-for-terminal",
+      "summary": "Dark-only shell work surface for terminal, CLI, mainframe, CI/log, and system-level interfaces.",
+      "useCases": ["developer"],
+      "triggers": ["terminal", "CLI", "shell", "mainframe", "hacker console", "server console", "tmux"],
+      "bestSources": ["ci-log", "log-events", "stack-trace", "git-diff", "pr-review", "github-repo", "plain-text"],
+      "example": "ci-log",
+      "preview": "docs/example-previews/ci-log.jpg",
+      "accent": "#33ff00",
+      "coreScaffold": ["shell prompt", "status rail", "terminal pane grid", "command controls", "raw console"],
+      "requiredPrimitives": [".terminal-cli-shell", ".shell-prompt", ".terminal-pane", ".status-code", ".raw-console", ".scanline-overlay"],
+      "avoid": ["Matrix rain", "rounded SaaS cards", "generic dashboard hero", "purple cyberpunk gradients"]
     },
     {
       "id": "developer",

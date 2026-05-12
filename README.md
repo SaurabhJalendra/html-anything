@@ -59,6 +59,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [Brand positioning carousel →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html) | A strategy essay becomes a 5-spread magazine carousel with source evidence. | `editorial-carousel` |
 | [Email support console →](https://clockless-org.github.io/html-anything/examples/email/output.html) | A mailbox archive becomes a soft SaaS console for thread health, open loops, and handoffs. | `soft-saas` |
 | [Google Photos atlas →](https://clockless-org.github.io/html-anything/examples/google-photos-takeout/output.html) | Takeout EXIF metadata becomes a place-driven memory map. | `map-atlas` |
+| [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | A failed GitHub Actions run becomes a shell-native debugging console. | `terminal-cli` |
 | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | A patch becomes a risk-annotated review brief with evidence. | `developer` |
 
 → **[See the curated gallery (22 demos) →](https://clockless-org.github.io/html-anything/examples/)**
@@ -202,6 +203,7 @@ every output into the same dashboard/report shape.
 | Essays, articles, reading lists, bookmarks, PDFs, DOCX, legal/medical/lab records | `document` (Document Review) |
 | E-guides, PDF guides, creator guides, playbooks, lead magnets | `digital-eguide` (Digital E-Guide Spread) |
 | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | `editorial-carousel` (Editorial Carousel) |
+| Explicit terminal, CLI, shell, mainframe, hacker-console requests | `terminal-cli` (Terminal CLI, explicit override) |
 | Logs, diffs, stack traces, CI failures, repos | `developer` (Terminal Evidence Workbench) |
 
 You can still steer it naturally: "make it more tutorial-like", "more
@@ -220,7 +222,7 @@ auto-selected styles (`teaching`,
 `interactive-learning`, `relationship`, `living-essay`, `dashboard`, `soft-saas`,
 `kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
 `document`, `editorial-carousel`, and `developer`), plus explicit overrides
-such as `paper-trail` and `digital-eguide`.
+such as `paper-trail`, `digital-eguide`, and `terminal-cli`.
 
 Example explicit style override:
 
@@ -247,7 +249,7 @@ Each use case can use one or more style systems.
 | Conversation Analysis | WeChat, WhatsApp, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, LinkedIn, Venmo / PayPal, AI chat exports, notes vaults | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Google Photos Takeout, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `map-atlas`, `paper-trail` |
-| Developer Evidence | Git diff, PR patch, CI log, stack trace, GitHub repo URL | `developer` |
+| Developer Evidence | Git diff, PR patch, CI log, stack trace, GitHub repo URL | `developer`, `terminal-cli` |
 
 Use case is user-facing; style is internal. A user can simply say "make this
 CSV prettier" or "turn this into a teaching site" and the skill picks the

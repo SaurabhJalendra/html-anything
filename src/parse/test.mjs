@@ -98,6 +98,7 @@ test("htmlize auto style selector routes major source families", async () => {
   assert.equal(selectStyleForContent("travel-itinerary", { style: "paper-trail" }), "paper-trail")
   assert.equal(selectStyleForContent("csv-tabular", { style: "interactive-learning" }), "interactive-learning")
   assert.equal(selectStyleForContent("pdf-document", { style: "digital-eguide" }), "digital-eguide")
+  assert.equal(selectStyleForContent("ci-log", { style: "terminal-cli" }), "terminal-cli")
 })
 
 test("style catalog stays in sync with style types, prompts, examples, and previews", async () => {
