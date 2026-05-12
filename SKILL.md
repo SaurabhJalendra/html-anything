@@ -135,7 +135,7 @@ the style system. Source prompts can be many; use cases should stay stable.
 | Conversation Analysis | Analyze private chats, relationship exports, team channels, or message archives. | `relationship`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Make a recap/timeline/story from personal exports: orders, health, browsing, media, payments, professional networks, notes, AI chats. | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Make a map, route atlas, travel dossier, photo-location view, or trip paper trail. | `map-atlas`, `paper-trail` |
-| Developer Evidence | Review, explain, or debug code artifacts: diffs, PRs, CI logs, stack traces, repos. | `developer` |
+| Developer Evidence | Review, explain, or debug code artifacts: diffs, PRs, CI logs, stack traces, repos. | `developer`, `terminal-cli` |
 
 Do not expose this as a required choice to the user. Use it internally to make
 auto-routing predictable.
@@ -173,6 +173,7 @@ Explicit override styles:
 | Style | Use for | Page shape |
 |---|---|---|
 | `paper-trail` | User asks for a tactile/vintage hotel, key-card, receipt, ticket, folio, passport, field-note, or printed-collateral feel | **Paper Trail**: left rail, Post Post-style overlapping receipt/guide/key-card artifact desk, folio tabs, receipt tape, stamp callouts, source drawer |
+| `terminal-cli` | User asks for a terminal, CLI, shell, mainframe, hacker, server-console, or tmux feel | **Terminal CLI**: shell prompt, status rail, terminal pane grid, command controls, raw console, scanline overlay |
 
 Honor explicit style direction in natural language:
 
@@ -192,6 +193,8 @@ Honor explicit style direction in natural language:
 - "make it a year-in-review" / "story over time" → lean `timeline-story`.
 - "make it like this hotel key-card HTML" / "ticket/receipt/hotel folio"
   → use `paper-trail` and follow `prompts/styles/paper-trail.md` exactly.
+- "make it terminal/CLI/mainframe" / "like a shell" / "hacker console"
+  → use `terminal-cli` and follow `prompts/styles/terminal-cli.md` exactly.
 - "more playful" → richer visuals, while keeping content accurate.
 - If nothing fits cleanly → use `default`.
 

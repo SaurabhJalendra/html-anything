@@ -73,6 +73,7 @@ export type HtmlAnythingStyle =
   | "document"
   | "digital-eguide"
   | "editorial-carousel"
+  | "terminal-cli"
   | "developer"
 
 export interface LlmHelper {

@@ -32,6 +32,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `document` | Essays, articles, reading lists, research collections, PDFs, DOCX, legal/medical/lab records, policy docs | Document review with cover, reading rail, body sheet, evidence/citations, drill-down |
 | `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | Two-page guide spread with cover, TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | Magazine-like issue with cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
+| `terminal-cli` | Explicit terminal, CLI, shell, mainframe, hacker-console, or tmux requests | Dark-only shell work surface with prompt, status rail, terminal panes, command controls, and raw console |
 | `developer` | Repos, diffs, PRs, CI logs, traces | Terminal evidence workbench with risks, hotspots, raw evidence |
 
 ## System Names
@@ -53,6 +54,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `document` | Document Review |
 | `digital-eguide` | Digital E-Guide Spread |
 | `editorial-carousel` | Editorial Carousel |
+| `terminal-cli` | Terminal CLI |
 | `developer` | Terminal Evidence Workbench |
 
 ## Notes From DESIGN.md Libraries
@@ -87,6 +89,7 @@ override. Borrow archetypes, not brand identities:
 - broadsheet / media systems → `document`
 - creator guide / PDF guide systems → `digital-eguide`
 - premium carousel / manifesto systems → `editorial-carousel`
+- terminal / CLI / shell systems → `terminal-cli`
 - playful canvas / learning studios → `teaching`, `interactive-learning`
 
 The Open Design repo is useful for style packaging discipline: each skill-like
@@ -124,7 +127,7 @@ choose from.
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `map-atlas`, `paper-trail` |
-| Developer Evidence | Diffs, PRs, CI logs, stack traces, repos | `developer` |
+| Developer Evidence | Diffs, PRs, CI logs, stack traces, repos | `developer`, `terminal-cli` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.
@@ -143,3 +146,10 @@ Use [`examples/pdf/input.pdf`](../../examples/pdf/input.pdf) as the first
 recommendations, glossary, and citations, so the style can turn a formal PDF
 into a cover page plus actionable inside spread without falling back to a
 dashboard or memo.
+
+## Example Source For Terminal CLI
+
+Use [`examples/ci-log/input.log`](../../examples/ci-log/input.log) as the first
+`terminal-cli` example. It has GitHub Actions markers, passing setup phases,
+failing Vitest assertions, an exit code, and enough raw line evidence for a
+shell-native debugging console.

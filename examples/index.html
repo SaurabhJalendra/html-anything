@@ -390,7 +390,7 @@ footer.foot a { color: var(--primary); }
       <div class="hero-stats">
         <div class="hero-stat"><strong>22</strong><span>curated examples</span></div>
         <div class="hero-stat"><strong>6</strong><span>use cases</span></div>
-        <div class="hero-stat"><strong>16</strong><span>style systems</span></div>
+        <div class="hero-stat"><strong>17</strong><span>style systems</span></div>
       </div>
     </div>
   </header>
@@ -443,6 +443,7 @@ footer.foot a { color: var(--primary); }
     ["editorial-carousel", "Carousel", "#9f3f24"],
     ["dashboard", "Ops", "#0f5f6f"],
     ["soft-saas", "Soft SaaS", "#5b7cf6"],
+    ["terminal-cli", "Terminal", "#33ff00"],
     ["developer", "Developer", "#38bdf8"]
   ];
 
@@ -468,7 +469,7 @@ footer.foot a { color: var(--primary); }
     ["bank-transactions", "Bank statement", "Transactions CSV", "dashboard", "files", "Cashflow timeline, categories, recurring vendors, and anomaly callouts."],
     ["log-error", "Error log", "Service log", "dashboard", "files", "Incident log grouped by severity, stack groups, and recovery path."],
     ["git-diff", "Git diff", "Patch file", "developer", "dev", "Code changes with risk callouts and evidence-margin annotations."],
-    ["ci-log", "CI failure", "CI log", "developer", "dev", "Failure log grouped by step, stack, and likely-cause hypothesis."]
+    ["ci-log", "CI terminal console", "CI log", "terminal-cli", "dev", "A failed GitHub Actions run becomes a shell-native debugging console with raw evidence."]
   ].map(([slug, title, source, style, group, description]) => ({ slug, title, source, style, group, description }));
 
   const styleNames = new Map([
@@ -484,6 +485,7 @@ footer.foot a { color: var(--primary); }
     ["editorial-carousel", "Editorial carousel"],
     ["dashboard", "Ops console"],
     ["soft-saas", "Soft SaaS console"],
+    ["terminal-cli", "Terminal CLI"],
     ["developer", "Developer review"]
   ]);
 
@@ -500,7 +502,8 @@ footer.foot a { color: var(--primary); }
     ["Brand essay / article carousel", "Editorial carousel", "editorial-carousel"],
     ["Customer support mailbox / email archive", "Soft SaaS console", "email"],
     ["Bank / ledger CSV", "Ops console", "bank-transactions"],
-    ["Git diff / CI log", "Developer review", "git-diff"]
+    ["Git diff / PR patch", "Developer review", "git-diff"],
+    ["CI log with terminal request", "Terminal CLI", "ci-log"]
   ];
 
   const videoSlugs = new Set([]);
