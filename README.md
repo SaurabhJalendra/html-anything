@@ -59,7 +59,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [PDF e-guide →](https://clockless-org.github.io/html-anything/examples/pdf/output.html) | A sector report becomes a two-page guide preview with TOC, lesson spread, and source drawer. | `digital-eguide` |
 | [Brand positioning carousel →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html) | A strategy essay becomes a 5-spread magazine carousel with source evidence. | `editorial-carousel` |
 | [Email support console →](https://clockless-org.github.io/html-anything/examples/email/output.html) | A mailbox archive becomes a soft SaaS console for thread health, open loops, and handoffs. | `soft-saas` |
-| [Google Photos atlas →](https://clockless-org.github.io/html-anything/examples/google-photos-takeout/output.html) | Takeout EXIF metadata becomes a place-driven memory map. | `map-atlas` |
+| [Rideshare history →](https://clockless-org.github.io/html-anything/examples/rideshare-history/output.html) | Trips become commute lanes, airport runs, late-night returns, and route clusters. | `map-atlas` |
 | [Long-form architectural essay →](https://clockless-org.github.io/html-anything/examples/markdown/output.html) | A narrative essay becomes a split-screen editorial object with chapter pagination. | `architectural-spread` |
 | [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | A failed GitHub Actions run becomes a shell-native debugging console. | `terminal-cli` |
 | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | A patch becomes a risk-annotated review brief with evidence. | `developer` |

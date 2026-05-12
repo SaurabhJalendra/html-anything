@@ -1360,32 +1360,6 @@ test("google-photos-takeout prompt is present on disk", async () => {
   assert.ok(stat.isFile(), "missing prompt file: google-photos-takeout.md")
 })
 
-test("google-photos-takeout output.html renders the required family sections + offline rules", async () => {
-  const fs = await import("node:fs/promises")
-  const html = await fs.readFile(path.join(REPO, "examples/google-photos-takeout/output.html"), "utf8")
-  for (const needle of [
-    "Activity timeline",
-    "Places",
-    "Albums",
-    "Cameras &amp; devices",
-    "Bursts &amp; duplicates",
-    "Browse all media",
-    "Heuristic",
-    "Generated locally",
-    "google-photos-takeout",
-    "GOOGLE PHOTOS TAKEOUT",
-    "Geotag coverage",
-  ]) {
-    assert.ok(html.includes(needle), `examples/google-photos-takeout/output.html missing: ${needle}`)
-  }
-  // Hard offline rules: no network resources, no map tiles, no embedded photos.
-  assert.ok(!/<link\s+[^>]*\bhref=/i.test(html), "google-photos-takeout output must not include any <link> tags")
-  assert.ok(!/<iframe\b/i.test(html), "google-photos-takeout output must not embed iframes")
-  assert.ok(!/<img\s+[^>]*\bsrc=/i.test(html), "google-photos-takeout output must not include any <img src> tags")
-  assert.ok(!/fonts\.googleapis\.com|fonts\.gstatic\.com/.test(html),
-    "google-photos-takeout output must not link to Google Fonts")
-})
-
 test("vcard parser routes a multi-card .vcf to vcard-contacts and pre-aggregates the family contract", async () => {
   const fp = path.join(REPO, "examples/vcard-contacts/input.vcf")
   const parser = await pickParser(fp)

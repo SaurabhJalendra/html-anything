@@ -55,7 +55,7 @@
       "title": "Places & Trips",
       "summary": "Make maps, route atlases, travel dossiers, photo-location views, and trip paper trails from location-rich sources.",
       "styles": ["map-atlas", "paper-trail"],
-      "examples": ["google-photos-takeout", "itinerary-trip"]
+      "examples": ["rideshare-history", "itinerary-trip"]
     },
     {
       "id": "developer",
@@ -239,8 +239,8 @@
       "useCases": ["places-travel"],
       "triggers": ["map", "places", "route", "trip", "rideshare", "geotagged photos", "location history"],
       "bestSources": ["google-maps-stars", "google-photos-takeout", "rideshare-history", "gpx-route", "kml-route", "travel-itinerary", "location-history"],
-      "example": "google-photos-takeout",
-      "preview": "docs/example-previews/google-photos-takeout.jpg",
+      "example": "rideshare-history",
+      "preview": "docs/example-previews/rideshare-history.jpg",
       "accent": "#17695a",
       "coreScaffold": ["spatial stage", "place drawer", "period filters", "waypoint browser", "route stats"],
       "requiredPrimitives": [".atlas-shell", ".spatial-stage", ".place-drawer", ".waypoint-browser", ".period-filter"],
