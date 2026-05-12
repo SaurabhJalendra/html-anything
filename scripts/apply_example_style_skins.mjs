@@ -40,7 +40,7 @@ const STYLE_BY_EXAMPLE = {
   "slack": "kinetic-scoreboard",
   "discord": "network-map",
   "telegram": "network-map",
-  "email": "network-map",
+  "email": "soft-saas",
 
   "csv": "dashboard",
   "jsonl": "dashboard",
@@ -439,6 +439,44 @@ html[data-ha-style="dashboard"] header.hero::before {
   width: 100%;
   height: 3px;
   margin-bottom: 14px;
+}
+
+html[data-ha-style="soft-saas"] {
+  --ha-style-accent: #5b7cf6;
+  --ha-style-accent-2: #e978ae;
+  --primary: #5b7cf6;
+  --primary-container: #4964d8;
+  --primary-fixed: #e6ecff;
+  --secondary-container: #e978ae;
+  --bg: #f5f7fb;
+  --surface: #f5f7fb;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f0f3fb;
+  --surface-container: #e8edf8;
+  --surface-container-high: #dfe6f5;
+  --fg-1: #172033;
+  --fg-2: #344057;
+  --fg-muted: #6b7288;
+  --border: rgba(106,119,150,.15);
+  --gradient-hero: linear-gradient(135deg, #5b7cf6 0%, #aebcff 58%, #65d6ce 100%);
+  --gradient-text: linear-gradient(135deg, #172033 0%, #5b7cf6 100%);
+}
+html[data-ha-style="soft-saas"] body {
+  background-color: var(--bg) !important;
+  background-image:
+    radial-gradient(circle at 48% 20%, rgba(91,124,246,.10), transparent 26rem),
+    radial-gradient(circle at 76% 6%, rgba(101,214,206,.12), transparent 22rem);
+}
+html[data-ha-style="soft-saas"] body::before { content: "soft-saas"; }
+html[data-ha-style="soft-saas"] .hero::before,
+html[data-ha-style="soft-saas"] header.hero::before {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 30%, #fff 0 3px, transparent 4px),
+    linear-gradient(135deg, #dbe4ff, #ffffff);
+  box-shadow: 0 10px 26px rgba(91,124,246,.16);
 }
 
 html[data-ha-style="document"] {

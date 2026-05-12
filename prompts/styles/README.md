@@ -23,6 +23,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `relationship` | 1:1 chats and intimate message exports | Aggregate-first relationship rhythm report with anonymized evidence |
 | `living-essay` | Reflective essays, Kindle highlights, idea notes, and concept-heavy reading archives | Mycelium writing environment with a vertical question capsule, spore words, living SVG threads, and quiet appendix |
 | `dashboard` | Operational, tabular, finance, admin, log, planning data | Dense KPIs, charts, filters, flags, searchable table |
+| `soft-saas` | Support inboxes, email campaigns, onboarding, customer-success queues, and lightweight SaaS metrics | Airy SaaS app canvas with profile/source card, central metric bloom, campaign panels, leaderboard, and activity strip |
 | `kinetic-scoreboard` | Multi-participant activity streams, team chats, work races, ranked contributors | Full-viewport championship lanes with kinetic bodies, live ranks, telemetry, and linked evidence pits |
 | `timeline-story` | Personal histories — chronological (orders, listening, health) and topical (Notion / Obsidian vaults) | Scroll-driven story with timeline spine, chapters, rhythm strip, drawer |
 | `map-atlas` | Places, routes, trips, rideshare, location/photo geodata | Spatial atlas with map/route stage, place drawer, filters, waypoint browser |
@@ -43,6 +44,7 @@ The default is `auto`: the agent picks a style from the request and source.
 | `relationship` | Rhythm Report |
 | `living-essay` | Mycelium Writing Environment |
 | `dashboard` | Ops Console |
+| `soft-saas` | Soft SaaS Console |
 | `kinetic-scoreboard` | Kinetic Championship |
 | `timeline-story` | Timeline Story |
 | `map-atlas` | Map Atlas |
@@ -74,6 +76,7 @@ override. Borrow archetypes, not brand identities:
 
 - warm workspace systems → `default`, `document`, `timeline-story`
 - precision product / dark app systems → `dashboard`, `developer`
+- airy product analytics systems → `soft-saas`
 - cinematic lesson stages → `teaching`
 - app-like object/system studios → `interactive-learning`
 - temporal / scrollytelling systems → `timeline-story`
@@ -117,7 +120,7 @@ choose from.
 | Use case | Includes | Prefer |
 |---|---|
 | Teaching Studios | Tutorials, explainers, lessons, object/system studios | `teaching`, `interactive-learning` |
-| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, research records, slide-style carousel outputs | `dashboard`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
+| Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `relationship`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Photos with EXIF, saved places, rideshare, GPX/KML, itineraries | `map-atlas`, `paper-trail` |

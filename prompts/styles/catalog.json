@@ -33,8 +33,8 @@
       "id": "files-work",
       "title": "Files & Work Data",
       "summary": "Transform spreadsheets, CSV exports, PDFs, DOCX, Markdown, records, logs, calendars, work artifacts, and slide-style carousel outputs into polished live HTML.",
-      "styles": ["dashboard", "document", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay"],
-      "examples": ["csv", "bank-transactions", "pdf", "markdown", "editorial-carousel", "log-error"]
+      "styles": ["dashboard", "soft-saas", "document", "digital-eguide", "editorial-carousel", "paper-trail", "living-essay"],
+      "examples": ["email", "bank-transactions", "pdf", "markdown", "editorial-carousel", "log-error"]
     },
     {
       "id": "conversation",
@@ -157,6 +157,21 @@
       "avoid": ["marketing hero", "decorative card stacks", "chart values that are hover-only"]
     },
     {
+      "id": "soft-saas",
+      "system": "Soft SaaS Console",
+      "mode": "auto",
+      "summary": "Airy product analytics console for customer-facing workstreams, inboxes, campaigns, onboarding, and lightweight operational metrics.",
+      "useCases": ["files-work"],
+      "triggers": ["email campaign", "customer onboarding", "support inbox", "saas metrics", "performance panel", "customer success"],
+      "bestSources": ["email-archive", "csv-tabular", "issue-tracker", "ics-calendar", "slack-chat"],
+      "example": "email",
+      "preview": "docs/example-previews/email.jpg",
+      "accent": "#5b7cf6",
+      "coreScaffold": ["soft app canvas", "profile or source card", "central metric bloom", "right-side campaign panels", "bottom activity strip"],
+      "requiredPrimitives": [".soft-saas-shell", ".profile-card", ".metric-bloom", ".campaign-panel", ".activity-strip"],
+      "avoid": ["heavy admin dashboard", "dark terminal or evidence UI", "full-width marketing hero", "dense raw table as first viewport"]
+    },
+    {
       "id": "kinetic-scoreboard",
       "system": "Kinetic Championship",
       "mode": "auto",
@@ -223,7 +238,7 @@
       "summary": "Entity graph and inspector for people, organizations, senders, payments, and contacts.",
       "useCases": ["personal-data", "conversation"],
       "triggers": ["network", "relationships", "contacts", "linkedin", "email", "payments", "community"],
-      "bestSources": ["linkedin-connections", "vcard-contacts", "email-archive", "venmo-paypal-payments", "discord-chat", "telegram-chat", "imessage-chat"],
+      "bestSources": ["linkedin-connections", "vcard-contacts", "venmo-paypal-payments", "discord-chat", "telegram-chat", "imessage-chat"],
       "example": "linkedin-connections",
       "preview": "docs/example-previews/linkedin-connections.jpg",
       "accent": "#355f91",

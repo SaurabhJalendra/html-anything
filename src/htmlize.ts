@@ -272,11 +272,16 @@ export function selectStyleForContent(contentType: string, options: ConverterOpt
   }
 
   if (
+    contentType === "email-archive"
+  ) {
+    return "soft-saas"
+  }
+
+  if (
     contentType === "discord-chat" ||
     contentType === "telegram-chat" ||
     contentType === "imessage-chat" ||
     contentType === "multi-sender-chat" ||
-    contentType === "email-archive" ||
     contentType === "venmo-paypal-payments" ||
     contentType === "vcard-contacts" ||
     contentType === "linkedin-connections"
