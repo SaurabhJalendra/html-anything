@@ -1,6 +1,6 @@
 ---
 name: html-anything
-description: Create polished live HTML artifacts for rich deliverables. Use when the user wants a webpage, interactive teaching site, visual report, dashboard, atlas, browsable export, recap, presentation-like explainer, shareable analysis, or when a long/structured/visual answer would be easier to read as HTML.
+description: Turn rich agent answers and any file, folder, URL, or export into a polished single-file HTML page. Auto-picks one of 16 design systems (teaching, dashboard, atlas, timeline-story, document, …).
 version: 0.1.0
 homepage: https://github.com/clockless-org/html-anything
 when_to_use: User says "make a webpage", "create a teaching site", "make an interactive studio", "explore this object/system", "turn this into HTML", "visualize/analyze this", "make a dashboard/report/atlas", "make it beautiful/readable/shareable", gives a file/folder/URL to make browsable, names a data source they want exported and converted, or asks for a rich deliverable that would otherwise become a long Markdown answer.
