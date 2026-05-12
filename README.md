@@ -22,81 +22,98 @@ default fallback, and ships the HTML.
 
 ## Preview
 
-→ **[Open the usage gallery](https://clockless-org.github.io/html-anything/examples/)** — 11 usage patterns across 4 use cases. Gallery cards use video thumbnails when a demo is available.
+→ **[Open the usage gallery](https://clockless-org.github.io/html-anything/examples/)** — 11 usage patterns across 4 use cases. GitHub does not reliably render raw `<video>` tags in READMEs, so the cards below use equal-width animated demo previews. Open a card for the live page, or use the `Demo mp4` link for the original video.
 
 ### Teaching Studios
 
-#### [Teach a concept →](https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html)
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html"><img src="./docs/example-demos/solar-system-studio.gif" alt="Teach a concept demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/solar-system-studio/output.html">Teach a concept →</a></strong><br>
+<sub>Source: teaching brief · Style: <code>teaching</code> · <a href="./docs/example-videos/solar-system-studio.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/markdown/output.html"><img src="./docs/example-demos/markdown.gif" alt="Learn from long-form text demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/markdown/output.html">Learn from long-form text →</a></strong><br>
+<sub>Source: Markdown file · Style: <code>architectural-spread</code> · <a href="./docs/example-videos/markdown.mp4">Demo mp4</a></sub>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/docx/output.html"><img src="./docs/example-demos/docx.gif" alt="Learn from a document demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/docx/output.html">Learn from a document →</a></strong><br>
+<sub>Source: DOCX file · Style: <code>kami-reading</code> · <a href="./docs/example-videos/docx.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top"></td>
+</tr>
+</table>
 
-Source: teaching brief · Style: `teaching`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/solar-system-studio.mp4" poster="./docs/example-previews/solar-system-studio.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Learn from long-form text →](https://clockless-org.github.io/html-anything/examples/markdown/output.html)
-
-Source: Markdown file · Style: `architectural-spread`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/markdown.mp4" poster="./docs/example-previews/markdown.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Learn from a document →](https://clockless-org.github.io/html-anything/examples/docx/output.html)
-
-Source: DOCX file · Style: `kami-reading`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/docx.mp4" poster="./docs/example-previews/docx.jpg" controls muted loop playsinline width="100%"></video>
 
 ### Files & Work Data
 
-#### [Argument as sequence →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html)
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html"><img src="./docs/example-demos/editorial-carousel.gif" alt="Argument as sequence demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html">Argument as sequence →</a></strong><br>
+<sub>Source: strategy essay · Style: <code>editorial-carousel</code> · <a href="./docs/example-videos/editorial-carousel.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/pdf/output.html"><img src="./docs/example-demos/pdf.gif" alt="Guide from dense document demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/pdf/output.html">Guide from dense document →</a></strong><br>
+<sub>Source: PDF report · Style: <code>digital-eguide</code> · <a href="./docs/example-videos/pdf.mp4">Demo mp4</a></sub>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/email/output.html"><img src="./docs/example-demos/email.gif" alt="Inbox or workstream audit demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/email/output.html">Inbox or workstream audit →</a></strong><br>
+<sub>Source: Mbox archive · Style: <code>soft-saas</code> · <a href="./docs/example-videos/email.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/ci-log/output.html"><img src="./docs/example-demos/ci-log.gif" alt="Debugging evidence demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/ci-log/output.html">Debugging evidence →</a></strong><br>
+<sub>Source: CI log · Style: <code>terminal-cli</code> · <a href="./docs/example-videos/ci-log.mp4">Demo mp4</a></sub>
+</td>
+</tr>
+</table>
 
-Source: strategy essay · Style: `editorial-carousel`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/editorial-carousel.mp4" poster="./docs/example-previews/editorial-carousel.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Guide from dense document →](https://clockless-org.github.io/html-anything/examples/pdf/output.html)
-
-Source: PDF report · Style: `digital-eguide`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/pdf.mp4" poster="./docs/example-previews/pdf.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Inbox or workstream audit →](https://clockless-org.github.io/html-anything/examples/email/output.html)
-
-Source: Mbox archive · Style: `soft-saas`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/email.mp4" poster="./docs/example-previews/email.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Debugging evidence →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html)
-
-Source: CI log · Style: `terminal-cli`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/ci-log.mp4" poster="./docs/example-previews/ci-log.jpg" controls muted loop playsinline width="100%"></video>
 
 ### Conversation Analysis
 
-#### [Private chat recap →](https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html)
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html"><img src="./docs/example-demos/wechat-couple.gif" alt="Private chat recap demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/wechat-couple/output.html">Private chat recap →</a></strong><br>
+<sub>Source: 1:1 chat export · Style: <code>love-romance-3d</code> · <a href="./docs/example-videos/wechat-couple.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/slack/output.html"><img src="./docs/example-demos/slack.gif" alt="Group contribution analysis demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/slack/output.html">Group contribution analysis →</a></strong><br>
+<sub>Source: team chat export · Style: <code>kinetic-scoreboard</code> · <a href="./docs/example-videos/slack.mp4">Demo mp4</a></sub>
+</td>
+</tr>
+</table>
 
-Source: 1:1 chat export · Style: `love-romance-3d`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/wechat-couple.mp4" poster="./docs/example-previews/wechat-couple.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Group contribution analysis →](https://clockless-org.github.io/html-anything/examples/slack/output.html)
-
-Source: team chat export · Style: `kinetic-scoreboard`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/slack.mp4" poster="./docs/example-previews/slack.jpg" controls muted loop playsinline width="100%"></video>
 
 ### Personal Data & Places
 
-#### [Reflective reading archive →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html)
-
-Source: My Clippings.txt · Style: `living-essay`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/kindle-highlights.mp4" poster="./docs/example-previews/kindle-highlights.jpg" controls muted loop playsinline width="100%"></video>
-
-#### [Mobility recap →](https://clockless-org.github.io/html-anything/examples/travel-history/output.html)
-
-Source: Uber/Lyft CSV · Style: `global-travel`
-
-<video src="https://raw.githubusercontent.com/clockless-org/html-anything/main/docs/example-videos/travel-history.mp4" poster="./docs/example-previews/travel-history.jpg" controls muted loop playsinline width="100%"></video>
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html"><img src="./docs/example-demos/kindle-highlights.gif" alt="Reflective reading archive demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html">Reflective reading archive →</a></strong><br>
+<sub>Source: My Clippings.txt · Style: <code>living-essay</code> · <a href="./docs/example-videos/kindle-highlights.mp4">Demo mp4</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://clockless-org.github.io/html-anything/examples/travel-history/output.html"><img src="./docs/example-demos/travel-history.gif" alt="Mobility recap demo" width="100%"></a><br>
+<strong><a href="https://clockless-org.github.io/html-anything/examples/travel-history/output.html">Mobility recap →</a></strong><br>
+<sub>Source: Uber/Lyft CSV · Style: <code>global-travel</code> · <a href="./docs/example-videos/travel-history.mp4">Demo mp4</a></sub>
+</td>
+</tr>
+</table>
 
 ## Install
 
