@@ -47,10 +47,7 @@ a { color: inherit; }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 24px 112px; }
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.72fr);
-  gap: 40px;
-  align-items: end;
+  max-width: 850px;
   margin-bottom: 34px;
 }
 .hero h1 {
@@ -102,41 +99,6 @@ a { color: inherit; }
   height: 17px;
   flex: 0 0 auto;
   fill: currentColor;
-}
-
-.hero-panel {
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.66);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(18px);
-}
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.hero-stat {
-  min-height: 84px;
-  padding: 14px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-}
-.hero-stat strong {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 30px;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-.hero-stat span {
-  display: block;
-  margin-top: 8px;
-  color: var(--fg-muted);
-  font-size: 12px;
-  line-height: 1.25;
 }
 
 .intro {
@@ -317,12 +279,10 @@ footer.foot {
 footer.foot a { color: var(--primary); }
 
 @media (max-width: 1040px) {
-  .hero { grid-template-columns: 1fr; }
   .example-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
   .wrap { padding: 38px 16px 84px; }
-  .hero-stats { grid-template-columns: 1fr; }
   .intro { align-items: flex-start; flex-direction: column; }
   .example-grid { grid-template-columns: 1fr; }
 }
@@ -347,13 +307,6 @@ footer.foot a { color: var(--primary); }
           <span>View on GitHub</span>
         </a>
         <a class="cta secondary" href="https://github.com/clockless-org/html-anything#install">Install the skill</a>
-      </div>
-    </div>
-    <div class="hero-panel">
-      <div class="hero-stats">
-        <div class="hero-stat"><strong>11</strong> <span>usage patterns</span></div>
-        <div class="hero-stat"><strong>4</strong> <span>use-case groups</span></div>
-        <div class="hero-stat"><strong>auto</strong> <span>style routing</span></div>
       </div>
     </div>
   </header>
