@@ -2,7 +2,7 @@
 /**
  * Synthetic rideshare-history fixture generator.
  *
- * Writes `examples/rideshare-history/input.csv` — a fully fictional
+ * Writes `examples/travel-history/input.csv` — a fully fictional
  * consumer Uber trip-history export covering ~2.5 years, with the
  * deliberate patterns the prompt promises:
  *   - Commute loops (Home → Office, Office → Home) on weekdays
@@ -29,7 +29,7 @@ import * as path from "node:path"
 import { fileURLToPath } from "node:url"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const OUT = path.resolve(__dirname, "..", "examples", "rideshare-history", "input.csv")
+const OUT = path.resolve(__dirname, "..", "examples", "travel-history", "input.csv")
 
 // Deterministic PRNG so re-runs are identical (Mulberry32).
 function makeRand(seed) {

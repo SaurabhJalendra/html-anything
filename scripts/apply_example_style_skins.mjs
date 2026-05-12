@@ -32,7 +32,7 @@ const STYLE_BY_EXAMPLE = {
 
   "google-photos-takeout": "map-atlas",
   "google-maps-stars": "map-atlas",
-  "rideshare-history": "global-travel",
+  "travel-history": "global-travel",
 
   "vcard-contacts": "network-map",
   "linkedin-connections": "network-map",

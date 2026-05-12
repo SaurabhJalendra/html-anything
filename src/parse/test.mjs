@@ -1621,7 +1621,7 @@ test("vcard-contacts output.html renders the required family sections + offline 
 })
 
 test("rideshare-history parser routes the synthetic Uber CSV", async () => {
-  const fp = path.join(REPO, "examples/rideshare-history/input.csv")
+  const fp = path.join(REPO, "examples/travel-history/input.csv")
   const parser = await pickParser(fp)
   assert.equal(parser?.name, "rideshare-history")
   const out = await parser.parse(fp)

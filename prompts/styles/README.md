@@ -130,7 +130,7 @@ choose from.
 | Teaching Studios | Tutorials, explainers, lessons, object/system studios, comic explainers | `teaching`, `comic-book` |
 | Files & Work Data | CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, PR patches, stack traces, repos, finance, calendars, issue trackers, email/support archives, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
 | Conversation Analysis | Couple/friend chats, WhatsApp/WeChat, team channels, message streams | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
-| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, travel/rideshare history, GPX/KML, itineraries | `timeline-story`, `global-travel`, `living-essay`, `network-map`, `map-atlas` |
+| Personal Data & Places | Orders, health, browsing, media history, reading, payments, professional network, notes, AI chats, photos with EXIF, saved places, travel history, GPX/KML, itineraries | `timeline-story`, `global-travel`, `living-essay`, `network-map`, `map-atlas` |
 
 Do not ask users to pick from these by default. Choose internally unless the
 user explicitly asks for style options.

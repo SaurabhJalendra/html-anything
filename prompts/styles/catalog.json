@@ -90,7 +90,7 @@
         "amazon-orders",
         "iphone-health",
         "kindle-highlights",
-        "rideshare-history"
+        "travel-history"
       ]
     }
   ],
@@ -584,8 +584,8 @@
         "travel-itinerary",
         "location-history"
       ],
-      "example": "rideshare-history",
-      "preview": "docs/example-previews/rideshare-history.jpg",
+      "example": "travel-history",
+      "preview": "docs/example-previews/travel-history.jpg",
       "accent": "#ff5b2e",
       "coreScaffold": [
         "centered headline",

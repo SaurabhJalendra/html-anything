@@ -6,7 +6,7 @@
  */
 import { pickParser } from "../dist/parse/index.js"
 
-const file = process.argv[2] || "examples/rideshare-history/input.csv"
+const file = process.argv[2] || "examples/travel-history/input.csv"
 const parser = await pickParser(file)
 if (!parser || parser.name !== "rideshare-history") {
   console.error(`expected rideshare-history parser, got ${parser?.name || "(none)"}`)
