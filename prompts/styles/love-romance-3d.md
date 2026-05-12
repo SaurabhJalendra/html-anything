@@ -44,14 +44,20 @@ Component vocabulary:
   shapes for controls, heatmap cells, and 3D icon objects.
 - Typography: use the shared Clockless display/body stacks unless the prompt
   supplies a complete font override. Keep labels compact and not saccharine.
-- Motion: 150-300ms transform/opacity transitions. Icon objects may gently lift
-  on hover; respect `prefers-reduced-motion`.
+- Motion: 150-300ms transform/opacity transitions. Ambient looping motion is
+  reserved for the hero `.icon-stage` / `.memory-token` objects only; charts,
+  cards, text, heatmaps, and evidence modules should stay still unless the user
+  interacts with them. Add a small CSS-only cursor heart-rain trail on pointer
+  movement when motion is allowed. Respect `prefers-reduced-motion`.
 
 ## Interaction Model
 
 - Clicking a 3D icon or metric should reveal a related aggregate insight.
 - Heatmap cells, words, lanes, and evidence snippets must work by click/focus as
   well as hover.
+- The cursor can leave a brief heart-rain trail while moving across the page;
+  keep it lightweight, pointer-events-none, and remove each particle after its
+  animation ends.
 - Filters should be period/topic/sender controls, not raw-message browsing.
 - The page should feel gift-like, but the analysis must remain cautious and
   nonjudgmental.
@@ -73,6 +79,7 @@ Component vocabulary:
 - Emoji as the primary icon language.
 - Stock Valentine's copy or fake product marketing language.
 - A generic dashboard with pink variables.
+- Whole-page breathing animations, animated charts, or constantly moving cards.
 
 ## Style Compliance Gate
 
