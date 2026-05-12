@@ -22,7 +22,7 @@ ships the HTML.
 
 ## Preview
 
-→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 13 demos, organized by use case and style.
+→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 11 demos, organized by use case and style.
 
 ### Featured
 
@@ -52,20 +52,18 @@ shape it.
 
 | Usage | Live example | When it triggers | Style |
 |---|---|---|---|
-| Personal purchase recap | [Amazon order history →](https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html) | Orders, subscriptions, returns, gifting, changing habits over time | `timeline-story` |
 | Reflective reading archive | [Kindle highlights →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) | Highlights, notes, quotes, idea archives, reading themes | `living-essay` |
-| Personal metrics recap | [Apple Health →](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) | Health, activity, sleep, workouts, rhythms over time | `timeline-story` |
+| Learn from long-form text | [Article learning page →](https://clockless-org.github.io/html-anything/examples/markdown/output.html) | Essays, articles, manifestos, and long-form explainers that need guided pacing | `architectural-spread` |
+| Learn from a document | [Structured document reader →](https://clockless-org.github.io/html-anything/examples/docx/output.html) | Memos, manuscripts, long DOCX files, and documents meant for sustained reading | `kami-reading` |
 | Team contribution analysis | [Slack championship →](https://clockless-org.github.io/html-anything/examples/slack/output.html) | Group chats, team activity, ranked contributors, burst patterns | `kinetic-scoreboard` |
 | Guide from dense document | [PDF e-guide →](https://clockless-org.github.io/html-anything/examples/pdf/output.html) | Reports, playbooks, lead magnets, PDF guides, course previews | `digital-eguide` |
-| Long work document | [DOCX longform reader →](https://clockless-org.github.io/html-anything/examples/docx/output.html) | Memos, manuscripts, long articles, documents meant for sustained reading | `kami-reading` |
 | Argument as sequence | [Brand positioning carousel →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html) | Strategy essays, founder letters, article takeaways, shareable sequences | `editorial-carousel` |
 | Inbox or workstream audit | [Email support console →](https://clockless-org.github.io/html-anything/examples/email/output.html) | Support inboxes, email campaigns, onboarding, customer-success queues | `soft-saas` |
 | Mobility recap | [Travel history →](https://clockless-org.github.io/html-anything/examples/travel-history/output.html) | Uber/Lyft exports, trip history, cities, airports, travel cadence | `global-travel` |
-| Visual long-form essay | [Long-form architectural essay →](https://clockless-org.github.io/html-anything/examples/markdown/output.html) | Object-focused essays, manifestos, split-screen editorial requests | `architectural-spread` |
 | Debugging evidence | [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | CI logs, build output, terminal evidence, failing tests | `terminal-cli` |
 | Code review artifact | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | PR patches, diffs, repo evidence, risk callouts | `developer` |
 
-→ **[See the curated gallery (13 demos) →](https://clockless-org.github.io/html-anything/examples/)**
+→ **[See the curated gallery (11 demos) →](https://clockless-org.github.io/html-anything/examples/)**
 
 ## Install
 
@@ -211,7 +209,7 @@ every output into the same dashboard/report shape.
 | Finance, spreadsheets, logs, backlog, operational data | `dashboard` (Ops Console) |
 | Essays, articles, reading lists, bookmarks, PDFs, DOCX, legal/medical/lab records | `document` (Document Review) |
 | Long prose, DOCX memos, articles, essays, and manuscripts meant for sustained reading | `kami-reading` (Kami Longform Reader) |
-| Visual long-form essays, object-focused articles, architectural split-screen editorial requests | `architectural-spread` (Architectural Editorial Spread) |
+| Long-form visual explainers, object-focused articles, architectural split-screen editorial requests | `architectural-spread` (Architectural Editorial Spread) |
 | E-guides, PDF guides, creator guides, playbooks, lead magnets | `digital-eguide` (Digital E-Guide Spread) |
 | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | `editorial-carousel` (Editorial Carousel) |
 | Explicit terminal, CLI, shell, mainframe, hacker-console requests | `terminal-cli` (Terminal CLI, explicit override) |
@@ -247,7 +245,7 @@ Each use case can use one or more style systems.
 
 | Use case | Example sources | Likely styles |
 |---|---|---|
-| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, PDF/document simplification request | `teaching` |
+| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, Markdown, DOCX, or PDF/document simplification request | `teaching`, `architectural-spread`, `kami-reading` |
 | Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, CI output, PR patches, stack traces, repos, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
 | Conversation Analysis | WeChat, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
 | Personal Data & Places | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, Venmo / PayPal, AI chat exports, notes vaults, Google Maps saved places, travel history, GPX, KML, itinerary CSV, location history | `timeline-story`, `global-travel`, `living-essay`, `network-map`, `map-atlas` |

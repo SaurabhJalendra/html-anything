@@ -130,7 +130,7 @@ the style system. Source prompts can be many; use cases should stay stable.
 
 | Use case | User means | Likely styles |
 |---|---|---|
-| Teaching Studios | Turn an idea, article, lesson, or concept into an interactive learning surface, not a scrolling article. | `teaching` |
+| Teaching Studios | Turn an idea, article, lesson, long text, or document into an interactive or guided learning surface, not a scrolling article. | `teaching`, `architectural-spread`, `kami-reading` |
 | Files & Work Data | Transform files and work artifacts: CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, CI output, email/support archives, finance, calendars, issue trackers, repos, research records, and slide-style carousel outputs. | `dashboard`, `soft-saas`, `document`, `kami-reading`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `developer`, `terminal-cli` |
 | Conversation Analysis | Analyze private chats, relationship exports, team channels, or message archives. | `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
 | Personal Data & Places | Make a recap/timeline/story/map from personal exports: orders, health, browsing, media, payments, professional networks, notes, AI chats, saved places, travel history, and routes. | `timeline-story`, `global-travel`, `living-essay`, `network-map`, `map-atlas` |
@@ -163,7 +163,7 @@ model, density, chart grammar, and voice.
 | `network-map` | Contacts, LinkedIn, Venmo/PayPal, people/org graphs, community relationship maps | **Network Map**: graph canvas, entity inspector, cluster controls, hub cards, linked records |
 | `document` | Essays, articles, reading lists, bookmarks, research collections, PDFs, DOCX, legal/medical/lab/academic records | **Document Review**: cover, reading rail, body sheet, evidence margin, drill-down. Tone shifts narrative ↔ formal based on source. |
 | `kami-reading` | Long prose, DOCX memos, articles, essays, and manuscripts meant for sustained reading | **Kami Longform Reader**: warm parchment document, serif cover, inline contents, printable chapters, source appendix |
-| `architectural-spread` | Visual long-form essays, object-focused articles, manifestos, and reference requests that look like the split Mars architectural HTML | **Architectural Editorial Spread**: left visual bay, right cream content panel, serif italic emphasis, corner anchors, pagination dots |
+| `architectural-spread` | Long-form visual explainers, object-focused articles, manifestos, and reference requests that look like the split Mars architectural HTML | **Architectural Editorial Spread**: left visual bay, right cream content panel, serif italic emphasis, corner anchors, pagination dots |
 | `digital-eguide` | E-guides, PDF guides, creator guides, playbooks, lead magnets, downloadable course previews | **Digital E-Guide Spread**: two paper pages on a warm desk, cover + TOC, inside lesson, pull quote, steps, exercise strip |
 | `editorial-carousel` | Brand strategy essays, founder letters, article takeaways, lightweight reports meant to be shared as a sequence | **Editorial Carousel**: issue cover, spread rail, 4-8 argument spreads, evidence drawer, copy actions |
 | `developer` | Diffs, PR patches, CI logs, stack traces, repos | **Terminal Evidence Workbench**: prompt line, hotspots, risk checklist, raw artifact navigator, copyable handoff |
@@ -359,7 +359,8 @@ The source prompts under [`prompts/sources/`](./prompts/sources/) contain export
 content-specific analysis guidance. Use the closest one, then roll it up to
 the use-case taxonomy above:
 
-- Teaching Studios: `url-article`, `markdown`, `default`.
+- Teaching Studios: `url-article`, `markdown`, `docx`, `pdf`, `default`
+  when the user wants a lesson, guided reading surface, or explainer.
 - Conversation Analysis: `wechat`, `whatsapp`, `slack`, `discord`,
   `telegram`, `imessage`, `multi-sender-chat`.
 - Personal Data & Places: `amazon-orders`, `youtube-watch-history`,

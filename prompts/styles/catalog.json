@@ -27,10 +27,14 @@
       "title": "Teaching Studios",
       "summary": "Turn an idea, lesson, article, or technical concept into an interactive learning studio instead of a scrolling article.",
       "styles": [
-        "teaching"
+        "teaching",
+        "architectural-spread",
+        "kami-reading"
       ],
       "examples": [
-        "solar-system-studio"
+        "solar-system-studio",
+        "markdown",
+        "docx"
       ]
     },
     {
@@ -53,8 +57,6 @@
         "email",
         "csv",
         "pdf",
-        "docx",
-        "markdown",
         "editorial-carousel",
         "ci-log"
       ]
@@ -85,10 +87,9 @@
         "map-atlas"
       ],
       "examples": [
-        "amazon-orders",
-        "iphone-health",
         "kindle-highlights",
-        "travel-history"
+        "travel-history",
+        "google-maps-stars"
       ]
     }
   ],
