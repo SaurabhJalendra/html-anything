@@ -288,16 +288,16 @@
       "id": "kami-reading",
       "system": "Kami Longform Reader",
       "mode": "auto-for-docx-or-explicit-long-reading",
-      "summary": "Warm parchment longform reader inspired by tw93/Kami for sustained reading of essays, articles, DOCX memos, and manuscripts.",
+      "summary": "Warm parchment longform document style inspired by tw93/Kami for sustained reading of essays, articles, DOCX memos, and manuscripts.",
       "useCases": ["files-work"],
       "triggers": ["kami", "long-form reading", "long text", "make it easy to read", "readable article", "paper reader"],
       "bestSources": ["docx-document", "markdown-document", "pdf-document", "url-article", "plain-text"],
       "example": "docx",
       "preview": "docs/example-previews/docx.jpg",
       "accent": "#1B365D",
-      "coreScaffold": ["parchment reader shell", "serif cover", "sticky reading rail", "central article paper", "source appendix"],
-      "requiredPrimitives": [".kami-reader", ".kami-cover", ".kami-layout", ".kami-rail", ".kami-paper", ".kami-progress", ".kami-source-drawer"],
-      "avoid": ["dashboard-first layout", "pure white canvas", "cool grays", "italic quotes", "multi-color palettes"]
+      "coreScaffold": ["parchment document shell", "serif cover", "inline contents strip", "printable chapter sections", "source appendix"],
+      "requiredPrimitives": [".kami-reader", ".kami-cover", ".kami-toc", ".kami-page", ".kami-card", ".kami-progress", ".kami-source-drawer"],
+      "avoid": ["dashboard-first layout", "sticky side rail", "pure white canvas", "cool grays", "italic quotes", "multi-color palettes"]
     },
     {
       "id": "architectural-spread",

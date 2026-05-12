@@ -56,7 +56,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [Apple Health →](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) | Activity, sleep, and workouts become a personal rhythm story. | `timeline-story` |
 | [Slack championship →](https://clockless-org.github.io/html-anything/examples/slack/output.html) | Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence. | `kinetic-scoreboard` |
 | [PDF e-guide →](https://clockless-org.github.io/html-anything/examples/pdf/output.html) | A sector report becomes a two-page guide preview with TOC, lesson spread, and source drawer. | `digital-eguide` |
-| [DOCX longform reader →](https://clockless-org.github.io/html-anything/examples/docx/output.html) | A decision memo becomes a warm parchment reader with contents, progress, and density controls. | `kami-reading` |
+| [DOCX longform reader →](https://clockless-org.github.io/html-anything/examples/docx/output.html) | A decision memo becomes a quiet parchment document with inline contents and source appendix. | `kami-reading` |
 | [Brand positioning carousel →](https://clockless-org.github.io/html-anything/examples/editorial-carousel/output.html) | A strategy essay becomes a 5-spread magazine carousel with source evidence. | `editorial-carousel` |
 | [Email support console →](https://clockless-org.github.io/html-anything/examples/email/output.html) | A mailbox archive becomes a soft SaaS console for thread health, open loops, and handoffs. | `soft-saas` |
 | [Rideshare history →](https://clockless-org.github.io/html-anything/examples/rideshare-history/output.html) | Trips become commute lanes, airport runs, late-night returns, and route clusters. | `map-atlas` |
