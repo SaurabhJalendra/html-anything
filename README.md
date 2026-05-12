@@ -9,7 +9,7 @@ is actually a page, not a chat message.**
 answers into self-contained HTML artifacts — analyses, reports, recaps,
 dashboards, atlases, teaching sites, comparison studies, decision memos,
 year-in-review pages. The skill picks the right design system from a
-19-style catalog, builds a single-file `.html`, verifies it in a browser,
+20-style catalog, builds a single-file `.html`, verifies it in a browser,
 and hands it back. Short conversational answers stay short — you just stop
 scrolling 4,000-word replies whenever the content was always going to be a
 page.
@@ -17,12 +17,12 @@ page.
 It also works **on demand** for any file, folder, URL, or service export
 (Amazon orders, Kindle highlights, Spotify history, WhatsApp / WeChat,
 Google Photos Takeout, LinkedIn connections, CSV / PDF / DOCX, logs, GPX, …) —
-the skill figures out the source, chooses one of the 19 style systems, and
+the skill figures out the source, chooses one of the 20 style systems, and
 ships the HTML.
 
 ## Preview
 
-→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 22 demos, organized by use case and style.
+→ **[Open the curated gallery](https://clockless-org.github.io/html-anything/examples/)** — 23 demos, organized by use case and style.
 
 ### Featured
 
@@ -52,6 +52,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 |---|---|---|
 | [Amazon order history →](https://clockless-org.github.io/html-anything/examples/amazon-orders/output.html) | 3 years of orders → personal commerce memory with cadence, returns, gifting. | `timeline-story` |
 | [Kindle highlights →](https://clockless-org.github.io/html-anything/examples/kindle-highlights/output.html) | Highlights become a mycelium writing field with a living margin question. | `living-essay` |
+| [AI tokens comic →](https://clockless-org.github.io/html-anything/examples/ai-tokens-comic/output.html) | A popular AI concept becomes a seven-page comic with a robot-cat tutor and pocket props. | `comic-book` |
 | [Apple Health →](https://clockless-org.github.io/html-anything/examples/iphone-health/output.html) | Activity, sleep, and workouts become a personal rhythm story. | `timeline-story` |
 | [Slack championship →](https://clockless-org.github.io/html-anything/examples/slack/output.html) | Team activity becomes ranked kinetic lanes with decisions, topics, and linked evidence. | `kinetic-scoreboard` |
 | [LinkedIn connections →](https://clockless-org.github.io/html-anything/examples/linkedin-connections/output.html) | 12 years of connections clustered by company, role, and era. | `network-map` |
@@ -63,7 +64,7 @@ A small selection across the rest of the style catalog. Each links to the live p
 | [CI terminal console →](https://clockless-org.github.io/html-anything/examples/ci-log/output.html) | A failed GitHub Actions run becomes a shell-native debugging console. | `terminal-cli` |
 | [PR review →](https://clockless-org.github.io/html-anything/examples/pr-review/output.html) | A patch becomes a risk-annotated review brief with evidence. | `developer` |
 
-→ **[See the curated gallery (22 demos) →](https://clockless-org.github.io/html-anything/examples/)**
+→ **[See the curated gallery (23 demos) →](https://clockless-org.github.io/html-anything/examples/)**
 
 ## Install
 
@@ -192,6 +193,7 @@ every output into the same dashboard/report shape.
 | Unknown or mixed inputs | `default` (Insight Brief) |
 | Tutorials, lessons, explainers, "teach me" prompts | `teaching` (Lesson Lab) |
 | App-like object/system/spec explorers, anatomy/architecture/product studios | `interactive-learning` (Learning Studio) |
+| Comic book, manga, cartoon, "explain simply", PDF/document/article simplification requests | `comic-book` (Comic Book Explainer) |
 | 1:1 chats and intimate message exports | `relationship` (Rhythm Report) |
 | Reflective essays, Kindle highlights, idea notes, concept-heavy reading archives | `living-essay` (Mycelium Writing Environment) |
 | Multi-participant activity streams, team chats, ranked contributors, owner/reps/players by workload | `kinetic-scoreboard` (Kinetic Championship) |
@@ -219,9 +221,9 @@ style catalog lives in [`prompts/styles/catalog.json`](./prompts/styles/catalog.
 it records the six use cases plus each style's triggers, best sources,
 example, preview, required primitives, and avoid rules so generation can stay
 style-faithful without asking users to pick options. There is a fallback
-`default` style plus 14
+`default` style plus 15
 auto-selected styles (`teaching`,
-`interactive-learning`, `relationship`, `living-essay`, `dashboard`, `soft-saas`,
+`interactive-learning`, `comic-book`, `relationship`, `living-essay`, `dashboard`, `soft-saas`,
 `kinetic-scoreboard`, `timeline-story`, `map-atlas`, `network-map`,
 `document`, `architectural-spread`, `editorial-carousel`, and `developer`), plus explicit overrides
 such as `paper-trail`, `digital-eguide`, `love-romance-3d`, and `terminal-cli`.
@@ -246,9 +248,9 @@ Each use case can use one or more style systems.
 
 | Use case | Example sources | Likely styles |
 |---|---|---|
-| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL | `teaching`, `interactive-learning` |
+| Teaching Studios | A short teaching brief, article, lesson outline, concept note, URL, PDF/document simplification request | `teaching`, `interactive-learning`, `comic-book` |
 | Files & Work Data | CSV / TSV, spreadsheet-style exports, JSON, JSONL, logs, email/support archives, bank transactions, invoices, QuickBooks, calendars, issue trackers, Markdown, PDF, DOCX, bookmarks, URL lists, bibliographies, research records, slide-style carousel outputs | `dashboard`, `soft-saas`, `document`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
-| Conversation Analysis | WeChat, WhatsApp, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `kinetic-scoreboard`, `network-map` |
+| Conversation Analysis | WeChat, WhatsApp, iMessage-style CSV, Slack, Discord, Telegram, email-style threads | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Amazon orders, Apple Health, browser history, YouTube, Spotify, Twitch, Kindle highlights, LinkedIn, Venmo / PayPal, AI chat exports, notes vaults | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Google Photos Takeout, Google Maps saved places, rideshare history, GPX, KML, itinerary CSV, location history | `map-atlas`, `paper-trail` |
 | Developer Evidence | Git diff, PR patch, CI log, stack trace, GitHub repo URL | `developer`, `terminal-cli` |

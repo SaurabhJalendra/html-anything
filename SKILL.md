@@ -130,9 +130,9 @@ the style system. Source prompts can be many; use cases should stay stable.
 
 | Use case | User means | Likely styles |
 |---|---|---|
-| Teaching Studios | Turn an idea, article, lesson, or concept into an interactive learning surface, not a scrolling article. | `teaching`, `interactive-learning` |
+| Teaching Studios | Turn an idea, article, lesson, or concept into an interactive learning surface, not a scrolling article. | `teaching`, `interactive-learning`, `comic-book` |
 | Files & Work Data | Transform files and work artifacts: CSV/spreadsheet-style exports, PDFs, DOCX, Markdown, logs, email/support archives, finance, calendars, issue trackers, research records, and slide-style carousel outputs. | `dashboard`, `soft-saas`, `document`, `architectural-spread`, `digital-eguide`, `editorial-carousel`, `paper-trail` |
-| Conversation Analysis | Analyze private chats, relationship exports, team channels, or message archives. | `relationship`, `kinetic-scoreboard`, `network-map` |
+| Conversation Analysis | Analyze private chats, relationship exports, team channels, or message archives. | `relationship`, `love-romance-3d`, `kinetic-scoreboard`, `network-map` |
 | Personal Data Recaps | Make a recap/timeline/story from personal exports: orders, health, browsing, media, payments, professional networks, notes, AI chats. | `timeline-story`, `living-essay`, `network-map` |
 | Places & Trips | Make a map, route atlas, travel dossier, photo-location view, or trip paper trail. | `map-atlas`, `paper-trail` |
 | Developer Evidence | Review, explain, or debug code artifacts: diffs, PRs, CI logs, stack traces, repos. | `developer`, `terminal-cli` |
@@ -155,6 +155,7 @@ model, density, chart grammar, and voice.
 | `default` | Unknown, mixed, or weakly classified briefs/sources | **Insight Brief**: answer header, primary insight panel, evidence stack, local drill-down |
 | `teaching` | Tutorials, lessons, "teach me", interactive explainers, course-like pages | **Lesson Lab**: visual stage, step rail, try-it controls, concept cards, check-yourself, recap |
 | `interactive-learning` | App-like object/system/spec studios, anatomy/architecture/product exploration, manipulable learning models | **Learning Studio**: entity rail, central interactive stage, live inspector, layer/mode controls, comparison bench |
+| `comic-book` | Comic book, manga, cartoon, "explain simply", PDF/document/article simplification requests | **Comic Book Explainer**: six-to-seven-page comic, recurring teacher character, panel grid, speech bubbles, pocket gadgets, recap page |
 | `relationship` | 1:1 chats, couple/friend/family chats, WhatsApp/WeChat/iMessage relationship exports | **Rhythm Report**: aggregate-first pulse calendar, comparison lanes, evidence snippets, no raw appendix by default |
 | `living-essay` | Kindle highlights, reflective essays, idea notes, concept-heavy reading archives | **Mycelium Writing Environment**: paper manuscript, vertical margin question, inline spore words, living SVG threads, quiet appendix |
 | `dashboard` | Finance/admin data, logs, operational data, issue trackers, dense tabular queues | **Ops Console**: command bar, KPI rail, work surface, flag queue, searchable data grid |
@@ -180,6 +181,7 @@ Honor explicit style direction in natural language:
 
 - "make it a tutorial" / "teach me" → lean `teaching`.
 - "make it more app-like" / "explore this object" / "interactive studio" → lean `interactive-learning`.
+- "make it a comic book" / "manga" / "cartoon explainer" / "explain this simply as a story" → lean `comic-book`.
 - "less academic" → reduce formal `document` voice.
 - "make it a carousel" / "magazine feel" / "social post" → lean `editorial-carousel`.
 - "make it an e-guide" / "PDF guide" / "playbook" / "lead magnet"
