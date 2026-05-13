@@ -244,25 +244,27 @@ clawhub publish . --slug html-anything --version 0.1.1 --tags latest
 
 ## Use
 
-Once installed, ask in plain language. The skill picks up on intent — you do
-not need to say "HTML".
+Just ask your real question. You do not need to mention HTML, pages, dashboards,
+reports, atlases, or any of the design vocabulary — the skill decides when an
+answer should be a page and ships one.
 
 ```text
-Make a solar system teaching site.
-Turn my Amazon order history into a personal spending atlas. (Walk me through the export first.)
-Convert ~/Downloads/_chat.txt into a relationship report.
-Make this CSV into a shareable dashboard.
-Audit this GitHub repo URL.
-Recap last quarter as a one-page report.
+Teach me the solar system.
+What does my Amazon order history say about me?
+Help me understand this CSV.
+What did I read in 2025?
+Walk me through this GitHub repo.
+How did last quarter go?
+Make sense of this messy log file.
+Recap our 1:1 chat from this year.
 ```
 
-The skill also triggers on phrases like *"make this easier to read"*,
-*"turn this into a visual report"*, *"create a recap"*, or
-*"present this beautifully"*. Short conversational asks stay short.
+Each of these triggers a polished, single-file HTML page in the right design
+system. Short conversational asks stay short.
 
 If you name a data source but have no file yet (*"my Spotify history"*,
 *"my WhatsApp chat"*, *"my Google Photos Takeout"*), the skill walks you
-through the export, then converts it.
+through the export first.
 
 ## Input And Output
 
