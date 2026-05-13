@@ -15,6 +15,10 @@
   <a href="https://clockless-org.github.io/html-anything/examples/"><img alt="11 demos" src="https://img.shields.io/badge/examples-11%20demos-0f766e?style=flat-square"></a>
 </p>
 
+<p align="center">
+  <a href="https://clockless-org.github.io/html-anything/examples/"><strong>→ Open the live demo gallery</strong></a>
+</p>
+
 `html-anything` works inside Codex and Claude Code. Ask for a teaching site,
 drop in a PDF, upload a CSV, point it at a folder, or hand it an export like
 Amazon orders, Kindle highlights, Spotify history, WeChat / iMessage,
@@ -55,11 +59,7 @@ more interactive, and easier to share when the answer is really a page.
 
 ## Preview
 
-<p align="center">
-  <a href="https://clockless-org.github.io/html-anything/examples/"><strong>Open gallery →</strong></a>
-  <br>
-  <sub>Install the skill, then try the prompt under any card to reproduce that usage pattern.</sub>
-</p>
+<sub>Install the skill, then try the prompt under any card to reproduce that usage pattern. Or jump straight to the [live demo gallery](https://clockless-org.github.io/html-anything/examples/).</sub>
 
 ### Teaching Studios
 
