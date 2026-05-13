@@ -16,6 +16,7 @@
   "sharedQualityGates": [
     "Root html must declare data-ha-style.",
     "First viewport must reveal the style scaffold before any generic report modules.",
+    "If referenceHtml exists, use it as the structural target for exact usage matches.",
     "At least four style-native primitives from the selected style must appear in the HTML.",
     "Source-required modules must be translated into the style, not pasted as generic cards.",
     "Interactive controls need accessible names, focus states, and a keyboard path.",
@@ -160,6 +161,10 @@
       ],
       "example": "solar-system-studio",
       "preview": "docs/example-previews/solar-system-studio.jpg",
+      "referenceHtml": "prompts/styles/references/teaching-object-lab.html",
+      "referenceAssets": [
+        "prompts/styles/references/teaching-object-lab-assets/planets"
+      ],
       "accent": "#0f766e",
       "coreScaffold": [
         "visual stage",

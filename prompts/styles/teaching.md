@@ -15,10 +15,15 @@ changing something, checking themselves, and moving to the next idea.
 For mixed briefs that need both a guided explanation and an object model, keep
 the step rail and use the object stage as the main teaching surface.
 
-Canonical object-lab example: `examples/solar-system-studio`. A prompt like
-"Create a three-panel interactive teaching studio about the solar system, with
-a selectable model, compare controls, and live inspector" should produce a
-first viewport with:
+Canonical object-lab reference:
+`prompts/styles/references/teaching-object-lab.html`.
+
+Canonical object-lab assets:
+`prompts/styles/references/teaching-object-lab-assets/planets/`.
+
+A prompt like "Create a three-panel interactive teaching studio about the
+solar system, with a selectable model, compare controls, and live inspector"
+should produce a first viewport matching that reference's structure:
 
 1. a left lesson/control rail with the title, short objective, mode controls,
    and object list;
@@ -26,6 +31,12 @@ first viewport with:
    object or mode;
 3. a right inspector with selected-object facts, why-it-matters explanation,
    and comparison controls.
+
+For exact solar-system or planet-object-lab requests, use the reference HTML as
+the template-level target. Keep the light teal classroom-grid shell, frosted
+panels, compressed dark model stage, live inspector, comparison bars, and
+planet PNG treatment. Do not reinterpret it as a dark space dashboard, a
+timeline encyclopedia, or a generic educational article.
 
 This object-lab pattern should generalize to anatomy, architecture, product,
 scientific, mechanical, or system-exploration briefs.
@@ -82,12 +93,29 @@ Interaction model:
 
 ## Visual Language
 
-- Use the Clockless tokens from `prompts/styles/_design.md`.
+- Use the Clockless tokens from `prompts/styles/_design.md`, then apply the
+  teaching object-lab token override from the reference:
+  `--primary: #0f766e`, `--primary-container: #115e59`,
+  `--secondary-container: #f59e0b`, `--bg: #f6fbfb`,
+  `--surface-container-low: #edf7f5`, `--fg-1: #10201f`,
+  `--fg-2: #304c49`, `--fg-muted: #647b78`, and a teal-to-amber
+  `--gradient-text`.
+- Teaching object labs are light-mode classroom surfaces. Do not switch the
+  page chrome to a dark space/science theme just because the subject is space.
+  The main visual stage can be dark when the model needs contrast, but it must
+  sit inside the light teaching workbench.
+- Use the reference panel presentation: full-height three-column workbench,
+  light teal grid background, floating translucent panels with
+  `backdrop-filter`, large headline rail, rounded inspector cards, segmented
+  mode controls, and a dark framed model canvas/stage in the middle panel.
 - Prefer a clean classroom-lab surface: warm background, high-contrast labels,
   clear annotations, and restrained accent color.
 - Make diagrams concrete. Use generated bitmap assets for rich subjects when
   useful, and SVG/CSS/canvas for labels, arrows, paths, charts, and deterministic
   models.
+- For planet/object subjects, reuse available reference assets first. Copy
+  matching files into the output's `assets/` folder and reference them from the
+  HTML instead of falling back to pure CSS spheres when bitmap models exist.
 - Keep controls close to the thing they affect. Avoid remote settings panels
   unless the lesson needs a dense simulator.
 - Use motion only to teach: orbit, flow, reveal, growth, before/after, or
@@ -134,6 +162,9 @@ Interaction model:
 ## Implementation Notes
 
 - Keep the page static and local-first: inline CSS and JS, no external JS/CDN.
+- For exact reference matches, start from the reference scaffold and adapt the
+  data/content. Do not create a new unrelated scaffold with the same class
+  names.
 - Make keyboard and touch interaction usable. Buttons must have clear labels or
   accessible titles.
 - On mobile, the lesson stage stays first, then the step rail, then details.

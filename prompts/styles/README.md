@@ -111,6 +111,9 @@ entry should include:
 - `triggers`: natural language cues that should route here.
 - `bestSources`: source families that fit this style.
 - `example` and `preview`: a concrete checked-in example when available.
+- `referenceHtml` and `referenceAssets`: optional packaged style targets under
+  `prompts/styles/references/` that installed agents should read before
+  generating exact-match pages.
 - `coreScaffold`: the first-viewport/layout skeleton.
 - `requiredPrimitives`: style-native classes that generated HTML should use.
 - `avoid`: generic fallbacks or false signals the style must not produce.

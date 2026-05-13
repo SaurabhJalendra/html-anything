@@ -204,7 +204,7 @@ Restart Codex.
 
 ### claude.ai (web)
 
-1. Download [`html-anything-skill.zip`](https://github.com/clockless-org/html-anything/releases/latest/download/html-anything-skill.zip) (≈300 KB — `SKILL.md` + `prompts/` only).
+1. Download [`html-anything-skill.zip`](https://github.com/clockless-org/html-anything/releases/latest/download/html-anything-skill.zip) (`SKILL.md` + `prompts/`, including style references).
 2. In claude.ai: **Settings → Features → Skills → Upload a Skill** → drop the zip.
 
 Requires **Pro / Max / Team / Enterprise** with code execution enabled.
@@ -225,7 +225,8 @@ Uploaded skills are workspace-wide.
 
 ### ClawHub (publish)
 
-This repo carries `.clawhubignore` so only `SKILL.md` + `prompts/` ship:
+This repo carries `.clawhubignore` so only `SKILL.md` + `prompts/` ship,
+including canonical style references used by installed agents:
 
 ```bash
 npm i -g clawhub && clawhub login
@@ -303,6 +304,9 @@ HTML or screenshot, the generated page should reproduce the reference's first
 viewport, component vocabulary, interaction model, motion grammar, and visual
 absence rules. Source modules are translated into the style instead of forcing
 every output into the same dashboard/report shape.
+
+Canonical style references can live under `prompts/styles/references/`, so the
+published skill can use the same structural target as the demo gallery.
 
 | Usage pattern | Style |
 |---|---|

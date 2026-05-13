@@ -189,6 +189,26 @@ test("style catalog stays in sync with style types, prompts, examples, and previ
 
     const previewStat = await fs.stat(path.join(REPO, entry.preview))
     assert.ok(previewStat.isFile(), `${entry.id} preview asset missing`)
+
+    if (entry.referenceHtml) {
+      const referencePath = path.join(REPO, entry.referenceHtml)
+      const referenceStat = await fs.stat(referencePath)
+      assert.ok(referenceStat.isFile(), `${entry.id} referenceHtml missing`)
+      const referenceHtml = await fs.readFile(referencePath, "utf8")
+      assert.match(
+        referenceHtml,
+        new RegExp(`data-ha-style=["']${entry.id}["']`),
+        `${entry.id} referenceHtml must declare data-ha-style="${entry.id}"`,
+      )
+    }
+
+    if (entry.referenceAssets) {
+      assert.ok(Array.isArray(entry.referenceAssets), `${entry.id} referenceAssets must be an array`)
+      for (const referenceAsset of entry.referenceAssets) {
+        const assetStat = await fs.stat(path.join(REPO, referenceAsset))
+        assert.ok(assetStat.isDirectory() || assetStat.isFile(), `${entry.id} reference asset missing: ${referenceAsset}`)
+      }
+    }
   }
 })
 
@@ -258,6 +278,31 @@ test("htmlize injects the explicit digital-eguide style prompt into the LLM requ
   assert.match(seenPrompt, /inside-spread/)
   assert.match(seenPrompt, /Treat the selected style as a hard contract/)
   assert.match(seenPrompt, /# pdf — long PDF documents/)
+})
+
+test("htmlize injects packaged reference HTML for reference-backed styles", async () => {
+  const { htmlize } = await import("../../dist/htmlize.js")
+  const parsed = {
+    contentType: "plain-text",
+    summary: "Teach a concept: solar system",
+    sample: { prompt: "Create a three-panel interactive teaching studio about the solar system." },
+    data: { prompt: "Create a three-panel interactive teaching studio about the solar system." },
+    meta: { sourceFile: "prompt.txt", sizeBytes: 64 },
+  }
+  let seenPrompt = ""
+  const llm = {
+    async ask(prompt) {
+      seenPrompt = prompt
+      return "<!doctype html><html data-ha-style=\"teaching\"><body><script>const DATA = __DATA__;</script></body></html>"
+    },
+  }
+  await htmlize(parsed, llm, { style: "teaching" })
+  assert.match(seenPrompt, /Selected style: teaching/)
+  assert.match(seenPrompt, /Reference HTML: prompts\/styles\/references\/teaching-object-lab\.html/)
+  assert.match(seenPrompt, /Reference assets: prompts\/styles\/references\/teaching-object-lab-assets\/planets/)
+  assert.match(seenPrompt, /## Canonical style reference HTML/)
+  assert.match(seenPrompt, /Solar system <span class="gradient-text">object lab<\/span>/)
+  assert.match(seenPrompt, /class="studio lesson-shell object-lab"/)
 })
 
 test("checked-in example pages are complete and have parseable inline scripts", async () => {

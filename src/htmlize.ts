@@ -84,7 +84,8 @@ export async function htmlize(
   //   2. sources/<contentType>.md — source-specific guidance (what to
   //      analyze, what to visualize, data shape). Falls back to default.md.
   //   3. styles/catalog.json — compact style metadata: routing triggers,
-  //      examples, required primitives, and anti-patterns.
+  //      examples, packaged reference HTML/assets, required primitives, and
+  //      anti-patterns.
   //   4. styles/<style>.md — the page-shape contract. Defaults to auto
   //      selection from the parsed source, but can be overridden.
   // The skill (Claude Code mode) reads the same four files, so both
@@ -188,6 +189,8 @@ async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string>
         bestSources?: string[]
         example?: string | null
         preview?: string | null
+        referenceHtml?: string | null
+        referenceAssets?: string[]
         coreScaffold?: string[]
         requiredPrimitives?: string[]
         avoid?: string[]
@@ -195,6 +198,7 @@ async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string>
     }
     const entry = catalog.styles?.find(item => item.id === style)
     if (!entry) return ""
+    const referenceHtml = await loadCatalogReference(entry.referenceHtml)
     return [
       "## Style catalog metadata",
       "",
@@ -209,16 +213,40 @@ async function loadStyleCatalogPrompt(style: HtmlAnythingStyle): Promise<string>
       `- Best sources: ${(entry.bestSources || []).join(", ")}`,
       `- Example: ${entry.example || "(none yet)"}`,
       `- Preview: ${entry.preview || "(none yet)"}`,
+      `- Reference HTML: ${entry.referenceHtml || "(none yet)"}`,
+      `- Reference assets: ${(entry.referenceAssets || []).join(", ") || "(none yet)"}`,
       `- Core scaffold: ${(entry.coreScaffold || []).join(" / ")}`,
       `- Required primitives: ${(entry.requiredPrimitives || []).join(", ")}`,
       `- Avoid: ${(entry.avoid || []).join(" / ")}`,
       "",
       "Shared quality gates:",
       ...(catalog.sharedQualityGates || []).map(item => `- ${item}`),
+      ...(referenceHtml ? [
+        "",
+        "## Canonical style reference HTML",
+        "",
+        "Use this as the structural target for exact usage matches. Preserve its first viewport geometry, token overrides, surface treatment, class vocabulary, asset pattern, and interaction grammar; adapt the content instead of inventing a new scaffold.",
+        "",
+        "```html",
+        referenceHtml,
+        "```",
+      ] : []),
     ].join("\n")
   } catch {
     return ""
   }
+}
+
+async function loadCatalogReference(referenceHtml?: string | null): Promise<string> {
+  if (!referenceHtml) return ""
+  const normalized = referenceHtml.startsWith("prompts/")
+    ? referenceHtml.slice("prompts/".length)
+    : referenceHtml
+  const html = await loadPromptFile(normalized)
+  if (!html) return ""
+  return html.length > 60000
+    ? `${html.slice(0, 60000)}\n<!-- Reference truncated after 60000 chars. Preserve the visible first viewport and style contract above. -->`
+    : html
 }
 
 async function loadSourcePromptFile(name: string): Promise<string> {

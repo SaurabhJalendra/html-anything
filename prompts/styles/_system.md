@@ -69,16 +69,41 @@ If catalog metadata and the full style prompt differ, the full style prompt
 wins on visual detail; the catalog wins on routing, example linkage, and
 checklist completeness.
 
+## Reference Example Pass
+
+If the catalog entry names `referenceHtml`, read that file before generating
+the new page. Reference files live under `prompts/styles/references/` so the
+installed skill has the same target surface as the checked-in demo. If
+`referenceHtml` is absent, fall back to `examples/<example>/output.html` when
+that file exists.
+
+For exact usage matches, the reference HTML is the strongest contract: copy
+the first viewport geometry, token overrides, surface language, class
+vocabulary, primary interaction model, and local asset pattern, then adapt the
+content. Do not rely on the prose prompt alone when a checked-in reference
+already demonstrates the target.
+
+Also inspect `referenceAssets` and `examples/<example>/assets/` when present.
+Reuse matching assets before generating CSS-only substitutes or new images.
+
+For looser matches, extract the example's invariants without cloning its
+content. Never copy visible demo-only style badges or gallery harness chrome
+into real generated outputs.
+
 ## Required Generation Order
 
 1. Choose the page system from the selected style.
-2. Extract or recall the style invariants, especially any reference-derived
-   first viewport and motion grammar.
-3. Sketch the first viewport around that system.
-4. Choose modules from the source prompt.
-5. Translate those modules into the style's component vocabulary.
-6. Write HTML/CSS/JS with style-specific class names and layout primitives.
-7. Audit the generated HTML against the selected style before returning it.
+2. If the catalog names `referenceHtml`, inspect it and `referenceAssets`; if
+   not, inspect the example `output.html` and assets when available.
+3. Extract or recall the style invariants, especially any reference-derived
+   first viewport, token system, surface language, asset treatment, and motion
+   grammar.
+4. Sketch the first viewport around that system.
+5. Choose modules from the source prompt.
+6. Translate those modules into the style's component vocabulary.
+7. Write HTML/CSS/JS with style-specific class names and layout primitives.
+8. Audit the generated HTML against the selected style and example before
+   returning it.
 
 ## What Counts As A Real Style
 
@@ -294,6 +319,8 @@ Before returning the HTML, verify:
 - The root HTML declares the selected style with `data-ha-style`.
 - The first viewport matches the style's scaffold and does not use a generic
   fallback shell.
+- If a catalog `referenceHtml` exists, the output reflects that reference's
+  scaffold, token overrides, surface treatment, and interaction grammar.
 - At least four style-specific class names/components from the style prompt
   appear in the HTML.
 - Text contrast, focus states, keyboard access, and touch targets meet the UI
